@@ -1,0 +1,48 @@
+# Dr. Şenol Shop - AI Core Instructions (.cursorrules)
+
+Sen Dr. Şenol markasının kıdemli e-ticaret geliştiricisisin.
+Bu belge, projenin "beyni" ve anayasasıdır. Herhangi bir kod yazmadan veya mimari karar almadan önce bu kurallara KESİN OLARAK uy.
+
+## 1. Proje Kimliği ve Vizyonu
+- **Marka:** Dr. Şenol Shop (Doğal Arı Ürünleri, Bal, Propolis & Superblend Serisi)
+- **Hedef:** Sıfır/düşük maliyetli, bağımsız, SEO uyumlu ve çok hızlı bir e-ticaret platformu.
+- **Tasarım Felsefesi:** Premium, Lüks, Ferah. *Eğriçayır* markasının web sitesi örnek alınacak. Karışık ve yorucu UI bileşenlerinden kaçınılacak. Temiz bir tipografi ve bol whitespace kullanılacak. Orijinal marka renkleri korunacak.
+- **Admin Dashboard Adı:** KESİNLİKLE "Dr. Şenol SuperAdmin" olarak geçecek (Superblend ürün serisine ithafen).
+
+## 2. Teknoloji Yığını (Tech Stack)
+- **Frontend Framework:** Next.js (App Router, versiyon 14/15)
+- **Dil:** TypeScript (strict mode aktif, `any` kullanımı YASAK).
+- **Stil (CSS):** Vanilla CSS ve CSS Modules kullanılacak. **KESİNLİKLE Tailwind CSS KULLANILMAYACAK.**
+- **Veritabanı & Backend:** Supabase (PostgreSQL).
+- **Kimlik Doğrulama:** Supabase Auth.
+- **Ödeme Altyapısı:** Paratika Sanal POS.
+- **Bildirimler/Mobil:** "Dr. Şenol SuperAdmin" paneli PWA olacak ve Telegram / Web Push bildirimleri entegre edilecek.
+
+## 3. Mimari ve Klasör Yapısı (Next.js App Router)
+Proje oluşturulurken aşağıdaki yapıya sadık kalınacaktır:
+```text
+src/
+├── app/                  # Next.js App Router (Tüm sayfalar)
+│   ├── (shop)/           # Müşteri Arayüzü
+│   │   ├── [category]/   # Dinamik Kategori Sayfası
+│   │   ├── product/      # Ürün Detay Sayfası
+│   │   ├── checkout/     # Ödeme Akışı
+│   │   └── page.tsx      # Anasayfa
+│   ├── (admin)/          # Dr. Şenol SuperAdmin Dashboard (PWA)
+│   │   └── admin/        # Admin rotaları (Siparişler, İstatistikler)
+│   ├── api/              # Backend Route Handlers (Paratika Webhook vb.)
+├── components/           # UI bileşenleri
+│   ├── layout/           # Header, Footer, Cart Drawer
+│   ├── ui/               # Butonlar, Inputlar, Kartlar
+│   └── admin/            # SuperAdmin paneline özel bileşenler
+├── lib/                  # Yardımcı fonksiyonlar (Supabase client vb.)
+├── styles/               # Global CSS dosyaları (variables.css)
+└── types/                # TypeScript interface tanımlamaları
+```
+
+## 4. Kesin Geliştirme Kuralları
+1. **Performans İlkeleri:** Gereksiz `useEffect` kullanımından kaçının. SSR (RSC) önceliklidir. Etkileşim gereken yerlerde `use client` en alt seviye bileşenlerde kullanılmalıdır.
+2. **SEO Odaklılık:** Tüm ürün sayfalarında dinamik `metadata` oluşturun. Semantic HTML (`<article>`, `<section>`) kullanın.
+3. **Ödeme Güvenliği:** Paratika entegrasyonunda tüm kritik doğrulama ve fiyat hesaplamalarını Backend API (Server) tarafında gerçekleştirin.
+4. **Resim Optimizasyonu:** Daima `next/image` (<Image />) kullanılacak.
+5. **Admin Paneli:** `app/(admin)/admin` rotası sadece rolü `ADMIN` olan yetkililere açık olacak (Middleware ile korunacak).
