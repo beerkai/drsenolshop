@@ -11,6 +11,7 @@ export default async function FeaturedProducts() {
 
   return (
     <section
+      className="featured-section"
       style={{
         backgroundColor: '#EBE5D8',
         paddingTop: '96px',
@@ -20,11 +21,10 @@ export default async function FeaturedProducts() {
       }}
     >
       <div
+        className="px-responsive"
         style={{
           maxWidth: '1200px',
           margin: '0 auto',
-          paddingLeft: '48px',
-          paddingRight: '48px',
         }}
       >
         {/* Bölüm başlığı */}
@@ -107,6 +107,15 @@ export default async function FeaturedProducts() {
             }
           }
           @media (max-width: 640px) {
+            .featured-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+            .featured-section {
+              padding-top: 56px !important;
+              padding-bottom: 56px !important;
+            }
+          }
+          @media (max-width: 400px) {
             .featured-grid {
               grid-template-columns: 1fr !important;
             }

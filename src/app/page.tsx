@@ -46,15 +46,13 @@ export default function Home() {
 
           {/* Hero üst kısım — Lot No + Kovan */}
           <div
-            className="relative z-10 mx-auto"
+            className="relative z-10 mx-auto px-responsive"
             style={{
               width: '100%',
               maxWidth: '1200px',
               marginLeft: 'auto',
               marginRight: 'auto',
               paddingTop: '32px',
-              paddingLeft: '48px',
-              paddingRight: '48px',
             }}
           >
             <div className="flex w-full flex-wrap items-start justify-between gap-6">
@@ -83,15 +81,13 @@ export default function Home() {
 
           {/* Hero ana içerik — orta, ortalı */}
           <div
-            className="relative z-10 mx-auto text-center"
+            className="relative z-10 mx-auto text-center px-responsive"
             style={{
               width: '100%',
               maxWidth: '1200px',
               marginLeft: 'auto',
               marginRight: 'auto',
               paddingTop: '80px',
-              paddingLeft: '48px',
-              paddingRight: '48px',
               paddingBottom: '48px',
             }}
           >
@@ -161,15 +157,13 @@ export default function Home() {
 
           {/* Hero alt kısım — 4'lü metadata */}
           <div
-            className="relative z-10 mx-auto"
+            className="relative z-10 mx-auto px-responsive"
             style={{
               width: '100%',
               maxWidth: '1200px',
               marginLeft: 'auto',
               marginRight: 'auto',
               paddingTop: '32px',
-              paddingLeft: '48px',
-              paddingRight: '48px',
               paddingBottom: '32px',
               marginTop: '40px',
               borderTop: '1px solid rgba(244,240,232,0.08)',
@@ -202,14 +196,12 @@ export default function Home() {
         {/* ════════════ BÖLÜM II — KATEGORİLER ════════════ */}
         <section style={{ backgroundColor: '#F4F0E8', paddingTop: '96px', paddingBottom: '96px', borderBottom: '1px solid rgba(26,23,20,0.08)' }}>
           <div
-            className="mx-auto"
+            className="mx-auto px-responsive"
             style={{
               width: '100%',
               maxWidth: '1200px',
               marginLeft: 'auto',
               marginRight: 'auto',
-              paddingLeft: '48px',
-              paddingRight: '48px',
             }}
           >
 
@@ -287,14 +279,12 @@ export default function Home() {
           }}
         >
           <div
-            className="mx-auto"
+            className="mx-auto px-responsive"
             style={{
               width: '100%',
               maxWidth: '1200px',
               marginLeft: 'auto',
               marginRight: 'auto',
-              paddingLeft: '48px',
-              paddingRight: '48px',
             }}
           >
 
@@ -383,14 +373,12 @@ export default function Home() {
         {/* ════════════ BÖLÜM V — SUPERBLEND ════════════ */}
         <section className="bg-ink" style={{ paddingTop: '96px', paddingBottom: '96px' }}>
           <div
-            className="mx-auto"
+            className="mx-auto px-responsive"
             style={{
               width: '100%',
               maxWidth: '1200px',
               marginLeft: 'auto',
               marginRight: 'auto',
-              paddingLeft: '48px',
-              paddingRight: '48px',
             }}
           >
 
