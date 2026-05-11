@@ -485,6 +485,18 @@
   gap: 16px;
 }
 
+/* Mobile-only üst mini bar: bağlantı durumu + saat */
+.ad-topbar-row1 {
+  display: none;
+}
+
+/* Masaüstü info group (canlı + saat) — inner içinde */
+.ad-topbar-desktop-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .ad-breadcrumb {
   display: flex;
   align-items: center;
@@ -641,17 +653,33 @@
   /* Search butonu ikon olur */
   .ad-topbar-search-wide { display: none !important; }
   .ad-topbar-search-narrow { display: inline-flex; }
+
+  /* TopBar 2-satır: üstte mini bar (canlı + saat) */
+  .ad-topbar { height: auto !important; }
+  .ad-topbar-row1 {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 14px;
+    border-bottom: 1px solid var(--ad-line-faint);
+    background: var(--ad-surface-2);
+    min-height: 30px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  /* Desktop info group inner içinde gizli */
+  .ad-topbar-desktop-info { display: none !important; }
+  .ad-topbar-inner { height: 52px; }
 }
 
 @media (max-width: 768px) {
-  .ad-clock { display: none; }
-  .ad-topbar-livetext { display: none; }
-  .ad-topbar { height: 52px; }
   .ad-shell-main { padding: 16px !important; }
   .ad-breadcrumb { font-size: 10px; }
   .ad-breadcrumb-skip { display: none; }
   .ad-metric-value { font-size: 24px; }
   .ad-card { padding: 16px; }
+  /* UserMenu name etiketi gizli */
+  .ad-user-name { display: none !important; }
 }
 
 @media (max-width: 640px) {

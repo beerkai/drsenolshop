@@ -69,7 +69,7 @@ export function UserMenu({ email, fullName, role }: Props) {
         >
           {initials}
         </span>
-        <span style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: '12px', color: 'var(--ad-fg)' }}>
+        <span className="ad-user-name" style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: '12px', color: 'var(--ad-fg)' }}>
           {displayName.length > 16 ? displayName.slice(0, 16) + '…' : displayName}
         </span>
       </button>

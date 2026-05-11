@@ -1,7 +1,14 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter, Cormorant_Garamond, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#0A0908',
+};
 
 const inter = Inter({
   subsets: ['latin', 'latin-ext'],

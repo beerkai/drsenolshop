@@ -56,6 +56,12 @@ export function TopBar({ email, fullName, role, pendingOrders }: Props) {
   return (
     <>
       <header className="ad-topbar">
+        {/* Mobile-only üst mini bar — bağlantı + saat */}
+        <div className="ad-topbar-row1">
+          <AutoLiveDot />
+          <Clock />
+        </div>
+
         <div
           className="ad-topbar-inner"
           style={{
@@ -129,12 +135,14 @@ export function TopBar({ email, fullName, role, pendingOrders }: Props) {
             <IconSearch size={14} />
           </button>
 
-          {/* Sağ — Live + Clock + User */}
+          {/* Sağ — Masaüstünde Live + Clock + Avatar; mobile'da sadece Avatar */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <AutoLiveDot />
-            <span className="ad-clock-sep" style={{ width: '1px', height: '20px', backgroundColor: 'var(--ad-line-faint)' }} />
-            <Clock />
-            <span style={{ width: '1px', height: '20px', backgroundColor: 'var(--ad-line-faint)' }} />
+            <div className="ad-topbar-desktop-info">
+              <AutoLiveDot />
+              <span style={{ width: '1px', height: '20px', backgroundColor: 'var(--ad-line-faint)' }} />
+              <Clock />
+              <span style={{ width: '1px', height: '20px', backgroundColor: 'var(--ad-line-faint)' }} />
+            </div>
             <UserMenu email={email} fullName={fullName} role={role} />
           </div>
         </div>
