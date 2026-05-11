@@ -24,17 +24,17 @@ ALTER TABLE public.admin_users ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ;
 -- UNIQUE constraint'ler
 DO $$ BEGIN
   ALTER TABLE public.admin_users ADD CONSTRAINT admin_users_email_key UNIQUE (email);
-EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+EXCEPTION WHEN duplicate_object OR duplicate_table THEN NULL; END $$;
 
 DO $$ BEGIN
   ALTER TABLE public.admin_users ADD CONSTRAINT admin_users_auth_user_id_key UNIQUE (auth_user_id);
-EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+EXCEPTION WHEN duplicate_object OR duplicate_table THEN NULL; END $$;
 
 -- CHECK — role enum benzeri
 DO $$ BEGIN
   ALTER TABLE public.admin_users ADD CONSTRAINT admin_users_role_check
     CHECK (role IN ('owner', 'staff'));
-EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+EXCEPTION WHEN duplicate_object OR duplicate_table THEN NULL; END $$;
 
 -- İndeksler
 CREATE INDEX IF NOT EXISTS admin_users_email_idx        ON public.admin_users(email);

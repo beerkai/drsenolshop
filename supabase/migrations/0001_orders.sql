@@ -31,19 +31,19 @@ DO $$ BEGIN
   CREATE TYPE order_status AS ENUM (
     'pending','paid','preparing','shipped','delivered','cancelled','refunded'
   );
-EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+EXCEPTION WHEN duplicate_object OR duplicate_table THEN NULL; END $$;
 
 DO $$ BEGIN
   CREATE TYPE payment_status AS ENUM (
     'pending','authorized','captured','failed','refunded'
   );
-EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+EXCEPTION WHEN duplicate_object OR duplicate_table THEN NULL; END $$;
 
 DO $$ BEGIN
   CREATE TYPE payment_method AS ENUM (
     'bank_transfer','iyzico','stripe','cash_on_delivery'
   );
-EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+EXCEPTION WHEN duplicate_object OR duplicate_table THEN NULL; END $$;
 
 -- ═══════════════════════════════════════════════════════════════
 -- orders tablosu
@@ -91,7 +91,7 @@ ALTER TABLE public.orders ALTER COLUMN payment_status SET DEFAULT 'pending';
 -- UNIQUE constraint — order_number
 DO $$ BEGIN
   ALTER TABLE public.orders ADD CONSTRAINT orders_order_number_key UNIQUE (order_number);
-EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+EXCEPTION WHEN duplicate_object OR duplicate_table THEN NULL; END $$;
 
 -- updated_at trigger
 DROP TRIGGER IF EXISTS orders_set_updated_at ON public.orders;
@@ -133,19 +133,19 @@ DO $$ BEGIN
   ALTER TABLE public.order_items
     ADD CONSTRAINT order_items_order_id_fkey
     FOREIGN KEY (order_id) REFERENCES public.orders(id) ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+EXCEPTION WHEN duplicate_object OR duplicate_table THEN NULL; END $$;
 
 DO $$ BEGIN
   ALTER TABLE public.order_items
     ADD CONSTRAINT order_items_product_id_fkey
     FOREIGN KEY (product_id) REFERENCES public.products(id) ON DELETE SET NULL;
-EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+EXCEPTION WHEN duplicate_object OR duplicate_table THEN NULL; END $$;
 
 DO $$ BEGIN
   ALTER TABLE public.order_items
     ADD CONSTRAINT order_items_variant_id_fkey
     FOREIGN KEY (variant_id) REFERENCES public.product_variants(id) ON DELETE SET NULL;
-EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+EXCEPTION WHEN duplicate_object OR duplicate_table THEN NULL; END $$;
 
 CREATE INDEX IF NOT EXISTS order_items_order_id_idx   ON public.order_items(order_id);
 CREATE INDEX IF NOT EXISTS order_items_product_id_idx ON public.order_items(product_id);
