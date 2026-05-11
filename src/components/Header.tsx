@@ -44,7 +44,8 @@ const NAV: NavItem[] = [
   { label: 'Hikâye', href: '/hikaye' },
 ]
 
-const PAD_X = 'clamp(16px, 4vw, 48px)' as const
+/* Geniş masaüstünde içerik daha dengeli ortada dursun (Safari/ultra-wide) */
+const PAD_X = 'clamp(16px, 4vw, 56px)' as const
 
 const svgIcon = {
   width: 'clamp(16px, 4vw, 20px)',
@@ -79,27 +80,27 @@ export default function Header() {
         @media (max-width: 1023px) {
           .ds-header-cart-label { display: none !important; }
         }
-        @media (max-width: 639px) {
+        @media (max-width: 767px) {
           .ds-header-announce-promo { display: none !important; }
         }
       `}</style>
 
       <div className="border-b border-[var(--color-line-dark)] bg-ink">
         <div
-          className="relative mx-auto flex max-h-[none] max-w-[1440px] items-center justify-center"
+          className="mx-auto grid max-w-[1440px] w-full grid-cols-2 items-center md:grid-cols-[1fr_auto_1fr]"
           style={{
             paddingLeft: PAD_X,
             paddingRight: PAD_X,
             paddingTop: 'clamp(6px, 1.5vw, 10px)',
             paddingBottom: 'clamp(6px, 1.5vw, 10px)',
             minHeight: 'clamp(28px, 8vw, 38px)',
+            columnGap: 'clamp(8px, 2vw, 16px)',
           }}
         >
           <p
-            className="absolute top-1/2 max-w-[44%] -translate-y-1/2 font-mono uppercase text-cream-faint sm:max-w-none"
+            className="min-w-0 justify-self-start font-mono uppercase text-cream-faint"
             lang="en"
             style={{
-              left: PAD_X,
               fontSize: 'clamp(8px, 2vw, 10px)',
               letterSpacing: 'clamp(0.14em, 0.35vw, 0.22em)',
             }}
@@ -108,7 +109,7 @@ export default function Header() {
           </p>
 
           <p
-            className="ds-header-announce-promo hidden px-10 text-center font-mono uppercase text-cream-muted sm:block"
+            className="ds-header-announce-promo hidden max-w-[min(100%,52vw)] justify-self-center text-center font-mono uppercase text-cream-muted md:block"
             style={{
               fontSize: 'clamp(8px, 2vw, 10px)',
               letterSpacing: 'clamp(0.15em, 0.35vw, 0.22em)',
@@ -118,40 +119,43 @@ export default function Header() {
           </p>
 
           <div
-            className="absolute top-1/2 flex -translate-y-1/2 items-stretch gap-px rounded-sm border border-[var(--color-line-dark)] bg-ink-2 p-px"
-            role="group"
-            aria-label="Dil seçimi"
-            style={{ right: PAD_X }}
+            className="flex min-w-0 justify-end justify-self-end md:w-full"
           >
-            {ANNOUNCE_LOCALES.map(({ code, label, lang }) => {
-              const selected = announceLocale === code
-              return (
-                <button
-                  key={code}
-                  type="button"
-                  aria-pressed={selected}
-                  onClick={() => setAnnounceLocale(code)}
-                  lang={lang}
-                  className={`transition-colors min-h-[30px] ${
-                    selected
-                      ? 'bg-ink-4 text-cream shadow-[inset_0_2px_4px_rgba(0,0,0,0.45)]'
-                      : 'text-cream-faint hover:bg-ink-3 hover:text-cream-muted'
-                  }`}
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 'clamp(8px, 2vw, 10px)',
-                    letterSpacing: '0.12em',
-                    padding: 'clamp(3px, 1vw, 6px) clamp(6px, 1.8vw, 10px)',
-                    minWidth: 'clamp(26px, 8vw, 32px)',
-                    border: 'none',
-                    cursor: 'pointer',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  {label}
-                </button>
-              )
-            })}
+            <div
+              className="flex items-stretch gap-px rounded-sm border border-[var(--color-line-dark)] bg-ink-2 p-px"
+              role="group"
+              aria-label="Dil seçimi"
+            >
+              {ANNOUNCE_LOCALES.map(({ code, label, lang }) => {
+                const selected = announceLocale === code
+                return (
+                  <button
+                    key={code}
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() => setAnnounceLocale(code)}
+                    lang={lang}
+                    className={`transition-colors min-h-[30px] ${
+                      selected
+                        ? 'bg-ink-4 text-cream shadow-[inset_0_2px_4px_rgba(0,0,0,0.45)]'
+                        : 'text-cream-faint hover:bg-ink-3 hover:text-cream-muted'
+                    }`}
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: 'clamp(8px, 2vw, 10px)',
+                      letterSpacing: '0.12em',
+                      padding: 'clamp(3px, 1vw, 6px) clamp(6px, 1.8vw, 10px)',
+                      minWidth: 'clamp(26px, 8vw, 32px)',
+                      border: 'none',
+                      cursor: 'pointer',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    {label}
+                  </button>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>
@@ -164,21 +168,24 @@ export default function Header() {
         }`}
       >
         <div
-          className="mx-auto max-w-[1440px]"
+          className="mx-auto max-w-[1440px] w-full"
           style={{
             paddingLeft: PAD_X,
             paddingRight: PAD_X,
           }}
         >
+          {/* flex + mutlak ortalanmış logo (Safari'de grid 1fr|auto|1fr kaymasını giderir) */}
           <div
-            className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 sm:gap-4"
+            className="relative flex items-center"
             style={{ minHeight: 'clamp(64px, 12vw, 96px)' }}
           >
-            <div className="flex min-w-0 items-center justify-self-start">
+            <div
+              className="flex min-h-[clamp(64px,12vw,96px)] min-w-0 flex-1 items-center justify-start pr-2 lg:pr-8"
+            >
               <button
                 type="button"
                 onClick={() => setOpen(true)}
-                className="flex flex-col justify-center gap-[5px] py-3 lg:hidden min-h-[44px] min-w-[44px] items-center -ml-1"
+                className="-ml-1 flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-[5px] py-3 lg:hidden"
                 aria-label="Menüyü aç"
               >
                 <span className="block h-px bg-cream" style={{ width: 'clamp(18px, 4vw, 22px)' }} />
@@ -227,10 +234,13 @@ export default function Header() {
               </nav>
             </div>
 
-            <Link href="/" className="min-w-0 shrink-0 justify-self-center text-center">
+            <Link
+              href="/"
+              className="absolute left-1/2 top-1/2 z-10 min-w-0 max-w-[calc(100%-200px)] -translate-x-1/2 -translate-y-1/2 text-center sm:max-w-[calc(100%-260px)] lg:max-w-none"
+            >
               <p
                 lang="en"
-                className="leading-none mb-[clamp(2px,0.6vw,8px)] font-mono uppercase text-gold"
+                className="mb-[clamp(2px,0.6vw,8px)] font-mono uppercase leading-none text-gold"
                 style={{
                   fontSize: 'clamp(7px, 1.5vw, 9px)',
                   letterSpacing: 'clamp(0.28em, 0.65vw, 0.4em)',
@@ -239,14 +249,17 @@ export default function Header() {
                 The Honey Scientist
               </p>
               <p
-                className="leading-none font-display font-medium tracking-[0.005em] text-cream"
+                className="font-display font-medium leading-none tracking-[0.005em] text-cream"
                 style={{ fontSize: 'clamp(20px, 4vw, 30px)' }}
               >
                 Dr. Şenol
               </p>
             </Link>
 
-            <div className="flex min-w-0 items-center justify-end justify-self-end" style={{ gap: 'clamp(12px, 2.5vw, 24px)' }}>
+            <div
+              className="flex min-h-[clamp(64px,12vw,96px)] min-w-0 flex-1 items-center justify-end pl-2 lg:pl-8"
+              style={{ gap: 'clamp(12px, 2.5vw, 24px)' }}
+            >
               <button
                 type="button"
                 aria-label="Ara"

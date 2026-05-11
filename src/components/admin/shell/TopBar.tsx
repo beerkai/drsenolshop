@@ -6,6 +6,7 @@ import { Clock } from './Clock'
 import { AutoLiveDot } from '../ui/LiveDot'
 import { UserMenu } from './UserMenu'
 import { IconSearch } from '../ui/Icon'
+import { useCommandPalette } from '../command/CommandProvider'
 
 interface Props {
   email: string
@@ -43,6 +44,7 @@ function buildCrumbs(pathname: string): Crumb[] {
 export function TopBar({ email, fullName, role }: Props) {
   const pathname = usePathname()
   const crumbs = buildCrumbs(pathname)
+  const { open: openCommandPalette } = useCommandPalette()
 
   return (
     <header className="ad-topbar">
@@ -60,29 +62,37 @@ export function TopBar({ email, fullName, role }: Props) {
           <Breadcrumb items={crumbs} />
         </div>
 
-        {/* Orta — Search trigger placeholder (⌘K ileride) */}
+        {/* Orta — Komut paleti tetikleyici */}
         <button
           type="button"
-          aria-label="Ara"
-          disabled
+          aria-label="Komut paleti aç"
+          onClick={openCommandPalette}
           style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '10px',
             padding: '7px 14px',
             backgroundColor: 'var(--ad-surface-2)',
-            border: '1px solid var(--ad-line-faint)',
-            color: 'var(--ad-fg-faint)',
+            border: '1px solid var(--ad-line)',
+            color: 'var(--ad-fg-muted)',
             fontFamily: 'var(--font-inter), sans-serif',
             fontSize: '12px',
-            cursor: 'not-allowed',
+            cursor: 'pointer',
             minWidth: '260px',
-            opacity: 0.5,
+            transition: 'border-color 120ms, color 120ms',
           }}
-          title="Komut paleti (yakında)"
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = 'var(--ad-gold)'
+            e.currentTarget.style.color = 'var(--ad-fg)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = 'var(--ad-line)'
+            e.currentTarget.style.color = 'var(--ad-fg-muted)'
+          }}
+          title="Komut paleti aç (⌘K)"
         >
           <IconSearch size={14} />
-          <span style={{ flex: 1, textAlign: 'left' }}>Sipariş, ürün ara…</span>
+          <span style={{ flex: 1, textAlign: 'left' }}>Sayfa, eylem veya filtre ara…</span>
           <span className="ad-kbd">⌘K</span>
         </button>
 
