@@ -20,8 +20,13 @@ export default function ProductGallery({ images, productName }: Props) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <style>{`
+        .gallery-main { aspect-ratio: 4 / 5; }
+        @media (max-width: 768px) { .gallery-main { aspect-ratio: 3 / 4; } }
+        @media (max-width: 480px) { .gallery-main { aspect-ratio: 1 / 1; } }
+      `}</style>
       {/* Ana görsel */}
-      <div style={{ position: 'relative', aspectRatio: '4 / 5', backgroundColor: '#141210', overflow: 'hidden' }}>
+      <div className="gallery-main" style={{ position: 'relative', backgroundColor: '#141210', overflow: 'hidden' }}>
         {selected && !errors[selectedIdx] ? (
           <Image
             src={selected}

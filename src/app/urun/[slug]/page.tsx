@@ -80,7 +80,7 @@ export default async function UrunPage({ params }: Props) {
         </div>
 
         {/* Ana ürün bölümü */}
-        <section style={{ backgroundColor: '#0A0908', paddingTop: '56px', paddingBottom: '96px' }}>
+        <section className="product-main-section" style={{ backgroundColor: '#0A0908' }}>
           <div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div className="product-layout">
               {/* Galeri */}
@@ -94,6 +94,10 @@ export default async function UrunPage({ params }: Props) {
           </div>
 
           <style>{`
+            .product-main-section {
+              padding-top: 48px;
+              padding-bottom: 80px;
+            }
             .product-layout {
               display: grid;
               grid-template-columns: 58% 1fr;
@@ -105,9 +109,13 @@ export default async function UrunPage({ params }: Props) {
               top: 108px;
             }
             @media (max-width: 768px) {
+              .product-main-section {
+                padding-top: 24px;
+                padding-bottom: 48px;
+              }
               .product-layout {
                 grid-template-columns: 1fr;
-                gap: 32px;
+                gap: 28px;
               }
               .product-actions-col {
                 position: static;
@@ -118,7 +126,11 @@ export default async function UrunPage({ params }: Props) {
 
         {/* Ürün açıklaması */}
         {description && (
-          <section style={{ backgroundColor: '#141210', paddingTop: '72px', paddingBottom: '72px', borderTop: '1px solid rgba(244,240,232,0.06)' }}>
+          <section className="product-desc-section" style={{ backgroundColor: '#141210', borderTop: '1px solid rgba(244,240,232,0.06)' }}>
+            <style>{`
+              .product-desc-section { padding-top: 64px; padding-bottom: 64px; }
+              @media (max-width: 640px) { .product-desc-section { padding-top: 40px; padding-bottom: 40px; } }
+            `}</style>
             <div className="px-responsive" style={{ maxWidth: '760px', margin: '0 auto' }}>
               <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 32px' }}>
                 Ürün Hakkında
@@ -156,7 +168,11 @@ export default async function UrunPage({ params }: Props) {
 
         {/* İlgili ürünler */}
         {relatedProducts.length > 0 && (
-          <section style={{ backgroundColor: '#EBE5D8', paddingTop: '72px', paddingBottom: '72px', borderTop: '1px solid rgba(26,23,20,0.08)' }}>
+          <section className="product-related-section" style={{ backgroundColor: '#EBE5D8', borderTop: '1px solid rgba(26,23,20,0.08)' }}>
+            <style>{`
+              .product-related-section { padding-top: 64px; padding-bottom: 64px; }
+              @media (max-width: 640px) { .product-related-section { padding-top: 40px; padding-bottom: 40px; } }
+            `}</style>
             <div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto' }}>
               <div style={{ textAlign: 'center', marginBottom: '48px' }}>
                 <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 16px' }}>

@@ -60,33 +60,48 @@ export default function ProductActions({ product }: Props) {
 
   return (
     <div>
+      <style>{`
+        .pa-title { font-size: clamp(24px, 6vw, 54px); }
+        .pa-price { font-size: clamp(28px, 7vw, 38px); }
+        @media (max-width: 640px) {
+          .pa-eyebrow { margin-bottom: 12px !important; }
+          .pa-title { margin-bottom: 14px !important; }
+          .pa-shortdesc { margin-bottom: 20px !important; font-size: 13px !important; }
+          .pa-divider { margin-bottom: 20px !important; }
+          .pa-price-row { margin-bottom: 22px !important; }
+          .pa-variants { margin-bottom: 20px !important; }
+          .pa-qty-row { margin-bottom: 14px !important; }
+          .pa-cta { padding: 15px 20px !important; margin-bottom: 20px !important; }
+        }
+      `}</style>
+
       {/* Kategori eyebrow */}
       {product.category && (
-        <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 18px' }}>
+        <p className="pa-eyebrow" style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 18px' }}>
           {product.category.name}
         </p>
       )}
 
       {/* Ürün adı */}
-      <h1 style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: 'clamp(34px, 4vw, 54px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.01em', margin: '0 0 20px' }}>
+      <h1 className="pa-title" style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.01em', margin: '0 0 20px' }}>
         {product.name}
       </h1>
 
       {/* Kısa açıklama */}
       {product.short_desc && (
-        <p style={{ color: '#B8B0A0', fontSize: '14px', lineHeight: 1.75, margin: '0 0 28px' }}>
+        <p className="pa-shortdesc" style={{ color: '#B8B0A0', fontSize: '14px', lineHeight: 1.75, margin: '0 0 28px' }}>
           {product.short_desc}
         </p>
       )}
 
       {/* Altın çizgi */}
-      <div style={{ width: '36px', height: '1px', backgroundColor: '#C9A961', margin: '0 0 28px' }} />
+      <div className="pa-divider" style={{ width: '36px', height: '1px', backgroundColor: '#C9A961', margin: '0 0 28px' }} />
 
       {/* Fiyat */}
-      <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', gap: '12px', margin: '0 0 32px' }}>
+      <div className="pa-price-row" style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', gap: '12px', margin: '0 0 32px' }}>
         {priceData ? (
           <>
-            <span style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '38px', fontWeight: 500, lineHeight: 1 }}>
+            <span className="pa-price" style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontWeight: 500, lineHeight: 1 }}>
               {formatPrice(priceData.current)}
             </span>
             {hasDiscount && priceData.original && (
@@ -107,7 +122,7 @@ export default function ProductActions({ product }: Props) {
 
       {/* Varyantlar */}
       {hasVariants && (
-        <div style={{ margin: '0 0 28px' }}>
+        <div className="pa-variants" style={{ margin: '0 0 28px' }}>
           <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '9px', letterSpacing: '0.25em', color: '#6E665A', textTransform: 'uppercase', margin: '0 0 12px' }}>
             {variants[0].variant_type ?? 'Seçenek'}
           </p>
@@ -147,7 +162,7 @@ export default function ProductActions({ product }: Props) {
       )}
 
       {/* Adet seçici */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '20px', margin: '0 0 20px' }}>
+      <div className="pa-qty-row" style={{ display: 'flex', alignItems: 'center', gap: '20px', margin: '0 0 20px' }}>
         <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '9px', letterSpacing: '0.25em', color: '#6E665A', textTransform: 'uppercase', margin: 0, flexShrink: 0 }}>
           Adet
         </p>
@@ -167,7 +182,7 @@ export default function ProductActions({ product }: Props) {
       </div>
 
       {/* Sepete Ekle */}
-      <button type="button" onClick={handleAdd} disabled={!inStock}
+      <button type="button" onClick={handleAdd} disabled={!inStock} className="pa-cta"
         style={{
           width: '100%',
           padding: '18px 24px',
