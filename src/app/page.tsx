@@ -134,7 +134,7 @@ export default function Home() {
                 marginBottom: '40px',
               }}
             >
-              1985'ten bu yana Saitabat Köyü'nde, her damla balın arkasında bir bilim insanının imzası. Laboratuvar onaylı, analiz raporlu.
+              1985{'\u2019'}ten bu yana Saitabat Köyü{'\u2019'}nde, her damla balın arkasında bir bilim insanının imzası. Laboratuvar onaylı, analiz raporlu.
             </p>
 
             <div className="flex flex-wrap justify-center animate-fade-up-3" style={{ gap: '14px' }}>
@@ -315,7 +315,7 @@ export default function Home() {
               }}
             >
               <p className="text-cream-muted" style={{ fontSize: '15px', lineHeight: 1.85, marginBottom: '24px' }}>
-                Saitabat Köyü, Uludağ'ın kuzey eteğinde, endemik bitki örtüsünün doruğa ulaştığı bir mikro-iklim. Burada Dr. Şenol, 1985'ten bu yana arıcılığı bir bilim olarak ele alıyor.
+                Saitabat Köyü, Uludağ{'\u2019'}ın kuzey eteğinde, endemik bitki örtüsünün doruğa ulaştığı bir mikro-iklim. Burada Dr. Şenol, 1985{'\u2019'}ten bu yana arıcılığı bir bilim olarak ele alıyor.
               </p>
               <p className="text-cream-muted" style={{ fontSize: '15px', lineHeight: 1.85, margin: 0 }}>
                 Her hasat, akredite laboratuvarda fenolik madde, prolin, diastaz ve HMF değerleri için analiz edilir. Etiketin altındaki QR kod, ürününüze ait analiz raporuna açılır.

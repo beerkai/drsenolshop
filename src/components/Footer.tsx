@@ -69,7 +69,7 @@ export default function Footer() {
           }}
         >
           <span className="text-gold" style={{ fontStyle: 'italic' }}>Kovandan laboratuvara </span>
-          uzanan bilimsel yolculuk. 1985'ten bu yana Saitabat Köyü'nde, doğanın en saf hali üzerine titiz bir araştırma.
+          uzanan bilimsel yolculuk. 1985{'\u2019'}ten bu yana Saitabat Köyü{'\u2019'}nde, doğanın en saf hali üzerine titiz bir araştırma.
         </p>
       </div>
 
