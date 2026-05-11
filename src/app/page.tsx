@@ -243,9 +243,9 @@ export default function Home() {
               style={{ gap: '1px', backgroundColor: 'rgba(244,240,232,0.08)', border: '1px solid rgba(244,240,232,0.08)' }}
             >
               {[
-                { num: '01 / 03', title: 'Bal Çeşitleri', desc: 'Kestane, kekik, çiçek ve yayla balları.', meta: '12 çeşit · 180g – 900g', href: '/kategori/bal' },
-                { num: '02 / 03', title: 'Signature Series', desc: 'Bilim ve doğanın buluştuğu imza formüller.', meta: '6 ürün · El yapımı', href: '/kategori/signature' },
-                { num: '03 / 03', title: 'Arı Ürünleri', desc: 'Propolis, polen, arı sütü ve arı ekmeği.', meta: '8 ürün · Soğuk zincir', href: '/kategori/ari-urunleri' },
+                { num: '01 / 03', title: 'Bal Çeşitleri', desc: 'Kestane, kekik, çiçek ve yayla balları.', meta: '10 çeşit · 180g – 900g', href: '/kategori/bal' },
+                { num: '02 / 03', titleEn: true, title: 'Signature Series', desc: 'Bilim ve doğanın buluştuğu imza formüller.', meta: '7 ürün · El yapımı', href: '/kategori/signature' },
+                { num: '03 / 03', title: 'Arı Ürünleri', desc: 'Propolis, polen, arı sütü ve arı ekmeği.', meta: '6 ürün · Soğuk zincir', href: '/koleksiyon' },
               ].map((cat) => (
                 <Link
                   key={cat.num}
@@ -256,7 +256,11 @@ export default function Home() {
                   <p className="font-mono text-gold" style={{ fontSize: '10px', letterSpacing: '0.25em', marginBottom: '32px' }}>
                     {cat.num}
                   </p>
-                  <h3 className="font-display text-cream" style={{ fontSize: '32px', fontWeight: 500, lineHeight: 1.1, margin: 0 }}>
+                  <h3
+                    className="font-display text-cream"
+                    style={{ fontSize: '32px', fontWeight: 500, lineHeight: 1.1, margin: 0 }}
+                    {...('titleEn' in cat && cat.titleEn ? { lang: 'en' } : {})}
+                  >
                     {cat.title}
                   </h3>
                   <p className="text-cream-muted" style={{ fontSize: '14px', lineHeight: 1.7, marginTop: '16px', marginBottom: '32px', maxWidth: '240px' }}>
@@ -274,12 +278,12 @@ export default function Home() {
 
         {/* ════════════ BÖLÜM III — HİKÂYEMİZ ════════════ */}
         <section
-          className="bg-ink-2"
           style={{
+            backgroundColor: '#F4F0E8',
             paddingTop: '96px',
             paddingBottom: '96px',
-            borderTop: '1px solid rgba(244,240,232,0.08)',
-            borderBottom: '1px solid rgba(244,240,232,0.08)',
+            borderTop: '1px solid rgba(26,23,20,0.08)',
+            borderBottom: '1px solid rgba(26,23,20,0.08)',
           }}
         >
           <div
@@ -299,7 +303,7 @@ export default function Home() {
                 Bölüm III · Hikâyemiz
               </p>
               <div className="bg-gold mx-auto" style={{ width: '60px', height: '1px', marginBottom: '32px' }} />
-              <h2 className="font-display text-cream" style={{ fontSize: 'clamp(36px, 4.5vw, 60px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>
+              <h2 className="font-display" style={{ color: '#1A1714', fontSize: 'clamp(36px, 4.5vw, 60px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>
                 Bir köy, bir laboratuvar,<br />
                 <span className="text-gold" style={{ fontStyle: 'italic', fontWeight: 300 }}>kırk yıl.</span>
               </h2>
@@ -315,10 +319,10 @@ export default function Home() {
                 marginBottom: '64px',
               }}
             >
-              <p className="text-cream-muted" style={{ fontSize: '15px', lineHeight: 1.85, marginBottom: '24px' }}>
+              <p style={{ color: '#6B6258', fontSize: '15px', lineHeight: 1.85, marginBottom: '24px' }}>
                 Saitabat Köyü, Uludağ{'\u2019'}ın kuzey eteğinde, endemik bitki örtüsünün doruğa ulaştığı bir mikro-iklim. Burada Dr. Şenol, 1985{'\u2019'}ten bu yana arıcılığı bir bilim olarak ele alıyor.
               </p>
-              <p className="text-cream-muted" style={{ fontSize: '15px', lineHeight: 1.85, margin: 0 }}>
+              <p style={{ color: '#6B6258', fontSize: '15px', lineHeight: 1.85, margin: 0 }}>
                 Her hasat, akredite laboratuvarda fenolik madde, prolin, diastaz ve HMF değerleri için analiz edilir. Etiketin altındaki QR kod, ürününüze ait analiz raporuna açılır.
               </p>
             </div>
@@ -332,8 +336,8 @@ export default function Home() {
                 marginRight: 'auto',
                 marginBottom: '48px',
                 gap: '1px',
-                backgroundColor: 'rgba(244,240,232,0.08)',
-                border: '1px solid rgba(244,240,232,0.08)',
+                backgroundColor: 'rgba(26,23,20,0.10)',
+                border: '1px solid rgba(26,23,20,0.10)',
               }}
             >
               {[
@@ -342,14 +346,14 @@ export default function Home() {
                 { value: '1,247', label: 'Kovan', sub: 'Aktif üretim' },
                 { value: '%100', label: 'Doğal', sub: 'Lab onaylı' },
               ].map((stat) => (
-                <div key={stat.label} className="bg-ink text-center" style={{ paddingTop: '36px', paddingBottom: '36px', paddingLeft: '24px', paddingRight: '24px' }}>
+                <div key={stat.label} className="text-center" style={{ backgroundColor: '#EBE5D8', paddingTop: '36px', paddingBottom: '36px', paddingLeft: '24px', paddingRight: '24px' }}>
                   <p className="font-display text-gold" style={{ fontSize: '44px', fontWeight: 300, lineHeight: 1, letterSpacing: '-0.015em', margin: 0 }}>
                     {stat.value}
                   </p>
-                  <p className="font-mono uppercase text-cream" style={{ fontSize: '10px', letterSpacing: '0.22em', marginTop: '14px', marginBottom: '4px' }}>
+                  <p className="font-mono uppercase" style={{ color: '#1A1714', fontSize: '10px', letterSpacing: '0.22em', marginTop: '14px', marginBottom: '4px' }}>
                     {stat.label}
                   </p>
-                  <p className="font-mono text-cream-faint" style={{ fontSize: '10px', letterSpacing: '0.15em', margin: 0 }}>
+                  <p className="font-mono" style={{ color: '#9B9285', fontSize: '10px', letterSpacing: '0.15em', margin: 0 }}>
                     {stat.sub}
                   </p>
                 </div>
@@ -359,8 +363,8 @@ export default function Home() {
             <div className="text-center">
               <Link
                 href="/hikaye"
-                className="inline-flex items-center text-cream hover:text-gold transition-colors duration-300 group"
-                style={{ gap: '12px' }}
+                className="inline-flex items-center hover:text-gold transition-colors duration-300 group"
+                style={{ gap: '12px', color: '#1A1714' }}
               >
                 <span className="font-mono uppercase" style={{ fontSize: '11px', letterSpacing: '0.22em' }}>
                   Tüm Hikâyeyi Oku

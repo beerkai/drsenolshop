@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getFeaturedProducts } from '@/lib/products';
-import ProductCard from '@/components/ProductCard';
+import ProductCard from './ProductCard';
 
 export default async function FeaturedProducts() {
   const products = await getFeaturedProducts(6);
@@ -11,43 +11,50 @@ export default async function FeaturedProducts() {
 
   return (
     <section
-      className="bg-ink"
       style={{
+        backgroundColor: '#EBE5D8',
         paddingTop: '96px',
         paddingBottom: '96px',
-        borderTop: '1px solid rgba(244,240,232,0.08)',
+        borderTop: '1px solid rgba(26,23,20,0.08)',
+        borderBottom: '1px solid rgba(26,23,20,0.08)',
       }}
     >
       <div
-        className="mx-auto"
         style={{
           maxWidth: '1200px',
+          margin: '0 auto',
           paddingLeft: '48px',
           paddingRight: '48px',
         }}
       >
-        <div className="text-center" style={{ marginBottom: '80px' }}>
+        {/* Bölüm başlığı */}
+        <div style={{ textAlign: 'center', marginBottom: '80px' }}>
           <p
-            className="font-mono uppercase text-gold"
             style={{
+              fontFamily: 'var(--font-jetbrains)',
               fontSize: '11px',
               letterSpacing: '0.3em',
+              color: '#C9A961',
+              textTransform: 'uppercase',
               marginBottom: '20px',
+              margin: '0 0 20px',
             }}
           >
             Bölüm IV · Vitrin
           </p>
           <div
-            className="bg-gold mx-auto"
             style={{
               width: '60px',
               height: '1px',
-              marginBottom: '32px',
+              background: '#C9A961',
+              margin: '0 auto 32px',
             }}
           />
           <h2
-            className="font-display text-cream max-md:text-[36px] text-[60px]"
             style={{
+              fontFamily: 'var(--font-cormorant)',
+              color: '#1A1714',
+              fontSize: 'clamp(36px, 4.5vw, 60px)',
               fontWeight: 500,
               lineHeight: 1.05,
               letterSpacing: '-0.015em',
@@ -55,67 +62,78 @@ export default async function FeaturedProducts() {
             }}
           >
             Premium{' '}
-            <span
-              className="text-gold"
-              style={{ fontStyle: 'italic', fontWeight: 300 }}
-            >
+            <span style={{ color: '#C9A961', fontStyle: 'italic', fontWeight: 300 }}>
               koleksiyonumuz.
             </span>
           </h2>
           <p
-            className="text-cream-muted mx-auto"
             style={{
+              color: '#6B6258',
               fontSize: '15px',
               lineHeight: 1.7,
               maxWidth: '480px',
-              marginTop: '32px',
+              margin: '32px auto 0',
             }}
           >
             Bilimin titizliği, doğanın saflığıyla buluşan altı imza ürün.
           </p>
         </div>
 
+        {/* GRID — Inline style ile responsive, Tailwind class kullanma */}
         <div
-          className="grid grid-cols-1 gap-px border border-[rgba(244,240,232,0.08)] bg-[rgba(244,240,232,0.08)] md:grid-cols-2 lg:grid-cols-3"
+          className="featured-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '1px',
+            background: 'rgba(26,23,20,0.08)',
+            border: '1px solid rgba(26,23,20,0.08)',
+          }}
         >
           {products.map((product) => (
-            <div key={product.id} className="min-w-0 bg-ink">
-              <ProductCard
-                product={product}
-                categoryOverride={product.category?.name || undefined}
-              />
-            </div>
+            <ProductCard
+              key={product.id}
+              product={product}
+              categoryOverride={product.category?.name || undefined}
+            />
           ))}
         </div>
 
-        <div className="text-center" style={{ marginTop: '64px' }}>
+        {/* Responsive media queries inline */}
+        <style>{`
+          @media (max-width: 1024px) {
+            .featured-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+          }
+          @media (max-width: 640px) {
+            .featured-grid {
+              grid-template-columns: 1fr !important;
+            }
+          }
+        `}</style>
+
+        {/* Alt CTA */}
+        <div style={{ textAlign: 'center', marginTop: '64px' }}>
           <Link
             href="/koleksiyon"
-            className="hover:border-gold hover:text-gold inline-flex items-center transition-all duration-300"
             style={{
+              display: 'inline-flex',
+              alignItems: 'center',
               gap: '12px',
-              color: '#F4F0E8',
+              color: '#1A1714',
               fontFamily: 'var(--font-jetbrains)',
               fontSize: '11px',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
-              border: '1px solid rgba(244,240,232,0.2)',
+              textDecoration: 'none',
+              border: '1px solid rgba(26,23,20,0.2)',
               padding: '16px 32px',
+              transition: 'all 0.3s',
             }}
           >
             Tüm Koleksiyonu Gör
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
+            <span style={{ fontSize: '14px' }}>→</span>
           </Link>
         </div>
       </div>
