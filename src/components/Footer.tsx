@@ -16,8 +16,8 @@ const NAV_COLS = [
     title: 'Marka',
     links: [
       { label: 'Hikâyemiz', href: '/hikaye' },
-      { label: 'Saitabat Köyü', href: '/saitabat' },
-      { label: 'Bilim Yaklaşımımız', href: '/bilim' },
+      { label: 'Saitabat Köyü', href: '/saitabat-koyu' },
+      { label: 'Bilim Yaklaşımımız', href: '/bilim-yaklasimimiz' },
       { label: 'Analiz Raporları', href: '/analiz-raporlari' },
       { label: 'Basında Biz', href: '/basinda-biz' },
     ],
@@ -26,9 +26,9 @@ const NAV_COLS = [
     title: 'Yardım',
     links: [
       { label: 'Sipariş Takibi', href: '/siparis-takibi' },
-      { label: 'Kargo & Teslimat', href: '/kargo' },
-      { label: 'İade & Değişim', href: '/iade' },
-      { label: 'Sıkça Sorulanlar', href: '/sss' },
+      { label: 'Kargo & Teslimat', href: '/kargo-teslimat' },
+      { label: 'İade & Değişim', href: '/iade-degisim' },
+      { label: 'Sıkça Sorulanlar', href: '/sikca-sorulanlar' },
       { label: 'İletişim', href: '/iletisim' },
     ],
   },
