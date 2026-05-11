@@ -11,7 +11,40 @@ export default function Home() {
       <main className="w-full">
 
         {/* ════════════ BÖLÜM I — HERO ════════════ */}
-        <section className="relative bg-ink overflow-hidden" style={{ minHeight: 'clamp(480px, 92vh, 780px)' }}>
+        <section className="home-hero relative bg-ink overflow-hidden">
+          <style>{`
+            .home-hero { min-height: 0; }
+            .home-hero-top { padding-top: clamp(12px, 3vw, 32px); }
+            .home-hero-main {
+              padding-top: clamp(22px, 5vw, 80px);
+              padding-bottom: clamp(18px, 4vw, 48px);
+            }
+            .home-hero-meta {
+              margin-top: clamp(12px, 3vw, 40px);
+              padding-top: clamp(14px, 3vw, 32px);
+              padding-bottom: clamp(14px, 3vw, 32px);
+            }
+            @media (min-width: 768px) and (max-width: 1023px) {
+              .home-hero { min-height: min(76vh, 720px); }
+              .home-hero-main {
+                padding-top: clamp(32px, 8vw, 72px);
+                padding-bottom: clamp(24px, 6vw, 44px);
+              }
+              .home-hero-meta { margin-top: clamp(18px, 4vw, 36px); }
+            }
+            @media (min-width: 1024px) {
+              .home-hero { min-height: clamp(560px, 88vh, 780px); }
+              .home-hero-main {
+                padding-top: clamp(40px, 10vw, 80px);
+                padding-bottom: clamp(32px, 8vw, 48px);
+              }
+              .home-hero-meta {
+                margin-top: clamp(24px, 6vw, 40px);
+                padding-top: clamp(20px, 5vw, 32px);
+                padding-bottom: clamp(20px, 5vw, 32px);
+              }
+            }
+          `}</style>
 
           <div className="absolute inset-0 pointer-events-none">
             <div
@@ -46,13 +79,12 @@ export default function Home() {
 
           {/* Hero üst kısım — Lot No + Kovan */}
           <div
-            className="relative z-10 mx-auto px-responsive"
+            className="home-hero-top relative z-10 mx-auto px-responsive"
             style={{
               width: '100%',
               maxWidth: '1200px',
               marginLeft: 'auto',
               marginRight: 'auto',
-              paddingTop: 'clamp(16px, 4vw, 32px)',
             }}
           >
             <div className="flex w-full flex-wrap items-start justify-between gap-6">
@@ -81,14 +113,12 @@ export default function Home() {
 
           {/* Hero ana içerik — orta, ortalı */}
           <div
-            className="relative z-10 mx-auto text-center px-responsive"
+            className="home-hero-main relative z-10 mx-auto text-center px-responsive"
             style={{
               width: '100%',
               maxWidth: '1200px',
               marginLeft: 'auto',
               marginRight: 'auto',
-              paddingTop: 'clamp(40px, 10vw, 80px)',
-              paddingBottom: 'clamp(32px, 8vw, 48px)',
             }}
           >
 
@@ -96,7 +126,7 @@ export default function Home() {
               Bölüm I · <span lang="en">The Honey Scientist</span>
             </p>
 
-            <div className="bg-gold mx-auto animate-fade-up-1" style={{ width: '60px', height: '1px', marginBottom: '32px' }} />
+            <div className="bg-gold mx-auto animate-fade-up-1" style={{ width: '60px', height: '1px', marginBottom: 'clamp(18px, 4vw, 32px)' }} />
 
             <h1
               className="font-display text-cream mx-auto animate-fade-up-1"
@@ -128,7 +158,7 @@ export default function Home() {
                 marginLeft: 'auto',
                 marginRight: 'auto',
                 marginTop: 'clamp(18px, 5vw, 32px)',
-                marginBottom: 'clamp(24px, 6vw, 40px)',
+                marginBottom: 'clamp(20px, 5vw, 40px)',
               }}
             >
               1985{'\u2019'}ten bu yana Saitabat Köyü{'\u2019'}nde, her damla balın arkasında bir bilim insanının imzası. Laboratuvar onaylı, analiz raporlu.
@@ -157,19 +187,16 @@ export default function Home() {
 
           {/* Hero alt kısım — 4'lü metadata */}
           <div
-            className="relative z-10 mx-auto px-responsive"
+            className="home-hero-meta relative z-10 mx-auto px-responsive"
             style={{
               width: '100%',
               maxWidth: '1200px',
               marginLeft: 'auto',
               marginRight: 'auto',
-              paddingTop: 'clamp(20px, 5vw, 32px)',
-              paddingBottom: 'clamp(20px, 5vw, 32px)',
-              marginTop: 'clamp(24px, 6vw, 40px)',
               borderTop: '1px solid rgba(244,240,232,0.08)',
             }}
           >
-            <div className="hero-meta-grid grid grid-cols-2 md:grid-cols-4 justify-items-center text-center" style={{ gap: 'clamp(16px, 4vw, 32px)' }}>
+            <div className="hero-meta-grid grid grid-cols-2 md:grid-cols-4 justify-items-center text-center" style={{ gap: 'clamp(12px, 3vw, 32px)' }}>
               {[
                 { k: 'Kuruluş', v: '1985', en: false },
                 { k: 'Konum', v: 'Saitabat, Bursa', en: false },
@@ -194,7 +221,7 @@ export default function Home() {
         </section>
 
         {/* ════════════ BÖLÜM II — KATEGORİLER ════════════ */}
-        <section style={{ backgroundColor: '#F4F0E8', paddingTop: 'clamp(48px, 10vw, 96px)', paddingBottom: 'clamp(48px, 10vw, 96px)', borderBottom: '1px solid rgba(26,23,20,0.08)' }}>
+        <section style={{ backgroundColor: '#F4F0E8', paddingTop: 'clamp(32px, 7vw, 96px)', paddingBottom: 'clamp(32px, 7vw, 96px)', borderBottom: '1px solid rgba(26,23,20,0.08)' }}>
           <div
             className="mx-auto px-responsive"
             style={{
@@ -215,7 +242,7 @@ export default function Home() {
               }
             `}</style>
 
-            <div className="text-center" style={{ marginBottom: 'clamp(40px, 10vw, 80px)' }}>
+            <div className="text-center" style={{ marginBottom: 'clamp(28px, 7vw, 80px)' }}>
               <p className="font-mono uppercase text-gold" style={{ fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: 'clamp(0.18em, 0.5vw, 0.3em)', marginBottom: '20px' }}>
                 Bölüm II
               </p>
@@ -250,7 +277,7 @@ export default function Home() {
                   key={cat.num}
                   href={cat.href}
                   className="cat-card flex flex-col items-center text-center"
-                  style={{ paddingTop: 'clamp(32px, 8vw, 48px)', paddingBottom: 'clamp(32px, 8vw, 48px)', paddingLeft: 'clamp(20px, 5vw, 40px)', paddingRight: 'clamp(20px, 5vw, 40px)', backgroundColor: '#EBE5D8' }}
+                  style={{ paddingTop: 'clamp(24px, 6vw, 48px)', paddingBottom: 'clamp(24px, 6vw, 48px)', paddingLeft: 'clamp(20px, 5vw, 40px)', paddingRight: 'clamp(20px, 5vw, 40px)', backgroundColor: '#EBE5D8' }}
                 >
                   <p className="font-mono text-gold" style={{ fontSize: 'clamp(9px, 2vw, 10px)', letterSpacing: '0.25em', marginBottom: 'clamp(20px, 5vw, 32px)' }}>
                     {cat.num}
@@ -279,8 +306,8 @@ export default function Home() {
         <section
           style={{
             backgroundColor: '#F4F0E8',
-            paddingTop: 'clamp(48px, 10vw, 96px)',
-            paddingBottom: 'clamp(48px, 10vw, 96px)',
+            paddingTop: 'clamp(32px, 7vw, 96px)',
+            paddingBottom: 'clamp(32px, 7vw, 96px)',
             borderTop: '1px solid rgba(26,23,20,0.08)',
             borderBottom: '1px solid rgba(26,23,20,0.08)',
           }}
@@ -295,7 +322,7 @@ export default function Home() {
             }}
           >
 
-            <div className="text-center" style={{ marginBottom: 'clamp(40px, 8vw, 64px)' }}>
+            <div className="text-center" style={{ marginBottom: 'clamp(28px, 6vw, 64px)' }}>
               <p className="font-mono uppercase text-gold" style={{ fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: 'clamp(0.18em, 0.5vw, 0.3em)', marginBottom: '20px' }}>
                 Bölüm III · Hikâyemiz
               </p>
@@ -313,7 +340,7 @@ export default function Home() {
                 maxWidth: '680px',
                 marginLeft: 'auto',
                 marginRight: 'auto',
-                marginBottom: 'clamp(40px, 8vw, 64px)',
+                marginBottom: 'clamp(28px, 6vw, 64px)',
               }}
             >
               <p style={{ color: '#6B6258', fontSize: 'clamp(13px, 2.5vw, 15px)', lineHeight: 1.85, marginBottom: '24px' }}>
@@ -331,7 +358,7 @@ export default function Home() {
                 maxWidth: '1000px',
                 marginLeft: 'auto',
                 marginRight: 'auto',
-                marginBottom: 'clamp(32px, 8vw, 48px)',
+                marginBottom: 'clamp(28px, 6vw, 48px)',
                 gap: '1px',
                 backgroundColor: 'rgba(26,23,20,0.10)',
                 border: '1px solid rgba(26,23,20,0.10)',
@@ -378,7 +405,17 @@ export default function Home() {
         <FeaturedProducts />
 
         {/* ════════════ BÖLÜM V — SUPERBLEND ════════════ */}
-        <section className="bg-ink" style={{ paddingTop: 'clamp(48px, 10vw, 96px)', paddingBottom: 'clamp(48px, 10vw, 96px)' }}>
+        <section className="bg-ink" style={{ paddingTop: 'clamp(32px, 7vw, 96px)', paddingBottom: 'clamp(32px, 7vw, 96px)' }}>
+          <style>{`
+            .home-superblend-visual {
+              min-height: clamp(220px, 50vw, 560px);
+            }
+            @media (min-width: 1024px) {
+              .home-superblend-visual {
+                min-height: clamp(340px, 42vw, 560px);
+              }
+            }
+          `}</style>
           <div
             className="mx-auto px-responsive"
             style={{
@@ -389,7 +426,7 @@ export default function Home() {
             }}
           >
 
-            <div className="text-center" style={{ marginBottom: 'clamp(40px, 8vw, 64px)' }}>
+            <div className="text-center" style={{ marginBottom: 'clamp(28px, 6vw, 64px)' }}>
               <p className="font-mono uppercase text-gold" style={{ fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: 'clamp(0.18em, 0.5vw, 0.3em)', marginBottom: '20px' }}>
                 Bölüm V · <span lang="en">Signature</span>
               </p>
@@ -423,8 +460,8 @@ export default function Home() {
                 <div
                   className="flex flex-col justify-center"
                   style={{
-                    paddingTop: 'clamp(36px, 8vw, 64px)',
-                    paddingBottom: 'clamp(36px, 8vw, 64px)',
+                    paddingTop: 'clamp(28px, 6vw, 64px)',
+                    paddingBottom: 'clamp(28px, 6vw, 64px)',
                     paddingLeft: 'clamp(20px, 5vw, 56px)',
                     paddingRight: 'clamp(20px, 5vw, 56px)',
                   }}
@@ -495,7 +532,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="bg-ink-3 relative flex items-center justify-center" style={{ minHeight: 'clamp(280px, 70vw, 560px)' }}>
+                <div className="bg-ink-3 relative flex items-center justify-center home-superblend-visual">
                   <div
                     className="absolute inset-0"
                     style={{

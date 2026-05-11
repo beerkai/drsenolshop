@@ -14,8 +14,8 @@ export default async function FeaturedProducts() {
       className="featured-section"
       style={{
         backgroundColor: '#EBE5D8',
-        paddingTop: 'clamp(48px, 10vw, 96px)',
-        paddingBottom: 'clamp(48px, 10vw, 96px)',
+        paddingTop: 'clamp(32px, 7vw, 96px)',
+        paddingBottom: 'clamp(32px, 7vw, 96px)',
         borderTop: '1px solid rgba(26,23,20,0.08)',
         borderBottom: '1px solid rgba(26,23,20,0.08)',
       }}
@@ -28,7 +28,7 @@ export default async function FeaturedProducts() {
         }}
       >
         {/* Bölüm başlığı */}
-        <div style={{ textAlign: 'center', marginBottom: 'clamp(48px, 10vw, 80px)' }}>
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(28px, 7vw, 80px)' }}>
           <p
             style={{
               fontFamily: 'var(--font-jetbrains)',
@@ -72,7 +72,7 @@ export default async function FeaturedProducts() {
               fontSize: 'clamp(13px, 2.5vw, 15px)',
               lineHeight: 1.7,
               maxWidth: '480px',
-              margin: '32px auto 0',
+              margin: 'clamp(20px, 5vw, 32px) auto 0',
             }}
           >
             Bilimin titizliği, doğanın saflığıyla buluşan altı imza ürün.
@@ -111,8 +111,14 @@ export default async function FeaturedProducts() {
               grid-template-columns: repeat(2, 1fr) !important;
             }
             .featured-section {
-              padding-top: 56px !important;
-              padding-bottom: 56px !important;
+              padding-top: 36px !important;
+              padding-bottom: 40px !important;
+            }
+          }
+          @media (min-width: 641px) and (max-width: 1023px) {
+            .featured-section {
+              padding-top: clamp(40px, 6vw, 72px) !important;
+              padding-bottom: clamp(40px, 6vw, 72px) !important;
             }
           }
           @media (max-width: 400px) {
@@ -123,7 +129,7 @@ export default async function FeaturedProducts() {
         `}</style>
 
         {/* Alt CTA */}
-        <div style={{ textAlign: 'center', marginTop: 'clamp(40px, 8vw, 64px)' }}>
+        <div style={{ textAlign: 'center', marginTop: 'clamp(28px, 6vw, 64px)' }}>
           <Link
             href="/koleksiyon"
             style={{
