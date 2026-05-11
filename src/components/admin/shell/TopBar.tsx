@@ -23,6 +23,8 @@ const PATH_LABELS: Record<string, string> = {
   stok: 'Stok',
   gunluk: 'Günlük',
   defter: 'Defter',
+  hafta: 'Haftalık',
+  arsiv: 'Arşiv',
   ayarlar: 'Ayarlar',
   giris: 'Giriş',
 }

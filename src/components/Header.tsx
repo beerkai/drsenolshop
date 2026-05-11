@@ -167,14 +167,18 @@ export default function Header() {
             : 'bg-ink border-b border-transparent'
         }`}
       >
+        {/*
+          Sticky satır: max-width yok — ultra-wide’da da Sepet viewport sağına (PAD_X ile), Bal sola yakın kalır.
+          İçerik alanı 1440 ile sınırlı olsa bile başlık kenarlara yayılır; logo iki eşit 1fr kolon arasında geometrik ortada.
+        */}
         <div
-          className="mx-auto max-w-[1440px] w-full"
+          className="w-full"
           style={{
             paddingLeft: PAD_X,
             paddingRight: PAD_X,
           }}
         >
-          {/* Mobil: auto | 1fr | auto — Masaüstü: 1fr | auto | 1fr → sol/sağ kenara yapışır, logo tam ortada */}
+          {/* Mobil: auto | 1fr | auto — lg+: 1fr | auto | 1fr */}
           <div
             className="grid w-full min-h-[clamp(64px,12vw,96px)] grid-cols-[minmax(0,auto)_minmax(0,1fr)_minmax(0,auto)] items-center gap-x-3 sm:gap-x-4 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:gap-x-0"
             style={{ minHeight: 'clamp(64px, 12vw, 96px)' }}

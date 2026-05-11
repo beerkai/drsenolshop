@@ -1,18 +1,14 @@
 import { requireAdmin } from '@/lib/admin-auth'
 import { getLedgerSummary, listLedgerEntries, listEmployees } from '@/lib/ledger'
+import { todayKeyTR } from '@/lib/datetime'
 import { DefterClient } from './DefterClient'
 
 type SP = Promise<{ date?: string; q?: string; filter?: 'all' | 'unpaid-customer' | 'unpaid-guide' | 'cash' | 'card' }>
 
-function todayKey(): string {
-  const d = new Date()
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
-}
-
 export default async function DefterPage({ searchParams }: { searchParams: SP }) {
   await requireAdmin()
   const sp = await searchParams
-  const date = sp.date ?? todayKey()
+  const date = sp.date ?? todayKeyTR()
   const filter = sp.filter ?? 'all'
   const search = sp.q?.trim() || undefined
 

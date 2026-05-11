@@ -23,7 +23,6 @@ interface FormState {
   customer_paid: boolean
   guide_paid: boolean
   notes: string
-  entry_time: string
 }
 
 const DEFAULT_FORM: FormState = {
@@ -36,7 +35,22 @@ const DEFAULT_FORM: FormState = {
   customer_paid: true,    // varsayılan: müşteri ödedi
   guide_paid: false,
   notes: '',
-  entry_time: '',
+}
+
+/** Komisyon string'ini float olarak yarısı satışın mı? — auto kontrolü */
+function isHalfOf(commission: string, sale: string): boolean {
+  const c = Number(commission)
+  const s = Number(sale)
+  if (!Number.isFinite(c) || !Number.isFinite(s) || s === 0) return false
+  return Math.abs(c - s / 2) < 0.005
+}
+
+function formatHalf(sale: string): string {
+  const s = Number(sale)
+  if (!Number.isFinite(s) || s <= 0) return ''
+  const half = s / 2
+  // Tam sayıysa ondalık koyma
+  return Number.isInteger(half) ? String(half) : half.toFixed(2)
 }
 
 export default function LedgerEntryModal({ date, employees, initial, onClose, onSaved }: Props) {
@@ -53,9 +67,15 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
       customer_paid: initial.customer_paid,
       guide_paid: initial.guide_paid,
       notes: initial.notes ?? '',
-      entry_time: initial.entry_time?.slice(0, 5) ?? '',
     }
   })
+
+  // Komisyon "auto" mu? — true ise sale_amount değiştikçe komisyon güncellenir.
+  // Toggle ilk açıldığında auto'ya geçer. Kullanıcı manuel değiştirirse auto kapanır.
+  const [commissionAuto, setCommissionAuto] = useState(
+    initial ? initial.has_guide && initial.guide_commission != null && isHalfOf(String(initial.guide_commission), String(initial.sale_amount)) : true
+  )
+
   const [saving, setSaving] = useState(false)
   const [employeeQuickAdd, setEmployeeQuickAdd] = useState(false)
   const [newEmpName, setNewEmpName] = useState('')
@@ -83,6 +103,49 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }))
+  }
+
+  /** sale_amount değişince, eğer auto modda VE rehber açıksa komisyonu güncelle */
+  function handleSaleAmountChange(v: string) {
+    setForm((prev) => {
+      const next = { ...prev, sale_amount: v }
+      if (prev.has_guide && commissionAuto) {
+        next.guide_commission = formatHalf(v)
+      }
+      return next
+    })
+  }
+
+  /** Rehber toggle değişince: açılınca otomatik yarı tutar; kapanınca temizle */
+  function handleHasGuideToggle(v: boolean) {
+    if (v) {
+      setCommissionAuto(true)
+      setForm((prev) => ({
+        ...prev,
+        has_guide: true,
+        guide_commission: formatHalf(prev.sale_amount),
+      }))
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        has_guide: false,
+        guide_commission: '',
+        guide_paid: false,
+      }))
+      setCommissionAuto(true) // bir dahaki açılışta tekrar auto başlar
+    }
+  }
+
+  /** Komisyon inputu kullanıcı tarafından değişti → auto modu kapat */
+  function handleCommissionChange(v: string) {
+    setCommissionAuto(false)
+    setForm((prev) => ({ ...prev, guide_commission: v }))
+  }
+
+  /** Auto modu manuel tekrar aç (komisyon = sale / 2) */
+  function resetCommissionAuto() {
+    setCommissionAuto(true)
+    setForm((prev) => ({ ...prev, guide_commission: formatHalf(prev.sale_amount) }))
   }
 
   function handlePlateChange(raw: string) {
@@ -159,7 +222,6 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
             guide_paid: form.guide_paid,
             notes: form.notes.trim() || null,
             employee_id: form.employee_id || null,
-            entry_time: form.entry_time ? `${form.entry_time}:00` : undefined,
           }),
         })
         const data = await res.json()
@@ -177,7 +239,6 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             entry_date: date,
-            entry_time: form.entry_time ? `${form.entry_time}:00` : undefined,
             plate: form.plate,
             employee_id: form.employee_id || null,
             payment_method: form.payment_method,
@@ -274,21 +335,6 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
             </p>
           </div>
 
-          {/* Saat (opsiyonel) */}
-          <div style={{ marginBottom: '14px' }}>
-            <label className="ad-label" htmlFor="time">
-              Saat <span style={{ textTransform: 'lowercase', letterSpacing: 0, color: 'var(--ad-fg-faint)' }}>(boşsa şu an)</span>
-            </label>
-            <input
-              id="time"
-              type="time"
-              value={form.entry_time}
-              onChange={(e) => update('entry_time', e.target.value)}
-              className="ad-input"
-              style={{ maxWidth: '160px' }}
-            />
-          </div>
-
           {/* Çalışan */}
           <div style={{ marginBottom: '14px' }}>
             <label className="ad-label" htmlFor="employee">İlgilenen Çalışan</label>
@@ -359,7 +405,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
               min="0"
               required
               value={form.sale_amount}
-              onChange={(e) => update('sale_amount', e.target.value)}
+              onChange={(e) => handleSaleAmountChange(e.target.value)}
               placeholder="0"
               className="ad-input ad-mono"
               style={{ fontSize: '15px', fontWeight: 500 }}
@@ -370,25 +416,41 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
           <div style={{ marginBottom: '14px', padding: '14px', border: '1px solid var(--ad-line-faint)', backgroundColor: 'var(--ad-surface-2)' }}>
             <ToggleRow
               label="Rehberle geldi"
-              hint="Komisyon defteri oluştur"
+              hint="Komisyon otomatik satışın yarısı olur"
               checked={form.has_guide}
-              onChange={(v) => update('has_guide', v)}
+              onChange={handleHasGuideToggle}
             />
             {form.has_guide && (
               <div style={{ marginTop: '10px' }}>
-                <label className="ad-label" htmlFor="comm">Rehber Komisyonu (TL)</label>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '6px' }}>
+                  <label className="ad-label" htmlFor="comm" style={{ marginBottom: 0 }}>Rehber Komisyonu (TL)</label>
+                  {commissionAuto ? (
+                    <span className="ad-mono" style={{ fontSize: '9px', letterSpacing: '0.18em', color: 'var(--ad-success)', textTransform: 'uppercase' }}>
+                      otomatik · satışın 1/2'si
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={resetCommissionAuto}
+                      className="ad-mono"
+                      style={{ fontSize: '9px', letterSpacing: '0.18em', color: 'var(--ad-gold-deep)', background: 'transparent', border: 'none', cursor: 'pointer', textTransform: 'uppercase', padding: 0 }}
+                    >
+                      otomatik moda dön ↻
+                    </button>
+                  )}
+                </div>
                 <input
                   id="comm"
                   type="number"
                   step="0.01"
                   min="0"
                   value={form.guide_commission}
-                  onChange={(e) => update('guide_commission', e.target.value)}
+                  onChange={(e) => handleCommissionChange(e.target.value)}
                   placeholder="0"
                   className="ad-input ad-mono"
                 />
                 <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
-                  Toplam satışın içinden rehbere verilecek miktar (örn. 2500 satıştan 500 rehbere → bu alana 500 yaz)
+                  Satışın yarısı otomatik gelir; istersen düzenleyebilirsin (örn. 2500 satışta default 1250 yazılır).
                 </p>
               </div>
             )}

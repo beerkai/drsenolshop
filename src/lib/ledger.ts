@@ -4,6 +4,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { getSupabaseAdmin, isSupabaseConfigured } from './supabase'
+import { todayKeyTR, nowTimeTR, daysBetween, dateKeyTR } from './datetime'
 
 // ─── Tipler ─────────────────────────────────────────────────────
 export interface Employee {
@@ -124,8 +125,11 @@ export async function listLedgerEntries(opts: ListLedgerOptions = {}): Promise<{
   // Data
   let q = supabase.from('ledger_entries').select('*')
   q = applyFilters(q, opts) as typeof q
+  // Eklenme sırasına göre (kronolojik): en eski üstte, en yeni en altta.
+  // Defter mantığı — yeni kayıt en sona düşer.
   q = q.order('entry_date', { ascending: false })
-       .order('entry_time', { ascending: false })
+       .order('entry_time', { ascending: true })
+       .order('created_at', { ascending: true })
        .range(offset, offset + limit - 1)
 
   const { data } = await q
@@ -245,9 +249,9 @@ export async function createLedgerEntry(input: CreateLedgerInput, createdByEmail
     employeeName = emp?.name ?? null
   }
 
-  const today = new Date()
-  const dateKey = input.entry_date ?? `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
-  const timeKey = input.entry_time ?? `${String(today.getHours()).padStart(2, '0')}:${String(today.getMinutes()).padStart(2, '0')}:${String(today.getSeconds()).padStart(2, '0')}`
+  // Tarih ve saat Türkiye saat dilimine kilitli — UTC sunucu drift'ini önler
+  const dateKey = input.entry_date ?? todayKeyTR()
+  const timeKey = input.entry_time ?? nowTimeTR()
 
   const supabase = getSupabaseAdmin()
   const { data, error } = await supabase
@@ -371,6 +375,37 @@ export async function listArchiveMonths(year: number): Promise<PeriodSummary[]> 
     summaries.push(buildSummary(`${year}-${String(m).padStart(2, '0')}`, `${MONTHS[m - 1]} ${year}`, data as PeriodRow[]))
   }
   return summaries
+}
+
+/**
+ * Verilen tarih aralığındaki HER GÜN için PeriodSummary döndür.
+ * Boş günler de dahil (entryCount = 0 olur). Haftalık görünüm için ideal.
+ */
+export async function listDaysInRange(from: string, to: string): Promise<PeriodSummary[]> {
+  if (!isSupabaseConfigured()) return []
+  const supabase = getSupabaseAdmin()
+
+  const { data: rows } = await supabase
+    .from('ledger_entries')
+    .select('entry_date, payment_method, sale_amount, has_guide, guide_commission, customer_paid, guide_paid')
+    .gte('entry_date', from)
+    .lte('entry_date', to)
+
+  type Row = PeriodRow & { entry_date: string }
+  const byDate = new Map<string, Row[]>()
+  for (const r of (rows ?? []) as Row[]) {
+    const arr = byDate.get(r.entry_date) ?? []
+    arr.push(r)
+    byDate.set(r.entry_date, arr)
+  }
+
+  return daysBetween(from, to).map((date) => {
+    const rs = byDate.get(date) ?? []
+    const dayLabel = new Date(date + 'T12:00:00').toLocaleDateString('tr-TR', {
+      weekday: 'long', day: 'numeric', month: 'short',
+    })
+    return buildSummary(date, dayLabel, rs)
+  })
 }
 
 export async function listArchiveDays(year: number, month: number): Promise<PeriodSummary[]> {

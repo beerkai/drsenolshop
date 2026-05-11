@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { formatPrice } from '@/types'
 import { toast } from '@/components/admin/toast/toast'
 import { Badge } from '@/components/admin/ui/Badge'
+import { todayKeyTR, shiftDateKey } from '@/lib/datetime'
 import type { Employee, LedgerEntry, LedgerSummary } from '@/lib/ledger'
 import LedgerEntryModal from './LedgerEntryModal'
 import PlateHistoryDrawer from './PlateHistoryDrawer'
@@ -20,17 +21,6 @@ interface Props {
   entries: LedgerEntry[]
   total: number
   employees: Employee[]
-}
-
-function shiftDate(date: string, days: number): string {
-  const d = new Date(date + 'T12:00:00')
-  d.setDate(d.getDate() + days)
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
-}
-
-function todayKey(): string {
-  const d = new Date()
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
 
 function dateHuman(d: string): string {
@@ -50,7 +40,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
   const [plateDrawer, setPlateDrawer] = useState<string | null>(null)
   const [editingEntry, setEditingEntry] = useState<LedgerEntry | null>(null)
 
-  const isToday = date === todayKey()
+  const isToday = date === todayKeyTR()
 
   // ─── Klavye: N → yeni kayıt
   useEffect(() => {
@@ -74,7 +64,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
     const d = next.date ?? date
     const f = next.filter ?? filter
     const q = next.q ?? searchInput
-    if (d !== todayKey()) params.set('date', d)
+    if (d !== todayKeyTR()) params.set('date', d)
     if (f !== 'all') params.set('filter', f)
     if (q) params.set('q', q)
     const qs = params.toString()
@@ -139,7 +129,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button type="button" onClick={() => updateUrl({ date: shiftDate(date, -1) })} aria-label="Önceki gün" className="ad-icon-btn">‹</button>
+          <button type="button" onClick={() => updateUrl({ date: shiftDateKey(date, -1) })} aria-label="Önceki gün" className="ad-icon-btn">‹</button>
           <input
             type="date"
             value={date}
@@ -147,12 +137,15 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
             className="ad-input"
             style={{ width: '160px', padding: '8px 12px', fontSize: '12px' }}
           />
-          <button type="button" onClick={() => updateUrl({ date: shiftDate(date, +1) })} aria-label="Sonraki gün" className="ad-icon-btn">›</button>
+          <button type="button" onClick={() => updateUrl({ date: shiftDateKey(date, +1) })} aria-label="Sonraki gün" className="ad-icon-btn">›</button>
           {!isToday && (
-            <button type="button" onClick={() => updateUrl({ date: todayKey() })} className="ad-btn ad-btn-secondary ad-btn-sm">
+            <button type="button" onClick={() => updateUrl({ date: todayKeyTR() })} className="ad-btn ad-btn-secondary ad-btn-sm">
               Bugüne dön
             </button>
           )}
+          <Link href={`/admin/defter/hafta?from=${date}`} className="ad-btn ad-btn-secondary ad-btn-sm">
+            Haftalık
+          </Link>
           <Link href="/admin/defter/arsiv" className="ad-btn ad-btn-secondary ad-btn-sm">
             Arşiv
           </Link>
@@ -238,7 +231,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
           <table className="ad-table" style={{ minWidth: '900px' }}>
             <thead>
               <tr>
-                <th>Saat</th>
+                <th style={{ width: '36px' }}>#</th>
                 <th>Plaka</th>
                 <th>Çalışan</th>
                 <th>Ödeme</th>
@@ -250,10 +243,10 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
               </tr>
             </thead>
             <tbody>
-              {entries.map((e) => (
+              {entries.map((e, idx) => (
                 <tr key={e.id}>
-                  <td className="ad-mono" style={{ fontSize: '12px', color: 'var(--ad-fg-muted)', whiteSpace: 'nowrap' }}>
-                    {e.entry_time?.slice(0, 5)}
+                  <td className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)', textAlign: 'right', letterSpacing: '0.05em' }}>
+                    {String(idx + 1).padStart(2, '0')}
                   </td>
                   <td>
                     <button
