@@ -23,7 +23,7 @@ export default async function FeaturedProducts() {
       <div
         className="px-responsive"
         style={{
-          maxWidth: '1200px',
+          maxWidth: '1440px',
           margin: '0 auto',
         }}
       >

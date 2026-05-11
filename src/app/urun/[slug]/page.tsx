@@ -160,7 +160,7 @@ export default async function UrunPage({ params }: Props) {
               .product-related-section { padding-top: 64px; padding-bottom: 64px; }
               @media (max-width: 640px) { .product-related-section { padding-top: 40px; padding-bottom: 40px; } }
             `}</style>
-            <div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <div className="px-responsive" style={{ maxWidth: '1440px', margin: '0 auto' }}>
               <div style={{ textAlign: 'center', marginBottom: '48px' }}>
                 <p
                   style={{

@@ -82,14 +82,14 @@ export default function Home() {
             className="home-hero-top relative z-10 mx-auto px-responsive"
             style={{
               width: '100%',
-              maxWidth: '1200px',
+              maxWidth: '1440px',
               marginLeft: 'auto',
               marginRight: 'auto',
             }}
           >
             <div className="flex w-full flex-wrap items-start justify-between gap-6">
               <div className="flex items-center" style={{ gap: '14px' }}>
-                <div className="bg-gold shrink-0" style={{ width: '1px', height: '36px' }} />
+                <div className="bg-gold shrink-0" style={{ width: '1px', height: '36px' }} aria-hidden />
                 <div className="text-left">
                   <p lang="en" className="font-mono uppercase text-gold" style={{ fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: 'clamp(0.18em, 0.5vw, 0.28em)', margin: 0 }}>
                     Lot No. 2026/Q1
@@ -100,13 +100,16 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="text-right shrink-0">
-                <p className="font-mono uppercase text-cream-faint" style={{ fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: 'clamp(0.16em, 0.45vw, 0.25em)', margin: 0 }}>
-                  Aktif Kovan
-                </p>
-                <p className="font-display text-gold" style={{ fontSize: 'clamp(18px, 5vw, 24px)', fontWeight: 500, lineHeight: 1, marginTop: '4px' }}>
-                  1,247
-                </p>
+              <div className="flex shrink-0 flex-row-reverse items-center" style={{ gap: '14px' }}>
+                <div className="bg-gold shrink-0" style={{ width: '1px', height: '36px' }} aria-hidden />
+                <div className="text-right">
+                  <p className="font-mono uppercase text-cream-faint" style={{ fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: 'clamp(0.16em, 0.45vw, 0.25em)', margin: 0 }}>
+                    Aktif Kovan
+                  </p>
+                  <p className="font-display text-gold" style={{ fontSize: 'clamp(18px, 5vw, 24px)', fontWeight: 500, lineHeight: 1, marginTop: '4px' }}>
+                    1,247
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -116,7 +119,7 @@ export default function Home() {
             className="home-hero-main relative z-10 mx-auto text-center px-responsive"
             style={{
               width: '100%',
-              maxWidth: '1200px',
+              maxWidth: '1440px',
               marginLeft: 'auto',
               marginRight: 'auto',
             }}
@@ -190,13 +193,16 @@ export default function Home() {
             className="home-hero-meta relative z-10 mx-auto px-responsive"
             style={{
               width: '100%',
-              maxWidth: '1200px',
+              maxWidth: '1440px',
               marginLeft: 'auto',
               marginRight: 'auto',
               borderTop: '1px solid rgba(244,240,232,0.08)',
             }}
           >
-            <div className="hero-meta-grid grid grid-cols-2 md:grid-cols-4 justify-items-center text-center" style={{ gap: 'clamp(12px, 3vw, 32px)' }}>
+            <div
+              className="hero-meta-grid grid w-full grid-cols-2 md:grid-cols-4 justify-items-center text-center"
+              style={{ gap: 'clamp(12px, 3vw, 32px)' }}
+            >
               {[
                 { k: 'Kuruluş', v: '1985', en: false },
                 { k: 'Konum', v: 'Saitabat, Bursa', en: false },
@@ -226,7 +232,7 @@ export default function Home() {
             className="mx-auto px-responsive"
             style={{
               width: '100%',
-              maxWidth: '1200px',
+              maxWidth: '1440px',
               marginLeft: 'auto',
               marginRight: 'auto',
             }}
@@ -316,7 +322,7 @@ export default function Home() {
             className="mx-auto px-responsive"
             style={{
               width: '100%',
-              maxWidth: '1200px',
+              maxWidth: '1440px',
               marginLeft: 'auto',
               marginRight: 'auto',
             }}
@@ -420,7 +426,7 @@ export default function Home() {
             className="mx-auto px-responsive"
             style={{
               width: '100%',
-              maxWidth: '1200px',
+              maxWidth: '1440px',
               marginLeft: 'auto',
               marginRight: 'auto',
             }}
