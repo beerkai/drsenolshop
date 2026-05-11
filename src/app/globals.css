@@ -281,6 +281,14 @@ a {
   }
 }
 
+/* ══ KATEGORİ KARTI HOVER ══ */
+.cat-card {
+  transition: background-color 0.4s ease;
+}
+.cat-card:hover {
+  background-color: #E0D8C7 !important;
+}
+
 /* ══ İNGİLİZCE TEKST İÇİN TÜRKÇE LOCALE FİX ══ */
 /* lang="en" işaretli tüm element ve alt elementleri uppercase yapıldığında
    "i" harflerinin Türkçe "İ" yerine "I" olarak görünmesini sağlar */

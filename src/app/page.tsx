@@ -200,7 +200,7 @@ export default function Home() {
         </section>
 
         {/* ════════════ BÖLÜM II — KATEGORİLER ════════════ */}
-        <section className="bg-ink" style={{ paddingTop: '96px', paddingBottom: '96px' }}>
+        <section style={{ backgroundColor: '#F4F0E8', paddingTop: '96px', paddingBottom: '96px', borderBottom: '1px solid rgba(26,23,20,0.08)' }}>
           <div
             className="mx-auto"
             style={{
@@ -218,13 +218,13 @@ export default function Home() {
                 Bölüm II
               </p>
               <div className="bg-gold mx-auto" style={{ width: '60px', height: '1px', marginBottom: '32px' }} />
-              <h2 className="font-display text-cream" style={{ fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>
+              <h2 className="font-display" style={{ color: '#1A1714', fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>
                 Üç hâne,{' '}
                 <span className="text-gold" style={{ fontStyle: 'italic', fontWeight: 300 }}>tek miras.</span>
               </h2>
               <p
-                className="text-cream-muted mx-auto"
                 style={{
+                  color: '#6B6258',
                   fontSize: '15px',
                   lineHeight: 1.7,
                   maxWidth: '520px',
@@ -240,7 +240,7 @@ export default function Home() {
 
             <div
               className="grid grid-cols-1 md:grid-cols-3"
-              style={{ gap: '1px', backgroundColor: 'rgba(244,240,232,0.08)', border: '1px solid rgba(244,240,232,0.08)' }}
+              style={{ gap: '1px', backgroundColor: 'rgba(26,23,20,0.10)', border: '1px solid rgba(26,23,20,0.10)' }}
             >
               {[
                 { num: '01 / 03', title: 'Bal Çeşitleri', desc: 'Kestane, kekik, çiçek ve yayla balları.', meta: '10 çeşit · 180g – 900g', href: '/kategori/bal' },
@@ -250,24 +250,24 @@ export default function Home() {
                 <Link
                   key={cat.num}
                   href={cat.href}
-                  className="bg-ink flex flex-col items-center text-center hover:bg-ink-2 transition-colors duration-500"
-                  style={{ paddingTop: '48px', paddingBottom: '48px', paddingLeft: '40px', paddingRight: '40px' }}
+                  className="cat-card flex flex-col items-center text-center"
+                  style={{ paddingTop: '48px', paddingBottom: '48px', paddingLeft: '40px', paddingRight: '40px', backgroundColor: '#EBE5D8' }}
                 >
                   <p className="font-mono text-gold" style={{ fontSize: '10px', letterSpacing: '0.25em', marginBottom: '32px' }}>
                     {cat.num}
                   </p>
                   <h3
-                    className="font-display text-cream"
-                    style={{ fontSize: '32px', fontWeight: 500, lineHeight: 1.1, margin: 0 }}
+                    className="font-display"
+                    style={{ color: '#1A1714', fontSize: '32px', fontWeight: 500, lineHeight: 1.1, margin: 0 }}
                     {...('titleEn' in cat && cat.titleEn ? { lang: 'en' } : {})}
                   >
                     {cat.title}
                   </h3>
-                  <p className="text-cream-muted" style={{ fontSize: '14px', lineHeight: 1.7, marginTop: '16px', marginBottom: '32px', maxWidth: '240px' }}>
+                  <p style={{ color: '#6B6258', fontSize: '14px', lineHeight: 1.7, marginTop: '16px', marginBottom: '32px', maxWidth: '240px' }}>
                     {cat.desc}
                   </p>
-                  <div style={{ width: '24px', height: '1px', backgroundColor: 'rgba(244,240,232,0.2)', marginBottom: '24px' }} />
-                  <p className="font-mono uppercase text-cream-faint" style={{ fontSize: '10px', letterSpacing: '0.2em', margin: 0 }}>
+                  <div style={{ width: '24px', height: '1px', backgroundColor: 'rgba(26,23,20,0.15)', marginBottom: '24px' }} />
+                  <p className="font-mono uppercase" style={{ color: '#9B9285', fontSize: '10px', letterSpacing: '0.2em', margin: 0 }}>
                     {cat.meta}
                   </p>
                 </Link>
