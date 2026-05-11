@@ -202,4 +202,8 @@ CREATE POLICY "orders_anon_insert" ON public.orders FOR INSERT TO anon WITH CHEC
 DROP POLICY IF EXISTS "order_items_anon_insert" ON public.order_items;
 CREATE POLICY "order_items_anon_insert" ON public.order_items FOR INSERT TO anon WITH CHECK (true);
 
--- admin_users: anon hiçbir şey yapamaz (policy yok, RLS engelliyor).
+-- admin_users: anon hiçbir şey yapamaz. Authenticated kendi satırını okur.
+DROP POLICY IF EXISTS "admin_users_self_read" ON public.admin_users;
+CREATE POLICY "admin_users_self_read" ON public.admin_users
+  FOR SELECT TO authenticated
+  USING ((auth.jwt() ->> 'email') = email);
