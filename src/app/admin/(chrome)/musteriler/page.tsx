@@ -63,7 +63,7 @@ export default async function AdminCustomersPage({ searchParams }: { searchParam
                 <tr key={c.email}>
                   <td>
                     <Link
-                      href={`/admin/siparisler?q=${encodeURIComponent(c.email)}`}
+                      href={`/admin/musteriler/${encodeURIComponent(c.email)}`}
                       style={{ color: 'var(--ad-fg)', fontSize: '13px', textDecoration: 'none', fontWeight: 500 }}
                     >
                       {c.name}

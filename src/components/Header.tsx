@@ -174,9 +174,9 @@ export default function Header() {
             paddingRight: PAD_X,
           }}
         >
-          {/* lg+: 3 eşit sütun — logo tam geometrik ortada (sticky/Safari transform hatası yok) */}
+          {/* Mobil: auto | 1fr | auto — Masaüstü: 1fr | auto | 1fr → sol/sağ kenara yapışır, logo tam ortada */}
           <div
-            className="grid w-full min-h-[clamp(64px,12vw,96px)] grid-cols-[minmax(0,auto)_minmax(0,1fr)_minmax(0,auto)] items-center gap-x-3 sm:gap-x-4 lg:grid-cols-3 lg:gap-x-6"
+            className="grid w-full min-h-[clamp(64px,12vw,96px)] grid-cols-[minmax(0,auto)_minmax(0,1fr)_minmax(0,auto)] items-center gap-x-3 sm:gap-x-4 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:gap-x-0"
             style={{ minHeight: 'clamp(64px, 12vw, 96px)' }}
           >
             <div className="flex min-w-0 items-center justify-self-start">

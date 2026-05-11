@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { getOrderByNumber } from '@/lib/orders'
+import { getBankInfo } from '@/lib/site-settings'
 import { formatPrice } from '@/types'
 
 type Props = { params: Promise<{ order_number: string }> }
@@ -36,6 +37,9 @@ export default async function OrderPage({ params }: Props) {
   const { order, items } = result
   const ship = order.shipping_address as Record<string, string> | null
   const isBankTransfer = order.payment_method === 'bank_transfer'
+  const bankInfo = isBankTransfer ? await getBankInfo() : null
+  const hasBankInfo = bankInfo && (bankInfo.bank_name || bankInfo.iban)
+  const formatIban = (i: string) => i.replace(/(.{4})/g, '$1 ').trim()
 
   return (
     <>
@@ -69,14 +73,17 @@ export default async function OrderPage({ params }: Props) {
                 Aşağıdaki hesaba <strong style={{ color: '#F4F0E8' }}>{formatPrice(Number(order.total_amount))}</strong> tutarında havale/EFT gönderin.
                 Açıklamaya <strong style={{ color: '#C9A961' }}>{order.order_number}</strong> yazmayı unutmayın.
               </p>
-              <div style={{ borderTop: '1px solid rgba(244,240,232,0.08)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <Row label="Banka" value="—" />
-                <Row label="Hesap Sahibi" value="Dr. Şenol —" />
-                <Row label="IBAN" value="TR00 0000 0000 0000 0000 0000 00" />
-              </div>
-              <p style={{ marginTop: '20px', fontSize: '12px', color: '#6E665A', fontStyle: 'italic' }}>
-                * Banka bilgileri admin panelinden güncellenecek. Bu detay v0.4.0 MVP'sinde placeholder.
-              </p>
+              {hasBankInfo ? (
+                <div style={{ borderTop: '1px solid rgba(244,240,232,0.08)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <Row label="Banka" value={bankInfo!.bank_name || '—'} />
+                  <Row label="Hesap Sahibi" value={bankInfo!.account_holder || '—'} />
+                  <Row label="IBAN" value={bankInfo!.iban ? formatIban(bankInfo!.iban) : '—'} />
+                </div>
+              ) : (
+                <p style={{ marginTop: '12px', fontSize: '12px', color: '#6E665A', fontStyle: 'italic' }}>
+                  * Banka bilgileri henüz yapılandırılmamış. Lütfen sipariş onayı için bizimle iletişime geçin.
+                </p>
+              )}
             </div>
           )}
 

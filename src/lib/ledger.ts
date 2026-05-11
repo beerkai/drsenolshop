@@ -303,6 +303,134 @@ export async function deleteLedgerEntry(id: string): Promise<boolean> {
   return !error
 }
 
+// ─── Arşiv özetleri (yıl/ay/gün) ────────────────────────────
+export interface PeriodSummary {
+  key: string
+  label: string
+  entryCount: number
+  totalSale: number
+  cashSale: number
+  cardSale: number
+  guideTotal: number
+  unpaidCustomers: number
+  unpaidGuides: number
+}
+
+function rangeForYear(year: number): [string, string] {
+  return [`${year}-01-01`, `${year}-12-31`]
+}
+function rangeForMonth(year: number, month: number): [string, string] {
+  const last = new Date(year, month, 0).getDate()
+  const mm = String(month).padStart(2, '0')
+  return [`${year}-${mm}-01`, `${year}-${mm}-${String(last).padStart(2, '0')}`]
+}
+
+const MONTHS = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık']
+
+export async function listArchiveYears(): Promise<PeriodSummary[]> {
+  if (!isSupabaseConfigured()) return []
+  const supabase = getSupabaseAdmin()
+
+  const { data: firstRow } = await supabase
+    .from('ledger_entries')
+    .select('entry_date')
+    .order('entry_date', { ascending: true })
+    .limit(1)
+    .maybeSingle()
+
+  if (!firstRow) return []
+  const firstYear = Number((firstRow.entry_date as string).slice(0, 4))
+  const currentYear = new Date().getFullYear()
+  const years: number[] = []
+  for (let y = currentYear; y >= firstYear; y--) years.push(y)
+
+  return Promise.all(years.map(async (y) => {
+    const [from, to] = rangeForYear(y)
+    const { data } = await supabase
+      .from('ledger_entries')
+      .select('payment_method, sale_amount, has_guide, guide_commission, customer_paid, guide_paid')
+      .gte('entry_date', from)
+      .lte('entry_date', to)
+    return buildSummary(String(y), String(y), (data ?? []) as PeriodRow[])
+  }))
+}
+
+export async function listArchiveMonths(year: number): Promise<PeriodSummary[]> {
+  if (!isSupabaseConfigured()) return []
+  const supabase = getSupabaseAdmin()
+
+  const summaries: PeriodSummary[] = []
+  for (let m = 12; m >= 1; m--) {
+    const [from, to] = rangeForMonth(year, m)
+    const { data } = await supabase
+      .from('ledger_entries')
+      .select('payment_method, sale_amount, has_guide, guide_commission, customer_paid, guide_paid')
+      .gte('entry_date', from)
+      .lte('entry_date', to)
+    if (!data || data.length === 0) continue
+    summaries.push(buildSummary(`${year}-${String(m).padStart(2, '0')}`, `${MONTHS[m - 1]} ${year}`, data as PeriodRow[]))
+  }
+  return summaries
+}
+
+export async function listArchiveDays(year: number, month: number): Promise<PeriodSummary[]> {
+  if (!isSupabaseConfigured()) return []
+  const supabase = getSupabaseAdmin()
+
+  const [from, to] = rangeForMonth(year, month)
+  const { data: rows } = await supabase
+    .from('ledger_entries')
+    .select('entry_date, payment_method, sale_amount, has_guide, guide_commission, customer_paid, guide_paid')
+    .gte('entry_date', from)
+    .lte('entry_date', to)
+
+  if (!rows || rows.length === 0) return []
+
+  type Row = PeriodRow & { entry_date: string }
+  const byDate = new Map<string, Row[]>()
+  for (const r of rows as Row[]) {
+    const arr = byDate.get(r.entry_date) ?? []
+    arr.push(r)
+    byDate.set(r.entry_date, arr)
+  }
+
+  return [...byDate.entries()]
+    .sort((a, b) => b[0].localeCompare(a[0]))
+    .map(([date, rs]) => {
+      const dayName = new Date(date + 'T12:00:00').toLocaleDateString('tr-TR', { weekday: 'short' })
+      const label = `${date.slice(8)} ${MONTHS[month - 1]} · ${dayName}`
+      return buildSummary(date, label, rs)
+    })
+}
+
+interface PeriodRow {
+  payment_method: string
+  sale_amount: number | string
+  has_guide: boolean
+  guide_commission: number | string | null
+  customer_paid: boolean
+  guide_paid: boolean
+}
+
+function buildSummary(key: string, label: string, rows: PeriodRow[]): PeriodSummary {
+  const s: PeriodSummary = {
+    key, label,
+    entryCount: 0, totalSale: 0, cashSale: 0, cardSale: 0, guideTotal: 0,
+    unpaidCustomers: 0, unpaidGuides: 0,
+  }
+  for (const r of rows) {
+    s.entryCount++
+    const amt = Number(r.sale_amount ?? 0)
+    s.totalSale += amt
+    if (r.payment_method === 'cash') s.cashSale += amt
+    else if (r.payment_method === 'card') s.cardSale += amt
+    if (r.has_guide && r.guide_commission != null) s.guideTotal += Number(r.guide_commission)
+    if (!r.customer_paid) s.unpaidCustomers++
+    if (r.has_guide && !r.guide_paid) s.unpaidGuides++
+  }
+  return s
+}
+
 // ─── Plakaya göre tüm geçmiş kayıtlar ────────────────────────
 export async function getPlateHistory(plate: string, limit = 50): Promise<LedgerEntry[]> {
   if (!isSupabaseConfigured()) return []

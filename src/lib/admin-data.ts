@@ -359,6 +359,125 @@ export interface AnalyticsSnapshot {
   series30: DailySeries[]
 }
 
+// ─── Müşteri Detay ──────────────────────────────────────────────
+export interface CustomerDetail {
+  email: string
+  name: string
+  phone: string | null
+  total_orders: number
+  total_revenue: number
+  avg_order_value: number
+  first_order_at: string
+  last_order_at: string
+  addresses: Array<{
+    full_name: string
+    phone: string
+    address_line1: string
+    address_line2?: string
+    city: string
+    district: string
+    postal_code?: string
+    country?: string
+    last_used_at: string
+  }>
+  orders: Array<{
+    id: string
+    order_number: string
+    status: string
+    payment_status: string
+    payment_method: string
+    total_amount: number
+    item_count: number
+    created_at: string
+  }>
+}
+
+export async function getCustomerDetail(email: string): Promise<CustomerDetail | null> {
+  const supabase = getSupabaseAdmin()
+
+  const { data: orderRows } = await supabase
+    .from('orders')
+    .select('id, order_number, status, payment_status, payment_method, total_amount, created_at, customer_name, customer_phone, shipping_address, order_items(id)')
+    .eq('customer_email', email)
+    .order('created_at', { ascending: false })
+
+  if (!orderRows || orderRows.length === 0) return null
+
+  type OrderRow = {
+    id: string
+    order_number: string
+    status: string
+    payment_status: string
+    payment_method: string
+    total_amount: number | string
+    created_at: string
+    customer_name: string
+    customer_phone: string | null
+    shipping_address: Record<string, string> | null
+    order_items: unknown[] | null
+  }
+  const typed = orderRows as unknown as OrderRow[]
+
+  let totalRevenue = 0
+  let countedForAvg = 0
+  const addressMap = new Map<string, CustomerDetail['addresses'][number]>()
+
+  const orders: CustomerDetail['orders'] = typed.map((r) => {
+    const amt = Number(r.total_amount ?? 0)
+    if (r.status !== 'cancelled' && r.status !== 'refunded') {
+      totalRevenue += amt
+      countedForAvg++
+    }
+
+    if (r.shipping_address) {
+      const a = r.shipping_address
+      const key = [a.address_line1, a.address_line2, a.district, a.city, a.postal_code].filter(Boolean).join('|').toLowerCase()
+      const existing = addressMap.get(key)
+      if (!existing || existing.last_used_at < r.created_at) {
+        addressMap.set(key, {
+          full_name: a.full_name ?? '',
+          phone: a.phone ?? '',
+          address_line1: a.address_line1 ?? '',
+          address_line2: a.address_line2,
+          city: a.city ?? '',
+          district: a.district ?? '',
+          postal_code: a.postal_code,
+          country: a.country,
+          last_used_at: r.created_at,
+        })
+      }
+    }
+
+    return {
+      id: r.id,
+      order_number: r.order_number,
+      status: r.status,
+      payment_status: r.payment_status,
+      payment_method: r.payment_method,
+      total_amount: amt,
+      item_count: Array.isArray(r.order_items) ? r.order_items.length : 0,
+      created_at: r.created_at,
+    }
+  })
+
+  const sorted = [...typed].sort((a, b) => a.created_at.localeCompare(b.created_at))
+  const first = sorted[0]
+  const last = typed[0]
+
+  return {
+    email,
+    name: last.customer_name,
+    phone: last.customer_phone,
+    total_orders: typed.length,
+    total_revenue: totalRevenue,
+    avg_order_value: countedForAvg > 0 ? totalRevenue / countedForAvg : 0,
+    first_order_at: first.created_at,
+    last_order_at: last.created_at,
+    addresses: Array.from(addressMap.values()).sort((a, b) => b.last_used_at.localeCompare(a.last_used_at)),
+    orders,
+  }
+}
+
 export async function getAnalyticsSnapshot(): Promise<AnalyticsSnapshot> {
   const supabase = getSupabaseAdmin()
   const series30 = await getDailySeries(30)

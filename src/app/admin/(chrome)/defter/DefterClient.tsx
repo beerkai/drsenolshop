@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { formatPrice } from '@/types'
 import { toast } from '@/components/admin/toast/toast'
 import { Badge } from '@/components/admin/ui/Badge'
@@ -152,11 +153,13 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
               Bugüne dön
             </button>
           )}
+          <Link href="/admin/defter/arsiv" className="ad-btn ad-btn-secondary ad-btn-sm">
+            Arşiv
+          </Link>
           <button
             type="button"
             onClick={() => { setEditingEntry(null); setModalOpen(true) }}
             className="ad-btn ad-btn-primary"
-            kbd-hint="N"
           >
             + Kayıt Ekle <span className="ad-kbd">N</span>
           </button>
