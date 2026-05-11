@@ -50,10 +50,34 @@ const TICKER = [
   '1.247 AKTIF KOVAN',
   'ULUDAĞ MİKROKLİMASI',
   'KOVANDAN LABORATUVARA',
-];
+]
 
-export default function Footer() {
-  const tickerItems = [...TICKER, ...TICKER]; // doubled for seamless loop
+/** Ürün detay sayfası — marka manifestosu yerine alışveriş / güven odaklı kayan şerit */
+type FooterTickerToken = string | { text: string; lang: 'en' }
+
+const PRODUCT_PAGE_TICKER: FooterTickerToken[] = [
+  'ÜCRETSİZ KARGO · TÜM TÜRKİYE',
+  'KAPIDA ÖDEME İMKÂNI',
+  'ETİKET İLE LAB SONUÇLARI UYUMLU',
+  'FATURALI TESLİMAT · ORİJİNAL ÜRÜN',
+  'SAITABAT HASADI · KOVANDAN ŞİŞEYE',
+  { text: 'SEALED BATCH · TRACEABLE LOT', lang: 'en' },
+  { text: 'PREMIUM RAW · SINGLE ORIGIN', lang: 'en' },
+  'GÜVENLİ ÖDEME ALTYAPISI',
+  'HASAT TARİHİ VE MENŞEİ ŞİŞEDE',
+]
+
+export type FooterVariant = 'default' | 'product'
+
+interface FooterProps {
+  variant?: FooterVariant
+}
+
+export default function Footer({ variant = 'default' }: FooterProps) {
+  const tickerItems: FooterTickerToken[] =
+    variant === 'product'
+      ? [...PRODUCT_PAGE_TICKER, ...PRODUCT_PAGE_TICKER]
+      : [...TICKER, ...TICKER]
 
   return (
     <footer style={{ backgroundColor: '#0A0908', borderTop: '1px solid rgba(244,240,232,0.06)', overflow: 'hidden' }}>
@@ -81,9 +105,13 @@ export default function Footer() {
         <div style={{
           display: 'flex',
           width: 'max-content',
-          animation: 'marquee 50s linear infinite',
+          animation:
+            variant === 'product' ? 'marquee 42s linear infinite' : 'marquee 50s linear infinite',
         }}>
-          {tickerItems.map((item, i) => (
+          {tickerItems.map((item, i) => {
+            const label = typeof item === 'string' ? item : item.text
+            const lang = typeof item === 'string' ? undefined : item.lang
+            return (
             <span
               key={i}
               style={{
@@ -98,15 +126,17 @@ export default function Footer() {
                 color: i % 2 === 0 ? 'rgba(244,240,232,0.35)' : 'rgba(244,240,232,0.15)',
                 whiteSpace: 'nowrap',
               }}
+              {...(lang ? { lang } : {})}
             >
-              {item}
+              {label}
               <span style={{ color: '#C9A961', fontSize: '7px', opacity: 0.7 }}>✦</span>
             </span>
-          ))}
+            )
+          })}
         </div>
       </div>
 
-      {/* ════ MANIFESTO ════ */}
+      {variant !== 'product' && (
       <div style={{
         position: 'relative',
         padding: 'clamp(48px, 10vw, 96px) clamp(16px, 4vw, 48px)',
@@ -114,6 +144,8 @@ export default function Footer() {
         overflow: 'hidden',
         textAlign: 'center',
       }}>
+
+        {/* Marka manifestosu — ürün detayında bu blok gösterilmez (variant="product"). */}
 
         {/* Faint watermark */}
         <div aria-hidden style={{
@@ -232,6 +264,7 @@ export default function Footer() {
           ))}
         </div>
       </div>
+      )}
 
       {/* ════ NAV GRID ════ */}
       <div style={{
