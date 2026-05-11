@@ -95,35 +95,17 @@ function normalizeProductRow(p: Product): Product {
 // ───────────────────────────────────────────────────────────────
 
 export async function getFeaturedProducts(limit = 6): Promise<ProductWithRelations[]> {
-  if (!isSupabaseConfigured()) {
-    console.warn('[getFeaturedProducts] Supabase ortam değişkenleri eksik; boş liste dönülüyor.')
-    return []
-  }
-
-  const { data, error } = await getSupabase()
-    .from('products')
-    .select(
-      `
-      *,
-      variants:product_variants(*),
-      category:categories(*)
-    `
-    )
-    .eq('is_featured', true)
-    .eq('is_active', true)
-    .order('created_at', { ascending: false })
-    .limit(limit)
-
-  if (error) {
-    console.error('[getFeaturedProducts] Hata:', error.message)
-    return []
-  }
-
-  return (data as ProductQueryResult[]).map(transformProductData)
+  const { products } = await getProducts({
+    isFeatured: true,
+    isActive: true,
+    limit,
+    orderBy: 'newest',
+  })
+  return products
 }
 
 // ───────────────────────────────────────────────────────────────
-// Filtreli liste
+// getProducts — Filtrelenmiş ürün listesi + toplam sayım
 // ───────────────────────────────────────────────────────────────
 
 export interface GetProductsOptions {
@@ -131,16 +113,22 @@ export interface GetProductsOptions {
   isActive?: boolean
   isFeatured?: boolean
   isNew?: boolean
+  inStockOnly?: boolean
   limit?: number
   offset?: number
-  orderBy?: 'newest' | 'oldest' | 'name' | 'popular'
+  orderBy?: 'newest' | 'oldest' | 'name' | 'popular' | 'price_asc' | 'price_desc'
   search?: string
 }
 
-export async function getProducts(options: GetProductsOptions = {}): Promise<ProductWithRelations[]> {
+export interface GetProductsResult {
+  products: ProductWithRelations[]
+  total: number
+}
+
+export async function getProducts(options: GetProductsOptions = {}): Promise<GetProductsResult> {
   if (!isSupabaseConfigured()) {
     console.warn('[getProducts] Supabase ortam değişkenleri eksik; boş liste dönülüyor.')
-    return []
+    return { products: [], total: 0 }
   }
 
   const supabase = getSupabase()
@@ -149,37 +137,65 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Pro
     isActive = true,
     isFeatured,
     isNew,
-    limit = 50,
+    inStockOnly = false,
+    limit = 12,
     offset = 0,
     orderBy = 'newest',
     search,
   } = options
 
-  // Slug → category UUID
   let categoryId: string | null = null
   if (categorySlug) {
-    const { data: cat, error: catErr } = await supabase
-      .from('categories')
-      .select('id')
-      .eq('slug', categorySlug)
-      .maybeSingle()
-
-    if (!catErr && cat?.id) categoryId = cat.id
+    const { data: cat } = await supabase.from('categories').select('id').eq('slug', categorySlug).maybeSingle()
+    if (cat) categoryId = cat.id
   }
 
-  let query = supabase.from('products').select(
-    `
+  function isInStock(p: {
+    stock_quantity?: number | null
+    variants?: Array<{ stock?: number | null; stock_quantity?: number | null; is_active?: boolean | null }> | null
+  }): boolean {
+    const variants = p.variants ?? []
+    if (variants.length === 0) return (p.stock_quantity ?? 0) > 0
+    return variants.some((v) => {
+      const stock = v.stock_quantity ?? v.stock ?? 0
+      return v.is_active !== false && stock > 0
+    })
+  }
+
+  let total = 0
+  if (inStockOnly) {
+    let stockCountQuery = supabase
+      .from('products')
+      .select('stock_quantity, variants:product_variants(stock, stock_quantity, is_active)')
+    if (isActive !== undefined) stockCountQuery = stockCountQuery.eq('is_active', isActive)
+    if (isFeatured !== undefined) stockCountQuery = stockCountQuery.eq('is_featured', isFeatured)
+    if (isNew !== undefined) stockCountQuery = stockCountQuery.eq('is_new', isNew)
+    if (categoryId) stockCountQuery = stockCountQuery.eq('category_id', categoryId)
+    if (search) stockCountQuery = stockCountQuery.ilike('name', `%${search}%`)
+    const { data: allForCount } = await stockCountQuery
+    total = (allForCount ?? []).filter(isInStock).length
+  } else {
+    let countQuery = supabase.from('products').select('id', { count: 'exact', head: true })
+    if (isActive !== undefined) countQuery = countQuery.eq('is_active', isActive)
+    if (isFeatured !== undefined) countQuery = countQuery.eq('is_featured', isFeatured)
+    if (isNew !== undefined) countQuery = countQuery.eq('is_new', isNew)
+    if (categoryId) countQuery = countQuery.eq('category_id', categoryId)
+    if (search) countQuery = countQuery.ilike('name', `%${search}%`)
+    const { count: totalCount } = await countQuery
+    total = totalCount ?? 0
+  }
+
+  let query = supabase.from('products').select(`
       *,
       variants:product_variants(*),
       category:categories(*)
-    `
-  )
+    `)
 
   if (isActive !== undefined) query = query.eq('is_active', isActive)
   if (isFeatured !== undefined) query = query.eq('is_featured', isFeatured)
   if (isNew !== undefined) query = query.eq('is_new', isNew)
   if (categoryId) query = query.eq('category_id', categoryId)
-  if (search && search.trim() !== '') query = query.ilike('name', `%${search.trim()}%`)
+  if (search) query = query.ilike('name', `%${search}%`)
 
   switch (orderBy) {
     case 'oldest':
@@ -190,6 +206,12 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Pro
       break
     case 'popular':
       query = query.order('sale_count', { ascending: false, nullsFirst: false })
+      break
+    case 'price_asc':
+      query = query.order('base_price', { ascending: true, nullsFirst: false })
+      break
+    case 'price_desc':
+      query = query.order('base_price', { ascending: false, nullsFirst: false })
       break
     case 'newest':
     default:
@@ -203,10 +225,16 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Pro
 
   if (error) {
     console.error('[getProducts] Hata:', error.message)
-    return []
+    return { products: [], total: 0 }
   }
 
-  return (data as ProductQueryResult[]).map(transformProductData)
+  let products = (data as ProductQueryResult[]).map(transformProductData)
+
+  if (inStockOnly) {
+    products = products.filter(isInStock)
+  }
+
+  return { products, total }
 }
 
 // ───────────────────────────────────────────────────────────────
@@ -250,10 +278,11 @@ export async function getProductsByCategory(
   categorySlug: string,
   options: { limit?: number; offset?: number } = {}
 ): Promise<ProductWithRelations[]> {
-  return getProducts({
+  const { products } = await getProducts({
     categorySlug,
     ...options,
   })
+  return products
 }
 
 // ───────────────────────────────────────────────────────────────
