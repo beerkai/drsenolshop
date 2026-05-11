@@ -1,0 +1,136 @@
+---
+description: Supabase migration konvansiyonları, RLS, idempotency, audit kuralları
+globs: "supabase/migrations/*.sql,schema.sql,scripts/*.ts"
+alwaysApply: true
+---
+
+# DB Migration Konvansiyonları
+
+## Dosya Yapısı
+
+```
+supabase/migrations/
+  0001_orders.sql          # numara_slug.sql
+  0002_admin_users.sql
+  0003_tax_rates_backfill.sql
+```
+
+Numaralandırma artan (4 haneli). Sıra **uygulanma sırası**. Bir kez uygulanan migration **asla değiştirilmez** — düzeltme gerekiyorsa yeni migration yaz.
+
+`schema.sql` = canlı şemanın snapshot'ı. Manuel güncellenir, doğru kaynak migration'lardır.
+
+## İdempotency Zorunlu
+
+Her migration tekrar çalıştırılınca **patlamadan** geçmeli:
+
+```sql
+-- ✅ İdempotent
+CREATE TABLE IF NOT EXISTS orders (...);
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS notes TEXT;
+CREATE UNIQUE INDEX IF NOT EXISTS orders_order_number_idx ON orders(order_number);
+
+DROP POLICY IF EXISTS "orders_anon_insert" ON orders;
+CREATE POLICY "orders_anon_insert" ON orders FOR INSERT WITH CHECK (true);
+
+-- ❌ İlk seferden sonra patlar
+CREATE TABLE orders (...);
+CREATE POLICY "orders_anon_insert" ON orders FOR INSERT WITH CHECK (true);
+```
+
+## RLS — Her Zaman Aktif, Minimum Erişim
+
+```sql
+ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+
+-- Misafir checkout için sadece INSERT
+CREATE POLICY "orders_anon_insert" ON orders
+  FOR INSERT TO anon
+  WITH CHECK (true);
+
+-- Müşteri kendi siparişini görür (order_number bilmek = view permission)
+-- Aslında: API route service_role ile sorgular, anon SELECT yok.
+-- Eğer anon SELECT açacaksak filter zorunlu (örn. order_number eq.)
+```
+
+UPDATE/DELETE **asla anon'a açık olmaz** — service_role'den çalışan API route ile.
+
+## Audit & Timestamp
+
+Her tabloda:
+```sql
+created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+updated_at TIMESTAMPTZ
+```
+
+`updated_at` trigger ile otomatik:
+```sql
+CREATE OR REPLACE FUNCTION set_updated_at() RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER orders_set_updated_at
+  BEFORE UPDATE ON orders
+  FOR EACH ROW EXECUTE FUNCTION set_updated_at();
+```
+
+## İndeksler — Performans Düşünerek
+
+Her foreign key, sorgu filter'ı, ORDER BY için index:
+```sql
+CREATE INDEX IF NOT EXISTS orders_status_idx ON orders(status);
+CREATE INDEX IF NOT EXISTS orders_created_at_idx ON orders(created_at DESC);
+CREATE INDEX IF NOT EXISTS order_items_order_id_idx ON order_items(order_id);
+```
+
+Yüksek-kardinalite UNIQUE alanlar (`order_number`, `slug`) için UNIQUE INDEX.
+
+## Para — NUMERIC, asla FLOAT
+
+```sql
+total NUMERIC(10, 2) NOT NULL CHECK (total >= 0)
+```
+
+JS'te `coerceFiniteNumber()` ile parse, çünkü PostgREST NUMERIC bazen string döndürür.
+
+## Snapshot vs Reference
+
+Sipariş kalemlerinde **snapshot** zorunlu:
+```sql
+-- ✅ order_items
+product_id UUID REFERENCES products(id) ON DELETE SET NULL,
+product_name TEXT NOT NULL,    -- snapshot, ürün adı değişse bile sipariş bilgisi kalsın
+unit_price NUMERIC(10,2) NOT NULL,  -- snapshot, fiyat sonradan değişebilir
+tax_rate NUMERIC(5,2) NOT NULL,     -- snapshot
+```
+
+Foreign key DELETE davranışı:
+- products silinmemeli aslında (soft-delete is_active=false), ama referans varsa `ON DELETE SET NULL`.
+- order silinince order_items: `ON DELETE CASCADE`.
+
+## Stok Düşürme — Atomic Transaction
+
+Race condition'a karşı:
+```sql
+UPDATE product_variants
+SET stock_quantity = stock_quantity - $1
+WHERE id = $2 AND stock_quantity >= $1
+RETURNING stock_quantity;
+```
+
+`AND stock_quantity >= $1` koşulu: yetersiz stokta UPDATE 0 satır etkiler, RETURNING boş gelir → JS tarafında "stok yetersiz" hatası verilir.
+
+## Test/Seed Verisi
+
+Production DB'ye `INSERT INTO ... VALUES (...)` koymak için ayrı migration veya script. Migration sırasında **iş verisi yazma**. Sadece schema + structural.
+
+## Migration Uygulama Yöntemi
+
+1. Migration SQL'ini yaz, repo'ya commit et.
+2. Supabase Dashboard → SQL Editor → çalıştır.
+3. `schema.sql`'i güncelle (snapshot olarak).
+4. Çalıştırılan migration ile kod değişikliklerini **aynı commit'te** push et.
+
+**Asla migration'ı kod değişikliklerinden sonra uygulama**. Sıra: DB schema → kod → deploy.

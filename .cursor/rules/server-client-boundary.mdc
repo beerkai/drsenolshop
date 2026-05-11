@@ -1,0 +1,118 @@
+---
+description: React Server Component vs Client Component sınırı, prop serialization, data fetching
+globs: "src/**/*.{tsx,ts}"
+alwaysApply: true
+---
+
+# Server / Client Component Sınırı
+
+## Default: Server Component
+
+Her dosya Server Component'tir. `'use client'` direktifi **yalnızca aşağıdaki durumlar için**:
+
+- React hook'ları: `useState`, `useEffect`, `useReducer`, `useContext`, `useMemo`, `useCallback`, custom hook
+- Event handler: `onClick`, `onChange`, `onSubmit`, `onMouseEnter` vb.
+- Browser API: `localStorage`, `window`, `document`, `navigator`
+- Context Provider (`<CartProvider>` gibi)
+- Browser-only library (sentry-browser, posthog-js…)
+
+## Pattern: Sayfa Server, Interactive Parça Client
+
+```tsx
+// src/app/urun/[slug]/page.tsx — SERVER
+import ProductActions from '@/components/ProductActions'
+
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const product = await getProductBySlug(slug)  // DB sorgusu burada
+  return <ProductActions product={product} />
+}
+
+// src/components/ProductActions.tsx — CLIENT
+'use client'
+import { useState } from 'react'
+import { useCart } from '@/lib/cart-context'
+
+export default function ProductActions({ product }: { product: ProductWithRelations }) {
+  const [qty, setQty] = useState(1)
+  // ...
+}
+```
+
+Veri Server Component'te fetch edilir, prop olarak Client Component'a iletilir. Client Component DB'ye **doğrudan erişmez** — API route veya prop.
+
+## Prop Serialization Kısıtı
+
+Server → Client geçen prop'lar **serializable** olmalı:
+- ✅ Primitive (`string`, `number`, `boolean`, `null`)
+- ✅ Plain object, array
+- ✅ ISO date string (`'2026-05-12'`)
+- ❌ `Date` object (string'e çevir)
+- ❌ Function (event handler değil, regular fn)
+- ❌ Class instance, Symbol, BigInt
+- ❌ Map, Set
+
+```tsx
+// ❌ Patlar
+<ClientComp formatter={(n) => formatPrice(n)} />
+
+// ✅
+<ClientComp price={1250} />  // Client içinde formatPrice import edip kullan
+```
+
+## API Route'lar
+
+Client Component'tan mutasyon (POST/PUT/DELETE) için API route şart. RLS service_role'a açık olduğundan:
+
+```ts
+// src/app/api/orders/route.ts — SERVER (her zaman)
+import { getSupabaseAdmin } from '@/lib/supabase'
+
+export async function POST(request: Request) {
+  const body = await request.json()
+  const supabase = getSupabaseAdmin()  // service_role
+  const { data, error } = await supabase.from('orders').insert(body).select().single()
+  // ...
+}
+```
+
+Client tarafı:
+```tsx
+'use client'
+async function placeOrder(payload) {
+  const res = await fetch('/api/orders', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  return res.json()
+}
+```
+
+## metadata Export — Sadece Server
+
+```tsx
+// src/app/urun/[slug]/page.tsx — SERVER
+export async function generateMetadata({ params }) { ... }
+
+// ❌ 'use client' olan dosyada metadata export edilmez
+```
+
+Layout veya page dosyasında `'use client'` direktifi varsa metadata oradan export edilemez.
+
+## Context Provider'lar Layout'a Yakın
+
+Provider'lar root layout'ta `<Providers>` wrapper'ı ile sarılır:
+```tsx
+// src/app/providers.tsx
+'use client'
+export function Providers({ children }) {
+  return <CartProvider>{children}<CartDrawer /></CartProvider>
+}
+
+// src/app/layout.tsx — SERVER
+import { Providers } from './providers'
+<body><Providers>{children}</Providers></body>
+```
+
+Layout Server, Provider Client — sınır bilinçli yönetilir.

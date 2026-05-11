@@ -1,0 +1,70 @@
+---
+description: Inline style + CSS class hybrid pattern. Tailwind utility'ler yeni kodda kullanılmaz.
+globs: "src/**/*.{tsx,ts}"
+alwaysApply: true
+---
+
+# Styling Konvansiyonları
+
+Bu proje **bileşen bazında inline `style` + globals.css'te tanımlı utility class'larla** çalışır. Tailwind v4 yüklü ama yalnızca eski `Header.tsx` ve birkaç bileşende kullanılıyor. **Yeni kod** için aşağıdaki pattern.
+
+## Pattern
+
+```tsx
+// ✅ Statik tasarım → inline style
+<section style={{ backgroundColor: '#0A0908', paddingTop: '64px' }}>
+
+// ✅ Container & responsive padding → CSS class
+<div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+
+// ✅ Hover/transition → componente özel CSS class veya <style>{`...`}</style>
+<button className="featured-cta" style={{ padding: '16px 28px' }}>
+
+// ❌ Tailwind utility'leri yeni component'lerde
+<div className="bg-black px-12 hover:bg-gray-900">
+```
+
+## Media query gereken yerler
+
+Inline style ile media query yazılamaz. İki seçenek:
+
+**1. globals.css'te global class:**
+```css
+.px-responsive { padding-left: clamp(1rem, 4vw, 3rem); padding-right: clamp(1rem, 4vw, 3rem); }
+@media (max-width: 640px) { .product-card-title { font-size: 18px !important; } }
+```
+
+**2. Component içinde scoped `<style>` bloğu:**
+```tsx
+<section className="my-section">
+  <style>{`
+    .my-section { padding: 80px 0; }
+    @media (max-width: 640px) { .my-section { padding: 40px 0 !important; } }
+  `}</style>
+  ...
+</section>
+```
+
+İkinci yöntem **component'e ait** stiller için tercih edilir (Footer, FeaturedProducts, ProductActions vb.).
+
+## Tasarım Tokenleri
+
+`globals.css` `@theme` bloğunda:
+- Renkler: `--color-ink`, `--color-bone`, `--color-gold`, `--color-cream-muted`…
+- Fontlar: `--font-display` (Cormorant), `--font-sans` (Inter), `--font-mono` (JetBrains Mono)
+
+Inline style'da kullanım:
+```tsx
+fontFamily: 'var(--font-cormorant)'
+color: '#C9A961'  // veya 'var(--color-gold)' — ikisi de OK
+```
+
+Yeni token (renk, font weight, spacing) gerekiyorsa **önce `@theme`'e ekle**, sonra kullan.
+
+## Responsive Boyutlama
+
+`clamp()` tercih:
+- Font: `fontSize: 'clamp(24px, 6vw, 54px)'`
+- Padding: `padding: 'clamp(48px, 8vw, 96px)'`
+
+Sabit px değerleri masaüstü-mobil arasında kırılır. `clamp(min, fluid, max)` her zaman çalışır.
