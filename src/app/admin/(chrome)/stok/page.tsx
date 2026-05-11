@@ -60,7 +60,7 @@ export default async function AdminStockPage({ searchParams }: { searchParams: S
         </div>
       ) : (
         <div className="ad-table-wrap">
-          <table className="ad-table">
+          <table className="ad-table ad-table-mobile">
             <thead>
               <tr>
                 <th>Ürün</th>
@@ -76,16 +76,16 @@ export default async function AdminStockPage({ searchParams }: { searchParams: S
                 const label = r.stock === 0 ? 'Tükendi' : r.stock <= 2 ? 'Kritik' : 'Düşük'
                 return (
                   <tr key={r.variant_id}>
-                    <td>
+                    <td className="is-row-head">
                       <p style={{ color: 'var(--ad-fg)', fontSize: '13px', margin: 0, fontWeight: 500 }}>{r.product_name}</p>
                       <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', margin: '2px 0 0', letterSpacing: '0.05em' }}>
                         {r.product_slug}
                       </p>
                     </td>
-                    <td style={{ color: 'var(--ad-fg-muted)', fontSize: '13px' }}>
+                    <td data-label="Varyant" style={{ color: 'var(--ad-fg-muted)', fontSize: '13px' }}>
                       {r.variant_label ?? '—'}
                     </td>
-                    <td className="is-right">
+                    <td className="is-right" data-label="Stok">
                       <span
                         className="ad-display"
                         style={{
@@ -97,10 +97,10 @@ export default async function AdminStockPage({ searchParams }: { searchParams: S
                         {r.stock}
                       </span>
                     </td>
-                    <td className="is-right">
+                    <td className="is-right" data-label="Durum">
                       <Badge tone={tone} bracketed>{label}</Badge>
                     </td>
-                    <td className="is-right">
+                    <td className="is-right" data-label="">
                       <Link href={`/admin/urunler/${r.product_id}`} className="ad-btn ad-btn-secondary ad-btn-sm">
                         Düzenle <IconArrowRight size={11} />
                       </Link>

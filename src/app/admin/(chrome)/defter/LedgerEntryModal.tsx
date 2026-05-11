@@ -189,7 +189,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
       return
     }
     if (!isValidPlate(form.plate)) {
-      toast.error('Plaka formatı geçersiz. Örn: 34BED961')
+      toast.error('Plaka/etiket formatı geçersiz. Örn: 34BRK1234 veya MERCAN-KADIR')
       plateRef.current?.focus()
       return
     }
@@ -274,9 +274,24 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
         aria-hidden
         style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(10,9,8,0.45)', backdropFilter: 'blur(3px)', zIndex: 80 }}
       />
+      <style>{`
+        @media (max-width: 640px) {
+          .ad-ledger-modal {
+            top: 0 !important;
+            left: 0 !important;
+            transform: none !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            max-height: 100vh !important;
+            height: 100vh !important;
+            border: none !important;
+          }
+        }
+      `}</style>
       <div
         role="dialog"
         aria-label={isEdit ? 'Defter kaydını düzenle' : 'Yeni defter kaydı'}
+        className="ad-ledger-modal"
         style={{
           position: 'fixed',
           top: '6vh',
@@ -307,9 +322,9 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
 
         {/* Form */}
         <form onSubmit={handleSubmit} style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
-          {/* Plaka */}
+          {/* Plaka / Etiket */}
           <div style={{ marginBottom: '14px' }}>
-            <label className="ad-label" htmlFor="plate">Araç Plakası</label>
+            <label className="ad-label" htmlFor="plate">Plaka / Tur Etiketi</label>
             <input
               ref={plateRef}
               id="plate"
@@ -317,7 +332,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
               required
               value={form.plate}
               onChange={(e) => handlePlateChange(e.target.value)}
-              placeholder="34BED961"
+              placeholder="34BRK1234 veya MERCAN-KADIR"
               className="ad-input ad-mono"
               style={{
                 textTransform: 'uppercase',
@@ -330,8 +345,10 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
               spellCheck={false}
               disabled={isEdit}
             />
-            <p className="ad-mono" style={{ fontSize: '10px', color: form.plate && !plateValid ? 'var(--ad-danger)' : 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
-              {form.plate && !plateValid ? 'Geçersiz format. Örn: 34BED961' : 'Boşluksuz, büyük harf. Örn: 34BED961'}
+            <p className="ad-mono" style={{ fontSize: '10px', color: form.plate && !plateValid ? 'var(--ad-danger)' : 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em', lineHeight: 1.5 }}>
+              {form.plate && !plateValid
+                ? 'Geçersiz format. Örn: 34BRK1234 veya MERCAN-KADIR'
+                : 'Plaka veya tur kodu (şirket-rehber). Boşluk ve özel karakter yok, tire serbest.'}
             </p>
           </div>
 

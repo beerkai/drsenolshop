@@ -44,7 +44,14 @@ export default async function AdminDashboardPage() {
       <RealtimeOrdersBanner />
 
       {/* Hero — selamlama + günün özeti */}
-      <div style={{ marginBottom: '32px', display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '20px' }}>
+      <div className="pano-hero" style={{ marginBottom: '28px', display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '16px' }}>
+        <style>{`
+          @media (max-width: 640px) {
+            .pano-hero h1 { font-size: 22px !important; line-height: 1.15 !important; }
+            .pano-hero .pano-actions { width: 100%; }
+            .pano-hero .pano-actions > * { flex: 1; }
+          }
+        `}</style>
         <div>
           <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Pano</p>
           <h1 className="ad-display" style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: '0 0 10px' }}>
@@ -58,7 +65,7 @@ export default async function AdminDashboardPage() {
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+        <div className="pano-actions" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           <Link href="/admin/siparisler?status=pending" className="ad-btn ad-btn-secondary ad-btn-sm">
             Bekleyenler
           </Link>

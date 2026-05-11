@@ -598,18 +598,129 @@
 
 /* ═══ RESPONSIVE ═══ */
 
+/* Mobile menu hamburger — sadece <1024 görünür */
+.ad-mobile-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--ad-line);
+  background: var(--ad-surface);
+  color: var(--ad-fg);
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+/* Search trigger — masaüstünde geniş; mobilde ikon button */
+.ad-topbar-search-wide { display: inline-flex; }
+.ad-topbar-search-narrow {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--ad-line);
+  background: var(--ad-surface);
+  color: var(--ad-fg-muted);
+  cursor: pointer;
+}
+.ad-topbar-search-narrow:hover {
+  border-color: var(--ad-gold);
+  color: var(--ad-gold);
+}
+
 @media (max-width: 1024px) {
-  .ad-sidebar {
-    display: none;
-  }
-  .ad-shell-main {
-    margin-left: 0 !important;
-  }
+  /* Sidebar gizli — hamburger ile drawer açılır */
+  .ad-sidebar { display: none !important; }
+  .ad-shell-main { margin-left: 0 !important; }
+  .ad-mobile-menu-btn { display: inline-flex; }
+}
+
+@media (max-width: 880px) {
+  /* Search butonu ikon olur */
+  .ad-topbar-search-wide { display: none !important; }
+  .ad-topbar-search-narrow { display: inline-flex; }
+}
+
+@media (max-width: 768px) {
+  .ad-clock { display: none; }
+  .ad-topbar-livetext { display: none; }
+  .ad-topbar { height: 52px; }
+  .ad-shell-main { padding: 16px !important; }
+  .ad-breadcrumb { font-size: 10px; }
+  .ad-breadcrumb-skip { display: none; }
+  .ad-metric-value { font-size: 24px; }
+  .ad-card { padding: 16px; }
 }
 
 @media (max-width: 640px) {
-  .ad-topbar-inner { padding-left: 16px; padding-right: 16px; }
-  .ad-shell-page { padding-left: 16px !important; padding-right: 16px !important; }
-  .ad-metric-value { font-size: 26px; }
-  .ad-clock { display: none; }
+  .ad-topbar-inner { padding-left: 12px !important; padding-right: 12px !important; gap: 8px; }
+  .ad-shell-page { padding-left: 12px !important; padding-right: 12px !important; }
+  .ad-shell-main { padding: 14px !important; }
+  .ad-metric { padding: 14px 16px; }
+  .ad-metric-value { font-size: 22px; }
+  .ad-shell-main h1 { font-size: 24px !important; }
+
+  /* Responsive table → kart görünümü (data-label attribute'ları üzerinden) */
+  .ad-table-mobile { display: block; min-width: 0 !important; }
+  .ad-table-mobile thead { display: none; }
+  .ad-table-mobile tbody { display: block; }
+  .ad-table-mobile tr {
+    display: block;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--ad-line-faint);
+  }
+  .ad-table-mobile td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: none;
+    text-align: left !important;
+    min-height: 24px;
+  }
+  .ad-table-mobile td.is-right { justify-content: space-between; text-align: left; }
+  .ad-table-mobile td[data-label]:before {
+    content: attr(data-label);
+    font-family: var(--font-jetbrains), monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: var(--ad-fg-faint);
+    text-transform: uppercase;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .ad-table-mobile td.is-row-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 8px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--ad-line-faint);
+  }
+  .ad-table-mobile td.is-row-head:before { display: none; }
+}
+
+/* Mobile drawer overlay — masaüstünde yok */
+@keyframes ad-drawer-slide {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+.ad-mobile-drawer-backdrop {
+  position: fixed; inset: 0;
+  background-color: rgba(10, 9, 8, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 90;
+}
+.ad-mobile-drawer {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: 280px;
+  max-width: 86vw;
+  background-color: var(--ad-surface);
+  border-right: 1px solid var(--ad-line);
+  z-index: 95;
+  overflow-y: auto;
+  animation: ad-drawer-slide 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
 }

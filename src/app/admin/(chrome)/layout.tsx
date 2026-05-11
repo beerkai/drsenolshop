@@ -30,6 +30,7 @@ export default async function AdminChromeLayout({ children }: { children: React.
           email={ctx?.admin.email ?? ''}
           fullName={ctx?.admin.full_name ?? null}
           role={ctx?.admin.role ?? 'staff'}
+          pendingOrders={pendingCount}
         />
         <div style={{ display: 'flex', flex: 1 }}>
           <Sidebar pendingOrders={pendingCount} />

@@ -117,7 +117,15 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
   return (
     <div>
       {/* Başlık + tarih nav */}
-      <div style={{ marginBottom: '24px', display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '16px' }}>
+      <div className="defter-header" style={{ marginBottom: '20px', display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '16px' }}>
+        <style>{`
+          @media (max-width: 768px) {
+            .defter-header h1 { font-size: 22px !important; }
+            .defter-header .defter-nav { width: 100%; flex-wrap: wrap; }
+            .defter-header .defter-nav input[type="date"] { flex: 1; min-width: 120px; }
+            .defter-header .defter-nav .ad-btn { flex: 1; min-width: 90px; }
+          }
+        `}</style>
         <div>
           <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Defter</p>
           <h1 className="ad-display" style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
@@ -128,7 +136,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
           </h1>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className="defter-nav" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <button type="button" onClick={() => updateUrl({ date: shiftDateKey(date, -1) })} aria-label="Önceki gün" className="ad-icon-btn">‹</button>
           <input
             type="date"
@@ -228,7 +236,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
         </div>
       ) : (
         <div className="ad-table-wrap">
-          <table className="ad-table" style={{ minWidth: '900px' }}>
+          <table className="ad-table ad-table-mobile" style={{ minWidth: '900px' }}>
             <thead>
               <tr>
                 <th style={{ width: '36px' }}>#</th>
@@ -245,10 +253,11 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
             <tbody>
               {entries.map((e, idx) => (
                 <tr key={e.id}>
-                  <td className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)', textAlign: 'right', letterSpacing: '0.05em' }}>
+                  <td className="ad-mono is-row-head" data-label="#"
+                      style={{ fontSize: '11px', color: 'var(--ad-fg-faint)', textAlign: 'right', letterSpacing: '0.05em' }}>
                     {String(idx + 1).padStart(2, '0')}
                   </td>
-                  <td>
+                  <td data-label="Plaka">
                     <button
                       type="button"
                       onClick={() => setPlateDrawer(e.plate)}
@@ -268,20 +277,20 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
                       {e.plate}
                     </button>
                   </td>
-                  <td style={{ color: 'var(--ad-fg)', fontSize: '13px' }}>
+                  <td data-label="Çalışan" style={{ color: 'var(--ad-fg)', fontSize: '13px' }}>
                     {e.employee_name ?? <span style={{ color: 'var(--ad-fg-faint)' }}>—</span>}
                   </td>
-                  <td>
+                  <td data-label="Ödeme">
                     <Badge tone={e.payment_method === 'card' ? 'info' : 'success'} bracketed>
                       {e.payment_method === 'card' ? 'Kart' : 'Nakit'}
                     </Badge>
                   </td>
-                  <td className="is-right">
+                  <td className="is-right" data-label="Satış">
                     <span className="ad-display" style={{ fontSize: '16px', fontWeight: 500, color: 'var(--ad-fg)' }}>
                       {formatPrice(Number(e.sale_amount))}
                     </span>
                   </td>
-                  <td className="is-right">
+                  <td className="is-right" data-label="Rehber">
                     {e.has_guide && e.guide_commission != null ? (
                       <span className="ad-mono" style={{ fontSize: '12px', color: 'var(--ad-gold-deep)' }}>
                         {formatPrice(Number(e.guide_commission))}
@@ -290,8 +299,8 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
                       <span style={{ color: 'var(--ad-fg-faint)', fontSize: '11px' }}>—</span>
                     )}
                   </td>
-                  <td>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <td data-label="Durum">
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', flexWrap: 'wrap' }}>
                       <button
                         type="button"
                         onClick={() => handleTogglePayment(e, 'customer_paid')}
@@ -338,7 +347,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
                       )}
                     </div>
                   </td>
-                  <td style={{ maxWidth: '180px', minWidth: '120px' }}>
+                  <td data-label="Not" style={{ maxWidth: '180px', minWidth: '120px' }}>
                     {e.notes ? (
                       <span style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', fontStyle: 'italic', display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={e.notes}>
                         {e.notes}
@@ -347,7 +356,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
                       <span style={{ color: 'var(--ad-fg-faint)', fontSize: '11px' }}>—</span>
                     )}
                   </td>
-                  <td className="is-right">
+                  <td className="is-right" data-label="">
                     <div style={{ display: 'flex', gap: '4px', justifyContent: 'flex-end' }}>
                       <button
                         type="button"

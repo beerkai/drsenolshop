@@ -46,15 +46,33 @@ export interface LedgerSummary {
   unpaidGuides: number
 }
 
-// ─── Plaka Normalize ────────────────────────────────────────────
-const PLATE_REGEX = /^[0-9]{2}[A-Z]{1,3}[0-9]{1,4}$/
+// ─── Plaka / Etiket Normalize ───────────────────────────────────
+// İki tip kabul edilir:
+//   1) Geleneksel TR plakası: 34BRK1234 (2 rakam, 1-3 harf, 1-4 rakam)
+//   2) Serbest etiket (tur şirketi-rehber): MERCAN-KADIR
+//      → harf+rakam segmentleri tire ile bağlanır
+// Boşluk + .,!? gibi özel karakterler atılır, sadece A-Z, 0-9, - kalır.
+// Türkçe karakterler ASCII'ye: İ→I, Ş→S, Ğ→G, Ü→U, Ö→O, Ç→C
+const PLATE_REGEX = /^(?:[0-9]{2}[A-Z]{1,3}[0-9]{1,4}|[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*)$/
+
+const TR_TO_ASCII: Record<string, string> = {
+  'İ': 'I',
+  'Ş': 'S',
+  'Ğ': 'G',
+  'Ü': 'U',
+  'Ö': 'O',
+  'Ç': 'C',
+}
 
 export function normalizePlate(raw: string): string {
-  return raw
-    .toLocaleUpperCase('tr-TR')
-    .replace(/\s+/g, '')
-    .replace(/[İI]/g, 'I')  // Türkçe İ → I
-    .replace(/[^A-Z0-9]/g, '')
+  if (!raw) return ''
+  let s = raw.toLocaleUpperCase('tr-TR')
+  s = s.replace(/[İŞĞÜÖÇ]/g, (c) => TR_TO_ASCII[c] ?? c)
+  // Sadece A-Z, 0-9, - kalsın
+  s = s.replace(/[^A-Z0-9-]/g, '')
+  // Çoklu tire → tek; başta/sonda tire kaldır
+  s = s.replace(/-{2,}/g, '-').replace(/^-+|-+$/g, '')
+  return s
 }
 
 export function isValidPlate(plate: string): boolean {
@@ -217,7 +235,7 @@ export async function createLedgerEntry(input: CreateLedgerInput, createdByEmail
   const errors: string[] = []
   const plate = normalizePlate(input.plate ?? '')
   if (!plate) errors.push('Plaka gerekli.')
-  else if (!isValidPlate(plate)) errors.push('Plaka formatı geçersiz. Örn: 34BED961')
+  else if (!isValidPlate(plate)) errors.push('Plaka/etiket formatı geçersiz. Örn: 34BRK1234 veya MERCAN-KADIR')
 
   const sale = Number(input.sale_amount)
   if (!Number.isFinite(sale) || sale < 0) errors.push('Satış miktarı geçersiz.')
