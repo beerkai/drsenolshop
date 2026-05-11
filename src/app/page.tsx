@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import FeaturedProducts from '@/components/FeaturedProducts';
 import Link from 'next/link';
 
 export default function Home() {
@@ -372,7 +373,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ════════════ BÖLÜM IV — SUPERBLEND ════════════ */}
+        {/* ════════════ BÖLÜM IV — ÖNE ÇIKANLAR ════════════ */}
+        <FeaturedProducts />
+
+        {/* ════════════ BÖLÜM V — SUPERBLEND ════════════ */}
         <section className="bg-ink" style={{ paddingTop: '96px', paddingBottom: '96px' }}>
           <div
             className="mx-auto"
@@ -388,7 +392,7 @@ export default function Home() {
 
             <div className="text-center" style={{ marginBottom: '64px' }}>
               <p className="font-mono uppercase text-gold" style={{ fontSize: '11px', letterSpacing: '0.3em', marginBottom: '20px' }}>
-                Bölüm IV · <span lang="en">Signature</span>
+                Bölüm V · <span lang="en">Signature</span>
               </p>
               <div className="bg-gold mx-auto" style={{ width: '60px', height: '1px', marginBottom: '32px' }} />
               <h2 className="font-display text-cream" style={{ fontSize: 'clamp(36px, 4.5vw, 60px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>

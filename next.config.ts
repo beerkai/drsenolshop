@@ -6,10 +6,12 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn.myikas.com',
+        pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: '*.supabase.co',
+        hostname: '**.supabase.co',
+        pathname: '/**',
       },
     ],
   },
