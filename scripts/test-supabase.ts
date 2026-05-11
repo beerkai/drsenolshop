@@ -26,8 +26,8 @@ async function main() {
   console.log('───────────────────────────────────────────────')
 
   try {
-    const allProducts = await getProducts({ limit: 100 })
-    console.log(`📦 Toplam aktif ürün: ${allProducts.length}`)
+    const { products: allProducts, total: allTotal } = await getProducts({ limit: 100 })
+    console.log(`📦 Toplam aktif ürün: ${allTotal} (${allProducts.length} çekildi)`)
 
     const featured = await getFeaturedProducts(10)
     console.log(`⭐ Featured ürün: ${featured.length}`)
