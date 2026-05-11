@@ -1,61 +1,312 @@
-:root {
-  /* Premium Design System Colors */
-  --color-background: #ffffff;
-  --color-text-main: #1a1a1a;
-  --color-text-muted: #666666;
-  --color-accent-gold: #D4AF37; /* Premium honey/gold color */
-  --color-accent-hover: #b5952f;
-  --color-border: #eaeaea;
+@import "tailwindcss";
 
-  /* Typography */
-  --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-secondary: 'Outfit', system-ui, -apple-system, sans-serif;
+/* ═══════════════════════════════════════════════════════════════
+   DR. ŞENOL SHOP — TASARIM SİSTEMİ
+   "Rolex saygınlığında bir bal markası"
+   ═══════════════════════════════════════════════════════════════ */
 
-  /* Spacing & Radii */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
-  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+@theme {
+  /* ── KOYU ZEMIN ── */
+  --color-ink: #0A0908;           /* Ana zemin — sıcak siyah */
+  --color-ink-2: #141210;          /* Panel/kart zemini */
+  --color-ink-3: #1E1B17;          /* Vurgu paneller */
+  --color-ink-4: #2A251E;          /* Hover yüzeyler */
+
+  /* ── AÇIK ZEMIN ── */
+  --color-bone: #F4F0E8;           /* Ana açık zemin */
+  --color-bone-2: #EBE5D8;         /* İkincil krem */
+  --color-bone-3: #E0D8C7;         /* Üçüncül */
+
+  /* ── METİN ── */
+  --color-cream: #F4F0E8;          /* Koyu zeminde ana metin */
+  --color-cream-muted: #B8B0A0;    /* Koyu zeminde soluk metin */
+  --color-cream-faint: #6E665A;    /* Koyu zeminde çok soluk */
+
+  --color-text: #1A1714;           /* Açık zeminde ana metin */
+  --color-text-muted: #6B6258;     /* Açık zeminde soluk */
+  --color-text-faint: #9B9285;     /* Açık zeminde çok soluk */
+
+  /* ── ALTIN (Rolex paleti) ── */
+  --color-gold: #C9A961;           /* Ana altın — Rolex tonu */
+  --color-gold-bright: #D4B570;    /* Hover/vurgu */
+  --color-gold-deep: #9C7C3C;      /* Gölge/koyu altın */
+  --color-champagne: #D4C094;      /* Şampanya — çok hafif vurgu */
+  --color-gold-line: rgba(201, 169, 97, 0.18);    /* Ayırıcı çizgiler */
+  --color-gold-faint: rgba(201, 169, 97, 0.08);   /* Çok soluk vurgu */
+
+  /* ── FONKSİYONEL ── */
+  --color-line-dark: rgba(244, 240, 232, 0.08);   /* Koyu zeminde çizgi */
+  --color-line-light: rgba(26, 23, 20, 0.10);     /* Açık zeminde çizgi */
+  --color-alert: #C8472D;          /* Sadece indirim/uyarı */
+  --color-success: #5C7A3F;        /* Sadece onay */
+
+  /* ── FONTLAR ── */
+  --font-display: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains), 'JetBrains Mono', monospace;
 }
 
-* {
+/* ══ RESET ══ */
+*, *::before, *::after {
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-text-main);
-  font-family: var(--font-primary);
-  line-height: 1.6;
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 a {
   color: inherit;
   text-decoration: none;
-  transition: var(--transition-smooth);
 }
 
-a:hover {
-  color: var(--color-accent-gold);
+img, svg {
+  display: block;
+  max-width: 100%;
 }
 
-/* Base UI Elements */
-.premium-button {
-  background-color: var(--color-text-main);
-  color: var(--color-background);
-  border: none;
-  padding: 12px 24px;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-secondary);
-  font-weight: 500;
+button {
+  font-family: inherit;
   cursor: pointer;
-  transition: var(--transition-smooth);
+  background: transparent;
+  border: none;
 }
 
-.premium-button:hover {
-  background-color: var(--color-accent-gold);
+::selection {
+  background-color: var(--color-gold);
+  color: var(--color-ink);
+}
+
+/* ══ KEYFRAMES ══ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ══ UTILITY CLASSES ══ */
+
+/* Containers */
+.container-page {
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.25rem, 4vw, 3rem);
+  padding-right: clamp(1.25rem, 4vw, 3rem);
+}
+
+.container-narrow {
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.25rem, 4vw, 3rem);
+  padding-right: clamp(1.25rem, 4vw, 3rem);
+}
+
+.container-prose {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.25rem, 4vw, 3rem);
+  padding-right: clamp(1.25rem, 4vw, 3rem);
+}
+
+/* Section spacing */
+.section-y {
+  padding-top: clamp(5rem, 10vw, 8rem);
+  padding-bottom: clamp(5rem, 10vw, 8rem);
+}
+
+.section-y-sm {
+  padding-top: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+/* Tipografi yardımcıları */
+.font-display { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.01em; }
+.font-mono { font-family: var(--font-mono); }
+
+/* Eyebrow — üst başlık (sertifika numarası, kategori vs.) */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-gold);
+}
+
+.eyebrow-muted {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-cream-faint);
+}
+
+/* Altın hat — ince ayırıcı */
+.gold-line {
+  width: 40px;
+  height: 1px;
+  background-color: var(--color-gold);
+}
+
+/* Animasyonlar */
+.animate-fade-up { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-fade-up-1 { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both; }
+.animate-fade-up-2 { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; }
+.animate-fade-up-3 { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; }
+.animate-fade-up-4 { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; }
+.animate-fade-in { animation: fadeIn 1s ease both; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-ink); }
+::-webkit-scrollbar-thumb { background: var(--color-ink-3); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gold-deep); }
+
+/* Focus ring */
+*:focus-visible {
+  outline: 1px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* ══ Tipografi İyileştirmeleri ══ */
+
+.font-display {
+  font-feature-settings: "ss01" on, "kern" on, "liga" on, "calt" on;
+  font-variant-numeric: oldstyle-nums;
+}
+
+.font-mono {
+  font-feature-settings: "kern" on;
+  letter-spacing: 0.02em;
+}
+
+/* Body text rendering */
+body {
+  font-feature-settings: "kern" on, "liga" on, "calt" on;
+}
+
+/* Link underline iyileştirme */
+a {
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+/* ══ HERO ANİMASYON ══ */
+
+@keyframes honeyFlow {
+  0% { transform: translateX(-20%) translateY(0%) rotate(-2deg) scale(1); opacity: 0.5; }
+  50% { transform: translateX(0%) translateY(-3%) rotate(0deg) scale(1.05); opacity: 0.7; }
+  100% { transform: translateX(-20%) translateY(0%) rotate(-2deg) scale(1); opacity: 0.5; }
+}
+
+@keyframes honeyFlow2 {
+  0% { transform: translateX(10%) translateY(2%) rotate(1deg) scale(1); opacity: 0.3; }
+  50% { transform: translateX(-5%) translateY(-2%) rotate(-1deg) scale(1.08); opacity: 0.5; }
+  100% { transform: translateX(10%) translateY(2%) rotate(1deg) scale(1); opacity: 0.3; }
+}
+
+@keyframes shimmerLine {
+  0% { transform: scaleX(0); transform-origin: left; }
+  50% { transform: scaleX(1); transform-origin: left; }
+  50.01% { transform: scaleX(1); transform-origin: right; }
+  100% { transform: scaleX(0); transform-origin: right; }
+}
+
+@keyframes orbDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(8%, -4%) scale(1.05); }
+  66% { transform: translate(-4%, 6%) scale(0.95); }
+}
+
+@keyframes verticalLine {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  100% { transform: scaleY(1); transform-origin: top; }
+}
+
+.hero-orb-1 {
+  animation: honeyFlow 18s ease-in-out infinite;
+}
+.hero-orb-2 {
+  animation: honeyFlow2 22s ease-in-out infinite;
+}
+.hero-orb-3 {
+  animation: orbDrift 30s ease-in-out infinite;
+}
+
+.shimmer-line {
+  animation: shimmerLine 6s ease-in-out infinite;
+}
+
+.vertical-line {
+  animation: verticalLine 2s cubic-bezier(0.16, 1, 0.3, 1) 1s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-orb-1, .hero-orb-2, .hero-orb-3, .shimmer-line, .vertical-line {
+    animation: none;
+  }
+}
+
+/* ══ İNGİLİZCE TEKST İÇİN TÜRKÇE LOCALE FİX ══ */
+/* lang="en" işaretli tüm element ve alt elementleri uppercase yapıldığında
+   "i" harflerinin Türkçe "İ" yerine "I" olarak görünmesini sağlar */
+
+[lang="en"], [lang="en"] * {
+  text-transform: inherit;
+}
+
+[lang="en"] {
+  font-feature-settings: "kern" on, "liga" on;
+}
+
+.uppercase[lang="en"],
+[lang="en"].uppercase,
+[lang="en"] .uppercase {
+  text-transform: uppercase;
+  unicode-bidi: isolate;
+}
+
+[lang="en"].font-mono,
+[lang="en"] .font-mono,
+.font-mono[lang="en"] {
+  text-transform: uppercase;
+}
+
+/* İnce ayar: lang="en" elementler üzerinde her zaman İngilizce locale uygula */
+[lang="en"] {
+  /* CSS hint: tarayıcıya İngilizce küçük-büyük dönüşümü yap */
 }

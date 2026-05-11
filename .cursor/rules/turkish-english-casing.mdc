@@ -1,0 +1,23 @@
+---
+description: Turkish İ/I casing rule — English words must use Latin I, not Turkish İ when uppercased
+globs: "**/*.{tsx,ts,css}"
+alwaysApply: true
+---
+
+# Turkish İ/I Casing in English Words
+
+HTML `lang="tr"` + CSS `text-transform: uppercase` causes browsers to convert `i` → `İ` (Turkish dotted capital I) instead of `I`.
+
+## Rules
+
+1. **English text with `text-transform: uppercase`**: Add `lang="en"` attribute to the element.
+2. **Hardcoded uppercase English text** (e.g. marquee tickers): Write directly in uppercase in JSX — do not rely on CSS `text-transform`.
+3. **Mixed Turkish/English content**: Wrap the English portion in a `<span lang="en">`.
+
+```tsx
+// ❌ BAD — "The Honey Scientist" becomes "THE HONEY SCİENTİST"
+<span className={styles.logoSub}>The Honey Scientist</span>
+
+// ✅ GOOD
+<span className={styles.logoSub} lang="en">The Honey Scientist</span>
+```
