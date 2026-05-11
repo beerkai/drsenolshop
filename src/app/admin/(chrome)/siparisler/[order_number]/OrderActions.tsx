@@ -30,27 +30,6 @@ const PAYMENT_STATUS_OPTIONS = [
   { value: 'refunded', label: 'İade' },
 ]
 
-const LABEL_STYLE: React.CSSProperties = {
-  display: 'block',
-  fontFamily: 'var(--font-jetbrains)',
-  fontSize: '10px',
-  letterSpacing: '0.22em',
-  color: '#6E665A',
-  textTransform: 'uppercase',
-  marginBottom: '8px',
-}
-
-const INPUT_STYLE: React.CSSProperties = {
-  width: '100%',
-  padding: '12px 14px',
-  backgroundColor: 'rgba(244,240,232,0.04)',
-  border: '1px solid rgba(244,240,232,0.12)',
-  color: '#F4F0E8',
-  fontSize: '13px',
-  fontFamily: 'var(--font-sans)',
-  outline: 'none',
-}
-
 export default function OrderActions(props: Props) {
   const router = useRouter()
   const [status, setStatus] = useState(props.status)
@@ -88,77 +67,79 @@ export default function OrderActions(props: Props) {
   }
 
   return (
-    <div style={{ backgroundColor: '#141210', padding: '24px', position: 'sticky', top: '32px' }}>
-      <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.25em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 20px' }}>
-        Aksiyonlar
-      </p>
+    <div className="ad-card" style={{ position: 'sticky', top: '76px' }}>
+      <p className="ad-eyebrow" style={{ marginBottom: '20px' }}>Aksiyonlar</p>
 
-      <div style={{ marginBottom: '16px' }}>
-        <label style={LABEL_STYLE}>Sipariş Durumu</label>
-        <select value={status} onChange={(e) => setStatus(e.target.value)} style={INPUT_STYLE}>
-          {STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+      <div style={{ marginBottom: '14px' }}>
+        <label className="ad-label">Sipariş Durumu</label>
+        <select value={status} onChange={(e) => setStatus(e.target.value)} className="ad-select">
+          {STATUS_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>{o.label}</option>
+          ))}
         </select>
       </div>
 
-      <div style={{ marginBottom: '16px' }}>
-        <label style={LABEL_STYLE}>Ödeme Durumu</label>
-        <select value={paymentStatus} onChange={(e) => setPaymentStatus(e.target.value)} style={INPUT_STYLE}>
-          {PAYMENT_STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+      <div style={{ marginBottom: '14px' }}>
+        <label className="ad-label">Ödeme Durumu</label>
+        <select value={paymentStatus} onChange={(e) => setPaymentStatus(e.target.value)} className="ad-select">
+          {PAYMENT_STATUS_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>{o.label}</option>
+          ))}
         </select>
       </div>
 
-      <div style={{ marginBottom: '20px' }}>
-        <label style={LABEL_STYLE}>Kargo Takip No</label>
-        <input type="text" value={trackingNumber} onChange={(e) => setTrackingNumber(e.target.value)} style={INPUT_STYLE} placeholder="Yurtiçi/MNG/Aras" />
+      <div style={{ marginBottom: '18px' }}>
+        <label className="ad-label">Kargo Takip No</label>
+        <input
+          type="text"
+          value={trackingNumber}
+          onChange={(e) => setTrackingNumber(e.target.value)}
+          className="ad-input"
+          placeholder="Yurtiçi / MNG / Aras"
+        />
       </div>
 
       {message && (
-        <div style={{
-          padding: '10px 12px',
-          fontSize: '12px',
-          marginBottom: '14px',
-          border: '1px solid ' + (message.type === 'ok' ? 'rgba(92,122,63,0.4)' : '#C8472D'),
-          color: message.type === 'ok' ? '#A6C481' : '#F4F0E8',
-          backgroundColor: message.type === 'ok' ? 'rgba(92,122,63,0.08)' : 'rgba(200,71,45,0.08)',
-        }}>
+        <div
+          role="alert"
+          style={{
+            padding: '10px 12px',
+            fontSize: '12px',
+            marginBottom: '14px',
+            border: `1px solid ${message.type === 'ok' ? 'var(--ad-success)' : 'var(--ad-danger)'}`,
+            color: message.type === 'ok' ? 'var(--ad-success)' : 'var(--ad-danger)',
+            backgroundColor: message.type === 'ok' ? 'var(--ad-success-faint)' : 'var(--ad-danger-faint)',
+          }}
+        >
           {message.text}
         </div>
       )}
 
-      <button type="button" onClick={handleSave} disabled={saving}
-        style={{
-          width: '100%',
-          padding: '14px',
-          backgroundColor: saving ? '#9C7C3C' : '#C9A961',
-          color: '#0A0908',
-          fontFamily: 'var(--font-jetbrains)',
-          fontSize: '11px',
-          letterSpacing: '0.25em',
-          textTransform: 'uppercase',
-          border: 'none',
-          cursor: saving ? 'wait' : 'pointer',
-        }}>
-        {saving ? 'Kaydediliyor…' : 'Kaydet'}
+      <button
+        type="button"
+        onClick={handleSave}
+        disabled={saving}
+        className="ad-btn ad-btn-primary"
+        style={{ width: '100%' }}
+      >
+        {saving ? 'Kaydediliyor…' : 'Değişiklikleri Kaydet'}
       </button>
 
-      <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid rgba(244,240,232,0.06)' }}>
-        <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '9px', letterSpacing: '0.22em', color: '#6E665A', textTransform: 'uppercase', margin: '0 0 6px' }}>
-          Ödeme Yöntemi
-        </p>
-        <p style={{ color: '#F4F0E8', fontSize: '13px', margin: 0 }}>
-          {props.paymentMethod === 'bank_transfer' ? 'Havale / EFT' : props.paymentMethod}
-        </p>
-        {props.paymentRef && (
-          <>
-            <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '9px', letterSpacing: '0.22em', color: '#6E665A', textTransform: 'uppercase', margin: '12px 0 6px' }}>
-              Ödeme Ref
-            </p>
-            <p style={{ color: '#F4F0E8', fontSize: '12px', margin: 0, fontFamily: 'var(--font-jetbrains)' }}>
-              {props.paymentRef}
-            </p>
-          </>
-        )}
-      </div>
+      <hr className="ad-divider" />
+
+      <p className="ad-eyebrow-muted" style={{ marginBottom: '8px' }}>Ödeme Yöntemi</p>
+      <p style={{ color: 'var(--ad-fg)', fontSize: '13px', margin: 0 }}>
+        {props.paymentMethod === 'bank_transfer' ? 'Havale / EFT' : props.paymentMethod}
+      </p>
+
+      {props.paymentRef && (
+        <>
+          <p className="ad-eyebrow-muted" style={{ marginTop: '14px', marginBottom: '6px' }}>Ödeme Ref.</p>
+          <p className="ad-mono" style={{ color: 'var(--ad-fg)', fontSize: '12px', margin: 0, wordBreak: 'break-all' }}>
+            {props.paymentRef}
+          </p>
+        </>
+      )}
     </div>
   )
 }

@@ -240,6 +240,147 @@ function pctChange(prev: number, cur: number): number {
   return ((cur - prev) / prev) * 100
 }
 
+// ─── Müşteriler — sipariş email'lerinden türetilir ─────────────
+export interface CustomerSummary {
+  email: string
+  name: string
+  phone: string | null
+  total_orders: number
+  total_revenue: number
+  first_order_at: string
+  last_order_at: string
+}
+
+export async function listCustomers(opts: { limit?: number; offset?: number; search?: string } = {}): Promise<{
+  customers: CustomerSummary[]
+  total: number
+}> {
+  const { limit = 50, offset = 0, search } = opts
+  const supabase = getSupabaseAdmin()
+
+  let q = supabase
+    .from('orders')
+    .select('customer_email, customer_name, customer_phone, total_amount, status, created_at')
+    .order('created_at', { ascending: false })
+
+  if (search) {
+    q = q.or(`customer_email.ilike.%${search}%,customer_name.ilike.%${search}%`)
+  }
+
+  const { data } = await q
+  if (!data) return { customers: [], total: 0 }
+
+  // Email bazında grupla
+  const map = new Map<string, CustomerSummary>()
+  for (const row of data) {
+    const email = row.customer_email
+    const cur = map.get(email)
+    if (cur) {
+      cur.total_orders += 1
+      if (row.status !== 'cancelled' && row.status !== 'refunded') {
+        cur.total_revenue += Number(row.total_amount ?? 0)
+      }
+      // En eski tarih
+      if (row.created_at < cur.first_order_at) cur.first_order_at = row.created_at
+      // En yeni tarih (zaten desc sıralı, ama defansif)
+      if (row.created_at > cur.last_order_at) cur.last_order_at = row.created_at
+    } else {
+      map.set(email, {
+        email,
+        name: row.customer_name,
+        phone: row.customer_phone,
+        total_orders: 1,
+        total_revenue: row.status !== 'cancelled' && row.status !== 'refunded' ? Number(row.total_amount ?? 0) : 0,
+        first_order_at: row.created_at,
+        last_order_at: row.created_at,
+      })
+    }
+  }
+
+  const all = Array.from(map.values()).sort((a, b) => b.last_order_at.localeCompare(a.last_order_at))
+  const total = all.length
+  return { customers: all.slice(offset, offset + limit), total }
+}
+
+// ─── Düşük stok varyantları (TÜM list, stok sayfası için) ──────
+export interface StockRow {
+  variant_id: string
+  product_id: string
+  product_name: string
+  product_slug: string
+  variant_label: string | null
+  stock: number
+  is_active: boolean
+}
+
+export async function listAllStockRows(): Promise<StockRow[]> {
+  const supabase = getSupabaseAdmin()
+  const { data } = await supabase
+    .from('product_variants')
+    .select(`
+      id, label, variant_value, stock_quantity, is_active,
+      product:products(id, name, slug, is_active)
+    `)
+    .order('stock_quantity', { ascending: true })
+
+  return ((data ?? []) as unknown[])
+    .map((row) => {
+      const r = row as {
+        id: string
+        label: string | null
+        variant_value: string | null
+        stock_quantity: number | null
+        is_active: boolean | null
+        product: { id: string; name: string; slug: string; is_active: boolean } | { id: string; name: string; slug: string; is_active: boolean }[] | null
+      }
+      const prod = Array.isArray(r.product) ? r.product[0] : r.product
+      if (!prod) return null
+      return {
+        variant_id: r.id,
+        product_id: prod.id,
+        product_name: prod.name,
+        product_slug: prod.slug,
+        variant_label: r.label ?? r.variant_value,
+        stock: Number(r.stock_quantity ?? 0),
+        is_active: r.is_active !== false,
+      } satisfies StockRow
+    })
+    .filter((r): r is StockRow => r !== null)
+}
+
+// ─── Analitik için ek metrikler ─────────────────────────────────
+export interface AnalyticsSnapshot {
+  totalCustomers: number
+  totalOrders: number
+  totalRevenue: number
+  avgOrderValue: number
+  paidOrders: number
+  cancelledOrders: number
+  series30: DailySeries[]
+}
+
+export async function getAnalyticsSnapshot(): Promise<AnalyticsSnapshot> {
+  const supabase = getSupabaseAdmin()
+  const series30 = await getDailySeries(30)
+
+  const { data: orderRows } = await supabase.from('orders').select('status, total_amount, customer_email')
+  const orders = orderRows ?? []
+
+  const paidOrders = orders.filter((o) => o.status !== 'cancelled' && o.status !== 'refunded')
+  const totalRevenue = paidOrders.reduce((s, o) => s + Number(o.total_amount ?? 0), 0)
+  const customerEmails = new Set(orders.map((o) => o.customer_email))
+
+  return {
+    totalCustomers: customerEmails.size,
+    totalOrders: orders.length,
+    totalRevenue,
+    avgOrderValue: paidOrders.length > 0 ? totalRevenue / paidOrders.length : 0,
+    paidOrders: paidOrders.length,
+    cancelledOrders: orders.filter((o) => o.status === 'cancelled').length,
+    series30,
+  }
+}
+
 export interface DashboardStats {
   todayOrders: number
   todayRevenue: number

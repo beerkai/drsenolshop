@@ -13,6 +13,7 @@ import { HourlyOrdersBar } from '@/components/admin/dashboard/HourlyOrdersBar'
 import { TopProductsList } from '@/components/admin/dashboard/TopProductsList'
 import { LowStockList } from '@/components/admin/dashboard/LowStockList'
 import { RecentOrdersTable } from '@/components/admin/dashboard/RecentOrdersTable'
+import { RealtimeOrdersBanner } from '@/components/admin/dashboard/RealtimeOrdersBanner'
 import { IconArrowRight } from '@/components/admin/ui/Icon'
 
 function greeting() {
@@ -39,6 +40,9 @@ export default async function AdminDashboardPage() {
 
   return (
     <div>
+      {/* Realtime canlı sipariş banner'ı */}
+      <RealtimeOrdersBanner />
+
       {/* Hero — selamlama + günün özeti */}
       <div style={{ marginBottom: '32px', display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '20px' }}>
         <div>
