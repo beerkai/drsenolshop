@@ -286,6 +286,30 @@ export async function getProductsByCategory(
 }
 
 // ───────────────────────────────────────────────────────────────
+// ID listesinden ürün çekme — checkout doğrulamasında kullanılır
+// ───────────────────────────────────────────────────────────────
+
+export async function getProductsByIds(ids: string[]): Promise<ProductWithRelations[]> {
+  if (!isSupabaseConfigured() || ids.length === 0) return []
+
+  const { data, error } = await getSupabase()
+    .from('products')
+    .select(`
+      *,
+      variants:product_variants(*),
+      category:categories(*)
+    `)
+    .in('id', ids)
+
+  if (error) {
+    console.error('[getProductsByIds] Hata:', error.message)
+    return []
+  }
+
+  return (data as ProductQueryResult[]).map(transformProductData)
+}
+
+// ───────────────────────────────────────────────────────────────
 // Görüntülenme — anon güncelleme RLS'e bağlı; sessiz başarısızlık
 // ───────────────────────────────────────────────────────────────
 

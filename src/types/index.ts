@@ -142,23 +142,26 @@ export type OrderStatus =
 
 export type PaymentStatus = 'pending' | 'authorized' | 'captured' | 'failed' | 'refunded'
 
+export type PaymentMethod = 'bank_transfer' | 'iyzico' | 'stripe' | 'cash_on_delivery'
+
 export interface Order {
   id: string
   order_number: string
   status: OrderStatus
-  customer_email: string | null
+  customer_email: string
   customer_phone: string | null
-  customer_name: string | null
-  shipping_address: Record<string, unknown> | null
+  customer_name: string
+  user_id: string | null
+  shipping_address: Record<string, unknown>
   billing_address: Record<string, unknown> | null
   shipping_method: string | null
-  shipping_cost: number | null
+  shipping_cost: number
   subtotal: number
-  tax_amount: number | null
-  discount_amount: number | null
+  tax_amount: number
+  discount_amount: number
   total_amount: number
-  payment_method: string | null
-  payment_status: PaymentStatus | null
+  payment_method: PaymentMethod
+  payment_status: PaymentStatus
   payment_ref: string | null
   notes: string | null
   tracking_number: string | null
@@ -177,7 +180,10 @@ export interface OrderItem {
   product_name: string
   variant_label: string | null
   sku: string | null
+  product_slug: string | null
+  product_image: string | null
   unit_price: number
+  tax_rate: number
   quantity: number
   subtotal: number
   created_at: string
