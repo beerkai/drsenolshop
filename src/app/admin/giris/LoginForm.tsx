@@ -3,31 +3,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-const INPUT_STYLE: React.CSSProperties = {
-  width: '100%',
-  padding: '14px 16px',
-  backgroundColor: 'rgba(244,240,232,0.04)',
-  border: '1px solid rgba(244,240,232,0.12)',
-  color: '#F4F0E8',
-  fontSize: '14px',
-  fontFamily: 'var(--font-sans)',
-  outline: 'none',
-}
-
-const LABEL_STYLE: React.CSSProperties = {
-  display: 'block',
-  fontFamily: 'var(--font-jetbrains)',
-  fontSize: '10px',
-  letterSpacing: '0.22em',
-  color: '#6E665A',
-  textTransform: 'uppercase',
-  marginBottom: '8px',
-}
-
 export default function LoginForm({ next }: { next: string }) {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -60,58 +40,136 @@ export default function LoginForm({ next }: { next: string }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div style={{ marginBottom: '20px' }}>
-        <label style={LABEL_STYLE} htmlFor="email">E-mail</label>
+    <form onSubmit={handleSubmit} noValidate>
+      <div style={{ marginBottom: '18px' }}>
+        <label htmlFor="email" className="ad-label" style={{ marginBottom: '8px' }}>
+          E-mail Adresi
+        </label>
         <input
           id="email"
           type="email"
           required
           autoComplete="email"
+          autoFocus
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          style={INPUT_STYLE}
           placeholder="admin@drsenol.shop"
+          className="ad-input"
+          style={{ fontSize: '14px', padding: '12px 14px' }}
         />
       </div>
 
       <div style={{ marginBottom: '24px' }}>
-        <label style={LABEL_STYLE} htmlFor="password">Şifre</label>
-        <input
-          id="password"
-          type="password"
-          required
-          autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={INPUT_STYLE}
-        />
+        <label htmlFor="password" className="ad-label" style={{ marginBottom: '8px' }}>
+          Şifre
+        </label>
+        <div style={{ position: 'relative' }}>
+          <input
+            id="password"
+            type={showPassword ? 'text' : 'password'}
+            required
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            className="ad-input"
+            style={{ fontSize: '14px', padding: '12px 14px', paddingRight: '64px' }}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((s) => !s)}
+            tabIndex={-1}
+            style={{
+              position: 'absolute',
+              right: '6px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--ad-fg-muted)',
+              fontFamily: 'var(--font-jetbrains), monospace',
+              fontSize: '10px',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              padding: '6px 8px',
+              cursor: 'pointer',
+            }}
+          >
+            {showPassword ? 'Gizle' : 'Göster'}
+          </button>
+        </div>
       </div>
 
       {error && (
-        <div style={{ padding: '12px 14px', border: '1px solid #C8472D', backgroundColor: 'rgba(200,71,45,0.08)', color: '#F4F0E8', fontSize: '13px', marginBottom: '16px' }}>
-          {error}
+        <div
+          role="alert"
+          style={{
+            padding: '12px 14px',
+            border: '1px solid var(--ad-danger)',
+            backgroundColor: 'var(--ad-danger-faint)',
+            color: 'var(--ad-danger)',
+            fontSize: '13px',
+            marginBottom: '18px',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '10px',
+          }}
+        >
+          <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '11px', letterSpacing: '0.1em', flexShrink: 0 }}>
+            ✕
+          </span>
+          <span>{error}</span>
         </div>
       )}
 
       <button
         type="submit"
-        disabled={loading}
+        disabled={loading || !email || !password}
+        className="ad-btn ad-btn-primary"
         style={{
           width: '100%',
-          padding: '16px',
-          backgroundColor: loading ? '#9C7C3C' : '#C9A961',
-          color: '#0A0908',
-          fontFamily: 'var(--font-jetbrains)',
-          fontSize: '11px',
+          padding: '14px',
+          fontSize: '12px',
           letterSpacing: '0.28em',
-          textTransform: 'uppercase',
-          border: 'none',
-          cursor: loading ? 'wait' : 'pointer',
+          minHeight: '48px',
         }}
       >
-        {loading ? 'Giriş Yapılıyor…' : 'Giriş Yap'}
+        {loading ? (
+          <>
+            <span
+              aria-hidden
+              style={{
+                display: 'inline-block',
+                width: '10px',
+                height: '10px',
+                border: '1.5px solid currentColor',
+                borderTopColor: 'transparent',
+                borderRadius: '50%',
+                animation: 'ad-pulse 1s linear infinite',
+              }}
+            />
+            <span>Giriş Yapılıyor…</span>
+          </>
+        ) : (
+          <>
+            <span>Giriş Yap</span>
+            <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '12px', opacity: 0.7 }}>→</span>
+          </>
+        )}
       </button>
+
+      <div
+        style={{
+          marginTop: '20px',
+          paddingTop: '20px',
+          borderTop: '1px solid var(--ad-line-faint)',
+          fontSize: '12px',
+          color: 'var(--ad-fg-faint)',
+          lineHeight: 1.6,
+        }}
+      >
+        Yalnızca <code style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '11px', color: 'var(--ad-gold-deep)', backgroundColor: 'var(--ad-gold-faint)', padding: '1px 5px' }}>admin_users</code> tablosunda kayıtlı hesaplar giriş yapabilir.
+      </div>
     </form>
   )
 }
