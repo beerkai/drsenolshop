@@ -17,6 +17,15 @@ import {
 
 type Props = { params: Promise<{ slug: string }> }
 
+function stripHtml(html: string): string {
+  return html
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+    .replace(/📌\s*/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const product = await getProductBySlug(slug)
@@ -115,8 +124,8 @@ export default async function UrunPage({ params }: Props) {
                 Ürün Hakkında
               </p>
               <div style={{ fontFamily: 'var(--font-sans)', color: '#B8B0A0', fontSize: '15px', lineHeight: 1.85 }}>
-                {description.split('\n').filter(Boolean).map((para, i) => (
-                  <p key={i} style={{ margin: '0 0 16px' }}>{para}</p>
+                {stripHtml(description).split(/\.\s+/).filter(s => s.trim().length > 10).map((para, i) => (
+                  <p key={i} style={{ margin: '0 0 16px' }}>{para.trim().endsWith('.') ? para.trim() : para.trim() + '.'}</p>
                 ))}
               </div>
 
