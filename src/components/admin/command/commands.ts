@@ -28,6 +28,7 @@ export const ADMIN_COMMANDS: AdminCommand[] = [
   { id: 'go:analitik',   label: 'Analitik',     section: 'Sayfalar', keywords: ['analytics', 'rapor'],         shortcut: '⌘5', action: { type: 'navigate', href: '/admin/analitik' } },
   { id: 'go:stok',       label: 'Stok',         section: 'Sayfalar', keywords: ['stock', 'inventory'],         shortcut: '⌘6', action: { type: 'navigate', href: '/admin/stok' } },
   { id: 'go:gunluk',     label: 'Günlük',       section: 'Sayfalar', keywords: ['journal', 'not', 'diary'],    shortcut: '⌘7', action: { type: 'navigate', href: '/admin/gunluk' } },
+  { id: 'go:defter',     label: 'Defter',       section: 'Sayfalar', keywords: ['ledger', 'kayıt', 'plaka', 'satış'], shortcut: '⌘8', action: { type: 'navigate', href: '/admin/defter' } },
   { id: 'go:ayarlar',    label: 'Ayarlar',      section: 'Sayfalar', keywords: ['settings', 'config'],         shortcut: '⌘,', action: { type: 'navigate', href: '/admin/ayarlar' } },
 
   // ── Hızlı Filtreler ────────────────────────────────────────

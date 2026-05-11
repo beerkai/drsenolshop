@@ -27,6 +27,7 @@ const NAV_SHORTCUTS: Record<string, string> = {
   '5': '/admin/analitik',
   '6': '/admin/stok',
   '7': '/admin/gunluk',
+  '8': '/admin/defter',
   ',': '/admin/ayarlar',
 }
 

@@ -26,6 +26,7 @@ const GROUPS: Array<{ title: string; items: Array<{ keys: string[]; label: strin
       { keys: ['⌘', '5'], label: 'Analitik' },
       { keys: ['⌘', '6'], label: 'Stok' },
       { keys: ['⌘', '7'], label: 'Günlük' },
+      { keys: ['⌘', '8'], label: 'Defter' },
       { keys: ['⌘', ','], label: 'Ayarlar' },
     ],
   },
