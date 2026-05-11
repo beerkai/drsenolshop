@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { ProductWithRelations } from '@/types'
 import { formatPrice, getVariantLabel } from '@/types'
+import { toast } from '@/components/admin/toast/toast'
 
 export default function ProductEditForm({ product }: { product: ProductWithRelations }) {
   const router = useRouter()
@@ -23,11 +24,9 @@ export default function ProductEditForm({ product }: { product: ProductWithRelat
   })
 
   const [saving, setSaving] = useState(false)
-  const [message, setMessage] = useState<{ type: 'ok' | 'error'; text: string } | null>(null)
 
   async function handleSave() {
     setSaving(true)
-    setMessage(null)
     try {
       const res = await fetch(`/api/admin/products/${product.id}`, {
         method: 'PATCH',
@@ -43,16 +42,15 @@ export default function ProductEditForm({ product }: { product: ProductWithRelat
       })
       const data = await res.json()
       if (!res.ok || !data.ok) {
-        setMessage({ type: 'error', text: data.message ?? 'Güncelleme başarısız.' })
+        toast.error(data.message ?? 'Güncelleme başarısız.')
       } else {
-        setMessage({ type: 'ok', text: 'Kaydedildi.' })
+        toast.success(`${product.name} güncellendi.`)
         router.refresh()
       }
     } catch {
-      setMessage({ type: 'error', text: 'Ağ hatası.' })
+      toast.error('Ağ hatası.')
     } finally {
       setSaving(false)
-      setTimeout(() => setMessage(null), 3000)
     }
   }
 
@@ -189,21 +187,6 @@ export default function ProductEditForm({ product }: { product: ProductWithRelat
           marginTop: '8px',
         }}
       >
-        {message && (
-          <div
-            role="alert"
-            style={{
-              padding: '10px 12px',
-              fontSize: '12px',
-              marginBottom: '12px',
-              border: `1px solid ${message.type === 'ok' ? 'var(--ad-success)' : 'var(--ad-danger)'}`,
-              color: message.type === 'ok' ? 'var(--ad-success)' : 'var(--ad-danger)',
-              backgroundColor: message.type === 'ok' ? 'var(--ad-success-faint)' : 'var(--ad-danger-faint)',
-            }}
-          >
-            {message.text}
-          </div>
-        )}
         <button
           type="button"
           onClick={handleSave}

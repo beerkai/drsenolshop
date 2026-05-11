@@ -164,6 +164,18 @@ CREATE TABLE IF NOT EXISTS public.order_items (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+-- ─── daily_logs (v0.4.0) ─────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS public.daily_logs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  log_date DATE NOT NULL,
+  author_email TEXT NOT NULL,
+  notes TEXT,
+  metrics JSONB DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ,
+  CONSTRAINT daily_logs_author_date_key UNIQUE (author_email, log_date)
+);
+
 -- ─── admin_users (v0.4.0) ────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS public.admin_users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -201,6 +213,10 @@ CREATE POLICY "orders_anon_insert" ON public.orders FOR INSERT TO anon WITH CHEC
 
 DROP POLICY IF EXISTS "order_items_anon_insert" ON public.order_items;
 CREATE POLICY "order_items_anon_insert" ON public.order_items FOR INSERT TO anon WITH CHECK (true);
+
+-- daily_logs: anon hiçbir şey yapamaz, sadece service_role.
+ALTER TABLE public.daily_logs ENABLE ROW LEVEL SECURITY;
+-- Policy yok.
 
 -- admin_users: anon hiçbir şey yapamaz. Authenticated kendi satırını okur.
 DROP POLICY IF EXISTS "admin_users_self_read" ON public.admin_users;

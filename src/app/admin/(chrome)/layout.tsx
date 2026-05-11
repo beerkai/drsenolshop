@@ -3,6 +3,7 @@ import { getSupabaseAdmin } from '@/lib/supabase'
 import { TopBar } from '@/components/admin/shell/TopBar'
 import { Sidebar } from '@/components/admin/shell/Sidebar'
 import { CommandProvider } from '@/components/admin/command/CommandProvider'
+import { Toaster } from '@/components/admin/toast/Toaster'
 
 async function getPendingOrderCount(): Promise<number> {
   try {
@@ -23,6 +24,7 @@ export default async function AdminChromeLayout({ children }: { children: React.
 
   return (
     <CommandProvider>
+      <Toaster />
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <TopBar
           email={ctx?.admin.email ?? ''}
