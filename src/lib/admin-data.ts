@@ -6,6 +6,240 @@
 import { getSupabaseAdmin } from './supabase'
 import type { Order, OrderItem, ProductWithRelations } from '@/types'
 
+// ─── Yardımcı: günlük periyot diziye dönüştür ───────────────────
+function lastNDays(n: number): { from: Date; days: Date[] } {
+  const now = new Date()
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const from = new Date(today.getTime() - (n - 1) * 86400000)
+  const days: Date[] = []
+  for (let i = 0; i < n; i++) {
+    days.push(new Date(from.getTime() + i * 86400000))
+  }
+  return { from, days }
+}
+
+function dateKey(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+// ─── Günlük sipariş/ciro serisi (sparkline + delta için) ───────
+export interface DailySeries {
+  date: string        // YYYY-MM-DD
+  orders: number
+  revenue: number
+}
+
+export async function getDailySeries(days: number): Promise<DailySeries[]> {
+  const supabase = getSupabaseAdmin()
+  const { from, days: dateList } = lastNDays(days)
+
+  const { data } = await supabase
+    .from('orders')
+    .select('total_amount, status, created_at')
+    .gte('created_at', from.toISOString())
+
+  // İlk olarak diziyi sıfırla
+  const map = new Map<string, { orders: number; revenue: number }>()
+  for (const d of dateList) {
+    map.set(dateKey(d), { orders: 0, revenue: 0 })
+  }
+
+  for (const row of data ?? []) {
+    const k = dateKey(new Date(row.created_at))
+    const slot = map.get(k)
+    if (!slot) continue
+    slot.orders += 1
+    if (row.status !== 'cancelled' && row.status !== 'refunded') {
+      slot.revenue += Number(row.total_amount ?? 0)
+    }
+  }
+
+  return Array.from(map.entries()).map(([date, v]) => ({
+    date,
+    orders: v.orders,
+    revenue: v.revenue,
+  }))
+}
+
+// ─── Bugünün saat saat sipariş hacmi (0-23) ────────────────────
+export async function getHourlyOrdersToday(): Promise<number[]> {
+  const supabase = getSupabaseAdmin()
+  const start = new Date()
+  start.setHours(0, 0, 0, 0)
+
+  const { data } = await supabase
+    .from('orders')
+    .select('created_at, status')
+    .gte('created_at', start.toISOString())
+
+  const hours = Array<number>(24).fill(0)
+  for (const row of data ?? []) {
+    const h = new Date(row.created_at).getHours()
+    hours[h] += 1
+  }
+  return hours
+}
+
+// ─── Top satılan ürünler ───────────────────────────────────────
+export interface TopProductRow {
+  product_id: string | null
+  product_name: string
+  product_slug: string | null
+  units: number
+  revenue: number
+}
+
+export async function getTopProducts(days = 30, limit = 5): Promise<TopProductRow[]> {
+  const supabase = getSupabaseAdmin()
+  const from = new Date(Date.now() - days * 86400000).toISOString()
+
+  // İlk olarak ilgili sipariş id'lerini çek
+  const { data: orderRows } = await supabase
+    .from('orders')
+    .select('id, status')
+    .gte('created_at', from)
+    .neq('status', 'cancelled')
+    .neq('status', 'refunded')
+
+  const orderIds = (orderRows ?? []).map((o) => o.id)
+  if (orderIds.length === 0) return []
+
+  const { data: items } = await supabase
+    .from('order_items')
+    .select('product_id, product_name, product_slug, quantity, subtotal')
+    .in('order_id', orderIds)
+
+  const map = new Map<string, TopProductRow>()
+  for (const it of items ?? []) {
+    const key = it.product_id ?? it.product_name
+    const cur = map.get(key) ?? {
+      product_id: it.product_id ?? null,
+      product_name: it.product_name,
+      product_slug: it.product_slug ?? null,
+      units: 0,
+      revenue: 0,
+    }
+    cur.units += Number(it.quantity ?? 0)
+    cur.revenue += Number(it.subtotal ?? 0)
+    map.set(key, cur)
+  }
+
+  return Array.from(map.values())
+    .sort((a, b) => b.revenue - a.revenue)
+    .slice(0, limit)
+}
+
+// ─── Düşük stok varyantları ────────────────────────────────────
+export interface LowStockRow {
+  product_id: string
+  product_name: string
+  product_slug: string
+  variant_label: string | null
+  stock: number
+}
+
+export async function getLowStock(threshold = 5, limit = 10): Promise<LowStockRow[]> {
+  const supabase = getSupabaseAdmin()
+  const { data } = await supabase
+    .from('product_variants')
+    .select(`
+      id, label, variant_value, stock_quantity, is_active,
+      product:products(id, name, slug, is_active)
+    `)
+    .lte('stock_quantity', threshold)
+    .eq('is_active', true)
+    .order('stock_quantity', { ascending: true })
+    .limit(limit)
+
+  return ((data ?? []) as unknown[])
+    .map((row) => {
+      const r = row as {
+        label: string | null
+        variant_value: string | null
+        stock_quantity: number | null
+        product: { id: string; name: string; slug: string; is_active: boolean } | { id: string; name: string; slug: string; is_active: boolean }[] | null
+      }
+      const prod = Array.isArray(r.product) ? r.product[0] : r.product
+      if (!prod || prod.is_active === false) return null
+      return {
+        product_id: prod.id,
+        product_name: prod.name,
+        product_slug: prod.slug,
+        variant_label: r.label ?? r.variant_value,
+        stock: Number(r.stock_quantity ?? 0),
+      } satisfies LowStockRow
+    })
+    .filter((r): r is LowStockRow => r !== null)
+}
+
+// ─── Zenginleştirilmiş Pano İstatistikleri ─────────────────────
+export interface DashboardStatsV2 {
+  today: { orders: number; revenue: number; sparkline: number[] }
+  yesterday: { orders: number; revenue: number }
+  last7: { orders: number; revenue: number; sparkline: number[]; deltaPct: number }
+  last30: { orders: number; revenue: number; sparkline: number[]; deltaPct: number }
+  pending: number
+  lowStock: number
+}
+
+export async function getDashboardStatsV2(): Promise<DashboardStatsV2> {
+  // Son 60 günü tek seferde çek → tüm pencereleri buradan hesapla
+  const series60 = await getDailySeries(60)
+  const today = series60[series60.length - 1] ?? { orders: 0, revenue: 0, date: '' }
+  const yesterday = series60[series60.length - 2] ?? { orders: 0, revenue: 0, date: '' }
+
+  const last7 = series60.slice(-7)
+  const prev7 = series60.slice(-14, -7)
+  const last7Sum = sumSeries(last7)
+  const prev7Sum = sumSeries(prev7)
+
+  const last30 = series60.slice(-30)
+  const prev30 = series60.slice(-60, -30)
+  const last30Sum = sumSeries(last30)
+  const prev30Sum = sumSeries(prev30)
+
+  const supabase = getSupabaseAdmin()
+  const [{ count: pendingCount }, { count: lowVariantCount }] = await Promise.all([
+    supabase.from('orders').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+    supabase.from('product_variants').select('id', { count: 'exact', head: true }).lte('stock_quantity', 5).eq('is_active', true),
+  ])
+
+  return {
+    today: {
+      orders: today.orders,
+      revenue: today.revenue,
+      sparkline: last7.map((d) => d.revenue),
+    },
+    yesterday: { orders: yesterday.orders, revenue: yesterday.revenue },
+    last7: {
+      orders: last7Sum.orders,
+      revenue: last7Sum.revenue,
+      sparkline: last7.map((d) => d.revenue),
+      deltaPct: pctChange(prev7Sum.revenue, last7Sum.revenue),
+    },
+    last30: {
+      orders: last30Sum.orders,
+      revenue: last30Sum.revenue,
+      sparkline: last30.map((d) => d.revenue),
+      deltaPct: pctChange(prev30Sum.revenue, last30Sum.revenue),
+    },
+    pending: pendingCount ?? 0,
+    lowStock: lowVariantCount ?? 0,
+  }
+}
+
+function sumSeries(s: DailySeries[]) {
+  return s.reduce(
+    (acc, d) => ({ orders: acc.orders + d.orders, revenue: acc.revenue + d.revenue }),
+    { orders: 0, revenue: 0 }
+  )
+}
+
+function pctChange(prev: number, cur: number): number {
+  if (prev === 0) return cur > 0 ? 100 : 0
+  return ((cur - prev) / prev) * 100
+}
+
 export interface DashboardStats {
   todayOrders: number
   todayRevenue: number

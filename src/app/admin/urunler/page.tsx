@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { requireAdmin } from '@/lib/admin-auth'
 import { listProducts } from '@/lib/admin-data'
 import { formatPrice } from '@/types'
+import { Badge } from '@/components/admin/ui/Badge'
+import { IconStar, IconArrowRight } from '@/components/admin/ui/Icon'
 
 type SP = Promise<{ q?: string; page?: string }>
 
@@ -17,12 +19,14 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
 
   return (
     <div>
-      <div style={{ marginBottom: '32px' }}>
-        <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 14px' }}>
-          Katalog
-        </p>
-        <h1 style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '32px', fontWeight: 500, lineHeight: 1.1, margin: 0 }}>
-          Ürünler <span style={{ color: '#6E665A', fontSize: '20px' }}>({total})</span>
+      {/* Başlık */}
+      <div style={{ marginBottom: '24px' }}>
+        <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Katalog</p>
+        <h1 className="ad-display" style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+          Ürünler{' '}
+          <span style={{ color: 'var(--ad-fg-faint)', fontFamily: 'var(--font-jetbrains), monospace', fontSize: '0.55em', letterSpacing: '0.1em', marginLeft: '6px' }}>
+            {total}
+          </span>
         </h1>
       </div>
 
@@ -32,35 +36,27 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
           name="q"
           defaultValue={search ?? ''}
           placeholder="Ürün ara (isim)…"
-          style={{
-            width: '100%',
-            padding: '12px 14px',
-            backgroundColor: 'rgba(244,240,232,0.04)',
-            border: '1px solid rgba(244,240,232,0.12)',
-            color: '#F4F0E8',
-            fontSize: '13px',
-            fontFamily: 'var(--font-sans)',
-            outline: 'none',
-          }}
+          className="ad-input"
         />
       </form>
 
       {products.length === 0 ? (
-        <p style={{ color: '#6E665A', fontSize: '14px', padding: '40px', textAlign: 'center', border: '1px dashed rgba(244,240,232,0.08)' }}>
-          Ürün bulunamadı.
-        </p>
+        <div className="ad-empty">
+          <p className="ad-empty-title">Ürün bulunamadı.</p>
+          {search && <p className="ad-empty-hint">"{search}" araması için sonuç yok.</p>}
+        </div>
       ) : (
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', minWidth: '900px', borderCollapse: 'collapse', backgroundColor: '#141210' }}>
+        <div className="ad-table-wrap">
+          <table className="ad-table">
             <thead>
-              <tr style={{ borderBottom: '1px solid rgba(244,240,232,0.1)' }}>
-                <Th>Ürün</Th>
-                <Th>Kategori</Th>
-                <Th align="right">Fiyat</Th>
-                <Th align="right">KDV</Th>
-                <Th align="right">Stok</Th>
-                <Th>Durum</Th>
-                <Th />
+              <tr>
+                <th>Ürün</th>
+                <th>Kategori</th>
+                <th className="is-right">Fiyat</th>
+                <th className="is-right">KDV</th>
+                <th className="is-right">Stok</th>
+                <th>Durum</th>
+                <th aria-label="actions" />
               </tr>
             </thead>
             <tbody>
@@ -68,59 +64,43 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
                 const isLow = (p.stock_quantity ?? 0) <= 5 && (p.stock_quantity ?? 0) > 0
                 const isOut = (p.stock_quantity ?? 0) <= 0 && p.variants_count === 0
                 return (
-                  <tr key={p.id} style={{ borderBottom: '1px solid rgba(244,240,232,0.04)' }}>
-                    <td style={{ padding: '14px 16px' }}>
-                      <p style={{ color: '#F4F0E8', fontSize: '14px', margin: 0 }}>{p.name}</p>
-                      <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', color: '#6E665A', margin: '2px 0 0' }}>{p.slug}</p>
+                  <tr key={p.id}>
+                    <td>
+                      <p style={{ color: 'var(--ad-fg)', fontSize: '13px', margin: 0, fontWeight: 500 }}>{p.name}</p>
+                      <p className="ad-mono" style={{ fontSize: '10.5px', color: 'var(--ad-fg-faint)', margin: '2px 0 0', letterSpacing: '0.05em' }}>
+                        {p.slug}
+                      </p>
                     </td>
-                    <td style={{ padding: '14px 16px', color: '#B8B0A0', fontSize: '13px' }}>
-                      {p.category_name ?? '—'}
+                    <td style={{ color: 'var(--ad-fg-muted)' }}>{p.category_name ?? '—'}</td>
+                    <td className="is-right">
+                      {p.base_price !== null
+                        ? <span className="ad-display" style={{ fontSize: '16px', fontWeight: 500 }}>{formatPrice(p.base_price)}</span>
+                        : p.variants_count > 0
+                          ? <span className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>varyantta</span>
+                          : <span style={{ color: 'var(--ad-fg-faint)' }}>—</span>
+                      }
                     </td>
-                    <td style={{ padding: '14px 16px', textAlign: 'right', color: '#F4F0E8', fontFamily: 'var(--font-cormorant)', fontSize: '16px', fontWeight: 500 }}>
-                      {p.base_price !== null ? formatPrice(p.base_price) : (p.variants_count > 0 ? <span style={{ fontSize: '11px', color: '#6E665A', fontFamily: 'var(--font-jetbrains)' }}>varyantta</span> : '—')}
-                    </td>
-                    <td style={{ padding: '14px 16px', textAlign: 'right', color: '#B8B0A0', fontFamily: 'var(--font-jetbrains)', fontSize: '12px' }}>
+                    <td className="is-right ad-mono" style={{ fontSize: '12px', color: 'var(--ad-fg-muted)' }}>
                       %{p.tax_rate ?? 0}
                     </td>
-                    <td style={{ padding: '14px 16px', textAlign: 'right', fontFamily: 'var(--font-jetbrains)', fontSize: '13px',
-                      color: isOut ? '#C8472D' : isLow ? '#D4715A' : '#F4F0E8' }}>
+                    <td className="is-right ad-mono" style={{ fontSize: '12px', color: isOut ? 'var(--ad-danger)' : isLow ? 'var(--ad-warning)' : 'var(--ad-fg)' }}>
                       {p.variants_count > 0
-                        ? <span style={{ color: '#6E665A', fontSize: '11px' }}>{p.variants_count} varyant</span>
+                        ? <span style={{ color: 'var(--ad-fg-faint)', fontSize: '10.5px', letterSpacing: '0.05em' }}>{p.variants_count} varyant</span>
                         : (p.stock_quantity ?? 0)}
                     </td>
-                    <td style={{ padding: '14px 16px' }}>
-                      <span style={{
-                        display: 'inline-block',
-                        fontFamily: 'var(--font-jetbrains)',
-                        fontSize: '9px',
-                        letterSpacing: '0.18em',
-                        textTransform: 'uppercase',
-                        padding: '3px 8px',
-                        backgroundColor: p.is_active ? 'rgba(92,122,63,0.15)' : 'rgba(244,240,232,0.06)',
-                        color: p.is_active ? '#8AA868' : '#6E665A',
-                      }}>
-                        {p.is_active ? 'Aktif' : 'Pasif'}
-                      </span>
-                      {p.is_featured && (
-                        <span style={{
-                          display: 'inline-block',
-                          marginLeft: '6px',
-                          fontFamily: 'var(--font-jetbrains)',
-                          fontSize: '9px',
-                          letterSpacing: '0.18em',
-                          textTransform: 'uppercase',
-                          padding: '3px 8px',
-                          backgroundColor: 'rgba(201,169,97,0.12)',
-                          color: '#C9A961',
-                        }}>
-                          ★
-                        </span>
-                      )}
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
+                        <Badge tone={p.is_active ? 'success' : 'neutral'}>
+                          {p.is_active ? 'Aktif' : 'Pasif'}
+                        </Badge>
+                        {p.is_featured && (
+                          <Badge tone="gold"><IconStar size={10} /></Badge>
+                        )}
+                      </div>
                     </td>
-                    <td style={{ padding: '14px 16px', textAlign: 'right' }}>
-                      <Link href={`/admin/urunler/${p.id}`}
-                        style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.18em', color: '#C9A961', textTransform: 'uppercase', textDecoration: 'none' }}>
-                        Düzenle →
+                    <td className="is-right">
+                      <Link href={`/admin/urunler/${p.id}`} className="ad-btn ad-btn-secondary ad-btn-sm">
+                        Düzenle <IconArrowRight size={11} />
                       </Link>
                     </td>
                   </tr>
@@ -131,22 +111,5 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
         </div>
       )}
     </div>
-  )
-}
-
-function Th({ children, align }: { children?: React.ReactNode; align?: 'left' | 'right' }) {
-  return (
-    <th style={{
-      padding: '14px 16px',
-      textAlign: align ?? 'left',
-      fontFamily: 'var(--font-jetbrains)',
-      fontSize: '9px',
-      letterSpacing: '0.22em',
-      color: '#6E665A',
-      textTransform: 'uppercase',
-      fontWeight: 500,
-    }}>
-      {children}
-    </th>
   )
 }

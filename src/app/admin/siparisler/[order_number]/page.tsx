@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { requireAdmin } from '@/lib/admin-auth'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { formatPrice } from '@/types'
-import { StatusPill } from '../../page'
+import { StatusBadge } from '@/components/admin/ui/Badge'
 import OrderActions from './OrderActions'
 
 type Props = { params: Promise<{ order_number: string }> }
@@ -45,7 +45,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
           </p>
         </div>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          <StatusPill value={order.status} />
+          <StatusBadge value={order.status} />
         </div>
       </div>
 
