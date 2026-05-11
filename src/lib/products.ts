@@ -3,7 +3,7 @@
 // Server Component ve Route Handler içinde kullanıma uygundur
 // ═══════════════════════════════════════════════════════════════
 
-import { supabase } from './supabase'
+import { getSupabase, isSupabaseConfigured } from './supabase'
 import type { Category, Product, ProductVariant, ProductWithRelations } from '@/types'
 
 /** Join sonrası ham satır tipi (PostgREST gömülü ilişkiler) */
@@ -95,7 +95,12 @@ function normalizeProductRow(p: Product): Product {
 // ───────────────────────────────────────────────────────────────
 
 export async function getFeaturedProducts(limit = 6): Promise<ProductWithRelations[]> {
-  const { data, error } = await supabase
+  if (!isSupabaseConfigured()) {
+    console.warn('[getFeaturedProducts] Supabase ortam değişkenleri eksik; boş liste dönülüyor.')
+    return []
+  }
+
+  const { data, error } = await getSupabase()
     .from('products')
     .select(
       `
@@ -133,6 +138,12 @@ export interface GetProductsOptions {
 }
 
 export async function getProducts(options: GetProductsOptions = {}): Promise<ProductWithRelations[]> {
+  if (!isSupabaseConfigured()) {
+    console.warn('[getProducts] Supabase ortam değişkenleri eksik; boş liste dönülüyor.')
+    return []
+  }
+
+  const supabase = getSupabase()
   const {
     categorySlug,
     isActive = true,
@@ -203,7 +214,12 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Pro
 // ───────────────────────────────────────────────────────────────
 
 export async function getProductBySlug(slug: string): Promise<ProductWithRelations | null> {
-  const { data, error } = await supabase
+  if (!isSupabaseConfigured()) {
+    console.warn('[getProductBySlug] Supabase ortam değişkenleri eksik.')
+    return null
+  }
+
+  const { data, error } = await getSupabase()
     .from('products')
     .select(
       `
@@ -245,6 +261,9 @@ export async function getProductsByCategory(
 // ───────────────────────────────────────────────────────────────
 
 export async function incrementProductViewCount(productId: string): Promise<void> {
+  if (!isSupabaseConfigured()) return
+
+  const supabase = getSupabase()
   const { data: product, error: fetchErr } = await supabase
     .from('products')
     .select('view_count')

@@ -2,7 +2,7 @@
 // Kategori veri çekme yardımcıları
 // ═══════════════════════════════════════════════════════════════
 
-import { supabase } from './supabase'
+import { getSupabase, isSupabaseConfigured } from './supabase'
 import type { Category, CategoryWithChildren } from '@/types'
 
 // ───────────────────────────────────────────────────────────────
@@ -10,7 +10,12 @@ import type { Category, CategoryWithChildren } from '@/types'
 // ───────────────────────────────────────────────────────────────
 
 export async function getAllCategories(): Promise<Category[]> {
-  const { data, error } = await supabase
+  if (!isSupabaseConfigured()) {
+    console.warn('[getAllCategories] Supabase ortam değişkenleri eksik; boş liste dönülüyor.')
+    return []
+  }
+
+  const { data, error } = await getSupabase()
     .from('categories')
     .select('*')
     .eq('is_active', true)
@@ -30,7 +35,12 @@ export async function getAllCategories(): Promise<Category[]> {
 // ───────────────────────────────────────────────────────────────
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
-  const { data, error } = await supabase
+  if (!isSupabaseConfigured()) {
+    console.warn('[getCategoryBySlug] Supabase ortam değişkenleri eksik.')
+    return null
+  }
+
+  const { data, error } = await getSupabase()
     .from('categories')
     .select('*')
     .eq('slug', slug)
@@ -72,6 +82,12 @@ export async function getCategoryTree(): Promise<CategoryWithChildren[]> {
 // ───────────────────────────────────────────────────────────────
 
 export async function getCategoryWithProductCount(): Promise<CategoryWithChildren[]> {
+  if (!isSupabaseConfigured()) {
+    console.warn('[getCategoryWithProductCount] Supabase ortam değişkenleri eksik; boş ağaç dönülüyor.')
+    return []
+  }
+
+  const supabase = getSupabase()
   const tree = await getCategoryTree()
 
   for (const root of tree) {
