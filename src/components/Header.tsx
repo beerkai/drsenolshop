@@ -174,14 +174,12 @@ export default function Header() {
             paddingRight: PAD_X,
           }}
         >
-          {/* flex + mutlak ortalanmış logo (Safari'de grid 1fr|auto|1fr kaymasını giderir) */}
+          {/* lg+: 3 eşit sütun — logo tam geometrik ortada (sticky/Safari transform hatası yok) */}
           <div
-            className="relative flex items-center"
+            className="grid w-full min-h-[clamp(64px,12vw,96px)] grid-cols-[minmax(0,auto)_minmax(0,1fr)_minmax(0,auto)] items-center gap-x-3 sm:gap-x-4 lg:grid-cols-3 lg:gap-x-6"
             style={{ minHeight: 'clamp(64px, 12vw, 96px)' }}
           >
-            <div
-              className="flex min-h-[clamp(64px,12vw,96px)] min-w-0 flex-1 items-center justify-start pr-2 lg:pr-8"
-            >
+            <div className="flex min-w-0 items-center justify-self-start">
               <button
                 type="button"
                 onClick={() => setOpen(true)}
@@ -234,30 +232,29 @@ export default function Header() {
               </nav>
             </div>
 
-            <Link
-              href="/"
-              className="absolute left-1/2 top-1/2 z-10 min-w-0 max-w-[calc(100%-200px)] -translate-x-1/2 -translate-y-1/2 text-center sm:max-w-[calc(100%-260px)] lg:max-w-none"
-            >
-              <p
-                lang="en"
-                className="mb-[clamp(2px,0.6vw,8px)] font-mono uppercase leading-none text-gold"
-                style={{
-                  fontSize: 'clamp(7px, 1.5vw, 9px)',
-                  letterSpacing: 'clamp(0.28em, 0.65vw, 0.4em)',
-                }}
-              >
-                The Honey Scientist
-              </p>
-              <p
-                className="font-display font-medium leading-none tracking-[0.005em] text-cream"
-                style={{ fontSize: 'clamp(20px, 4vw, 30px)' }}
-              >
-                Dr. Şenol
-              </p>
-            </Link>
+            <div className="flex min-w-0 justify-center justify-self-center">
+              <Link href="/" className="min-w-0 max-w-[100vw] px-1 text-center sm:max-w-[min(92vw,520px)]">
+                <p
+                  lang="en"
+                  className="mb-[clamp(2px,0.6vw,8px)] font-mono uppercase leading-none text-gold"
+                  style={{
+                    fontSize: 'clamp(7px, 1.5vw, 9px)',
+                    letterSpacing: 'clamp(0.28em, 0.65vw, 0.4em)',
+                  }}
+                >
+                  The Honey Scientist
+                </p>
+                <p
+                  className="font-display font-medium leading-none tracking-[0.005em] text-cream"
+                  style={{ fontSize: 'clamp(20px, 4vw, 30px)' }}
+                >
+                  Dr. Şenol
+                </p>
+              </Link>
+            </div>
 
             <div
-              className="flex min-h-[clamp(64px,12vw,96px)] min-w-0 flex-1 items-center justify-end pl-2 lg:pl-8"
+              className="flex min-w-0 items-center justify-end justify-self-end"
               style={{ gap: 'clamp(12px, 2.5vw, 24px)' }}
             >
               <button
