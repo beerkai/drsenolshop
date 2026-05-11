@@ -29,7 +29,7 @@ export default function CategoryHero({
       lang="tr"
       style={{
         backgroundColor: '#0A0908',
-        padding: '64px 24px 48px',
+        padding: 'clamp(36px, 8vw, 64px) clamp(18px, 5vw, 24px) clamp(28px, 7vw, 48px)',
         borderBottom: '1px solid rgba(244,240,232,0.08)',
         textAlign: 'center',
       }}
@@ -38,8 +38,8 @@ export default function CategoryHero({
         style={{
           fontFamily: 'var(--font-jetbrains)',
           color: '#C9A961',
-          fontSize: '10px',
-          letterSpacing: '0.3em',
+          fontSize: 'clamp(9px, 2vw, 11px)',
+          letterSpacing: 'clamp(0.22em, 0.55vw, 0.3em)',
           textTransform: 'uppercase',
           margin: '0 0 16px',
         }}
@@ -87,8 +87,8 @@ export default function CategoryHero({
         <p
           style={{
             color: '#B8B0A0',
-            fontSize: '14px',
-            lineHeight: 1.7,
+            fontSize: 'clamp(13px, 2.5vw, 15px)',
+            lineHeight: 1.65,
             maxWidth: '520px',
             margin: '0 auto',
           }}

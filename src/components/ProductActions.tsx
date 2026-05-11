@@ -61,17 +61,17 @@ export default function ProductActions({ product }: Props) {
   return (
     <div>
       <style>{`
-        .pa-title { font-size: clamp(24px, 6vw, 54px); }
-        .pa-price { font-size: clamp(28px, 7vw, 38px); }
+        .pa-title { font-size: clamp(22px, 5vw, 40px); }
+        .pa-price { font-size: clamp(24px, 6vw, 36px); }
         @media (max-width: 640px) {
           .pa-eyebrow { margin-bottom: 12px !important; }
           .pa-title { margin-bottom: 14px !important; }
-          .pa-shortdesc { margin-bottom: 20px !important; font-size: 13px !important; }
+          .pa-shortdesc { margin-bottom: 20px !important; font-size: clamp(13px, 2.5vw, 14px) !important; line-height: 1.6 !important; }
           .pa-divider { margin-bottom: 20px !important; }
           .pa-price-row { margin-bottom: 22px !important; }
           .pa-variants { margin-bottom: 20px !important; }
-          .pa-qty-row { margin-bottom: 14px !important; }
-          .pa-cta { padding: 15px 20px !important; margin-bottom: 20px !important; }
+          .pa-qty-row { margin-bottom: 14px !important; justify-content: center !important; }
+          .pa-cta { margin-bottom: 20px !important; }
         }
       `}</style>
 
@@ -89,7 +89,7 @@ export default function ProductActions({ product }: Props) {
 
       {/* Kısa açıklama */}
       {product.short_desc && (
-        <p className="pa-shortdesc" style={{ color: '#B8B0A0', fontSize: '14px', lineHeight: 1.75, margin: '0 0 28px' }}>
+        <p className="pa-shortdesc" style={{ color: '#B8B0A0', fontSize: 'clamp(13px, 2.5vw, 15px)', lineHeight: 1.6, margin: '0 0 28px' }}>
           {product.short_desc}
         </p>
       )}
@@ -185,11 +185,11 @@ export default function ProductActions({ product }: Props) {
       <button type="button" onClick={handleAdd} disabled={!inStock} className="pa-cta"
         style={{
           width: '100%',
-          padding: '18px 24px',
+          padding: 'clamp(14px, 3.8vw, 18px) clamp(18px, 4vw, 24px)',
           backgroundColor: !inStock ? '#2A251E' : added ? '#9C7C3C' : '#C9A961',
           color: !inStock ? '#6E665A' : '#0A0908',
           fontFamily: 'var(--font-jetbrains)',
-          fontSize: '11px',
+          fontSize: 'clamp(11px, 2.5vw, 13px)',
           letterSpacing: '0.28em',
           textTransform: 'uppercase',
           border: 'none',

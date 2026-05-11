@@ -19,7 +19,7 @@ export default function ProductGallery({ images, productName }: Props) {
   function next() { setSelectedIdx(i => (i + 1) % images.length) }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 2vw, 10px)', width: '100%' }}>
       <style>{`
         .gallery-main { aspect-ratio: 4 / 5; }
         @media (max-width: 768px) { .gallery-main { aspect-ratio: 3 / 4; } }
@@ -68,12 +68,12 @@ export default function ProductGallery({ images, productName }: Props) {
 
       {/* Küçük resimler */}
       {hasMultiple && (
-        <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '2px' }}>
+        <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '4px', WebkitOverflowScrolling: 'touch' }}>
           {images.map((img, idx) => (
             <button key={idx} type="button" onClick={() => setSelectedIdx(idx)} aria-pressed={idx === selectedIdx} aria-label={`Görsel ${idx + 1}`}
-              style={{ position: 'relative', flexShrink: 0, width: '68px', height: '85px', border: idx === selectedIdx ? '1px solid #C9A961' : '1px solid rgba(244,240,232,0.1)', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'transparent', transition: 'border-color 0.2s' }}>
+              style={{ position: 'relative', flexShrink: 0, width: 'clamp(48px, 14vw, 56px)', height: 'clamp(60px, 17vw, 70px)', border: idx === selectedIdx ? '1px solid #C9A961' : '1px solid rgba(244,240,232,0.1)', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'transparent', transition: 'border-color 0.2s' }}>
               {!errors[idx] ? (
-                <Image src={img} alt={`${productName} ${idx + 1}`} fill sizes="68px" style={{ objectFit: 'cover', opacity: idx === selectedIdx ? 1 : 0.55, transition: 'opacity 0.2s' }} onError={() => setErrors(p => ({ ...p, [idx]: true }))} />
+                <Image src={img} alt={`${productName} ${idx + 1}`} fill sizes="(max-width: 768px) 56px, 68px" style={{ objectFit: 'cover', opacity: idx === selectedIdx ? 1 : 0.55, transition: 'opacity 0.2s' }} onError={() => setErrors(p => ({ ...p, [idx]: true }))} />
               ) : (
                 <div style={{ position: 'absolute', inset: 0, backgroundColor: '#141210', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <span style={{ color: '#3A3530', fontSize: '10px' }}>—</span>

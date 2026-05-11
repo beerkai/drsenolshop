@@ -57,11 +57,24 @@ export default function Footer() {
 
   return (
     <footer style={{ backgroundColor: '#0A0908', borderTop: '1px solid rgba(244,240,232,0.06)', overflow: 'hidden' }}>
+      <style>{`
+        @media (max-width: 899px) {
+          .footer-link-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: clamp(32px, 6vw, 48px) !important;
+          }
+        }
+        @media (max-width: 420px) {
+          .footer-link-grid {
+            grid-template-columns: minmax(0, 1fr) !important;
+          }
+        }
+      `}</style>
 
       {/* ════ MARQUEE TICKER ════ */}
       <div style={{
         borderBottom: '1px solid rgba(244,240,232,0.06)',
-        padding: '13px 0',
+        padding: 'clamp(10px, 2vw, 13px) 0',
         overflow: 'hidden',
         backgroundColor: '#080706',
       }}>
@@ -76,11 +89,11 @@ export default function Footer() {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '18px',
-                paddingRight: '18px',
+                gap: 'clamp(10px, 3vw, 18px)',
+                paddingRight: 'clamp(10px, 3vw, 18px)',
                 fontFamily: 'var(--font-mono)',
-                fontSize: '10px',
-                letterSpacing: '0.28em',
+                fontSize: 'clamp(8px, 2vw, 10px)',
+                letterSpacing: 'clamp(0.16em, 0.65vw, 0.28em)',
                 textTransform: 'uppercase',
                 color: i % 2 === 0 ? 'rgba(244,240,232,0.35)' : 'rgba(244,240,232,0.15)',
                 whiteSpace: 'nowrap',
@@ -96,7 +109,7 @@ export default function Footer() {
       {/* ════ MANIFESTO ════ */}
       <div style={{
         position: 'relative',
-        padding: 'clamp(80px, 12vw, 140px) clamp(24px, 5vw, 96px)',
+        padding: 'clamp(48px, 10vw, 96px) clamp(16px, 4vw, 48px)',
         borderBottom: '1px solid rgba(244,240,232,0.06)',
         overflow: 'hidden',
         textAlign: 'center',
@@ -166,7 +179,7 @@ export default function Footer() {
         {/* Quote */}
         <p style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(26px, 3.2vw, 46px)',
+          fontSize: 'clamp(20px, 4.5vw, 36px)',
           fontWeight: 400,
           lineHeight: 1.55,
           letterSpacing: '-0.01em',
@@ -222,14 +235,14 @@ export default function Footer() {
 
       {/* ════ NAV GRID ════ */}
       <div style={{
-        padding: 'clamp(56px, 8vw, 88px) clamp(24px, 5vw, 96px)',
+        padding: 'clamp(48px, 10vw, 88px) clamp(16px, 4vw, 48px)',
         borderBottom: '1px solid rgba(244,240,232,0.06)',
       }}>
-        <div style={{
+        <div className="footer-link-grid" style={{
           maxWidth: '1280px',
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))',
           gap: '56px',
         }}>
 
@@ -240,7 +253,7 @@ export default function Footer() {
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.4em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 10px' }}>
                 The Honey Scientist
               </p>
-              <p style={{ fontFamily: 'var(--font-display)', fontSize: '38px', fontWeight: 500, color: '#F4F0E8', lineHeight: 1, margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 6vw, 48px)', fontWeight: 500, color: '#F4F0E8', lineHeight: 1, margin: 0 }}>
                 Dr. Şenol
               </p>
             </div>
@@ -248,7 +261,7 @@ export default function Footer() {
             {/* Divider */}
             <div style={{ width: '32px', height: '1px', backgroundColor: 'rgba(201,169,97,0.35)', marginBottom: '24px' }} />
 
-            <p style={{ fontSize: '13px', color: 'rgba(244,240,232,0.4)', lineHeight: 1.8, maxWidth: '230px', margin: '0 0 28px' }}>
+            <p style={{ fontSize: 'clamp(12px, 2.5vw, 13px)', color: 'rgba(244,240,232,0.4)', lineHeight: 1.8, maxWidth: '230px', margin: '0 0 28px' }}>
               Saitabat Köyü, Uludağ eteği. 1985'ten bu yana kovandan laboratuvara, bilimsel arıcılık.
             </p>
 
@@ -312,7 +325,7 @@ export default function Footer() {
 
       {/* ════ NEWSLETTER STRIP ════ */}
       <div style={{
-        padding: 'clamp(36px, 5vw, 60px) clamp(24px, 5vw, 96px)',
+        padding: 'clamp(36px, 8vw, 60px) clamp(16px, 4vw, 48px)',
         borderBottom: '1px solid rgba(244,240,232,0.06)',
         backgroundColor: 'rgba(255,255,255,0.015)',
       }}>
@@ -338,7 +351,7 @@ export default function Footer() {
       </div>
 
       {/* ════ BOTTOM BAR ════ */}
-      <div style={{ padding: '24px clamp(24px, 5vw, 96px)' }}>
+      <div style={{ padding: 'clamp(20px, 5vw, 28px) clamp(16px, 4vw, 48px)' }}>
         <div style={{
           maxWidth: '1280px',
           margin: '0 auto',

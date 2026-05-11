@@ -1,21 +1,21 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useCart } from '@/lib/cart-context';
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { useCart } from '@/lib/cart-context'
 
-type NavChild = { label: string; href: string };
-type NavItem = { label: string; href: string; children?: NavChild[] };
+type NavChild = { label: string; href: string }
+type NavItem = { label: string; href: string; children?: NavChild[] }
 
 /** Anons çubuğu dil seçici — ileride route/i18n bağlanacak */
-type AnnounceLocaleCode = 'tr' | 'en' | 'de' | 'fr';
+type AnnounceLocaleCode = 'tr' | 'en' | 'de' | 'fr'
 
 const ANNOUNCE_LOCALES: { code: AnnounceLocaleCode; label: string; lang?: string }[] = [
   { code: 'tr', label: 'TR' },
   { code: 'en', label: 'EN', lang: 'en' },
   { code: 'de', label: 'DE', lang: 'de' },
   { code: 'fr', label: 'FR', lang: 'fr' },
-];
+]
 
 const NAV: NavItem[] = [
   {
@@ -42,54 +42,89 @@ const NAV: NavItem[] = [
     ],
   },
   { label: 'Hikâye', href: '/hikaye' },
-];
+]
+
+const PAD_X = 'clamp(16px, 4vw, 48px)' as const
+
+const svgIcon = {
+  width: 'clamp(16px, 4vw, 20px)',
+  height: 'clamp(16px, 4vw, 20px)',
+  flexShrink: 0,
+} as const
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [dropdown, setDropdown] = useState<string | null>(null);
-  const [announceLocale, setAnnounceLocale] = useState<AnnounceLocaleCode>('tr');
-  const { itemCount, openCart } = useCart();
+  const [scrolled, setScrolled] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [dropdown, setDropdown] = useState<string | null>(null)
+  const [announceLocale, setAnnounceLocale] = useState<AnnounceLocaleCode>('tr')
+  const { itemCount, openCart } = useCart()
 
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 12);
-    window.addEventListener('scroll', h, { passive: true });
-    h();
-    return () => window.removeEventListener('scroll', h);
-  }, []);
+    const h = () => setScrolled(window.scrollY > 12)
+    window.addEventListener('scroll', h, { passive: true })
+    h()
+    return () => window.removeEventListener('scroll', h)
+  }, [])
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
+    document.body.style.overflow = open ? 'hidden' : ''
     return () => {
-      document.body.style.overflow = '';
-    };
-  }, [open]);
+      document.body.style.overflow = ''
+    }
+  }, [open])
 
   return (
     <>
+      <style>{`
+        @media (max-width: 1023px) {
+          .ds-header-cart-label { display: none !important; }
+        }
+        @media (max-width: 639px) {
+          .ds-header-announce-promo { display: none !important; }
+        }
+      `}</style>
+
       <div className="border-b border-[var(--color-line-dark)] bg-ink">
-        <div className="container-page relative flex min-h-[36px] items-center justify-center py-1">
-          {/* Sol */}
+        <div
+          className="relative mx-auto flex max-h-[none] max-w-[1440px] items-center justify-center"
+          style={{
+            paddingLeft: PAD_X,
+            paddingRight: PAD_X,
+            paddingTop: 'clamp(6px, 1.5vw, 10px)',
+            paddingBottom: 'clamp(6px, 1.5vw, 10px)',
+            minHeight: 'clamp(28px, 8vw, 38px)',
+          }}
+        >
           <p
-            className="absolute left-0 top-1/2 max-w-[42%] -translate-y-1/2 font-mono text-[10px] tracking-[0.22em] uppercase text-cream-faint sm:max-w-none"
+            className="absolute top-1/2 max-w-[44%] -translate-y-1/2 font-mono uppercase text-cream-faint sm:max-w-none"
             lang="en"
+            style={{
+              left: PAD_X,
+              fontSize: 'clamp(8px, 2vw, 10px)',
+              letterSpacing: 'clamp(0.14em, 0.35vw, 0.22em)',
+            }}
           >
             EST. 1985 · BURSA, TR
           </p>
 
-          {/* Orta */}
-          <p className="hidden px-16 text-center font-mono text-[10px] tracking-[0.22em] uppercase text-cream-muted sm:block">
+          <p
+            className="ds-header-announce-promo hidden px-10 text-center font-mono uppercase text-cream-muted sm:block"
+            style={{
+              fontSize: 'clamp(8px, 2vw, 10px)',
+              letterSpacing: 'clamp(0.15em, 0.35vw, 0.22em)',
+            }}
+          >
             ÜCRETSİZ KARGO · KAPIDA ÖDEME
           </p>
 
-          {/* Sağ — dil segmentleri */}
           <div
-            className="absolute right-0 top-1/2 flex -translate-y-1/2 items-stretch gap-px rounded-sm border border-[var(--color-line-dark)] bg-ink-2 p-px"
+            className="absolute top-1/2 flex -translate-y-1/2 items-stretch gap-px rounded-sm border border-[var(--color-line-dark)] bg-ink-2 p-px"
             role="group"
             aria-label="Dil seçimi"
+            style={{ right: PAD_X }}
           >
             {ANNOUNCE_LOCALES.map(({ code, label, lang }) => {
-              const selected = announceLocale === code;
+              const selected = announceLocale === code
               return (
                 <button
                   key={code}
@@ -97,15 +132,25 @@ export default function Header() {
                   aria-pressed={selected}
                   onClick={() => setAnnounceLocale(code)}
                   lang={lang}
-                  className={`min-w-[28px] px-2 py-1 font-mono text-[10px] tracking-[0.18em] uppercase transition-colors ${
+                  className={`transition-colors min-h-[30px] ${
                     selected
                       ? 'bg-ink-4 text-cream shadow-[inset_0_2px_4px_rgba(0,0,0,0.45)]'
                       : 'text-cream-faint hover:bg-ink-3 hover:text-cream-muted'
                   }`}
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: 'clamp(8px, 2vw, 10px)',
+                    letterSpacing: '0.12em',
+                    padding: 'clamp(3px, 1vw, 6px) clamp(6px, 1.8vw, 10px)',
+                    minWidth: 'clamp(26px, 8vw, 32px)',
+                    border: 'none',
+                    cursor: 'pointer',
+                    textTransform: 'uppercase',
+                  }}
                 >
                   {label}
                 </button>
-              );
+              )
             })}
           </div>
         </div>
@@ -118,21 +163,30 @@ export default function Header() {
             : 'bg-ink border-b border-transparent'
         }`}
       >
-        <div className="container-page">
-          <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center h-[80px] lg:h-[96px] gap-4">
-            <div className="flex items-center justify-self-start min-w-0">
+        <div
+          className="mx-auto max-w-[1440px]"
+          style={{
+            paddingLeft: PAD_X,
+            paddingRight: PAD_X,
+          }}
+        >
+          <div
+            className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 sm:gap-4"
+            style={{ minHeight: 'clamp(64px, 12vw, 96px)' }}
+          >
+            <div className="flex min-w-0 items-center justify-self-start">
               <button
                 type="button"
                 onClick={() => setOpen(true)}
-                className="lg:hidden flex flex-col gap-[5px] py-3 -ml-3 px-3"
+                className="flex flex-col justify-center gap-[5px] py-3 lg:hidden min-h-[44px] min-w-[44px] items-center -ml-1"
                 aria-label="Menüyü aç"
               >
-                <span className="block w-5 h-px bg-cream" />
-                <span className="block w-5 h-px bg-cream" />
-                <span className="block w-3 h-px bg-cream ml-auto" />
+                <span className="block h-px bg-cream" style={{ width: 'clamp(18px, 4vw, 22px)' }} />
+                <span className="block h-px bg-cream" style={{ width: 'clamp(18px, 4vw, 22px)' }} />
+                <span className="ml-auto block h-px bg-cream" style={{ width: 'clamp(11px, 3vw, 14px)' }} />
               </button>
 
-              <nav className="hidden lg:flex items-center gap-11">
+              <nav className="hidden items-center lg:flex" style={{ gap: 'clamp(2rem, 4vw, 2.75rem)' }}>
                 {NAV.map((item) => (
                   <div
                     key={item.label}
@@ -142,20 +196,24 @@ export default function Header() {
                   >
                     <Link
                       href={item.href}
-                      className="font-mono text-[11px] tracking-[0.22em] uppercase text-cream hover:text-gold transition-colors duration-300 py-3 block"
+                      className="block py-3 font-mono uppercase text-cream transition-colors duration-300 hover:text-gold"
+                      style={{
+                        fontSize: 'clamp(10px, 1.8vw, 11px)',
+                        letterSpacing: '0.22em',
+                      }}
                       lang={item.label === 'Signature' ? 'en' : undefined}
                     >
                       {item.label}
                     </Link>
 
                     {item.children && dropdown === item.label && (
-                      <div className="absolute top-full left-0 pt-3 z-50 min-w-[260px]">
-                        <div className="bg-ink-2 border border-[var(--color-line-dark)] py-3 animate-fade-in">
+                      <div className="absolute left-0 top-full z-50 min-w-[260px] pt-3">
+                        <div className="animate-fade-in border border-[var(--color-line-dark)] bg-ink-2 py-3">
                           {item.children.map((c) => (
                             <Link
                               key={c.label}
                               href={c.href}
-                              className="block px-5 py-3 text-[13px] text-cream-muted hover:text-gold hover:bg-ink-3 transition-all duration-200"
+                              className="block px-5 py-3 text-[13px] text-cream-muted transition-all duration-200 hover:bg-ink-3 hover:text-gold"
                               lang={item.label === 'Signature' ? 'en' : undefined}
                             >
                               {c.label}
@@ -169,24 +227,32 @@ export default function Header() {
               </nav>
             </div>
 
-            <Link href="/" className="justify-self-center text-center shrink-0">
-              <p lang="en" className="font-mono text-[9px] tracking-[0.4em] uppercase text-gold leading-none mb-2">
+            <Link href="/" className="min-w-0 shrink-0 justify-self-center text-center">
+              <p
+                lang="en"
+                className="leading-none mb-[clamp(2px,0.6vw,8px)] font-mono uppercase text-gold"
+                style={{
+                  fontSize: 'clamp(7px, 1.5vw, 9px)',
+                  letterSpacing: 'clamp(0.28em, 0.65vw, 0.4em)',
+                }}
+              >
                 The Honey Scientist
               </p>
-              <p className="font-display text-[26px] lg:text-[30px] font-medium text-cream leading-none tracking-[0.005em]">
+              <p
+                className="leading-none font-display font-medium tracking-[0.005em] text-cream"
+                style={{ fontSize: 'clamp(20px, 4vw, 30px)' }}
+              >
                 Dr. Şenol
               </p>
             </Link>
 
-            <div className="flex items-center justify-end gap-6 justify-self-end min-w-0">
+            <div className="flex min-w-0 items-center justify-end justify-self-end" style={{ gap: 'clamp(12px, 2.5vw, 24px)' }}>
               <button
                 type="button"
                 aria-label="Ara"
-                className="text-cream hover:text-gold transition-colors duration-200 p-1"
+                className="flex min-h-[44px] min-w-[44px] items-center justify-center p-2 text-cream transition-colors duration-200 hover:text-gold"
               >
                 <svg
-                  width="18"
-                  height="18"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -194,6 +260,7 @@ export default function Header() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   aria-hidden
+                  style={svgIcon}
                 >
                   <circle cx="11" cy="11" r="7" />
                   <path d="m20 20-3.5-3.5" />
@@ -202,11 +269,9 @@ export default function Header() {
               <button
                 type="button"
                 onClick={openCart}
-                className="flex items-center gap-2.5 text-cream hover:text-gold transition-colors duration-200 group"
+                className="hover:text-gold group flex items-center gap-2 text-cream transition-colors duration-200 min-h-[44px] px-1"
               >
                 <svg
-                  width="18"
-                  height="18"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -214,16 +279,23 @@ export default function Header() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   aria-hidden
+                  style={svgIcon}
                 >
                   <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
                   <path d="M3 6h18" />
                   <path d="M16 10a4 4 0 0 1-8 0" />
                 </svg>
-                <span className="font-mono text-[10px] tracking-[0.22em] uppercase hidden sm:inline">
+                <span
+                  className="ds-header-cart-label font-mono uppercase"
+                  style={{
+                    fontSize: 'clamp(9px, 2vw, 10px)',
+                    letterSpacing: '0.22em',
+                  }}
+                >
                   Sepet {itemCount > 0 ? `(${itemCount})` : ''}
                 </span>
                 {itemCount > 0 && (
-                  <span className="sm:hidden flex items-center justify-center w-4 h-4 rounded-full bg-gold text-ink font-mono text-[9px] font-medium leading-none">
+                  <span className="flex h-4 w-4 items-center justify-center rounded-full bg-gold font-mono text-[9px] font-medium leading-none text-ink lg:hidden">
                     {itemCount}
                   </span>
                 )}
@@ -234,14 +306,26 @@ export default function Header() {
       </header>
 
       {open && (
-        <div className="fixed inset-0 z-[100] lg:hidden bg-ink animate-fade-in">
-          <div className="h-full flex flex-col">
-            <div className="flex items-center justify-between h-[80px] px-6 border-b border-[var(--color-line-dark)]">
-              <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-gold">Menü</p>
+        <div className="animate-fade-in fixed inset-0 z-[100] bg-ink lg:hidden">
+          <div className="flex h-full flex-col">
+            <div
+              className="flex items-center justify-between border-b border-[var(--color-line-dark)]"
+              style={{
+                minHeight: 'clamp(64px, 14vw, 80px)',
+                paddingLeft: PAD_X,
+                paddingRight: PAD_X,
+              }}
+            >
+              <p
+                className="font-mono uppercase text-gold"
+                style={{ fontSize: 'clamp(9px, 2vw, 10px)', letterSpacing: '0.22em' }}
+              >
+                Menü
+              </p>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="text-cream p-2 -mr-2"
+                className="min-h-[44px] min-w-[44px] p-2 text-cream"
                 aria-label="Kapat"
               >
                 <svg
@@ -259,16 +343,20 @@ export default function Header() {
               </button>
             </div>
 
-            <nav className="flex-1 overflow-y-auto py-10">
+            <nav className="flex-1 overflow-y-auto" style={{ paddingTop: 'clamp(24px, 6vw, 40px)' }}>
               {NAV.map((item, i) => (
-                <div key={item.label} className="px-6 mb-3">
-                  <Link href={item.href} onClick={() => setOpen(false)} className="block py-4 group">
-                    <div className="flex items-baseline gap-5">
-                      <span className="font-mono text-[10px] text-gold/60 w-6">
+                <div key={item.label} style={{ marginBottom: '12px', paddingLeft: PAD_X, paddingRight: PAD_X }}>
+                  <Link href={item.href} onClick={() => setOpen(false)} className="group block py-3">
+                    <div className="flex items-baseline gap-4">
+                      <span
+                        className="w-6 font-mono text-gold/60"
+                        style={{ fontSize: 'clamp(9px, 2vw, 10px)' }}
+                      >
                         {String(i + 1).padStart(2, '0')}
                       </span>
                       <span
-                        className="font-display text-[42px] font-medium text-cream leading-none group-hover:text-gold transition-colors"
+                        className="font-display font-medium leading-none text-cream transition-colors group-hover:text-gold"
+                        style={{ fontSize: 'clamp(28px, 9vw, 42px)' }}
                         lang={item.label === 'Signature' ? 'en' : undefined}
                       >
                         {item.label}
@@ -276,13 +364,14 @@ export default function Header() {
                     </div>
                   </Link>
                   {item.children && (
-                    <div className="pl-11 pb-4">
+                    <div style={{ paddingLeft: 'clamp(2.5rem, 8vw, 2.75rem)', paddingBottom: '8px' }}>
                       {item.children.slice(0, 4).map((c) => (
                         <Link
                           key={c.label}
                           href={c.href}
                           onClick={() => setOpen(false)}
-                          className="block py-2 text-[13px] text-cream-muted hover:text-gold transition-colors"
+                          className="block py-2 text-cream-muted transition-colors hover:text-gold"
+                          style={{ fontSize: 'clamp(12px, 3.2vw, 13px)' }}
                           lang={item.label === 'Signature' ? 'en' : undefined}
                         >
                           {c.label}
@@ -294,10 +383,11 @@ export default function Header() {
               ))}
             </nav>
 
-            <div className="border-t border-[var(--color-line-dark)] px-6 py-6">
+            <div className="border-t border-[var(--color-line-dark)]" style={{ padding: `24px ${PAD_X}` }}>
               <p
-                className="font-mono text-[10px] tracking-[0.22em] uppercase text-cream-faint"
+                className="font-mono uppercase text-cream-faint"
                 lang="en"
+                style={{ fontSize: 'clamp(8px, 2vw, 10px)', letterSpacing: '0.22em' }}
               >
                 Est. 1985 · Saitabat, Bursa
               </p>
@@ -306,5 +396,5 @@ export default function Header() {
         </div>
       )}
     </>
-  );
+  )
 }

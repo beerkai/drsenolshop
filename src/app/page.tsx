@@ -11,7 +11,7 @@ export default function Home() {
       <main className="w-full">
 
         {/* ════════════ BÖLÜM I — HERO ════════════ */}
-        <section className="relative bg-ink overflow-hidden" style={{ minHeight: '780px' }}>
+        <section className="relative bg-ink overflow-hidden" style={{ minHeight: 'clamp(480px, 92vh, 780px)' }}>
 
           <div className="absolute inset-0 pointer-events-none">
             <div
@@ -52,27 +52,27 @@ export default function Home() {
               maxWidth: '1200px',
               marginLeft: 'auto',
               marginRight: 'auto',
-              paddingTop: '32px',
+              paddingTop: 'clamp(16px, 4vw, 32px)',
             }}
           >
             <div className="flex w-full flex-wrap items-start justify-between gap-6">
               <div className="flex items-center" style={{ gap: '14px' }}>
                 <div className="bg-gold shrink-0" style={{ width: '1px', height: '36px' }} />
                 <div className="text-left">
-                  <p lang="en" className="font-mono uppercase text-gold" style={{ fontSize: '10px', letterSpacing: '0.25em', margin: 0 }}>
+                  <p lang="en" className="font-mono uppercase text-gold" style={{ fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: 'clamp(0.18em, 0.5vw, 0.28em)', margin: 0 }}>
                     Lot No. 2026/Q1
                   </p>
-                  <p className="font-mono uppercase text-cream-faint" style={{ fontSize: '10px', letterSpacing: '0.22em', marginTop: '4px' }}>
+                  <p className="font-mono uppercase text-cream-faint" style={{ fontSize: 'clamp(9px, 2vw, 10px)', letterSpacing: 'clamp(0.16em, 0.45vw, 0.22em)', marginTop: '4px' }}>
                     Hasat · İlkbahar
                   </p>
                 </div>
               </div>
 
               <div className="text-right shrink-0">
-                <p className="font-mono uppercase text-cream-faint" style={{ fontSize: '10px', letterSpacing: '0.25em', margin: 0 }}>
+                <p className="font-mono uppercase text-cream-faint" style={{ fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: 'clamp(0.16em, 0.45vw, 0.25em)', margin: 0 }}>
                   Aktif Kovan
                 </p>
-                <p className="font-display text-gold" style={{ fontSize: '22px', fontWeight: 500, lineHeight: 1, marginTop: '4px' }}>
+                <p className="font-display text-gold" style={{ fontSize: 'clamp(18px, 5vw, 24px)', fontWeight: 500, lineHeight: 1, marginTop: '4px' }}>
                   1,247
                 </p>
               </div>
@@ -87,12 +87,12 @@ export default function Home() {
               maxWidth: '1200px',
               marginLeft: 'auto',
               marginRight: 'auto',
-              paddingTop: '80px',
-              paddingBottom: '48px',
+              paddingTop: 'clamp(40px, 10vw, 80px)',
+              paddingBottom: 'clamp(32px, 8vw, 48px)',
             }}
           >
 
-            <p className="font-mono uppercase text-gold animate-fade-up" style={{ fontSize: '11px', letterSpacing: '0.3em', marginBottom: '20px' }}>
+            <p className="font-mono uppercase text-gold animate-fade-up" style={{ fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: 'clamp(0.18em, 0.5vw, 0.3em)', marginBottom: '20px' }}>
               Bölüm I · <span lang="en">The Honey Scientist</span>
             </p>
 
@@ -101,7 +101,7 @@ export default function Home() {
             <h1
               className="font-display text-cream mx-auto animate-fade-up-1"
               style={{
-                fontSize: 'clamp(56px, 9vw, 110px)',
+                fontSize: 'clamp(36px, 9vw, 110px)',
                 fontWeight: 500,
                 lineHeight: 0.95,
                 letterSpacing: '-0.015em',
@@ -121,14 +121,14 @@ export default function Home() {
             <p
               className="text-cream-muted mx-auto animate-fade-up-2"
               style={{
-                fontSize: '15px',
+                fontSize: 'clamp(13px, 2.5vw, 15px)',
                 lineHeight: 1.7,
                 maxWidth: '480px',
                 width: '100%',
                 marginLeft: 'auto',
                 marginRight: 'auto',
-                marginTop: '32px',
-                marginBottom: '40px',
+                marginTop: 'clamp(18px, 5vw, 32px)',
+                marginBottom: 'clamp(24px, 6vw, 40px)',
               }}
             >
               1985{'\u2019'}ten bu yana Saitabat Köyü{'\u2019'}nde, her damla balın arkasında bir bilim insanının imzası. Laboratuvar onaylı, analiz raporlu.
@@ -138,7 +138,7 @@ export default function Home() {
               <Link
                 href="/kategori/bal"
                 className="inline-flex items-center bg-gold text-ink font-mono uppercase hover:bg-[#D4B570] transition-colors duration-300"
-                style={{ gap: '12px', padding: '16px 32px', fontSize: '11px', letterSpacing: '0.22em' }}
+                style={{ gap: '12px', padding: 'clamp(14px, 3vw, 16px) clamp(22px, 5vw, 32px)', fontSize: 'clamp(10px, 2vw, 11px)', letterSpacing: '0.22em', minHeight: '44px' }}
               >
                 Koleksiyonu Keşfet
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -148,7 +148,7 @@ export default function Home() {
               <Link
                 href="/hikaye"
                 className="inline-flex items-center text-cream font-mono uppercase hover:border-gold hover:text-gold transition-all duration-300"
-                style={{ gap: '12px', padding: '16px 32px', fontSize: '11px', letterSpacing: '0.22em', border: '1px solid rgba(244,240,232,0.2)' }}
+                style={{ gap: '12px', padding: 'clamp(14px, 3vw, 16px) clamp(22px, 5vw, 32px)', fontSize: 'clamp(10px, 2vw, 11px)', letterSpacing: '0.22em', border: '1px solid rgba(244,240,232,0.2)', minHeight: '44px' }}
               >
                 Hikâyemiz
               </Link>
@@ -163,13 +163,13 @@ export default function Home() {
               maxWidth: '1200px',
               marginLeft: 'auto',
               marginRight: 'auto',
-              paddingTop: '32px',
-              paddingBottom: '32px',
-              marginTop: '40px',
+              paddingTop: 'clamp(20px, 5vw, 32px)',
+              paddingBottom: 'clamp(20px, 5vw, 32px)',
+              marginTop: 'clamp(24px, 6vw, 40px)',
               borderTop: '1px solid rgba(244,240,232,0.08)',
             }}
           >
-            <div className="grid grid-cols-2 md:grid-cols-4 justify-items-center text-center" style={{ gap: '32px' }}>
+            <div className="hero-meta-grid grid grid-cols-2 md:grid-cols-4 justify-items-center text-center" style={{ gap: 'clamp(16px, 4vw, 32px)' }}>
               {[
                 { k: 'Kuruluş', v: '1985', en: false },
                 { k: 'Konum', v: 'Saitabat, Bursa', en: false },
@@ -177,12 +177,12 @@ export default function Home() {
                 { k: 'Hasat', v: 'Q1 2026', en: true },
               ].map((item) => (
                 <div key={item.k}>
-                  <p className="font-mono uppercase text-cream-faint" style={{ fontSize: '10px', letterSpacing: '0.22em', marginBottom: '6px' }}>
+                  <p className="font-mono uppercase text-cream-faint" style={{ fontSize: 'clamp(9px, 2vw, 10px)', letterSpacing: 'clamp(0.14em, 0.4vw, 0.22em)', marginBottom: '6px' }}>
                     {item.k}
                   </p>
                   <p
                     className="font-mono text-cream"
-                    style={{ fontSize: '13px', letterSpacing: '0.04em', margin: 0 }}
+                    style={{ fontSize: 'clamp(11px, 2.5vw, 13px)', letterSpacing: '0.04em', margin: 0 }}
                     {...(item.en ? { lang: 'en' } : {})}
                   >
                     {item.v}
@@ -194,7 +194,7 @@ export default function Home() {
         </section>
 
         {/* ════════════ BÖLÜM II — KATEGORİLER ════════════ */}
-        <section style={{ backgroundColor: '#F4F0E8', paddingTop: '96px', paddingBottom: '96px', borderBottom: '1px solid rgba(26,23,20,0.08)' }}>
+        <section style={{ backgroundColor: '#F4F0E8', paddingTop: 'clamp(48px, 10vw, 96px)', paddingBottom: 'clamp(48px, 10vw, 96px)', borderBottom: '1px solid rgba(26,23,20,0.08)' }}>
           <div
             className="mx-auto px-responsive"
             style={{
@@ -204,36 +204,43 @@ export default function Home() {
               marginRight: 'auto',
             }}
           >
+            <style>{`
+              .home-cat-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1px;
+              }
+              @media (min-width: 1024px) {
+                .home-cat-grid { grid-template-columns: repeat(3, 1fr); }
+              }
+            `}</style>
 
-            <div className="text-center" style={{ marginBottom: '80px' }}>
-              <p className="font-mono uppercase text-gold" style={{ fontSize: '11px', letterSpacing: '0.3em', marginBottom: '20px' }}>
+            <div className="text-center" style={{ marginBottom: 'clamp(40px, 10vw, 80px)' }}>
+              <p className="font-mono uppercase text-gold" style={{ fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: 'clamp(0.18em, 0.5vw, 0.3em)', marginBottom: '20px' }}>
                 Bölüm II
               </p>
-              <div className="bg-gold mx-auto" style={{ width: '60px', height: '1px', marginBottom: '32px' }} />
-              <h2 className="font-display" style={{ color: '#1A1714', fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>
+              <div className="bg-gold mx-auto" style={{ width: '60px', height: '1px', marginBottom: 'clamp(24px, 5vw, 32px)' }} />
+              <h2 className="font-display" style={{ color: '#1A1714', fontSize: 'clamp(28px, 5.5vw, 60px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>
                 Üç hâne,{' '}
                 <span className="text-gold" style={{ fontStyle: 'italic', fontWeight: 300 }}>tek miras.</span>
               </h2>
               <p
                 style={{
                   color: '#6B6258',
-                  fontSize: '15px',
+                  fontSize: 'clamp(13px, 2.5vw, 15px)',
                   lineHeight: 1.7,
                   maxWidth: '520px',
                   width: '100%',
                   marginLeft: 'auto',
                   marginRight: 'auto',
-                  marginTop: '32px',
+                  marginTop: 'clamp(20px, 5vw, 32px)',
                 }}
               >
                 Her kategori, on yılları aşan ustalığın bir bölümü. Kovandan kavanoza her aşama belgelenmiştir.
               </p>
             </div>
 
-            <div
-              className="grid grid-cols-1 md:grid-cols-3"
-              style={{ gap: '1px', backgroundColor: 'rgba(26,23,20,0.10)', border: '1px solid rgba(26,23,20,0.10)' }}
-            >
+            <div className="home-cat-grid" style={{ gap: '1px', backgroundColor: 'rgba(26,23,20,0.10)', border: '1px solid rgba(26,23,20,0.10)' }}>
               {[
                 { num: '01 / 03', title: 'Bal Çeşitleri', desc: 'Kestane, kekik, çiçek ve yayla balları.', meta: '10 çeşit · 180g – 900g', href: '/kategori/bal' },
                 { num: '02 / 03', titleEn: true, title: 'Signature Series', desc: 'Bilim ve doğanın buluştuğu imza formüller.', meta: '7 ürün · El yapımı', href: '/kategori/signature' },
@@ -243,23 +250,23 @@ export default function Home() {
                   key={cat.num}
                   href={cat.href}
                   className="cat-card flex flex-col items-center text-center"
-                  style={{ paddingTop: '48px', paddingBottom: '48px', paddingLeft: '40px', paddingRight: '40px', backgroundColor: '#EBE5D8' }}
+                  style={{ paddingTop: 'clamp(32px, 8vw, 48px)', paddingBottom: 'clamp(32px, 8vw, 48px)', paddingLeft: 'clamp(20px, 5vw, 40px)', paddingRight: 'clamp(20px, 5vw, 40px)', backgroundColor: '#EBE5D8' }}
                 >
-                  <p className="font-mono text-gold" style={{ fontSize: '10px', letterSpacing: '0.25em', marginBottom: '32px' }}>
+                  <p className="font-mono text-gold" style={{ fontSize: 'clamp(9px, 2vw, 10px)', letterSpacing: '0.25em', marginBottom: 'clamp(20px, 5vw, 32px)' }}>
                     {cat.num}
                   </p>
                   <h3
                     className="font-display"
-                    style={{ color: '#1A1714', fontSize: '32px', fontWeight: 500, lineHeight: 1.1, margin: 0 }}
+                    style={{ color: '#1A1714', fontSize: 'clamp(24px, 6vw, 32px)', fontWeight: 500, lineHeight: 1.1, margin: 0 }}
                     {...('titleEn' in cat && cat.titleEn ? { lang: 'en' } : {})}
                   >
                     {cat.title}
                   </h3>
-                  <p style={{ color: '#6B6258', fontSize: '14px', lineHeight: 1.7, marginTop: '16px', marginBottom: '32px', maxWidth: '240px' }}>
+                  <p style={{ color: '#6B6258', fontSize: 'clamp(13px, 2.5vw, 14px)', lineHeight: 1.7, marginTop: '16px', marginBottom: 'clamp(20px, 5vw, 32px)', maxWidth: '240px' }}>
                     {cat.desc}
                   </p>
-                  <div style={{ width: '24px', height: '1px', backgroundColor: 'rgba(26,23,20,0.15)', marginBottom: '24px' }} />
-                  <p className="font-mono uppercase" style={{ color: '#9B9285', fontSize: '10px', letterSpacing: '0.2em', margin: 0 }}>
+                  <div style={{ width: '24px', height: '1px', backgroundColor: 'rgba(26,23,20,0.15)', marginBottom: 'clamp(18px, 4vw, 24px)' }} />
+                  <p className="font-mono uppercase" style={{ color: '#9B9285', fontSize: 'clamp(8px, 2vw, 10px)', letterSpacing: '0.2em', margin: 0 }}>
                     {cat.meta}
                   </p>
                 </Link>
@@ -272,8 +279,8 @@ export default function Home() {
         <section
           style={{
             backgroundColor: '#F4F0E8',
-            paddingTop: '96px',
-            paddingBottom: '96px',
+            paddingTop: 'clamp(48px, 10vw, 96px)',
+            paddingBottom: 'clamp(48px, 10vw, 96px)',
             borderTop: '1px solid rgba(26,23,20,0.08)',
             borderBottom: '1px solid rgba(26,23,20,0.08)',
           }}
@@ -288,12 +295,12 @@ export default function Home() {
             }}
           >
 
-            <div className="text-center" style={{ marginBottom: '64px' }}>
-              <p className="font-mono uppercase text-gold" style={{ fontSize: '11px', letterSpacing: '0.3em', marginBottom: '20px' }}>
+            <div className="text-center" style={{ marginBottom: 'clamp(40px, 8vw, 64px)' }}>
+              <p className="font-mono uppercase text-gold" style={{ fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: 'clamp(0.18em, 0.5vw, 0.3em)', marginBottom: '20px' }}>
                 Bölüm III · Hikâyemiz
               </p>
-              <div className="bg-gold mx-auto" style={{ width: '60px', height: '1px', marginBottom: '32px' }} />
-              <h2 className="font-display" style={{ color: '#1A1714', fontSize: 'clamp(36px, 4.5vw, 60px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>
+              <div className="bg-gold mx-auto" style={{ width: '60px', height: '1px', marginBottom: 'clamp(24px, 5vw, 32px)' }} />
+              <h2 className="font-display" style={{ color: '#1A1714', fontSize: 'clamp(28px, 5.5vw, 60px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>
                 Bir köy, bir laboratuvar,<br />
                 <span className="text-gold" style={{ fontStyle: 'italic', fontWeight: 300 }}>kırk yıl.</span>
               </h2>
@@ -306,13 +313,13 @@ export default function Home() {
                 maxWidth: '680px',
                 marginLeft: 'auto',
                 marginRight: 'auto',
-                marginBottom: '64px',
+                marginBottom: 'clamp(40px, 8vw, 64px)',
               }}
             >
-              <p style={{ color: '#6B6258', fontSize: '15px', lineHeight: 1.85, marginBottom: '24px' }}>
+              <p style={{ color: '#6B6258', fontSize: 'clamp(13px, 2.5vw, 15px)', lineHeight: 1.85, marginBottom: '24px' }}>
                 Saitabat Köyü, Uludağ{'\u2019'}ın kuzey eteğinde, endemik bitki örtüsünün doruğa ulaştığı bir mikro-iklim. Burada Dr. Şenol, 1985{'\u2019'}ten bu yana arıcılığı bir bilim olarak ele alıyor.
               </p>
-              <p style={{ color: '#6B6258', fontSize: '15px', lineHeight: 1.85, margin: 0 }}>
+              <p style={{ color: '#6B6258', fontSize: 'clamp(13px, 2.5vw, 15px)', lineHeight: 1.85, margin: 0 }}>
                 Her hasat, akredite laboratuvarda fenolik madde, prolin, diastaz ve HMF değerleri için analiz edilir. Etiketin altındaki QR kod, ürününüze ait analiz raporuna açılır.
               </p>
             </div>
@@ -324,7 +331,7 @@ export default function Home() {
                 maxWidth: '1000px',
                 marginLeft: 'auto',
                 marginRight: 'auto',
-                marginBottom: '48px',
+                marginBottom: 'clamp(32px, 8vw, 48px)',
                 gap: '1px',
                 backgroundColor: 'rgba(26,23,20,0.10)',
                 border: '1px solid rgba(26,23,20,0.10)',
@@ -336,14 +343,14 @@ export default function Home() {
                 { value: '1,247', label: 'Kovan', sub: 'Aktif üretim' },
                 { value: '%100', label: 'Doğal', sub: 'Lab onaylı' },
               ].map((stat) => (
-                <div key={stat.label} className="text-center" style={{ backgroundColor: '#EBE5D8', paddingTop: '36px', paddingBottom: '36px', paddingLeft: '24px', paddingRight: '24px' }}>
-                  <p className="font-display text-gold" style={{ fontSize: '44px', fontWeight: 300, lineHeight: 1, letterSpacing: '-0.015em', margin: 0 }}>
+                <div key={stat.label} className="text-center" style={{ backgroundColor: '#EBE5D8', paddingTop: 'clamp(24px, 6vw, 36px)', paddingBottom: 'clamp(24px, 6vw, 36px)', paddingLeft: 'clamp(16px, 4vw, 24px)', paddingRight: 'clamp(16px, 4vw, 24px)' }}>
+                  <p className="font-display text-gold" style={{ fontSize: 'clamp(32px, 8vw, 44px)', fontWeight: 300, lineHeight: 1, letterSpacing: '-0.015em', margin: 0 }}>
                     {stat.value}
                   </p>
-                  <p className="font-mono uppercase" style={{ color: '#1A1714', fontSize: '10px', letterSpacing: '0.22em', marginTop: '14px', marginBottom: '4px' }}>
+                  <p className="font-mono uppercase" style={{ color: '#1A1714', fontSize: 'clamp(9px, 2vw, 10px)', letterSpacing: '0.22em', marginTop: '14px', marginBottom: '4px' }}>
                     {stat.label}
                   </p>
-                  <p className="font-mono" style={{ color: '#9B9285', fontSize: '10px', letterSpacing: '0.15em', margin: 0 }}>
+                  <p className="font-mono" style={{ color: '#9B9285', fontSize: 'clamp(8px, 2vw, 10px)', letterSpacing: '0.15em', margin: 0 }}>
                     {stat.sub}
                   </p>
                 </div>
@@ -371,7 +378,7 @@ export default function Home() {
         <FeaturedProducts />
 
         {/* ════════════ BÖLÜM V — SUPERBLEND ════════════ */}
-        <section className="bg-ink" style={{ paddingTop: '96px', paddingBottom: '96px' }}>
+        <section className="bg-ink" style={{ paddingTop: 'clamp(48px, 10vw, 96px)', paddingBottom: 'clamp(48px, 10vw, 96px)' }}>
           <div
             className="mx-auto px-responsive"
             style={{
@@ -382,25 +389,25 @@ export default function Home() {
             }}
           >
 
-            <div className="text-center" style={{ marginBottom: '64px' }}>
-              <p className="font-mono uppercase text-gold" style={{ fontSize: '11px', letterSpacing: '0.3em', marginBottom: '20px' }}>
+            <div className="text-center" style={{ marginBottom: 'clamp(40px, 8vw, 64px)' }}>
+              <p className="font-mono uppercase text-gold" style={{ fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: 'clamp(0.18em, 0.5vw, 0.3em)', marginBottom: '20px' }}>
                 Bölüm V · <span lang="en">Signature</span>
               </p>
-              <div className="bg-gold mx-auto" style={{ width: '60px', height: '1px', marginBottom: '32px' }} />
-              <h2 className="font-display text-cream" style={{ fontSize: 'clamp(36px, 4.5vw, 60px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>
+              <div className="bg-gold mx-auto" style={{ width: '60px', height: '1px', marginBottom: 'clamp(24px, 5vw, 32px)' }} />
+              <h2 className="font-display text-cream" style={{ fontSize: 'clamp(28px, 5.5vw, 60px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>
                 Bilim ve doğanın<br />
                 <span className="text-gold" style={{ fontStyle: 'italic', fontWeight: 300 }}>en yüksek formu.</span>
               </h2>
               <p
                 className="text-cream-muted mx-auto"
                 style={{
-                  fontSize: '15px',
+                  fontSize: 'clamp(13px, 2.5vw, 15px)',
                   lineHeight: 1.7,
                   maxWidth: '480px',
                   width: '100%',
                   marginLeft: 'auto',
                   marginRight: 'auto',
-                  marginTop: '32px',
+                  marginTop: 'clamp(20px, 5vw, 32px)',
                 }}
               >
                 Superblend formüllerimiz, dört nesil arıcılığın özünü tek bir kavanozda buluşturuyor.
@@ -413,9 +420,15 @@ export default function Home() {
               style={{ border: '1px solid rgba(244,240,232,0.08)' }}
             >
               <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch">
-
-                <div className="flex flex-col justify-center" style={{ paddingTop: '64px', paddingBottom: '64px', paddingLeft: '56px', paddingRight: '56px' }}>
-
+                <div
+                  className="flex flex-col justify-center"
+                  style={{
+                    paddingTop: 'clamp(36px, 8vw, 64px)',
+                    paddingBottom: 'clamp(36px, 8vw, 64px)',
+                    paddingLeft: 'clamp(20px, 5vw, 56px)',
+                    paddingRight: 'clamp(20px, 5vw, 56px)',
+                  }}
+                >
                   <div className="flex items-center" style={{ gap: '14px', marginBottom: '24px' }}>
                     <span className="font-mono text-gold" style={{ fontSize: '11px', letterSpacing: '0.25em' }}>
                       No. 05
@@ -426,11 +439,11 @@ export default function Home() {
                     </span>
                   </div>
 
-                  <h3 lang="en" className="font-display text-cream group-hover:text-gold transition-colors duration-700" style={{ fontSize: '56px', fontWeight: 500, lineHeight: 1, letterSpacing: '-0.015em', margin: 0 }}>
+                  <h3 lang="en" className="font-display text-cream group-hover:text-gold transition-colors duration-700" style={{ fontSize: 'clamp(32px, 8vw, 56px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>
                     Superblend 5
                   </h3>
 
-                  <p className="text-cream-muted" style={{ fontSize: '14px', lineHeight: 1.85, marginTop: '24px', marginBottom: '32px', maxWidth: '380px' }}>
+                  <p className="text-cream-muted" style={{ fontSize: 'clamp(13px, 2.5vw, 14px)', lineHeight: 1.85, marginTop: '24px', marginBottom: '32px', maxWidth: '380px' }}>
                     Arı sütü, propolis, polen, arı ekmeği ve ham balın bilimsel oranlarda buluştuğu imza formülümüz.
                   </p>
 
@@ -451,8 +464,8 @@ export default function Home() {
                           borderBottom: i === arr.length - 1 ? 'none' : '1px solid rgba(244,240,232,0.08)',
                         }}
                       >
-                        <p className="text-cream" style={{ fontSize: '13px', margin: 0 }}>{name}</p>
-                        <p className="font-mono text-gold" style={{ fontSize: '11px', letterSpacing: '0.1em', margin: 0 }}>{pct}</p>
+                        <p className="text-cream" style={{ fontSize: 'clamp(12px, 2.5vw, 13px)', margin: 0 }}>{name}</p>
+                        <p className="font-mono text-gold" style={{ fontSize: 'clamp(10px, 2vw, 11px)', letterSpacing: '0.1em', margin: 0 }}>{pct}</p>
                       </div>
                     ))}
                   </div>
@@ -463,7 +476,7 @@ export default function Home() {
                         Fiyat
                       </p>
                       <div className="flex items-baseline" style={{ gap: '10px' }}>
-                        <p className="font-display text-cream" style={{ fontSize: '32px', fontWeight: 500, margin: 0 }}>
+                        <p className="font-display text-cream" style={{ fontSize: 'clamp(24px, 6vw, 32px)', fontWeight: 500, margin: 0 }}>
                           2.080 ₺
                         </p>
                         <p className="font-mono text-cream-faint" style={{ fontSize: '12px', textDecoration: 'line-through', margin: 0 }}>
@@ -482,7 +495,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="bg-ink-3 relative flex items-center justify-center" style={{ minHeight: '560px' }}>
+                <div className="bg-ink-3 relative flex items-center justify-center" style={{ minHeight: 'clamp(280px, 70vw, 560px)' }}>
                   <div
                     className="absolute inset-0"
                     style={{

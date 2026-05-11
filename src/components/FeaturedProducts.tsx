@@ -14,8 +14,8 @@ export default async function FeaturedProducts() {
       className="featured-section"
       style={{
         backgroundColor: '#EBE5D8',
-        paddingTop: '96px',
-        paddingBottom: '96px',
+        paddingTop: 'clamp(48px, 10vw, 96px)',
+        paddingBottom: 'clamp(48px, 10vw, 96px)',
         borderTop: '1px solid rgba(26,23,20,0.08)',
         borderBottom: '1px solid rgba(26,23,20,0.08)',
       }}
@@ -28,12 +28,12 @@ export default async function FeaturedProducts() {
         }}
       >
         {/* Bölüm başlığı */}
-        <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(48px, 10vw, 80px)' }}>
           <p
             style={{
               fontFamily: 'var(--font-jetbrains)',
-              fontSize: '11px',
-              letterSpacing: '0.3em',
+              fontSize: 'clamp(9px, 2vw, 11px)',
+              letterSpacing: 'clamp(0.18em, 0.45vw, 0.3em)',
               color: '#C9A961',
               textTransform: 'uppercase',
               marginBottom: '20px',
@@ -54,7 +54,7 @@ export default async function FeaturedProducts() {
             style={{
               fontFamily: 'var(--font-cormorant)',
               color: '#1A1714',
-              fontSize: 'clamp(36px, 4.5vw, 60px)',
+              fontSize: 'clamp(28px, 5.5vw, 60px)',
               fontWeight: 500,
               lineHeight: 1.05,
               letterSpacing: '-0.015em',
@@ -69,7 +69,7 @@ export default async function FeaturedProducts() {
           <p
             style={{
               color: '#6B6258',
-              fontSize: '15px',
+              fontSize: 'clamp(13px, 2.5vw, 15px)',
               lineHeight: 1.7,
               maxWidth: '480px',
               margin: '32px auto 0',
@@ -123,7 +123,7 @@ export default async function FeaturedProducts() {
         `}</style>
 
         {/* Alt CTA */}
-        <div style={{ textAlign: 'center', marginTop: '64px' }}>
+        <div style={{ textAlign: 'center', marginTop: 'clamp(40px, 8vw, 64px)' }}>
           <Link
             href="/koleksiyon"
             style={{
@@ -132,12 +132,13 @@ export default async function FeaturedProducts() {
               gap: '12px',
               color: '#1A1714',
               fontFamily: 'var(--font-jetbrains)',
-              fontSize: '11px',
+              fontSize: 'clamp(10px, 2vw, 11px)',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
               textDecoration: 'none',
               border: '1px solid rgba(26,23,20,0.2)',
-              padding: '16px 32px',
+              padding: 'clamp(14px, 3vw, 16px) clamp(22px, 5vw, 32px)',
+              minHeight: '44px',
               transition: 'all 0.3s',
             }}
           >

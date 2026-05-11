@@ -58,22 +58,58 @@ export default async function UrunPage({ params }: Props) {
 
         {/* Breadcrumb */}
         <div style={{ backgroundColor: '#0A0908', borderBottom: '1px solid rgba(244,240,232,0.05)' }}>
-          <div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto', paddingTop: '14px', paddingBottom: '14px' }}>
-            <nav style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px 10px' }}>
+          <div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto', paddingTop: 'clamp(10px, 2vw, 14px)', paddingBottom: 'clamp(10px, 2vw, 14px)' }}>
+            <nav
+              aria-label="Breadcrumb"
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                columnGap: '8px',
+                rowGap: '6px',
+                maxWidth: '100%',
+              }}
+            >
               {[
                 { label: 'Anasayfa', href: '/' },
                 { label: 'Koleksiyon', href: '/koleksiyon' },
                 ...(product.category ? [{ label: product.category.name, href: `/kategori/${product.category.slug}` }] : []),
               ].map((crumb, i) => (
                 <span key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <Link href={crumb.href} style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.18em', color: '#6E665A', textTransform: 'uppercase', textDecoration: 'none' }}>
+                  <Link
+                    href={crumb.href}
+                    style={{
+                      fontFamily: 'var(--font-jetbrains)',
+                      fontSize: 'clamp(8px, 2vw, 10px)',
+                      letterSpacing: 'clamp(0.12em, 0.35vw, 0.18em)',
+                      color: '#6E665A',
+                      textTransform: 'uppercase',
+                      textDecoration: 'none',
+                      maxWidth: '100%',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
                     {crumb.label}
                   </Link>
-                  <span style={{ color: 'rgba(244,240,232,0.15)', fontSize: '10px' }}>·</span>
+                  <span style={{ color: 'rgba(244,240,232,0.15)', fontSize: 'clamp(8px, 2vw, 10px)', flexShrink: 0 }}>·</span>
                 </span>
               ))}
-              <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.18em', color: '#C9A961', textTransform: 'uppercase' }}>
-                {product.name.length > 32 ? product.name.slice(0, 32) + '…' : product.name}
+              <span
+                style={{
+                  fontFamily: 'var(--font-jetbrains)',
+                  fontSize: 'clamp(8px, 2vw, 10px)',
+                  letterSpacing: 'clamp(0.12em, 0.35vw, 0.18em)',
+                  color: '#C9A961',
+                  textTransform: 'uppercase',
+                  minWidth: 0,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {product.name.length > 42 ? `${product.name.slice(0, 42)}…` : product.name}
               </span>
             </nav>
           </div>
@@ -81,22 +117,10 @@ export default async function UrunPage({ params }: Props) {
 
         {/* Ana ürün bölümü */}
         <section className="product-main-section" style={{ backgroundColor: '#0A0908' }}>
-          <div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div className="product-layout">
-              {/* Galeri */}
-              <ProductGallery images={images} productName={product.name} />
-
-              {/* Aksiyonlar — masaüstünde sticky */}
-              <div className="product-actions-col">
-                <ProductActions product={product} />
-              </div>
-            </div>
-          </div>
-
           <style>{`
             .product-main-section {
-              padding-top: 48px;
-              padding-bottom: 80px;
+              padding-top: clamp(28px, 6vw, 48px);
+              padding-bottom: clamp(40px, 10vw, 80px);
             }
             .product-layout {
               display: grid;
@@ -109,9 +133,13 @@ export default async function UrunPage({ params }: Props) {
               top: 108px;
             }
             @media (max-width: 768px) {
+              .product-gallery-mobile-bleed {
+                margin-left: calc(-1 * clamp(16px, 4vw, 48px));
+                margin-right: calc(-1 * clamp(16px, 4vw, 48px));
+              }
               .product-main-section {
-                padding-top: 24px;
-                padding-bottom: 48px;
+                padding-top: clamp(16px, 4vw, 24px);
+                padding-bottom: clamp(32px, 8vw, 48px);
               }
               .product-layout {
                 grid-template-columns: 1fr;
@@ -122,20 +150,38 @@ export default async function UrunPage({ params }: Props) {
               }
             }
           `}</style>
+          <div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <div className="product-layout">
+              <div className="product-gallery-mobile-bleed">
+                <ProductGallery images={images} productName={product.name} />
+              </div>
+              <div className="product-actions-col">
+                <ProductActions product={product} />
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Ürün açıklaması */}
         {description && (
           <section className="product-desc-section" style={{ backgroundColor: '#141210', borderTop: '1px solid rgba(244,240,232,0.06)' }}>
             <style>{`
-              .product-desc-section { padding-top: 64px; padding-bottom: 64px; }
-              @media (max-width: 640px) { .product-desc-section { padding-top: 40px; padding-bottom: 40px; } }
+              .product-desc-section {
+                padding-top: clamp(40px, 8vw, 64px);
+                padding-bottom: clamp(40px, 8vw, 64px);
+              }
+              @media (max-width: 640px) {
+                .product-desc-section {
+                  padding-top: clamp(28px, 6vw, 40px);
+                  padding-bottom: clamp(28px, 6vw, 40px);
+                }
+              }
             `}</style>
             <div className="px-responsive" style={{ maxWidth: '760px', margin: '0 auto' }}>
               <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 32px' }}>
                 Ürün Hakkında
               </p>
-              <div style={{ fontFamily: 'var(--font-sans)', color: '#B8B0A0', fontSize: '15px', lineHeight: 1.85 }}>
+              <div style={{ fontFamily: 'var(--font-sans)', color: '#B8B0A0', fontSize: 'clamp(13px, 2.5vw, 15px)', lineHeight: 1.65 }}>
                 {stripHtml(description).split(/\.\s+/).filter(s => s.trim().length > 10).map((para, i) => (
                   <p key={i} style={{ margin: '0 0 16px' }}>{para.trim().endsWith('.') ? para.trim() : para.trim() + '.'}</p>
                 ))}
