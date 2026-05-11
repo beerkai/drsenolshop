@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useCart } from '@/lib/cart-context';
 
 type NavChild = { label: string; href: string };
 type NavItem = { label: string; href: string; children?: NavChild[] };
@@ -48,6 +49,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState<string | null>(null);
   const [announceLocale, setAnnounceLocale] = useState<AnnounceLocaleCode>('tr');
+  const { itemCount, openCart } = useCart();
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 12);
@@ -197,8 +199,9 @@ export default function Header() {
                   <path d="m20 20-3.5-3.5" />
                 </svg>
               </button>
-              <Link
-                href="/sepet"
+              <button
+                type="button"
+                onClick={openCart}
                 className="flex items-center gap-2.5 text-cream hover:text-gold transition-colors duration-200 group"
               >
                 <svg
@@ -217,9 +220,14 @@ export default function Header() {
                   <path d="M16 10a4 4 0 0 1-8 0" />
                 </svg>
                 <span className="font-mono text-[10px] tracking-[0.22em] uppercase hidden sm:inline">
-                  Sepet (0)
+                  Sepet {itemCount > 0 ? `(${itemCount})` : ''}
                 </span>
-              </Link>
+                {itemCount > 0 && (
+                  <span className="sm:hidden flex items-center justify-center w-4 h-4 rounded-full bg-gold text-ink font-mono text-[9px] font-medium leading-none">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
         </div>

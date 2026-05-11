@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Cormorant_Garamond, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
+import { Providers } from './providers';
 
 const inter = Inter({
   subsets: ['latin', 'latin-ext'],
@@ -47,7 +48,7 @@ export default function RootLayout({
       lang="tr"
       className={`${inter.variable} ${cormorant.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body><Providers>{children}</Providers></body>
     </html>
   );
 }

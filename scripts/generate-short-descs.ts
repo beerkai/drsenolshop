@@ -26,6 +26,21 @@ const JUNK_PATTERNS = [
   /^\.+$/,
 ]
 
+/** HTML tag'leri, emoji prefix'i ve fazladan boşlukları temizle */
+function stripHtml(html: string): string {
+  return html
+    .replace(/<[^>]+>/g, ' ')          // HTML tag'leri boşlukla değiştir
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/📌\s*/g, '')              // 📌 emoji prefix temizle
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 function isJunk(text: string): boolean {
   const t = text.trim()
   return t.length < 10 || JUNK_PATTERNS.some((p) => p.test(t))
@@ -33,10 +48,10 @@ function isJunk(text: string): boolean {
 
 /**
  * Metinden 80-120 karakter arasında anlamlı bir kısa açıklama çıkarır.
- * Önce ilk noktalı cümleyi dener; yoksa 100 karakterde keser.
+ * HTML varsa önce strip eder; sonra ilk noktalı cümleyi alır.
  */
 function extractShortDesc(text: string): string | null {
-  const cleaned = text.replace(/\s+/g, ' ').trim()
+  const cleaned = stripHtml(text)
   if (isJunk(cleaned)) return null
 
   // İlk noktalı cümle
@@ -46,7 +61,7 @@ function extractShortDesc(text: string): string | null {
     if (sentence.length <= 180) return sentence
   }
 
-  // İlk 100 karakter, kelime sınırında kes
+  // 120 karakterde kelime sınırında kes
   if (cleaned.length <= 120) return cleaned
   const cut = cleaned.slice(0, 110)
   const lastSpace = cut.lastIndexOf(' ')
@@ -72,7 +87,6 @@ async function run() {
   const { data: products, error } = await supabase
     .from('products')
     .select('id, name, slug, description, long_desc, short_desc')
-    .is('short_desc', null)
 
   if (error) {
     console.error('Ürünler çekilemedi:', error.message)
@@ -80,11 +94,11 @@ async function run() {
   }
 
   if (!products || products.length === 0) {
-    console.log('short_desc boş ürün bulunamadı. Hepsi zaten dolu olabilir.')
+    console.log('Ürün bulunamadı.')
     return
   }
 
-  console.log(`${products.length} üründe short_desc boş.\n`)
+  console.log(`${products.length} ürün işlenecek.\n`)
 
   let created = 0
   let noDesc = 0
