@@ -1,15 +1,18 @@
 import { requireAdmin } from '@/lib/admin-auth'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { getBankInfo } from '@/lib/site-settings'
+import { getBroadcastChatIds } from '@/lib/telegram'
 import { Badge } from '@/components/admin/ui/Badge'
 import BankInfoForm from './BankInfoForm'
 import TelegramTestPanel from './TelegramTestPanel'
+import BroadcastPanel from './BroadcastPanel'
 import AdminsPanel from './AdminsPanel'
 
 export default async function AdminSettingsPage() {
   const ctx = await requireAdmin()
   const telegramConfigured = Boolean(process.env.TELEGRAM_BOT_TOKEN?.trim()) && Boolean(process.env.TELEGRAM_CHAT_ID?.trim())
   const adminHostsRaw = process.env.ADMIN_HOSTS?.trim() ?? '(kısıt yok)'
+  const broadcastIds = getBroadcastChatIds()
 
   const [bankInfo, admins] = await Promise.all([
     getBankInfo(),
@@ -55,10 +58,22 @@ export default async function AdminSettingsPage() {
       <div className="ad-card" style={{ marginBottom: '20px' }}>
         <p className="ad-eyebrow-muted" style={{ marginBottom: '6px' }}>Telegram Bot</p>
         <p style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: '0 0 16px' }}>
-          Yeni sipariş geldiğinde bildirim gönderir. /yeni /durum /stok /ozet komutlarına yanıt verir.
+          Yeni sipariş geldiğinde bildirim gönderir. /yeni /durum /stok /defter /satis vs. komutlarına yanıt verir.
         </p>
         <TelegramTestPanel configured={telegramConfigured} />
       </div>
+
+      {/* Duyuru gönderme */}
+      {telegramConfigured && (
+        <div className="ad-card" style={{ marginBottom: '20px' }}>
+          <p className="ad-eyebrow-muted" style={{ marginBottom: '6px' }}>Duyuru Gönder</p>
+          <p style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: '0 0 16px' }}>
+            Tüm yetkili Telegram chat&apos;lerine ({broadcastIds.length} alıcı) duyuru atar. Yetki listesi
+            <code style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '11px', color: 'var(--ad-gold-deep)', backgroundColor: 'var(--ad-gold-faint)', padding: '1px 5px', marginLeft: '4px' }}>TELEGRAM_ADMIN_IDS</code> env&apos;i ile yönetilir.
+          </p>
+          <BroadcastPanel recipientCount={broadcastIds.length} />
+        </div>
+      )}
 
       {/* Admin yönetimi (sadece owner) */}
       {ctx.admin.role === 'owner' && (
