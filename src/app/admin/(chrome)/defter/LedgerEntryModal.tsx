@@ -283,9 +283,16 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
             width: 100% !important;
             max-width: 100% !important;
             max-height: 100vh !important;
+            max-height: 100dvh !important;
             height: 100vh !important;
+            height: 100dvh !important;
             border: none !important;
           }
+          /* Mobile'da alt footer gizle — Kaydet zaten üstte */
+          .ad-modal-footer { display: none !important; }
+          /* Compact form padding */
+          .ad-ledger-form { padding: 14px 16px !important; }
+          .ad-ledger-form > div { margin-bottom: 12px !important; }
         }
       `}</style>
       <div
@@ -309,19 +316,38 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
           animation: 'ad-fadeup 0.2s ease-out both',
         }}
       >
-        {/* Header */}
-        <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--ad-line-faint)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div>
-            <p className="ad-eyebrow" style={{ marginBottom: '6px' }}>{isEdit ? 'Düzenle' : 'Yeni Kayıt'}</p>
-            <h2 className="ad-display" style={{ fontSize: '20px', fontWeight: 500, color: 'var(--ad-fg)', margin: 0 }}>
+        {/* Header — sticky-top action bar */}
+        <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--ad-line-faint)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', backgroundColor: 'var(--ad-surface)', flexShrink: 0 }}>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Kapat"
+            className="ad-icon-btn"
+            style={{ flexShrink: 0 }}
+          >
+            ✕
+          </button>
+          <div style={{ flex: 1, minWidth: 0, textAlign: 'center' }}>
+            <p className="ad-eyebrow" style={{ marginBottom: '2px', fontSize: '9px' }}>
+              {isEdit ? 'Düzenle' : 'Yeni Kayıt'}
+            </p>
+            <h2 className="ad-display" style={{ fontSize: '16px', fontWeight: 500, color: 'var(--ad-fg)', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               Defter Kaydı
             </h2>
           </div>
-          <button type="button" onClick={onClose} aria-label="Kapat" className="ad-icon-btn">✕</button>
+          <button
+            type="button"
+            onClick={(e) => handleSubmit(e as unknown as React.FormEvent)}
+            disabled={saving}
+            className="ad-btn ad-btn-primary"
+            style={{ flexShrink: 0, padding: '9px 14px', fontSize: '11px', letterSpacing: '0.18em', minWidth: '92px' }}
+          >
+            {saving ? '…' : isEdit ? 'Kaydet' : '+ Ekle'}
+          </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
+        <form onSubmit={handleSubmit} className="ad-ledger-form" style={{ flex: 1, overflowY: 'auto', padding: '20px 24px', WebkitOverflowScrolling: 'touch' }}>
           {/* Plaka / Etiket */}
           <div style={{ marginBottom: '14px' }}>
             <label className="ad-label" htmlFor="plate">Plaka / Tur Etiketi</label>
@@ -504,13 +530,13 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
           </div>
         </form>
 
-        {/* Footer / Submit */}
-        <div style={{ padding: '14px 24px', borderTop: '1px solid var(--ad-line-faint)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', backgroundColor: 'var(--ad-surface-2)' }}>
+        {/* Footer — sadece masaüstünde tam, mobile'da kompakt (Kaydet butonu zaten üstte) */}
+        <div className="ad-modal-footer" style={{ padding: '12px 18px', borderTop: '1px solid var(--ad-line-faint)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', backgroundColor: 'var(--ad-surface-2)', flexShrink: 0 }}>
           <span className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.08em' }}>
-            <span className="ad-kbd">esc</span> kapat
+            <span className="ad-kbd">esc</span> kapat · <span className="ad-kbd">⌘</span><span className="ad-kbd">↵</span> kaydet
           </span>
           <div style={{ display: 'flex', gap: '8px' }}>
-            <button type="button" onClick={onClose} className="ad-btn ad-btn-secondary">Vazgeç</button>
+            <button type="button" onClick={onClose} className="ad-btn ad-btn-secondary ad-btn-sm">Vazgeç</button>
             <button
               type="button"
               onClick={(e) => handleSubmit(e as unknown as React.FormEvent)}

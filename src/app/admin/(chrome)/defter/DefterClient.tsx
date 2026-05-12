@@ -235,8 +235,182 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
           <p className="ad-empty-hint">+ Kayıt Ekle ile yeni satış girebilirsin (kısayol: <span className="ad-kbd">N</span>).</p>
         </div>
       ) : (
-        <div className="ad-table-wrap">
-          <table className="ad-table ad-table-mobile" style={{ minWidth: '900px' }}>
+      <>
+        {/* MOBILE — kompakt kart liste (640px altı görünür) */}
+        <div className="defter-mobile-list">
+          <style>{`
+            .defter-mobile-list { display: none; }
+            @media (max-width: 640px) {
+              .defter-mobile-list { display: block; }
+              .defter-desktop-table { display: none !important; }
+            }
+            .defter-card {
+              padding: 10px 12px;
+              border: 1px solid var(--ad-line-faint);
+              background: var(--ad-surface);
+              margin-bottom: 6px;
+            }
+            .defter-card-row {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              min-width: 0;
+            }
+            .defter-card-row + .defter-card-row { margin-top: 4px; }
+            .defter-card .seq {
+              font-family: var(--font-jetbrains), monospace;
+              font-size: 10px;
+              color: var(--ad-fg-faint);
+              letter-spacing: 0.05em;
+              flex-shrink: 0;
+              min-width: 22px;
+            }
+            .defter-card .plate-btn {
+              font-family: var(--font-jetbrains), monospace;
+              font-size: 11.5px;
+              letter-spacing: 0.04em;
+              border: 1px solid var(--ad-line);
+              padding: 2px 6px;
+              background: transparent;
+              color: var(--ad-fg);
+              font-weight: 500;
+              cursor: pointer;
+              flex-shrink: 0;
+              max-width: 130px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            .defter-card .amount {
+              margin-left: auto;
+              font-family: var(--font-cormorant), serif;
+              font-size: 16px;
+              font-weight: 500;
+              color: var(--ad-fg);
+              flex-shrink: 0;
+            }
+            .defter-card .meta-row {
+              font-size: 11.5px;
+              color: var(--ad-fg-muted);
+              gap: 6px;
+              flex-wrap: wrap;
+            }
+            .defter-card .pay-toggle {
+              display: inline-flex;
+              align-items: center;
+              gap: 4px;
+              font-family: var(--font-jetbrains), monospace;
+              font-size: 9.5px;
+              letter-spacing: 0.04em;
+              background: transparent;
+              border: none;
+              padding: 2px 4px;
+              cursor: pointer;
+            }
+            .defter-card .act-btn {
+              background: transparent;
+              border: 1px solid var(--ad-line-faint);
+              padding: 4px 8px;
+              font-family: var(--font-jetbrains), monospace;
+              font-size: 11px;
+              cursor: pointer;
+              color: var(--ad-fg-muted);
+            }
+            .defter-card .act-btn.del { color: var(--ad-danger); }
+            .defter-card .note {
+              font-size: 11.5px;
+              color: var(--ad-fg-muted);
+              font-style: italic;
+              margin-top: 4px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+          `}</style>
+          {entries.map((e, idx) => (
+            <div key={e.id} className="defter-card">
+              {/* Satır 1: # + Plaka + Ödeme + Tutar */}
+              <div className="defter-card-row">
+                <span className="seq">{String(idx + 1).padStart(2, '0')}</span>
+                <button type="button" onClick={() => setPlateDrawer(e.plate)} className="plate-btn" title="Plaka geçmişi">
+                  {e.plate}
+                </button>
+                <Badge tone={e.payment_method === 'card' ? 'info' : 'success'} bracketed>
+                  {e.payment_method === 'card' ? 'K' : 'N'}
+                </Badge>
+                <span className="amount">{formatPrice(Number(e.sale_amount))}</span>
+              </div>
+
+              {/* Satır 2: Çalışan + Ödeme durumu */}
+              <div className="defter-card-row meta-row">
+                <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {e.employee_name ?? <span style={{ color: 'var(--ad-fg-faint)' }}>—</span>}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handleTogglePayment(e, 'customer_paid')}
+                  className="pay-toggle"
+                  style={{ color: e.customer_paid ? 'var(--ad-success)' : 'var(--ad-warning)' }}
+                  title="Müşteri ödedi mi?"
+                >
+                  {e.customer_paid ? '✓' : '○'} M
+                </button>
+                {e.has_guide && (
+                  <button
+                    type="button"
+                    onClick={() => handleTogglePayment(e, 'guide_paid')}
+                    className="pay-toggle"
+                    style={{ color: e.guide_paid ? 'var(--ad-success)' : 'var(--ad-warning)' }}
+                    title="Rehbere ödendi mi?"
+                  >
+                    {e.guide_paid ? '✓' : '○'} R
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => { setEditingEntry(e); setModalOpen(true) }}
+                  className="act-btn"
+                  title="Düzenle"
+                  aria-label="Düzenle"
+                >
+                  ✎
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(e)}
+                  className="act-btn del"
+                  title="Sil"
+                  aria-label="Sil"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Satır 3 (varsa): Rehber komisyonu */}
+              {e.has_guide && e.guide_commission != null && (
+                <div className="defter-card-row" style={{ fontSize: '11px' }}>
+                  <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.18em', color: 'var(--ad-fg-faint)', textTransform: 'uppercase' }}>
+                    Rehber
+                  </span>
+                  <span className="ad-mono" style={{ color: 'var(--ad-gold-deep)', fontSize: '12px' }}>
+                    {formatPrice(Number(e.guide_commission))}
+                  </span>
+                </div>
+              )}
+
+              {/* Satır 4 (varsa): Not */}
+              {e.notes && (
+                <div className="note" title={e.notes}>
+                  &ldquo;{e.notes}&rdquo;
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* DESKTOP — orijinal tablo (640px üstü görünür) */}
+        <div className="ad-table-wrap defter-desktop-table">
+          <table className="ad-table" style={{ minWidth: '900px' }}>
             <thead>
               <tr>
                 <th style={{ width: '36px' }}>#</th>
@@ -382,6 +556,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
             </tbody>
           </table>
         </div>
+      </>
       )}
 
       {/* Alt bilgi */}
