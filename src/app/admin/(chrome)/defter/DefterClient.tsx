@@ -245,10 +245,11 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
               .defter-desktop-table { display: none !important; }
             }
             .defter-card {
-              padding: 10px 12px;
+              padding: 12px 12px 10px;
               border: 1px solid var(--ad-line-faint);
+              border-left: 3px solid var(--ad-gold);
               background: var(--ad-surface);
-              margin-bottom: 6px;
+              margin-bottom: 8px;
             }
             .defter-card-row {
               display: flex;
@@ -256,154 +257,213 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
               gap: 8px;
               min-width: 0;
             }
-            .defter-card-row + .defter-card-row { margin-top: 4px; }
-            .defter-card .seq {
-              font-family: var(--font-jetbrains), monospace;
-              font-size: 10px;
-              color: var(--ad-fg-faint);
-              letter-spacing: 0.05em;
-              flex-shrink: 0;
-              min-width: 22px;
+            .defter-card-row + .defter-card-row { margin-top: 6px; }
+
+            /* HERO satır — Plaka highlight */
+            .defter-card .plate-hero {
+              flex: 1;
+              min-width: 0;
+              display: flex;
+              align-items: center;
+              gap: 8px;
             }
             .defter-card .plate-btn {
               font-family: var(--font-jetbrains), monospace;
-              font-size: 11.5px;
-              letter-spacing: 0.04em;
-              border: 1px solid var(--ad-line);
-              padding: 2px 6px;
+              font-size: 16px;
+              letter-spacing: 0.08em;
+              border: none;
+              padding: 0;
               background: transparent;
-              color: var(--ad-fg);
-              font-weight: 500;
+              color: var(--ad-gold-deep);
+              font-weight: 600;
               cursor: pointer;
-              flex-shrink: 0;
-              max-width: 130px;
+              text-align: left;
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
             }
-            .defter-card .amount {
-              margin-left: auto;
-              font-family: var(--font-cormorant), serif;
-              font-size: 16px;
-              font-weight: 500;
-              color: var(--ad-fg);
+            .defter-card .plate-btn:hover { color: var(--ad-gold); }
+            .defter-card .seq {
+              font-family: var(--font-jetbrains), monospace;
+              font-size: 10px;
+              color: var(--ad-fg-faint);
+              letter-spacing: 0.08em;
               flex-shrink: 0;
             }
-            .defter-card .meta-row {
-              font-size: 11.5px;
+
+            /* Tutar satırı */
+            .defter-card .info-row {
+              display: flex;
+              align-items: baseline;
+              gap: 10px;
+              flex-wrap: wrap;
+            }
+            .defter-card .amount {
+              font-family: var(--font-cormorant), serif;
+              font-size: 22px;
+              font-weight: 500;
+              color: var(--ad-fg);
+              line-height: 1;
+            }
+            .defter-card .employee {
+              font-size: 12px;
               color: var(--ad-fg-muted);
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              min-width: 0;
+              flex: 1;
+            }
+
+            /* Aksiyon + ödeme durumu */
+            .defter-card .actions-row {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 6px;
+              padding-top: 6px;
+              border-top: 1px dashed var(--ad-line-faint);
+              margin-top: 6px;
+            }
+            .defter-card .pay-toggles {
+              display: flex;
               gap: 6px;
               flex-wrap: wrap;
             }
             .defter-card .pay-toggle {
               display: inline-flex;
               align-items: center;
-              gap: 4px;
+              gap: 3px;
               font-family: var(--font-jetbrains), monospace;
-              font-size: 9.5px;
-              letter-spacing: 0.04em;
+              font-size: 10px;
+              letter-spacing: 0.05em;
               background: transparent;
-              border: none;
-              padding: 2px 4px;
+              border: 1px solid var(--ad-line-faint);
+              padding: 3px 7px;
               cursor: pointer;
+            }
+            .defter-card .act-btns {
+              display: flex;
+              gap: 4px;
             }
             .defter-card .act-btn {
               background: transparent;
               border: 1px solid var(--ad-line-faint);
-              padding: 4px 8px;
-              font-family: var(--font-jetbrains), monospace;
-              font-size: 11px;
+              padding: 4px 9px;
+              font-size: 13px;
               cursor: pointer;
               color: var(--ad-fg-muted);
+              line-height: 1;
             }
             .defter-card .act-btn.del { color: var(--ad-danger); }
-            .defter-card .note {
+
+            /* Rehber + not */
+            .defter-card .extra {
               font-size: 11.5px;
+              color: var(--ad-fg-muted);
+              margin-top: 4px;
+            }
+            .defter-card .extra-label {
+              font-family: var(--font-jetbrains), monospace;
+              font-size: 9px;
+              letter-spacing: 0.18em;
+              color: var(--ad-fg-faint);
+              text-transform: uppercase;
+              margin-right: 6px;
+            }
+            .defter-card .note {
+              font-size: 12px;
               color: var(--ad-fg-muted);
               font-style: italic;
               margin-top: 4px;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
+              line-height: 1.5;
             }
           `}</style>
           {entries.map((e, idx) => (
             <div key={e.id} className="defter-card">
-              {/* Satır 1: # + Plaka + Ödeme + Tutar */}
+              {/* HERO: Plaka (big gold) + sıra # + ödeme badge */}
               <div className="defter-card-row">
-                <span className="seq">{String(idx + 1).padStart(2, '0')}</span>
-                <button type="button" onClick={() => setPlateDrawer(e.plate)} className="plate-btn" title="Plaka geçmişi">
-                  {e.plate}
-                </button>
-                <Badge tone={e.payment_method === 'card' ? 'info' : 'success'} bracketed>
-                  {e.payment_method === 'card' ? 'K' : 'N'}
-                </Badge>
-                <span className="amount">{formatPrice(Number(e.sale_amount))}</span>
-              </div>
-
-              {/* Satır 2: Çalışan + Ödeme durumu */}
-              <div className="defter-card-row meta-row">
-                <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {e.employee_name ?? <span style={{ color: 'var(--ad-fg-faint)' }}>—</span>}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => handleTogglePayment(e, 'customer_paid')}
-                  className="pay-toggle"
-                  style={{ color: e.customer_paid ? 'var(--ad-success)' : 'var(--ad-warning)' }}
-                  title="Müşteri ödedi mi?"
-                >
-                  {e.customer_paid ? '✓' : '○'} M
-                </button>
-                {e.has_guide && (
-                  <button
-                    type="button"
-                    onClick={() => handleTogglePayment(e, 'guide_paid')}
-                    className="pay-toggle"
-                    style={{ color: e.guide_paid ? 'var(--ad-success)' : 'var(--ad-warning)' }}
-                    title="Rehbere ödendi mi?"
-                  >
-                    {e.guide_paid ? '✓' : '○'} R
+                <div className="plate-hero">
+                  <button type="button" onClick={() => setPlateDrawer(e.plate)} className="plate-btn" title="Plaka geçmişi">
+                    {e.plate}
                   </button>
-                )}
-                <button
-                  type="button"
-                  onClick={() => { setEditingEntry(e); setModalOpen(true) }}
-                  className="act-btn"
-                  title="Düzenle"
-                  aria-label="Düzenle"
-                >
-                  ✎
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(e)}
-                  className="act-btn del"
-                  title="Sil"
-                  aria-label="Sil"
-                >
-                  ✕
-                </button>
+                </div>
+                <Badge tone={e.payment_method === 'card' ? 'info' : 'success'} bracketed>
+                  {e.payment_method === 'card' ? 'Kart' : 'Nakit'}
+                </Badge>
+                <span className="seq">#{String(idx + 1).padStart(2, '0')}</span>
               </div>
 
-              {/* Satır 3 (varsa): Rehber komisyonu */}
+              {/* Tutar + Çalışan */}
+              <div className="defter-card-row info-row">
+                <span className="amount">{formatPrice(Number(e.sale_amount))}</span>
+                <span className="employee">
+                  {e.employee_name ?? <span style={{ color: 'var(--ad-fg-faint)' }}>çalışan yok</span>}
+                </span>
+              </div>
+
+              {/* Rehber komisyonu (varsa) */}
               {e.has_guide && e.guide_commission != null && (
-                <div className="defter-card-row" style={{ fontSize: '11px' }}>
-                  <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.18em', color: 'var(--ad-fg-faint)', textTransform: 'uppercase' }}>
-                    Rehber
-                  </span>
-                  <span className="ad-mono" style={{ color: 'var(--ad-gold-deep)', fontSize: '12px' }}>
+                <div className="extra">
+                  <span className="extra-label">Rehber</span>
+                  <span className="ad-mono" style={{ color: 'var(--ad-gold-deep)', fontSize: '13px', fontWeight: 500 }}>
                     {formatPrice(Number(e.guide_commission))}
                   </span>
                 </div>
               )}
 
-              {/* Satır 4 (varsa): Not */}
+              {/* Not (varsa) */}
               {e.notes && (
                 <div className="note" title={e.notes}>
                   &ldquo;{e.notes}&rdquo;
                 </div>
               )}
+
+              {/* Aksiyon + Ödeme durumu */}
+              <div className="actions-row">
+                <div className="pay-toggles">
+                  <button
+                    type="button"
+                    onClick={() => handleTogglePayment(e, 'customer_paid')}
+                    className="pay-toggle"
+                    style={{ color: e.customer_paid ? 'var(--ad-success)' : 'var(--ad-warning)' }}
+                    title="Müşteri ödedi mi?"
+                  >
+                    {e.customer_paid ? '✓' : '○'} Müşt.
+                  </button>
+                  {e.has_guide && (
+                    <button
+                      type="button"
+                      onClick={() => handleTogglePayment(e, 'guide_paid')}
+                      className="pay-toggle"
+                      style={{ color: e.guide_paid ? 'var(--ad-success)' : 'var(--ad-warning)' }}
+                      title="Rehbere ödendi mi?"
+                    >
+                      {e.guide_paid ? '✓' : '○'} Rehber
+                    </button>
+                  )}
+                </div>
+                <div className="act-btns">
+                  <button
+                    type="button"
+                    onClick={() => { setEditingEntry(e); setModalOpen(true) }}
+                    className="act-btn"
+                    title="Düzenle"
+                    aria-label="Düzenle"
+                  >
+                    ✎
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(e)}
+                    className="act-btn del"
+                    title="Sil"
+                    aria-label="Sil"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
         </div>

@@ -226,7 +226,9 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
         })
         const data = await res.json()
         if (!res.ok || !data.ok) {
-          toast.error(data.message ?? 'Güncellenemedi.')
+          console.error('[defter update]', data)
+          const detail = data.details ? ` — ${data.details}` : ''
+          toast.error(`${data.message ?? 'Güncellenemedi.'}${detail}`)
           setSaving(false)
           return
         }
@@ -252,14 +254,17 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
         })
         const data = await res.json()
         if (!res.ok || !data.ok) {
-          toast.error(data.message ?? 'Kayıt başarısız.')
+          console.error('[defter create]', data)
+          const detail = data.details ? ` — ${data.details}` : ''
+          toast.error(`${data.message ?? 'Kayıt başarısız.'}${detail}`)
           setSaving(false)
           return
         }
         toast.success(`${form.plate} kaydı eklendi.`)
         onSaved()
       }
-    } catch {
+    } catch (err) {
+      console.error('[defter modal]', err)
       toast.error('Ağ hatası.')
       setSaving(false)
     }

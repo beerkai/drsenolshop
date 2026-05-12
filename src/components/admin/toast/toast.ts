@@ -42,8 +42,9 @@ function emit(input: ToastInput) {
 
 export const toast = {
   success(message: string, title?: string) { emit({ tone: 'success', message, title }) },
-  error(message: string, title?: string)   { emit({ tone: 'error',   message, title }) },
-  warning(message: string, title?: string) { emit({ tone: 'warning', message, title }) },
+  /** Error toast 8 saniye gösterilir — kullanıcı detay mesajını okuyabilsin */
+  error(message: string, title?: string)   { emit({ tone: 'error',   message, title, duration: 8000 }) },
+  warning(message: string, title?: string) { emit({ tone: 'warning', message, title, duration: 5500 }) },
   info(message: string, title?: string)    { emit({ tone: 'info',    message, title }) },
   show(input: ToastInput) { emit(input) },
 }
