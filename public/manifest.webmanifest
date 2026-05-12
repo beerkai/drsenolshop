@@ -1,0 +1,46 @@
+{
+  "name": "Dr. Şenol Admin",
+  "short_name": "DRŞ Admin",
+  "description": "Dr. Şenol Shop yönetim paneli — sipariş, defter, stok ve daha fazlası.",
+  "start_url": "/admin",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAFAF7",
+  "theme_color": "#0A0908",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Defter",
+      "short_name": "Defter",
+      "description": "Bugünün defter kayıtları",
+      "url": "/admin/defter"
+    },
+    {
+      "name": "Pano",
+      "short_name": "Pano",
+      "description": "Genel bakış",
+      "url": "/admin"
+    },
+    {
+      "name": "Siparişler",
+      "short_name": "Sipariş",
+      "url": "/admin/siparisler"
+    }
+  ]
+}

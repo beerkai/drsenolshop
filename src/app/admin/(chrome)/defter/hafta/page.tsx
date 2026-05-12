@@ -100,6 +100,14 @@ export default async function DefterHaftalikPage({ searchParams }: { searchParam
           <Link href="/admin/defter" className="ad-btn ad-btn-secondary ad-btn-sm">
             Defter
           </Link>
+          <a
+            href={`/api/admin/defter/export?from=${monday}&to=${sunday}`}
+            className="ad-btn ad-btn-secondary ad-btn-sm"
+            download
+            title="Bu haftayı CSV olarak indir"
+          >
+            CSV
+          </a>
         </div>
       </div>
 

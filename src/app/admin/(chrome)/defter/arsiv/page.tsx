@@ -76,23 +76,47 @@ export default async function DefterArsivPage({ searchParams }: { searchParams: 
         })}
       </nav>
 
-      <div style={{ marginBottom: '24px' }}>
-        <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Defter · Arşiv</p>
-        <h1 className="ad-display" style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
-          {mode === 'years' && 'Tüm Yıllar'}
-          {mode === 'months' && (
-            <>
-              <span>{year} </span>
-              <span style={{ color: 'var(--ad-gold-deep)', fontStyle: 'italic', fontWeight: 400 }}>· Aylık</span>
-            </>
-          )}
-          {mode === 'days' && (
-            <>
-              <span>{monthName(month!)} {year} </span>
-              <span style={{ color: 'var(--ad-gold-deep)', fontStyle: 'italic', fontWeight: 400 }}>· Günlük</span>
-            </>
-          )}
-        </h1>
+      <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+        <div>
+          <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Defter · Arşiv</p>
+          <h1 className="ad-display" style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+            {mode === 'years' && 'Tüm Yıllar'}
+            {mode === 'months' && (
+              <>
+                <span>{year} </span>
+                <span style={{ color: 'var(--ad-gold-deep)', fontStyle: 'italic', fontWeight: 400 }}>· Aylık</span>
+              </>
+            )}
+            {mode === 'days' && (
+              <>
+                <span>{monthName(month!)} {year} </span>
+                <span style={{ color: 'var(--ad-gold-deep)', fontStyle: 'italic', fontWeight: 400 }}>· Günlük</span>
+              </>
+            )}
+          </h1>
+        </div>
+
+        {/* CSV indir — seçili dönemi kapsar */}
+        {(mode === 'months' || mode === 'days') && (
+          <a
+            href={(() => {
+              if (mode === 'days' && year && month) {
+                const last = new Date(year, month, 0).getDate()
+                const mm = String(month).padStart(2, '0')
+                return `/api/admin/defter/export?from=${year}-${mm}-01&to=${year}-${mm}-${String(last).padStart(2, '0')}`
+              }
+              if (mode === 'months' && year) {
+                return `/api/admin/defter/export?from=${year}-01-01&to=${year}-12-31`
+              }
+              return '#'
+            })()}
+            className="ad-btn ad-btn-secondary ad-btn-sm"
+            download
+            title="Bu dönemin tüm kayıtlarını CSV olarak indir"
+          >
+            CSV İndir
+          </a>
+        )}
       </div>
 
       {/* Toplam metrik */}

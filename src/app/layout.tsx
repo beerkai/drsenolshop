@@ -40,6 +40,16 @@ export const metadata: Metadata = {
   description:
     '1985\'ten beri Saitabat Köyü\'nden, laboratuvar onaylı premium arı ürünleri. Kovandan laboratuvara uzanan bilimsel bir yolculuk.',
   metadataBase: new URL('https://drsenol.shop'),
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    title: 'DRŞ Admin',
+    statusBarStyle: 'black-translucent',
+  },
+  icons: {
+    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+    apple: [{ url: '/icon.svg' }],
+  },
   openGraph: {
     type: 'website',
     locale: 'tr_TR',

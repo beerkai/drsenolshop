@@ -157,6 +157,14 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
           <Link href="/admin/defter/arsiv" className="ad-btn ad-btn-secondary ad-btn-sm">
             Arşiv
           </Link>
+          <a
+            href={`/api/admin/defter/export?from=${date}&to=${date}`}
+            className="ad-btn ad-btn-secondary ad-btn-sm"
+            download
+            title="Bugünün defterini CSV olarak indir"
+          >
+            CSV
+          </a>
           <button
             type="button"
             onClick={() => { setEditingEntry(null); setModalOpen(true) }}
