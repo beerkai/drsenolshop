@@ -6,10 +6,10 @@
 //   bot cevabı yarım gönderiliyordu (geç/hiç gelmiyor sorunu).
 // ═══════════════════════════════════════════════════════════════
 
-import { NextResponse } from 'next/server'
+import { NextResponse, after } from 'next/server'
 import { handleTelegramUpdate, type TelegramUpdate } from '@/lib/telegram-commands'
 
-// Vercel serverless function timeout — webhook için 30s (default 10s)
+// Vercel function timeout — after() task'lar için 30s margin
 export const maxDuration = 30
 
 export async function POST(request: Request) {
@@ -29,13 +29,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false }, { status: 400 })
   }
 
-  // Önemli: await — fire-and-forget Vercel serverless'ta kesiliyor
-  // ve bot cevabı yarım gönderiliyor / hiç gelmiyor.
-  try {
-    await handleTelegramUpdate(update)
-  } catch (err) {
-    console.error('[telegram/webhook] işleme hatası:', err)
-  }
+  // Telegram'a hızla 200 dön (retry'ı önle), işlemeyi arka planda yap.
+  // Next.js 16 after(): response gönderildikten sonra çalışır,
+  // Vercel waitUntil ile fonksiyon erken kesilmez.
+  after(async () => {
+    try {
+      await handleTelegramUpdate(update)
+    } catch (err) {
+      console.error('[telegram/webhook] işleme hatası:', err)
+    }
+  })
 
   return NextResponse.json({ ok: true })
 }
