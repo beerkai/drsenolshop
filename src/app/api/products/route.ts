@@ -10,6 +10,7 @@ export async function GET(req: NextRequest) {
   const sortBy = parseGridSort(searchParams.get('sort'))
   const limit = parseInt(searchParams.get('limit') || '12', 10)
   const offset = parseInt(searchParams.get('offset') || '0', 10)
+  const search = searchParams.get('q')?.trim() || searchParams.get('search')?.trim() || undefined
 
   try {
     const result = await getProducts({
@@ -18,6 +19,7 @@ export async function GET(req: NextRequest) {
       orderBy: sortBy,
       limit,
       offset,
+      search,
     })
 
     return NextResponse.json(result)

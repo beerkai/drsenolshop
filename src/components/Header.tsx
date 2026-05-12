@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart-context'
+import SearchOverlay from './SearchOverlay'
 
 type NavChild = { label: string; href: string }
 type NavItem = { label: string; href: string; children?: NavChild[] }
@@ -56,6 +57,19 @@ const svgIcon = {
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+
+  // ⌘K kısayolu — public site'ta da search aç
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault()
+        setSearchOpen((s) => !s)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
   const [dropdown, setDropdown] = useState<string | null>(null)
   const [announceLocale, setAnnounceLocale] = useState<AnnounceLocaleCode>('tr')
   const { itemCount, openCart } = useCart()
@@ -264,6 +278,7 @@ export default function Header() {
               <button
                 type="button"
                 aria-label="Ara"
+                onClick={() => setSearchOpen(true)}
                 className="flex min-h-[44px] min-w-[44px] items-center justify-center p-2 text-cream transition-colors duration-200 hover:text-gold"
               >
                 <svg
@@ -409,6 +424,8 @@ export default function Header() {
           </div>
         </div>
       )}
+
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   )
 }
