@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart-context'
+import { useWishlist } from '@/lib/wishlist-context'
 import SearchOverlay from './SearchOverlay'
 
 type NavChild = { label: string; href: string }
@@ -73,6 +74,7 @@ export default function Header() {
   const [dropdown, setDropdown] = useState<string | null>(null)
   const [announceLocale, setAnnounceLocale] = useState<AnnounceLocaleCode>('tr')
   const { itemCount, openCart } = useCart()
+  const { count: wishlistCount } = useWishlist()
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 12)
@@ -295,6 +297,53 @@ export default function Header() {
                   <path d="m20 20-3.5-3.5" />
                 </svg>
               </button>
+
+              {/* Favoriler */}
+              <Link
+                href="/favoriler"
+                aria-label={`Favoriler${wishlistCount > 0 ? ` (${wishlistCount})` : ''}`}
+                className="hover:text-gold relative flex items-center text-cream transition-colors duration-200 min-h-[44px] min-w-[44px] justify-center px-1"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill={wishlistCount > 0 ? 'currentColor' : 'none'}
+                  stroke="currentColor"
+                  strokeWidth="1.25"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                  style={svgIcon}
+                >
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+                {wishlistCount > 0 && (
+                  <span
+                    aria-hidden
+                    className="font-mono"
+                    style={{
+                      position: 'absolute',
+                      top: '4px',
+                      right: '0',
+                      minWidth: '16px',
+                      height: '16px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '0 4px',
+                      background: '#C9A961',
+                      color: '#0A0908',
+                      fontSize: '9px',
+                      lineHeight: 1,
+                      fontWeight: 500,
+                      letterSpacing: '0.04em',
+                      borderRadius: '8px',
+                    }}
+                  >
+                    {wishlistCount}
+                  </span>
+                )}
+              </Link>
+
               <button
                 type="button"
                 onClick={openCart}

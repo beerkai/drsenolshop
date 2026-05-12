@@ -11,6 +11,7 @@ import {
   isProductInStock,
   formatPrice,
 } from '@/types';
+import WishlistButton from './WishlistButton';
 
 interface ProductCardProps {
   product: ProductWithRelations;
@@ -158,6 +159,19 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
             %{priceData?.discount} İndirim
           </span>
         ) : null}
+
+        {/* Favori butonu — sağ üst */}
+        <div style={{ position: 'absolute', top: '12px', right: '12px', zIndex: 2 }}>
+          <WishlistButton
+            product={{
+              productId: product.id,
+              slug: product.slug,
+              name: product.name,
+              image: image,
+            }}
+            variant="icon"
+          />
+        </div>
       </div>
 
       {/* İÇERIK — flex column, içerik kısmı flex:1 ile genişler */}
