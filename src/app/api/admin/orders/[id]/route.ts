@@ -8,6 +8,8 @@
 import { NextResponse } from 'next/server'
 import { getCurrentAdmin } from '@/lib/admin-auth'
 import { getSupabaseAdmin } from '@/lib/supabase'
+import { sendOrderStatusUpdate } from '@/lib/email'
+import type { Order } from '@/types'
 
 type OrderStatus = 'pending' | 'paid' | 'preparing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
 type PaymentStatusEnum = 'pending' | 'authorized' | 'captured' | 'failed' | 'refunded'
@@ -85,6 +87,25 @@ export async function PATCH(
       { ok: false, message: 'Güncelleme başarısız', details: error?.message },
       { status: 500 }
     )
+  }
+
+  // Status değiştiyse e-posta bildirimi (fire-and-forget)
+  if (body.status !== undefined && ['paid', 'preparing', 'shipped', 'delivered', 'cancelled'].includes(body.status)) {
+    const order = data as Order
+    ;(async () => {
+      try {
+        const mail = await sendOrderStatusUpdate({
+          order,
+          newStatus: body.status as Order['status'],
+          trackingNumber: order.tracking_number,
+        })
+        if (!mail.ok && mail.error !== 'not_configured' && mail.error !== 'no_template') {
+          console.error('[api/admin/orders] status mail hatası:', mail.error)
+        }
+      } catch (err) {
+        console.error('[api/admin/orders] mail gönderim hatası:', err)
+      }
+    })()
   }
 
   return NextResponse.json({ ok: true, order: data })

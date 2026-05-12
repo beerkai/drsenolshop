@@ -2,6 +2,7 @@ import { requireAdmin } from '@/lib/admin-auth'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { getBankInfo } from '@/lib/site-settings'
 import { getBroadcastChatIds } from '@/lib/telegram'
+import { isEmailConfigured } from '@/lib/email'
 import { Badge } from '@/components/admin/ui/Badge'
 import BankInfoForm from './BankInfoForm'
 import TelegramTestPanel from './TelegramTestPanel'
@@ -11,6 +12,7 @@ import AdminsPanel from './AdminsPanel'
 export default async function AdminSettingsPage() {
   const ctx = await requireAdmin()
   const telegramConfigured = Boolean(process.env.TELEGRAM_BOT_TOKEN?.trim()) && Boolean(process.env.TELEGRAM_CHAT_ID?.trim())
+  const emailConfigured = isEmailConfigured()
   const adminHostsRaw = process.env.ADMIN_HOSTS?.trim() ?? '(kısıt yok)'
   const broadcastIds = getBroadcastChatIds()
 
@@ -61,6 +63,38 @@ export default async function AdminSettingsPage() {
           Yeni sipariş geldiğinde bildirim gönderir. /yeni /durum /stok /defter /satis vs. komutlarına yanıt verir.
         </p>
         <TelegramTestPanel configured={telegramConfigured} />
+      </div>
+
+      {/* E-posta servisi (Resend) */}
+      <div className="ad-card" style={{ marginBottom: '20px' }}>
+        <p className="ad-eyebrow-muted" style={{ marginBottom: '6px' }}>E-posta Bildirimleri</p>
+        <p style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: '0 0 16px' }}>
+          Sipariş onayı + durum güncellemeleri için Resend kullanılır.
+          Şu durumlarda mail gider: yeni sipariş alındı, ödendi, hazırlanıyor, kargoda, teslim edildi, iptal edildi.
+        </p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--ad-line-faint)' }}>
+          <span className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Durum</span>
+          {emailConfigured ? (
+            <Badge tone="success" bracketed>Aktif</Badge>
+          ) : (
+            <Badge tone="neutral" bracketed>RESEND_API_KEY eksik</Badge>
+          )}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--ad-line-faint)' }}>
+          <span className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Gönderen</span>
+          <span className="ad-mono" style={{ fontSize: '12px', color: 'var(--ad-fg)' }}>
+            {process.env.RESEND_FROM_EMAIL ?? 'siparis@drsenolnaturalhoney.shop (default)'}
+          </span>
+        </div>
+        {!emailConfigured && (
+          <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '12px', letterSpacing: '0.05em', lineHeight: 1.6 }}>
+            Aktive etmek için Vercel env&apos;e <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>RESEND_API_KEY</code> ekle.
+            <br />
+            Opsiyonel: <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>RESEND_FROM_EMAIL</code>,{' '}
+            <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>RESEND_FROM_NAME</code>,{' '}
+            <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>RESEND_REPLY_TO</code>.
+          </p>
+        )}
       </div>
 
       {/* Duyuru gönderme */}

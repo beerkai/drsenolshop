@@ -5,6 +5,8 @@
 import { NextResponse } from 'next/server'
 import { createOrder, type CreateOrderInput } from '@/lib/orders'
 import { notifyNewOrder } from '@/lib/telegram'
+import { sendOrderConfirmation } from '@/lib/email'
+import { getBankInfo } from '@/lib/site-settings'
 
 export async function POST(request: Request) {
   let body: unknown
@@ -38,10 +40,26 @@ export async function POST(request: Request) {
     return NextResponse.json(result, { status })
   }
 
-  // Telegram bildirimi — başarısız olsa bile siparişi etkilemez
+  // Telegram + e-mail bildirimleri — sipariş başarısını etkilemez
   notifyNewOrder(result.order, result.items).catch((err) => {
     console.error('[api/orders] Telegram bildirimi atılamadı:', err)
   })
+
+  ;(async () => {
+    try {
+      const bankInfo = result.order.payment_method === 'bank_transfer' ? await getBankInfo() : null
+      const mail = await sendOrderConfirmation({
+        order: result.order,
+        items: result.items,
+        bankInfo,
+      })
+      if (!mail.ok && mail.error !== 'not_configured') {
+        console.error('[api/orders] sipariş onay maili gönderilemedi:', mail.error)
+      }
+    } catch (err) {
+      console.error('[api/orders] mail gönderim hatası:', err)
+    }
+  })()
 
   return NextResponse.json({
     ok: true,
