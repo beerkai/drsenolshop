@@ -9,7 +9,7 @@ import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import {
   isTelegramConfigured,
-  sendTelegramMessage,
+  broadcastTelegramMessage,
   escapeHtml,
 } from '@/lib/telegram'
 
@@ -82,7 +82,7 @@ export async function GET(request: Request) {
     lines.push(`<i>…ve ${items.length - 25} kayıt daha. /admin/stok ile tümünü gör.</i>`)
   }
 
-  await sendTelegramMessage(lines.join('\n'))
+  await broadcastTelegramMessage(lines.join('\n'))
 
   return NextResponse.json({ ok: true, alerted: true, count: items.length })
 }

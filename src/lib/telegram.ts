@@ -24,6 +24,52 @@ export function isTelegramConfigured(): boolean {
   return getConfig() !== null
 }
 
+/**
+ * TELEGRAM_CHAT_ID + TELEGRAM_ADMIN_IDS'i birleştirip tekilleştirir.
+ * Bildirim/duyuru gönderilecek tüm yetkili chat ID'lerini döner.
+ */
+export function getBroadcastChatIds(): string[] {
+  const ids = new Set<string>()
+  const primary = process.env.TELEGRAM_CHAT_ID?.trim()
+  if (primary) ids.add(primary)
+  const extra = process.env.TELEGRAM_ADMIN_IDS?.trim()
+  if (extra) {
+    extra.split(',').forEach((s) => {
+      const v = s.trim()
+      if (v) ids.add(v)
+    })
+  }
+  return Array.from(ids)
+}
+
+/**
+ * Aynı mesajı tüm yetkili chat ID'lere paralel gönderir.
+ * Bir alıcıda hata olsa diğerleri devam eder (allSettled).
+ */
+export async function broadcastTelegramMessage(
+  text: string,
+  opts: { parseMode?: 'Markdown' | 'HTML' } = {}
+): Promise<{ ok: boolean; sent: number; failed: number }> {
+  const ids = getBroadcastChatIds()
+  if (ids.length === 0) {
+    console.warn('[telegram broadcast] hiç chat ID yapılandırılmamış')
+    return { ok: false, sent: 0, failed: 0 }
+  }
+
+  const results = await Promise.allSettled(
+    ids.map((chatId) => sendTelegramMessage(text, { ...opts, chatId }))
+  )
+
+  let sent = 0
+  let failed = 0
+  for (const r of results) {
+    if (r.status === 'fulfilled' && r.value.ok) sent++
+    else failed++
+  }
+
+  return { ok: sent > 0, sent, failed }
+}
+
 /** Düşük seviye sendMessage — Markdown V2 safe escape ile */
 export async function sendTelegramMessage(
   text: string,
@@ -94,5 +140,5 @@ export async function notifyNewOrder(order: Order, items: OrderItem[]): Promise<
   lines.push(`<b>Ödeme:</b> ${order.payment_method === 'bank_transfer' ? 'Havale / EFT' : escapeHtml(order.payment_method ?? '')}`)
   lines.push(`<b>Durum:</b> ${escapeHtml(order.status)}`)
 
-  await sendTelegramMessage(lines.join('\n'))
+  await broadcastTelegramMessage(lines.join('\n'))
 }

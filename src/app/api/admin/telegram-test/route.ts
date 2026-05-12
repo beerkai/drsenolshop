@@ -1,10 +1,16 @@
 // ═══════════════════════════════════════════════════════════════
-// POST /api/admin/telegram-test — admin chat'e test mesajı gönder
+// POST /api/admin/telegram-test — yetkili tüm chat ID'lere test
+// gönderir. (TELEGRAM_CHAT_ID + TELEGRAM_ADMIN_IDS hepsi)
 // ═══════════════════════════════════════════════════════════════
 
 import { NextResponse } from 'next/server'
 import { getCurrentAdmin } from '@/lib/admin-auth'
-import { sendTelegramMessage, isTelegramConfigured, escapeHtml } from '@/lib/telegram'
+import {
+  broadcastTelegramMessage,
+  isTelegramConfigured,
+  escapeHtml,
+  getBroadcastChatIds,
+} from '@/lib/telegram'
 
 export async function POST() {
   const admin = await getCurrentAdmin()
@@ -17,6 +23,7 @@ export async function POST() {
     )
   }
 
+  const ids = getBroadcastChatIds()
   const now = new Date().toLocaleString('tr-TR')
   const text = [
     '<b>🐝 Test Mesajı</b>',
@@ -25,14 +32,15 @@ export async function POST() {
     `<b>Zaman:</b> ${escapeHtml(now)}`,
     '',
     'Bot bağlantısı çalışıyor ✓',
+    `<i>Bu mesaj ${ids.length} alıcıya gönderildi.</i>`,
   ].join('\n')
 
-  const result = await sendTelegramMessage(text)
+  const result = await broadcastTelegramMessage(text)
   if (!result.ok) {
     return NextResponse.json(
-      { ok: false, message: result.description ?? 'Telegram hatası.' },
+      { ok: false, message: 'Telegram broadcast başarısız.' },
       { status: 500 }
     )
   }
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ ok: true, sent: result.sent, failed: result.failed })
 }
