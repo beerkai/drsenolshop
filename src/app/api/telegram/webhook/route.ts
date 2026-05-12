@@ -1,11 +1,16 @@
 // ═══════════════════════════════════════════════════════════════
 // POST /api/telegram/webhook — Telegram bot update'leri
-// ─ TELEGRAM_WEBHOOK_SECRET ile imza doğrulaması (path token)
-// ─ Update'i handleTelegramUpdate'e teslim eder, hemen 200 döner
+// ─ TELEGRAM_WEBHOOK_SECRET ile secret_token header doğrulaması
+// ─ Update tam işlenip Telegram'a cevap atılana kadar bekler;
+//   yoksa Vercel serverless'ta 200 dönünce execution kesilip
+//   bot cevabı yarım gönderiliyordu (geç/hiç gelmiyor sorunu).
 // ═══════════════════════════════════════════════════════════════
 
 import { NextResponse } from 'next/server'
 import { handleTelegramUpdate, type TelegramUpdate } from '@/lib/telegram-commands'
+
+// Vercel serverless function timeout — webhook için 30s (default 10s)
+export const maxDuration = 30
 
 export async function POST(request: Request) {
   // İsteğe bağlı: Telegram secret_token header'ı
@@ -24,10 +29,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false }, { status: 400 })
   }
 
-  // Komut işlemesini bekletmeden 200 dön — Telegram retry yapmasın
-  handleTelegramUpdate(update).catch((err) => {
+  // Önemli: await — fire-and-forget Vercel serverless'ta kesiliyor
+  // ve bot cevabı yarım gönderiliyor / hiç gelmiyor.
+  try {
+    await handleTelegramUpdate(update)
+  } catch (err) {
     console.error('[telegram/webhook] işleme hatası:', err)
-  })
+  }
 
   return NextResponse.json({ ok: true })
 }
