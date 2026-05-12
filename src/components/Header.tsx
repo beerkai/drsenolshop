@@ -237,7 +237,7 @@ export default function Header() {
             </div>
 
             <div className="flex min-w-0 justify-center justify-self-center">
-              <Link href="/" className="min-w-0 max-w-[100vw] px-1 text-center sm:max-w-[min(92vw,520px)]">
+              <Link href="/" className="min-w-0 max-w-full px-1 text-center sm:max-w-[min(92vw,520px)]">
                 <p
                   lang="en"
                   className="mb-[clamp(2px,0.6vw,8px)] font-mono uppercase leading-none text-gold"
