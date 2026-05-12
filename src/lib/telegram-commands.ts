@@ -67,8 +67,17 @@ export async function handleTelegramUpdate(update: TelegramUpdate): Promise<void
 
   const chatId = msg.chat.id
   if (!isAuthorized(chatId)) {
+    const name = msg.from?.first_name ?? 'arkadaş'
     await sendTelegramMessage(
-      '⛔ Bu komutu kullanma yetkin yok.',
+      [
+        `⛔ <b>Yetkin yok ${escapeHtml(name)}.</b>`,
+        '',
+        `<b>Senin chat ID'n:</b>`,
+        `<code>${chatId}</code>`,
+        '',
+        `Yetki almak için yöneticiye bu ID'yi gönder. Yönetici Vercel'da`,
+        `<code>TELEGRAM_ADMIN_IDS</code> env'ine ekleyecek.`,
+      ].join('\n'),
       { chatId: String(chatId) }
     )
     return
