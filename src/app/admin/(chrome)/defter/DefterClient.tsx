@@ -175,7 +175,27 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
         `}</style>
 
         <Metric label="Kayıt" value={String(summary.entryCount)} />
-        <Metric label="Toplam Ciro" value={formatPrice(summary.totalSale)} gold />
+        <Metric
+          label="Toplam Ciro"
+          gold
+          value={
+            summary.guideCommissionTotal > 0 ? (
+              <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
+                <span>{formatPrice(summary.totalSale)}</span>
+                <span style={{ fontSize: '14px', color: 'var(--ad-fg-faint)' }}>/</span>
+                <span style={{ color: 'var(--ad-fg)', fontSize: '20px' }}>
+                  {formatPrice(summary.totalSale - summary.guideCommissionTotal)}
+                </span>
+                <span className="ad-mono" style={{ fontSize: '9.5px', color: 'var(--ad-fg-faint)', letterSpacing: '0.18em', textTransform: 'uppercase', alignSelf: 'center' }}>
+                  net
+                </span>
+              </span>
+            ) : (
+              formatPrice(summary.totalSale)
+            )
+          }
+          hint={summary.guideCommissionTotal > 0 ? `−${formatPrice(summary.guideCommissionTotal)} rehber komisyonu` : undefined}
+        />
         <Metric
           label="Kart / Nakit"
           value={
@@ -645,7 +665,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
   )
 }
 
-function Metric({ label, value, gold, small }: { label: string; value: React.ReactNode; gold?: boolean; small?: boolean }) {
+function Metric({ label, value, gold, small, hint }: { label: string; value: React.ReactNode; gold?: boolean; small?: boolean; hint?: string }) {
   return (
     <div className="ad-metric">
       <p className="ad-metric-label">{label}</p>
@@ -659,6 +679,19 @@ function Metric({ label, value, gold, small }: { label: string; value: React.Rea
       >
         {value}
       </p>
+      {hint && (
+        <p
+          className="ad-mono"
+          style={{
+            margin: '8px 0 0',
+            fontSize: '10px',
+            letterSpacing: '0.05em',
+            color: 'var(--ad-fg-faint)',
+          }}
+        >
+          {hint}
+        </p>
+      )}
     </div>
   )
 }
