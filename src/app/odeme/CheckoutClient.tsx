@@ -112,17 +112,21 @@ const INPUT_STYLE: React.CSSProperties = {
   transition: 'border-color 0.2s',
 }
 
+type PaymentChoice = 'bank_transfer' | 'paytr'
+
 interface Props {
   prefill?: CheckoutPrefill | null
+  paytrEnabled?: boolean
 }
 
-export default function CheckoutClient({ prefill }: Props) {
+export default function CheckoutClient({ prefill, paytrEnabled = false }: Props) {
   const router = useRouter()
   const { items, dispatch } = useCart()
   const [validated, setValidated] = useState<{ lines: ValidatedLine[]; totals: Totals; shipping: ShippingInfo | null } | null>(null)
   const [validating, setValidating] = useState(true)
   const [validationError, setValidationError] = useState<string | null>(null)
   const [form, setForm] = useState<FormState>(() => buildInitial(prefill))
+  const [paymentMethod, setPaymentMethod] = useState<PaymentChoice>(paytrEnabled ? 'paytr' : 'bank_transfer')
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
@@ -180,7 +184,7 @@ export default function CheckoutClient({ prefill }: Props) {
         postal_code: form.postal_code,
         country: 'TR',
       },
-      payment_method: 'bank_transfer' as const,
+      payment_method: paymentMethod,
       notes: form.notes || undefined,
       items: items.map((i) => ({
         productId: i.productId,
@@ -202,9 +206,14 @@ export default function CheckoutClient({ prefill }: Props) {
         return
       }
 
-      // Başarılı — sepeti temizle, onay sayfasına yönlendir
+      // Başarılı — sepeti temizle
       dispatch({ type: 'CLEAR' })
-      router.push(`/siparis/${data.order_number}`)
+      // PayTR seçildiyse iframe sayfasına, değilse sipariş onay sayfasına yönlendir
+      if (paymentMethod === 'paytr') {
+        router.push(`/odeme/paytr/${data.order_number}`)
+      } else {
+        router.push(`/siparis/${data.order_number}`)
+      }
     } catch {
       setSubmitError('Ağ hatası. Lütfen tekrar deneyin.')
       setSubmitting(false)
@@ -418,22 +427,27 @@ export default function CheckoutClient({ prefill }: Props) {
             <textarea className="ck-input" rows={3} value={form.notes} onChange={(e) => updateField('notes', e.target.value)} style={{ ...INPUT_STYLE, resize: 'vertical', minHeight: '90px', fontFamily: 'var(--font-sans)' }} placeholder="Teslimat tercihi, fatura bilgisi vb." />
           </section>
 
-          {/* Ödeme yöntemi — şimdilik sadece havale */}
+          {/* Ödeme yöntemi */}
           <section style={{ marginBottom: '40px' }}>
             <h2 style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
               Ödeme Yöntemi
             </h2>
-            <div style={{ padding: '20px', border: '1px solid #C9A961', backgroundColor: 'rgba(201,169,97,0.05)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '10px' }}>
-                <div style={{ width: '14px', height: '14px', borderRadius: '50%', backgroundColor: '#C9A961', flexShrink: 0 }} />
-                <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '12px', letterSpacing: '0.18em', color: '#F4F0E8', textTransform: 'uppercase', margin: 0 }}>
-                  Havale / EFT
-                </p>
-              </div>
-              <p style={{ color: '#B8B0A0', fontSize: '13px', lineHeight: 1.6, margin: 0 }}>
-                Sipariş oluşturulduktan sonra banka bilgileri e-posta ile size iletilir. Ödemeniz onaylandıktan sonra kargoya verilir.
-              </p>
-            </div>
+
+            {paytrEnabled && (
+              <PaymentOption
+                selected={paymentMethod === 'paytr'}
+                onSelect={() => setPaymentMethod('paytr')}
+                title="Kredi / Banka Kartı"
+                desc="Güvenli ödeme altyapısı (PayTR) üzerinden 3D Secure ile ödeme. Kart bilgileriniz tarafımızda saklanmaz."
+              />
+            )}
+
+            <PaymentOption
+              selected={paymentMethod === 'bank_transfer'}
+              onSelect={() => setPaymentMethod('bank_transfer')}
+              title="Havale / EFT"
+              desc="Sipariş oluşturulduktan sonra banka bilgileri e-posta ile size iletilir. Ödemeniz onaylandıktan sonra kargoya verilir."
+            />
           </section>
 
           {/* Mesafeli satış sözleşmesi onayı (tüketici hakkı bildirimi) */}
@@ -543,5 +557,55 @@ export default function CheckoutClient({ prefill }: Props) {
         </aside>
       </div>
     </div>
+  )
+}
+
+function PaymentOption({
+  selected,
+  onSelect,
+  title,
+  desc,
+}: {
+  selected: boolean
+  onSelect: () => void
+  title: string
+  desc: string
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      aria-pressed={selected}
+      style={{
+        display: 'block',
+        width: '100%',
+        textAlign: 'left',
+        padding: '20px',
+        border: `1px solid ${selected ? '#C9A961' : 'rgba(244,240,232,0.12)'}`,
+        backgroundColor: selected ? 'rgba(201,169,97,0.05)' : 'transparent',
+        marginBottom: '12px',
+        cursor: 'pointer',
+        transition: 'border-color 0.15s, background-color 0.15s',
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '10px' }}>
+        <div
+          style={{
+            width: '14px',
+            height: '14px',
+            borderRadius: '50%',
+            border: '1px solid #C9A961',
+            backgroundColor: selected ? '#C9A961' : 'transparent',
+            flexShrink: 0,
+          }}
+        />
+        <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '12px', letterSpacing: '0.18em', color: '#F4F0E8', textTransform: 'uppercase', margin: 0 }}>
+          {title}
+        </p>
+      </div>
+      <p style={{ color: '#B8B0A0', fontSize: '13px', lineHeight: 1.6, margin: 0 }}>
+        {desc}
+      </p>
+    </button>
   )
 }

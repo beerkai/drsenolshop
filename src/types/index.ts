@@ -142,7 +142,7 @@ export type OrderStatus =
 
 export type PaymentStatus = 'pending' | 'authorized' | 'captured' | 'failed' | 'refunded'
 
-export type PaymentMethod = 'bank_transfer' | 'iyzico' | 'stripe' | 'cash_on_delivery'
+export type PaymentMethod = 'bank_transfer' | 'paytr' | 'iyzico' | 'stripe' | 'cash_on_delivery'
 
 export interface Order {
   id: string

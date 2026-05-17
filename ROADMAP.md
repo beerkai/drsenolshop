@@ -66,11 +66,15 @@ Versiyonlu yol haritası. Her versiyon kapanınca commit + tag.
 
 ---
 
-## 🔮 v0.5.0 — Ödeme entegrasyonu (Iyzico)
-- Iyzico hosted page entegrasyonu
-- 3D Secure flow
-- Callback / webhook handler
-- Order status sync
+## 🔄 v0.5.0 — Ödeme entegrasyonu (PayTR iframe)
+- ✅ `src/lib/paytr.ts` — token üretimi (HMAC-SHA256), callback hash doğrulama, basket builder
+- ✅ POST `/api/payments/paytr/init` — order_number → iframe URL
+- ✅ POST `/api/payments/paytr/callback` — webhook, hash doğrulama, status sync, Telegram + e-posta
+- ✅ `/odeme/paytr/[order_number]` — iframe sayfası
+- ✅ Checkout'ta yöntem seçici (PAYTR_MERCHANT_* env'leri varsa görünür)
+- ✅ Migration 0009: payment_method enum'a 'paytr'
+- ✅ Admin Ayarlar'da PayTR durum kartı + bildirim URL hatırlatması
+- 🔄 PayTR başvuru onayı bekleniyor → env doldur → test → canlıya geç
 
 ## ✅ v0.6.0 — Müşteri hesabı (auth)
 - Supabase Auth (email + password) — `@supabase/ssr` cookie tabanlı

@@ -3,6 +3,7 @@ import { getSupabaseAdmin } from '@/lib/supabase'
 import { getBankInfo, getShippingConfig } from '@/lib/site-settings'
 import { getBroadcastChatIds } from '@/lib/telegram'
 import { isEmailConfigured } from '@/lib/email'
+import { isPaytrConfigured } from '@/lib/paytr'
 import { Badge } from '@/components/admin/ui/Badge'
 import BankInfoForm from './BankInfoForm'
 import ShippingForm from './ShippingForm'
@@ -14,6 +15,8 @@ export default async function AdminSettingsPage() {
   const ctx = await requireAdmin()
   const telegramConfigured = Boolean(process.env.TELEGRAM_BOT_TOKEN?.trim()) && Boolean(process.env.TELEGRAM_CHAT_ID?.trim())
   const emailConfigured = isEmailConfigured()
+  const paytrConfigured = isPaytrConfigured()
+  const paytrTestMode = process.env.PAYTR_TEST_MODE?.trim() === '1'
   const adminHostsRaw = process.env.ADMIN_HOSTS?.trim() ?? '(kısıt yok)'
   const broadcastIds = getBroadcastChatIds()
 
@@ -65,6 +68,34 @@ export default async function AdminSettingsPage() {
           Sepet tutarına göre uygulanan sabit kargo + ücretsiz kargo eşiği. Checkout&apos;ta görünür.
         </p>
         <ShippingForm initial={shippingConfig} />
+      </div>
+
+      {/* PayTR ödeme altyapısı */}
+      <div className="ad-card" style={{ marginBottom: '20px' }}>
+        <p className="ad-eyebrow-muted" style={{ marginBottom: '6px' }}>PayTR · Kart ile Ödeme</p>
+        <p style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: '0 0 16px' }}>
+          PayTR iframe API entegrasyonu. Yapılandırılınca checkout&apos;ta &quot;Kredi / Banka Kartı&quot; seçeneği görünür.
+        </p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--ad-line-faint)' }}>
+          <span className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Durum</span>
+          {paytrConfigured ? (
+            paytrTestMode
+              ? <Badge tone="gold" bracketed>Aktif · TEST MODE</Badge>
+              : <Badge tone="success" bracketed>Aktif · CANLI</Badge>
+          ) : (
+            <Badge tone="neutral" bracketed>Env eksik</Badge>
+          )}
+        </div>
+        {!paytrConfigured && (
+          <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '12px', letterSpacing: '0.05em', lineHeight: 1.8 }}>
+            Aktive etmek için Vercel env&apos;e ekle:<br />
+            <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>PAYTR_MERCHANT_ID</code>,{' '}
+            <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>PAYTR_MERCHANT_KEY</code>,{' '}
+            <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>PAYTR_MERCHANT_SALT</code><br />
+            Opsiyonel: <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>PAYTR_TEST_MODE=1</code> (test kartları için).<br />
+            PayTR panelinde <strong>bildirim URL&apos;si</strong>: <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>/api/payments/paytr/callback</code>
+          </p>
+        )}
       </div>
 
       {/* Telegram bot */}

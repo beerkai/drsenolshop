@@ -41,7 +41,7 @@ export interface CreateOrderInput {
   customer_name: string
   shipping_address: ShippingAddress
   billing_address?: ShippingAddress
-  payment_method?: 'bank_transfer' | 'iyzico' | 'stripe' | 'cash_on_delivery'
+  payment_method?: 'bank_transfer' | 'paytr' | 'iyzico' | 'stripe' | 'cash_on_delivery'
   notes?: string
   items: ClientCartItem[]
   // Logged-in müşterinin Supabase auth.uid()'si; sadece API route'ta server-side
