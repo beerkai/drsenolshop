@@ -39,6 +39,22 @@ type FormState = {
   notes: string
 }
 
+export interface CheckoutPrefill {
+  email: string
+  customer_name: string
+  phone: string
+  address: {
+    full_name: string
+    phone: string
+    address_line1: string
+    address_line2: string
+    city: string
+    district: string
+    postal_code: string
+  }
+  hasPriorOrder: boolean
+}
+
 const initialForm: FormState = {
   email: '',
   customer_name: '',
@@ -50,6 +66,22 @@ const initialForm: FormState = {
   district: '',
   postal_code: '',
   notes: '',
+}
+
+function buildInitial(prefill: CheckoutPrefill | null | undefined): FormState {
+  if (!prefill) return initialForm
+  return {
+    email: prefill.email,
+    customer_name: prefill.customer_name,
+    phone: prefill.phone || prefill.address.phone,
+    full_name: prefill.address.full_name,
+    address_line1: prefill.address.address_line1,
+    address_line2: prefill.address.address_line2,
+    city: prefill.address.city,
+    district: prefill.address.district,
+    postal_code: prefill.address.postal_code,
+    notes: '',
+  }
 }
 
 const LABEL_STYLE: React.CSSProperties = {
@@ -74,13 +106,17 @@ const INPUT_STYLE: React.CSSProperties = {
   transition: 'border-color 0.2s',
 }
 
-export default function CheckoutClient() {
+interface Props {
+  prefill?: CheckoutPrefill | null
+}
+
+export default function CheckoutClient({ prefill }: Props) {
   const router = useRouter()
   const { items, dispatch } = useCart()
   const [validated, setValidated] = useState<{ lines: ValidatedLine[]; totals: Totals } | null>(null)
   const [validating, setValidating] = useState(true)
   const [validationError, setValidationError] = useState<string | null>(null)
-  const [form, setForm] = useState<FormState>(initialForm)
+  const [form, setForm] = useState<FormState>(() => buildInitial(prefill))
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
@@ -255,6 +291,65 @@ export default function CheckoutClient() {
           Sipariş bilgileri.
         </h1>
       </div>
+
+      {/* Hesap bilgilendirme şeridi */}
+      {prefill ? (
+        prefill.hasPriorOrder && (
+          <div
+            role="status"
+            style={{
+              marginBottom: '24px',
+              padding: '12px 16px',
+              border: '1px solid rgba(201,169,97,0.4)',
+              backgroundColor: 'rgba(201,169,97,0.06)',
+              color: '#E5DDC8',
+              fontSize: '13px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '12px',
+              flexWrap: 'wrap',
+            }}
+          >
+            <span>
+              <span style={{ color: '#C9A961', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', marginRight: '8px' }}>✓ Hesap</span>
+              Önceki siparişinizdeki adres otomatik dolduruldu. Düzenleyebilirsiniz.
+            </span>
+          </div>
+        )
+      ) : (
+        <div
+          role="note"
+          style={{
+            marginBottom: '24px',
+            padding: '12px 16px',
+            border: '1px solid rgba(244,240,232,0.1)',
+            backgroundColor: 'rgba(244,240,232,0.02)',
+            color: '#B8B0A0',
+            fontSize: '13px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px',
+            flexWrap: 'wrap',
+          }}
+        >
+          <span>Hesabınız varsa giriş yapın — adresleriniz otomatik gelsin.</span>
+          <Link
+            href="/giris?next=/odeme"
+            style={{
+              fontFamily: 'var(--font-jetbrains)',
+              fontSize: '11px',
+              letterSpacing: '0.22em',
+              textTransform: 'uppercase',
+              color: '#C9A961',
+              textDecoration: 'none',
+            }}
+          >
+            Giriş Yap →
+          </Link>
+        </div>
+      )}
 
       <div className="checkout-grid">
         {/* SOL — Form */}

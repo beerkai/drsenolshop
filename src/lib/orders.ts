@@ -43,6 +43,9 @@ export interface CreateOrderInput {
   payment_method?: 'bank_transfer' | 'iyzico' | 'stripe' | 'cash_on_delivery'
   notes?: string
   items: ClientCartItem[]
+  // Logged-in müşterinin Supabase auth.uid()'si; sadece API route'ta server-side
+  // doldurulur. Client gönderse bile route override eder.
+  user_id?: string | null
 }
 
 export type CreateOrderResult =
@@ -182,6 +185,7 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
       payment_method: input.payment_method ?? 'bank_transfer',
       payment_status: 'pending',
       notes: input.notes?.trim() || null,
+      user_id: input.user_id ?? null,
     })
     .select()
     .single()

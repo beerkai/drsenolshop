@@ -7,6 +7,7 @@ import { createOrder, type CreateOrderInput } from '@/lib/orders'
 import { notifyNewOrder } from '@/lib/telegram'
 import { sendOrderConfirmation } from '@/lib/email'
 import { getBankInfo } from '@/lib/site-settings'
+import { getSupabaseServer } from '@/lib/supabase-server'
 
 export async function POST(request: Request) {
   let body: unknown
@@ -28,6 +29,17 @@ export async function POST(request: Request) {
   }
 
   const input = body as CreateOrderInput
+
+  // Logged-in müşteri varsa user_id'yi server-side stamp et (client'tan gelen
+  // user_id güvenilmez; her zaman session'dan override).
+  try {
+    const supabase = await getSupabaseServer()
+    const { data: { user } } = await supabase.auth.getUser()
+    input.user_id = user?.id ?? null
+  } catch {
+    input.user_id = null
+  }
+
   const result = await createOrder(input)
 
   if (!result.ok) {

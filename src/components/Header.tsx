@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useCart } from '@/lib/cart-context'
 import { useWishlist } from '@/lib/wishlist-context'
 import SearchOverlay from './SearchOverlay'
+import HeaderAccountLink from './HeaderAccountLink'
 
 type NavChild = { label: string; href: string }
 type NavItem = { label: string; href: string; children?: NavChild[] }
@@ -298,6 +299,9 @@ export default function Header() {
                 </svg>
               </button>
 
+              {/* Hesap */}
+              <HeaderAccountLink iconStyle={svgIcon} />
+
               {/* Favoriler */}
               <Link
                 href="/favoriler"
@@ -461,7 +465,11 @@ export default function Header() {
               ))}
             </nav>
 
-            <div className="border-t border-[var(--color-line-dark)]" style={{ padding: `24px ${PAD_X}` }}>
+            <div className="border-t border-[var(--color-line-dark)]" style={{ padding: `20px ${PAD_X} 12px` }}>
+              <MobileAccountLinks onNavigate={() => setOpen(false)} />
+            </div>
+
+            <div className="border-t border-[var(--color-line-dark)]" style={{ padding: `20px ${PAD_X}` }}>
               <p
                 className="font-mono uppercase text-cream-faint"
                 lang="en"
@@ -477,4 +485,83 @@ export default function Header() {
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   )
+}
+
+function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
+  const [authed, setAuthed] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    let alive = true
+    import('@/lib/supabase-browser').then(({ getSupabaseBrowser }) => {
+      const supabase = getSupabaseBrowser()
+      if (!supabase) {
+        if (alive) setAuthed(false)
+        return
+      }
+      supabase.auth.getUser().then(({ data }) => {
+        if (alive) setAuthed(Boolean(data.user))
+      })
+    })
+    return () => { alive = false }
+  }, [])
+
+  if (authed === null) {
+    return <div style={{ minHeight: '40px' }} aria-hidden />
+  }
+
+  return (
+    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+      {authed ? (
+        <>
+          <Link
+            href="/hesabim"
+            onClick={onNavigate}
+            className="font-mono uppercase"
+            style={mobileAuthLinkStyle}
+          >
+            Hesabım
+          </Link>
+          <Link
+            href="/favoriler"
+            onClick={onNavigate}
+            className="font-mono uppercase"
+            style={mobileAuthLinkStyle}
+          >
+            Favorilerim
+          </Link>
+        </>
+      ) : (
+        <>
+          <Link
+            href="/giris"
+            onClick={onNavigate}
+            className="font-mono uppercase"
+            style={{ ...mobileAuthLinkStyle, color: '#C9A961', borderColor: '#C9A961' }}
+          >
+            Giriş Yap
+          </Link>
+          <Link
+            href="/kayit"
+            onClick={onNavigate}
+            className="font-mono uppercase"
+            style={mobileAuthLinkStyle}
+          >
+            Kayıt Ol
+          </Link>
+        </>
+      )}
+    </div>
+  )
+}
+
+const mobileAuthLinkStyle: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  padding: '10px 16px',
+  border: '1px solid rgba(244,240,232,0.18)',
+  color: '#F4F0E8',
+  fontSize: '11px',
+  letterSpacing: '0.22em',
+  textDecoration: 'none',
+  textTransform: 'uppercase',
 }

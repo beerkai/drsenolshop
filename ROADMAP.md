@@ -72,10 +72,16 @@ Versiyonlu yol haritası. Her versiyon kapanınca commit + tag.
 - Callback / webhook handler
 - Order status sync
 
-## 🔮 v0.6.0 — Müşteri hesabı (auth)
-- Supabase Auth (email + magic link)
-- `/hesabim` — adres defteri, sipariş geçmişi
-- Sepetin DB tarafında saklanması (kullanıcı oturum açtıysa)
+## ✅ v0.6.0 — Müşteri hesabı (auth)
+- Supabase Auth (email + password) — `@supabase/ssr` cookie tabanlı
+- `/giris`, `/kayit`, `/sifre-unuttum`, `/sifre-yenile`, `/hesabim`
+- `/auth/callback` (e-posta linklerinden code exchange)
+- E-posta linkleri `/auth/callback?next=...` üzerinden geçer (SSR cookie session kurulur)
+- 0008 migration: orders + order_items için authenticated kullanıcının kendi email'iyle eşleşen / user_id eşleşen satırları okuma RLS'i
+- `/hesabim`: sipariş geçmişi listesi (RLS sayesinde sadece kendi siparişleri)
+- `/odeme` autofill: logged-in kullanıcının son siparişindeki adresi prefill eder
+- `/api/orders` server-side `user_id` stamping (client forge edemiyor)
+- Header'da hesap iconu (`HeaderAccountLink`) + mobile menüde Hesabım/Çıkış
 
 ## 🔮 v0.7.0 — İçerik & SEO
 - `/hikaye` (markanın hikayesi)
