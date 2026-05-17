@@ -88,10 +88,11 @@ Versiyonlu yol haritası. Her versiyon kapanınca commit + tag.
 - Header'da hesap iconu (`HeaderAccountLink`) + mobile menüde Hesabım/Çıkış
 
 ## 🔮 v0.7.0 — İçerik & SEO
-- `/hikaye` (markanın hikayesi)
-- `/blog` (opsiyonel — MDX)
-- Schema.org JSON-LD (Product, Organization, BreadcrumbList)
-- Open Graph görselleri
+- ✅ Schema.org JSON-LD (Organization + WebSite root layout, Product + BreadcrumbList ürün sayfası)
+- ✅ Analytics: Plausible — NEXT_PUBLIC_PLAUSIBLE_DOMAIN env'i set ise yüklenir (çerezsiz, rıza gerekmez)
+- ✅ Open Graph görselleri (commit d124627'de)
+- ⏳ `/blog` (opsiyonel — MDX)
+- ⏳ Lighthouse turu (manuel — staging'de yapılacak)
 
 ## 🔮 v0.8.0 — Çok dilli (TR/EN/DE/FR)
 - next-intl entegrasyonu

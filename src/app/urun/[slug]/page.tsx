@@ -11,6 +11,7 @@ import {
   getProductMetaDescription,
   getProductImage,
 } from '@/types'
+import { productLd, breadcrumbLd, toJsonLdScript } from '@/lib/jsonld'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -52,9 +53,22 @@ export default async function UrunPage({ params }: Props) {
     : []
   const relatedProducts = related.filter((p) => p.id !== product.id).slice(0, 3)
 
+  const breadcrumbs: { label: string; href?: string }[] = [
+    { label: 'Anasayfa', href: '/' },
+    { label: 'Koleksiyon', href: '/koleksiyon' },
+  ]
+  if (product.category?.slug && product.category?.name) {
+    breadcrumbs.push({ label: product.category.name, href: `/kategori/${product.category.slug}` })
+  }
+  breadcrumbs.push({ label: product.name, href: `/urun/${product.slug}` })
+
   return (
     <>
       <Header />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: toJsonLdScript([productLd(product), breadcrumbLd(breadcrumbs)]) }}
+      />
       <main style={{ backgroundColor: '#0A0908', minHeight: '100vh' }}>
         <ProductDetailClient product={product} />
 

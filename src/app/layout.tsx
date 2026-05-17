@@ -3,6 +3,8 @@ import { Inter, Cormorant_Garamond, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 import CookieConsent from '@/components/CookieConsent';
+import Analytics from '@/components/Analytics';
+import { organizationLd, websiteLd, toJsonLdScript } from '@/lib/jsonld';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -69,6 +71,11 @@ export default function RootLayout({
       <body>
         <Providers>{children}</Providers>
         <CookieConsent />
+        <Analytics />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: toJsonLdScript([organizationLd(), websiteLd()]) }}
+        />
       </body>
     </html>
   );
