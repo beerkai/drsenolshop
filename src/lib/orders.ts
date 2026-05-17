@@ -9,6 +9,7 @@ import type { Order, OrderItem } from '@/types'
 import type { CheckoutLine } from './cart-totals'
 import { calculateTotals } from './cart-totals'
 import { getProductsByIds } from './products'
+import { getShippingConfig, calculateShipping } from './site-settings'
 import {
   findDefaultVariant,
   getVariantPrice,
@@ -160,8 +161,11 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
     return { ok: false, code: validated.code, message: validated.message }
   }
 
-  // 3) Totals hesapla (kargo şimdilik 0)
-  const totals = calculateTotals(validated.lines, { shippingCost: 0 })
+  // 3) Totals hesapla — kargo site_settings'ten okunur
+  const draftTotals = calculateTotals(validated.lines, { shippingCost: 0 })
+  const shippingConfig = await getShippingConfig()
+  const shippingCost = calculateShipping(draftTotals.subtotal, shippingConfig)
+  const totals = calculateTotals(validated.lines, { shippingCost })
 
   // 4) DB insert — orders + order_items
   const supabase = getSupabaseAdmin()

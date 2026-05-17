@@ -25,6 +25,12 @@ interface Totals {
   discountAmount: number
   total: number
 }
+interface ShippingInfo {
+  flat_fee: number
+  free_threshold: number
+  courier_name: string
+  cost: number
+}
 
 type FormState = {
   email: string
@@ -113,7 +119,7 @@ interface Props {
 export default function CheckoutClient({ prefill }: Props) {
   const router = useRouter()
   const { items, dispatch } = useCart()
-  const [validated, setValidated] = useState<{ lines: ValidatedLine[]; totals: Totals } | null>(null)
+  const [validated, setValidated] = useState<{ lines: ValidatedLine[]; totals: Totals; shipping: ShippingInfo | null } | null>(null)
   const [validating, setValidating] = useState(true)
   const [validationError, setValidationError] = useState<string | null>(null)
   const [form, setForm] = useState<FormState>(() => buildInitial(prefill))
@@ -141,7 +147,7 @@ export default function CheckoutClient({ prefill }: Props) {
       .then((r) => r.json())
       .then((data) => {
         if (data.ok) {
-          setValidated({ lines: data.lines, totals: data.totals })
+          setValidated({ lines: data.lines, totals: data.totals, shipping: data.shipping ?? null })
         } else {
           setValidationError(data.message ?? 'Sepet doğrulanamadı')
         }
@@ -515,8 +521,17 @@ export default function CheckoutClient({ prefill }: Props) {
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-jetbrains)', fontSize: '12px', color: '#B8B0A0' }}>
               <span>Kargo</span>
-              <span style={{ color: '#5C7A3F' }}>Ücretsiz</span>
+              {validated.totals.shippingCost > 0 ? (
+                <span>{formatPrice(validated.totals.shippingCost)}</span>
+              ) : (
+                <span style={{ color: '#5C7A3F' }}>Ücretsiz</span>
+              )}
             </div>
+            {validated.shipping && validated.shipping.flat_fee > 0 && validated.shipping.free_threshold > 0 && validated.totals.shippingCost > 0 && (
+              <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.12em', color: '#C9A961', margin: 0 }}>
+                · Ücretsiz kargoya {formatPrice(Math.max(0, validated.shipping.free_threshold - validated.totals.subtotal))} kaldı
+              </p>
+            )}
           </div>
 
           <div style={{ borderTop: '1px solid rgba(244,240,232,0.12)', marginTop: '20px', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>

@@ -1,10 +1,11 @@
 import { requireAdmin } from '@/lib/admin-auth'
 import { getSupabaseAdmin } from '@/lib/supabase'
-import { getBankInfo } from '@/lib/site-settings'
+import { getBankInfo, getShippingConfig } from '@/lib/site-settings'
 import { getBroadcastChatIds } from '@/lib/telegram'
 import { isEmailConfigured } from '@/lib/email'
 import { Badge } from '@/components/admin/ui/Badge'
 import BankInfoForm from './BankInfoForm'
+import ShippingForm from './ShippingForm'
 import TelegramTestPanel from './TelegramTestPanel'
 import BroadcastPanel from './BroadcastPanel'
 import AdminsPanel from './AdminsPanel'
@@ -16,8 +17,9 @@ export default async function AdminSettingsPage() {
   const adminHostsRaw = process.env.ADMIN_HOSTS?.trim() ?? '(kısıt yok)'
   const broadcastIds = getBroadcastChatIds()
 
-  const [bankInfo, admins] = await Promise.all([
+  const [bankInfo, shippingConfig, admins] = await Promise.all([
     getBankInfo(),
+    getShippingConfig(),
     ctx.admin.role === 'owner'
       ? getSupabaseAdmin()
           .from('admin_users')
@@ -54,6 +56,15 @@ export default async function AdminSettingsPage() {
           Havale ödemeli sipariş onay sayfasında gösterilir.
         </p>
         <BankInfoForm initial={bankInfo} />
+      </div>
+
+      {/* Kargo ayarları */}
+      <div className="ad-card" style={{ marginBottom: '20px' }}>
+        <p className="ad-eyebrow-muted" style={{ marginBottom: '6px' }}>Kargo Ücreti</p>
+        <p style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: '0 0 16px' }}>
+          Sepet tutarına göre uygulanan sabit kargo + ücretsiz kargo eşiği. Checkout&apos;ta görünür.
+        </p>
+        <ShippingForm initial={shippingConfig} />
       </div>
 
       {/* Telegram bot */}

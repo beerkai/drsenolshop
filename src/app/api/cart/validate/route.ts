@@ -7,6 +7,7 @@
 import { NextResponse } from 'next/server'
 import { validateCartItems, type ClientCartItem } from '@/lib/orders'
 import { calculateTotals } from '@/lib/cart-totals'
+import { getShippingConfig, calculateShipping } from '@/lib/site-settings'
 
 export async function POST(request: Request) {
   let body: unknown
@@ -29,11 +30,21 @@ export async function POST(request: Request) {
     )
   }
 
-  const totals = calculateTotals(validated.lines, { shippingCost: 0 })
+  // Subtotal'ı önce çıplak hesapla (kargo dahil değil), sonra kargo ücreti uygula
+  const draft = calculateTotals(validated.lines, { shippingCost: 0 })
+  const shippingConfig = await getShippingConfig()
+  const shippingCost = calculateShipping(draft.subtotal, shippingConfig)
+  const totals = calculateTotals(validated.lines, { shippingCost })
 
   return NextResponse.json({
     ok: true,
     lines: validated.lines,
     totals,
+    shipping: {
+      flat_fee: shippingConfig.flat_fee,
+      free_threshold: shippingConfig.free_threshold,
+      courier_name: shippingConfig.courier_name,
+      cost: shippingCost,
+    },
   })
 }
