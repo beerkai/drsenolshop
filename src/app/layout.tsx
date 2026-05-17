@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Cormorant_Garamond, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
+import CookieConsent from '@/components/CookieConsent';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -65,7 +66,10 @@ export default function RootLayout({
       lang="tr"
       className={`${inter.variable} ${cormorant.variable} ${jetbrainsMono.variable}`}
     >
-      <body><Providers>{children}</Providers></body>
+      <body>
+        <Providers>{children}</Providers>
+        <CookieConsent />
+      </body>
     </html>
   );
 }

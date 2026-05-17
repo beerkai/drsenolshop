@@ -430,6 +430,19 @@ export default function CheckoutClient({ prefill }: Props) {
             </div>
           </section>
 
+          {/* Mesafeli satış sözleşmesi onayı (tüketici hakkı bildirimi) */}
+          <p style={{ fontSize: '12px', color: '#B8B0A0', lineHeight: 1.7, margin: '0 0 20px', padding: '14px 16px', border: '1px solid rgba(244,240,232,0.08)', backgroundColor: 'rgba(244,240,232,0.02)' }}>
+            Siparişi tamamlayarak{' '}
+            <Link href="/on-bilgilendirme-formu" target="_blank" rel="noopener" style={{ color: '#C9A961', textDecoration: 'underline' }}>
+              Ön Bilgilendirme Formu
+            </Link>
+            &apos;nu okuduğunuzu, ön bilgilerin tarafınıza iletildiğini ve{' '}
+            <Link href="/mesafeli-satis-sozlesmesi" target="_blank" rel="noopener" style={{ color: '#C9A961', textDecoration: 'underline' }}>
+              Mesafeli Satış Sözleşmesi
+            </Link>
+            &apos;ni elektronik ortamda kabul ettiğinizi beyan etmiş olursunuz.
+          </p>
+
           {submitError && (
             <div style={{ padding: '14px 16px', border: '1px solid #C8472D', backgroundColor: 'rgba(200,71,45,0.08)', color: '#F4F0E8', fontSize: '13px', marginBottom: '20px' }}>
               {submitError}

@@ -131,7 +131,15 @@ export default function RegisterForm({ next }: { next: string }) {
       </button>
 
       <p style={{ fontSize: '11px', color: '#6E665A', lineHeight: 1.6, margin: '16px 0 0', textAlign: 'center' }}>
-        Hesap oluşturarak <a href="/sikca-sorulanlar" style={{ color: '#B8B0A0', textDecoration: 'underline' }}>kullanım koşullarını</a> kabul etmiş olursunuz.
+        Hesap oluşturarak{' '}
+        <a href="/uyelik-sozlesmesi" target="_blank" rel="noopener" style={{ color: '#B8B0A0', textDecoration: 'underline' }}>
+          Üyelik Sözleşmesi
+        </a>{' '}
+        ve{' '}
+        <a href="/gizlilik-politikasi" target="_blank" rel="noopener" style={{ color: '#B8B0A0', textDecoration: 'underline' }}>
+          Gizlilik Politikası
+        </a>
+        &apos;nı kabul etmiş olursunuz.
       </p>
     </form>
   )

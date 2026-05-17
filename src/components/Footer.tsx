@@ -32,6 +32,16 @@ const NAV_COLS = [
       { label: 'İletişim', href: '/iletisim' },
     ],
   },
+  {
+    title: 'Yasal',
+    links: [
+      { label: 'Gizlilik Politikası', href: '/gizlilik-politikasi' },
+      { label: 'Çerez Politikası', href: '/cerez-politikasi' },
+      { label: 'Üyelik Sözleşmesi', href: '/uyelik-sozlesmesi' },
+      { label: 'Ön Bilgilendirme Formu', href: '/on-bilgilendirme-formu' },
+      { label: 'Mesafeli Satış Sözleşmesi', href: '/mesafeli-satis-sozlesmesi' },
+    ],
+  },
 ];
 
 const CERTS = [
