@@ -8,6 +8,7 @@ import { getSupabaseServer } from '@/lib/supabase-server'
 import { formatPrice, type Order } from '@/types'
 import LogoutButton from './LogoutButton'
 import ProfileForm, { type ProfileInitial } from './ProfileForm'
+import DeleteAccountSection from './DeleteAccountSection'
 
 export const metadata: Metadata = {
   title: 'Hesabım',
@@ -149,7 +150,7 @@ export default async function HesabimPage() {
         </section>
 
         {/* Orders */}
-        <section style={{ paddingBottom: 'clamp(56px, 10vw, 96px)' }}>
+        <section style={{ paddingBottom: 'clamp(40px, 6vw, 64px)' }}>
           <div className="px-responsive" style={{ maxWidth: '1080px', margin: '0 auto' }}>
             <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
               <h2 className="font-display" style={{ color: '#F4F0E8', fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 500, margin: 0, letterSpacing: '-0.01em' }}>
@@ -169,6 +170,18 @@ export default async function HesabimPage() {
                 ))}
               </div>
             )}
+          </div>
+        </section>
+
+        {/* Tehlikeli bölge — hesap silme */}
+        <section style={{ paddingBottom: 'clamp(56px, 10vw, 96px)' }}>
+          <div className="px-responsive" style={{ maxWidth: '1080px', margin: '0 auto' }}>
+            <div style={{ marginBottom: '20px' }}>
+              <h2 className="font-display" style={{ color: '#F4F0E8', fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 500, margin: 0, letterSpacing: '-0.01em' }}>
+                Tehlikeli Bölge
+              </h2>
+            </div>
+            <DeleteAccountSection />
           </div>
         </section>
       </main>

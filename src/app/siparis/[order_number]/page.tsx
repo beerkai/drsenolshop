@@ -7,6 +7,7 @@ import Footer from '@/components/Footer'
 import { getOrderByNumber } from '@/lib/orders'
 import { getBankInfo } from '@/lib/site-settings'
 import { formatPrice } from '@/types'
+import CancelOrderButton from './CancelOrderButton'
 
 type Props = { params: Promise<{ order_number: string }> }
 
@@ -151,7 +152,7 @@ export default async function OrderPage({ params }: Props) {
             </div>
           )}
 
-          {/* Durum + Devam */}
+          {/* Durum + Devam + İptal */}
           <div style={{ textAlign: 'center', paddingTop: '8px' }}>
             <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.22em', color: '#B8B0A0', textTransform: 'uppercase', marginBottom: '24px' }}>
               Durum: <span style={{ color: '#C9A961' }}>{STATUS_LABEL[order.status] ?? order.status}</span>
@@ -159,6 +160,16 @@ export default async function OrderPage({ params }: Props) {
             <Link href="/koleksiyon" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '14px 28px', border: '1px solid rgba(244,240,232,0.2)', color: '#F4F0E8', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.25em', textTransform: 'uppercase', textDecoration: 'none' }}>
               Alışverişe Devam Et →
             </Link>
+
+            {/* Müşteri iptal — yalnız pending */}
+            {order.status === 'pending' && (
+              <div style={{ marginTop: '32px', paddingTop: '24px', borderTop: '1px solid rgba(244,240,232,0.08)' }}>
+                <p style={{ fontSize: '12px', color: '#6E665A', marginBottom: '14px' }}>
+                  Henüz ödeme bekleniyor. İhtiyaç halinde siparişinizi iptal edebilirsiniz.
+                </p>
+                <CancelOrderButton orderNumber={order.order_number} email={order.customer_email} />
+              </div>
+            )}
           </div>
 
         </div>
