@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import StaticPageLayout from '@/components/StaticPageLayout'
+import LegalDraftNotice from '@/components/LegalDraftNotice'
 import { P, H2, Eyebrow, List, InfoBox } from '@/components/StaticContent'
 import { getLegalCompany, LEGAL_LAST_UPDATED } from '@/lib/legal-info'
 
@@ -18,6 +19,7 @@ export default function GizlilikPolitikasiPage() {
       titleAccent="politikası"
       intro={`KVKK kapsamında kişisel verilerinizi nasıl topladığımız, kullandığımız ve koruduğumuz hakkında aydınlatma. Son güncelleme: ${LEGAL_LAST_UPDATED}.`}
       breadcrumbs={[{ label: 'Gizlilik Politikası' }]}
+      topNotice={<LegalDraftNotice />}
     >
       <Eyebrow>Veri Sorumlusu</Eyebrow>
       <H2>Kim olduğumuz</H2>

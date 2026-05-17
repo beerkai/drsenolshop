@@ -7,6 +7,7 @@ import { getCurrentCustomer } from '@/lib/customer-auth'
 import { getSupabaseServer } from '@/lib/supabase-server'
 import { formatPrice, type Order } from '@/types'
 import LogoutButton from './LogoutButton'
+import ProfileForm, { type ProfileInitial } from './ProfileForm'
 
 export const metadata: Metadata = {
   title: 'Hesabım',
@@ -34,6 +35,10 @@ const STATUS_COLOR: Record<string, string> = {
   refunded: '#D17B6A',
 }
 
+function str(v: unknown): string {
+  return typeof v === 'string' ? v.trim() : ''
+}
+
 function formatDate(iso: string): string {
   try {
     return new Date(iso).toLocaleString('tr-TR', {
@@ -58,6 +63,20 @@ export default async function HesabimPage() {
     .limit(50)
 
   const orderList = (orders ?? []) as Order[]
+
+  // Profil ön doldurma: user_metadata > son sipariş > boş
+  const meta = (me.user.user_metadata ?? {}) as Record<string, unknown>
+  const lastOrder = orderList[0]
+  const lastAddr = ((lastOrder?.shipping_address ?? {}) as Record<string, unknown>)
+  const profileInitial: ProfileInitial = {
+    full_name: str(meta.full_name) || str(lastOrder?.customer_name),
+    phone: str(meta.phone) || str(lastOrder?.customer_phone),
+    address_line1: str(meta.address_line1) || str(lastAddr.address_line1),
+    address_line2: str(meta.address_line2) || str(lastAddr.address_line2),
+    district: str(meta.district) || str(lastAddr.district),
+    city: str(meta.city) || str(lastAddr.city),
+    postal_code: str(meta.postal_code) || str(lastAddr.postal_code),
+  }
 
   return (
     <>
@@ -108,6 +127,23 @@ export default async function HesabimPage() {
                 )}
                 <LogoutButton />
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Profil & Adres */}
+        <section style={{ paddingBottom: 'clamp(32px, 5vw, 48px)' }}>
+          <div className="px-responsive" style={{ maxWidth: '1080px', margin: '0 auto' }}>
+            <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+              <h2 className="font-display" style={{ color: '#F4F0E8', fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 500, margin: 0, letterSpacing: '-0.01em' }}>
+                Profil & Adres
+              </h2>
+              <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6E665A' }}>
+                Bir sonraki siparişte otomatik dolar
+              </span>
+            </div>
+            <div style={{ border: '1px solid rgba(244,240,232,0.08)', backgroundColor: 'rgba(244,240,232,0.02)', padding: 'clamp(20px, 4vw, 28px)' }}>
+              <ProfileForm initial={profileInitial} />
             </div>
           </div>
         </section>

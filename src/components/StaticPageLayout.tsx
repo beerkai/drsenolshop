@@ -14,6 +14,8 @@ interface StaticPageLayoutProps {
   titleAccent?: string
   intro?: string
   breadcrumbs?: StaticBreadcrumbItem[]
+  /** Sayfa başlığının üstüne basılan opsiyonel bant (örn. taslak uyarısı) */
+  topNotice?: ReactNode
   children: ReactNode
 }
 
@@ -27,12 +29,14 @@ export default function StaticPageLayout({
   titleAccent,
   intro,
   breadcrumbs,
+  topNotice,
   children,
 }: StaticPageLayoutProps) {
   return (
     <>
       <Header />
       <main style={{ background: '#0A0908', minHeight: '100vh' }}>
+        {topNotice}
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav
             aria-label="Breadcrumb"

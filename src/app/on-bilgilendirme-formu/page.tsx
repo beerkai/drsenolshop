@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import StaticPageLayout from '@/components/StaticPageLayout'
+import LegalDraftNotice from '@/components/LegalDraftNotice'
 import { P, H2, Eyebrow, List, InfoBox } from '@/components/StaticContent'
 import { getLegalCompany, LEGAL_LAST_UPDATED } from '@/lib/legal-info'
 
@@ -18,6 +19,7 @@ export default function OnBilgilendirmePage() {
       titleAccent="formu"
       intro={`6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği uyarınca, sipariş tamamlanmadan önce sunulan zorunlu bilgilendirme. Son güncelleme: ${LEGAL_LAST_UPDATED}.`}
       breadcrumbs={[{ label: 'Ön Bilgilendirme Formu' }]}
+      topNotice={<LegalDraftNotice />}
     >
       <Eyebrow>Madde 1</Eyebrow>
       <H2>Satıcı bilgileri</H2>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import StaticPageLayout from '@/components/StaticPageLayout'
+import LegalDraftNotice from '@/components/LegalDraftNotice'
 import { P, H2, Eyebrow, List, InfoBox } from '@/components/StaticContent'
 import { getLegalCompany, LEGAL_LAST_UPDATED } from '@/lib/legal-info'
 
@@ -17,6 +18,7 @@ export default function UyelikSozlesmesiPage() {
       titleAccent="sözleşmesi"
       intro={`Hesap oluşturarak kabul ettiğiniz kullanım koşulları. Son güncelleme: ${LEGAL_LAST_UPDATED}.`}
       breadcrumbs={[{ label: 'Üyelik Sözleşmesi' }]}
+      topNotice={<LegalDraftNotice />}
     >
       <Eyebrow>Taraflar</Eyebrow>
       <H2>Sözleşmenin tarafları</H2>

@@ -12,7 +12,14 @@ export const metadata: Metadata = {
   description: 'Sipariş bilgilerinizi tamamlayın.',
 }
 
-// Logged-in müşteri için son siparişten adresi çek (RLS sayesinde sadece kendi siparişleri)
+function str(v: unknown): string {
+  return typeof v === 'string' ? v.trim() : ''
+}
+
+// Logged-in müşteri için ön doldurma:
+//   1) Önceki sipariş adresi (varsa) — en taze
+//   2) user_metadata (hesabım profil formundan) — sipariş yoksa fallback
+// RLS sayesinde sadece kendi siparişleri okunabilir.
 async function getCustomerPrefill(): Promise<CheckoutPrefill | null> {
   const me = await getCurrentCustomer()
   if (!me) return null
@@ -25,24 +32,30 @@ async function getCustomerPrefill(): Promise<CheckoutPrefill | null> {
     .limit(1)
 
   const last = (orders ?? [])[0] as Pick<Order, 'customer_name' | 'customer_phone' | 'shipping_address'> | undefined
-  const addr = (last?.shipping_address ?? {}) as Record<string, string | undefined>
+  const addr = (last?.shipping_address ?? {}) as Record<string, unknown>
+  const meta = (me.user.user_metadata ?? {}) as Record<string, unknown>
 
-  const fullNameMeta = (me.user.user_metadata?.full_name as string | undefined) ?? null
+  // Pick: önce sipariş, sonra metadata, sonra boş
+  const pick = (orderVal: unknown, metaKey: string) => str(orderVal) || str(meta[metaKey])
+
+  const customerName = pick(last?.customer_name, 'full_name')
+  const phone = pick(last?.customer_phone, 'phone')
 
   return {
     email: me.email,
-    customer_name: last?.customer_name?.trim() || fullNameMeta || '',
-    phone: last?.customer_phone?.trim() || '',
+    customer_name: customerName,
+    phone,
     address: {
-      full_name: (addr.full_name as string | undefined)?.trim() || last?.customer_name?.trim() || fullNameMeta || '',
-      phone: (addr.phone as string | undefined)?.trim() || last?.customer_phone?.trim() || '',
-      address_line1: (addr.address_line1 as string | undefined)?.trim() || '',
-      address_line2: (addr.address_line2 as string | undefined)?.trim() || '',
-      city: (addr.city as string | undefined)?.trim() || '',
-      district: (addr.district as string | undefined)?.trim() || '',
-      postal_code: (addr.postal_code as string | undefined)?.trim() || '',
+      full_name: pick(addr.full_name, 'full_name') || customerName,
+      phone: pick(addr.phone, 'phone') || phone,
+      address_line1: pick(addr.address_line1, 'address_line1'),
+      address_line2: pick(addr.address_line2, 'address_line2'),
+      city: pick(addr.city, 'city'),
+      district: pick(addr.district, 'district'),
+      postal_code: pick(addr.postal_code, 'postal_code'),
     },
-    hasPriorOrder: Boolean(last),
+    // "Önceki adres otomatik dolduruldu" banner'ı için: sipariş VEYA profil dolu mu?
+    hasPriorOrder: Boolean(last) || Boolean(str(meta.address_line1)),
   }
 }
 

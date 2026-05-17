@@ -42,3 +42,13 @@ export function getLegalCompany(): LegalCompanyInfo {
 
 // Yasal sayfa son güncelleme tarihi — değiştiğinde elle güncelle.
 export const LEGAL_LAST_UPDATED = '17 Mayıs 2026'
+
+/**
+ * Şirket bilgilerinden en az biri placeholder ([..]) ise true.
+ * Yasal sayfalarda turuncu uyarı şeridi göstermek için kullanılır.
+ */
+export function isLegalInfoIncomplete(): boolean {
+  const co = getLegalCompany()
+  const fields = [co.legal_name, co.tax_office, co.tax_number, co.mersis]
+  return fields.some((v) => /^\[.*\]$/.test(v))
+}

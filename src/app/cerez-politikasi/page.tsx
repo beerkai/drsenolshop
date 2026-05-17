@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import StaticPageLayout from '@/components/StaticPageLayout'
+import LegalDraftNotice from '@/components/LegalDraftNotice'
 import { P, H2, Eyebrow, List, InfoBox } from '@/components/StaticContent'
 import { LEGAL_LAST_UPDATED, getLegalCompany } from '@/lib/legal-info'
 
@@ -17,6 +18,7 @@ export default function CerezPolitikasiPage() {
       titleAccent="politikası"
       intro={`Sitemizde kullanılan çerez türleri, amaçları ve tercih yönetimi. Son güncelleme: ${LEGAL_LAST_UPDATED}.`}
       breadcrumbs={[{ label: 'Çerez Politikası' }]}
+      topNotice={<LegalDraftNotice />}
     >
       <Eyebrow>Çerez Nedir</Eyebrow>
       <H2>Tarayıcınıza yerleştirilen küçük dosyalar</H2>

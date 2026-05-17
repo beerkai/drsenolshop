@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import StaticPageLayout from '@/components/StaticPageLayout'
+import LegalDraftNotice from '@/components/LegalDraftNotice'
 import { P, H2, Eyebrow, List, InfoBox } from '@/components/StaticContent'
 import { getLegalCompany, LEGAL_LAST_UPDATED } from '@/lib/legal-info'
 
@@ -18,6 +19,7 @@ export default function MesafeliSatisSozlesmesiPage() {
       titleAccent="sözleşmesi"
       intro={`Bu sayfa sözleşmenin genel hükümlerini içerir. Her sipariş için sipariş özetini içeren özelleştirilmiş bir nüsha e-posta ile gönderilir. Son güncelleme: ${LEGAL_LAST_UPDATED}.`}
       breadcrumbs={[{ label: 'Mesafeli Satış Sözleşmesi' }]}
+      topNotice={<LegalDraftNotice />}
     >
       <Eyebrow>Madde 1</Eyebrow>
       <H2>Taraflar</H2>
