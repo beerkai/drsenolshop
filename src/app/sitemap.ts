@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next'
 import { getSupabase, isSupabaseConfigured } from '@/lib/supabase'
+import { getSiteUrl } from '@/lib/site-url'
 
-const BASE_URL = 'https://drsenol.shop'
+const BASE_URL = getSiteUrl()
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()

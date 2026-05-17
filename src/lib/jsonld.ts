@@ -8,8 +8,9 @@
 import type { ProductWithRelations } from '@/types'
 import { getProductImage, getProductStartingPrice, getProductDescription } from '@/types'
 import { getLegalCompany } from './legal-info'
+import { getSiteUrl } from './site-url'
 
-const SITE_URL = 'https://drsenol.shop'
+const SITE_URL = getSiteUrl()
 
 function stripHtml(html: string | null | undefined): string {
   if (!html) return ''

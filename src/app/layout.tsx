@@ -5,6 +5,7 @@ import { Providers } from './providers';
 import CookieConsent from '@/components/CookieConsent';
 import Analytics from '@/components/Analytics';
 import { organizationLd, websiteLd, toJsonLdScript } from '@/lib/jsonld';
+import { getSiteUrl } from '@/lib/site-url';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
   },
   description:
     '1985\'ten beri Saitabat Köyü\'nden, laboratuvar onaylı premium arı ürünleri. Kovandan laboratuvara uzanan bilimsel bir yolculuk.',
-  metadataBase: new URL('https://drsenol.shop'),
+  metadataBase: new URL(getSiteUrl()),
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
