@@ -346,3 +346,22 @@ a {
 [lang="en"] {
   /* CSS hint: tarayıcıya İngilizce küçük-büyük dönüşümü yap */
 }
+
+/* ══ FORM INPUT FOCUS (a11y) ══ */
+/* auth + checkout formlarındaki tüm input/textarea ortak focus stil.
+   :focus-visible — yalnız klavye gezgini halkayı görür, fare tıklamada görünmez. */
+.auth-input:focus-visible,
+.ck-input:focus-visible {
+  border-color: #C9A961 !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.18);
+}
+
+/* Auth ekranındaki yardımcı tuşlar (göster/gizle, link tuşları) için halka */
+.auth-input-toggle:focus-visible,
+.auth-link:focus-visible,
+.auth-submit:focus-visible {
+  outline: 2px solid #C9A961;
+  outline-offset: 2px;
+  border-radius: 2px;
+}

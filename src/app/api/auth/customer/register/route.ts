@@ -7,6 +7,7 @@
 
 import { NextResponse } from 'next/server'
 import { getSupabaseServer } from '@/lib/supabase-server'
+import { translateAuthError } from '@/lib/auth-errors'
 
 function getSiteOrigin(request: Request): string {
   const env = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '')
@@ -48,10 +49,16 @@ export async function POST(request: Request) {
   })
 
   if (error) {
-    const msg = /already registered|already in use|exists/i.test(error.message)
-      ? 'Bu e-posta zaten kayıtlı. Lütfen giriş yapın.'
-      : error.message || 'Kayıt başarısız.'
-    return NextResponse.json({ ok: false, message: msg }, { status: 400 })
+    const already = /already registered|already in use|exists|user_already_exists/i.test(error.message ?? '')
+    return NextResponse.json(
+      {
+        ok: false,
+        message: translateAuthError(error, 'Kayıt başarısız.'),
+        already_registered: already,
+        email,
+      },
+      { status: already ? 409 : 400 }
+    )
   }
 
   // Eğer e-posta onayı kapalıysa session zaten oluştu; açıksa user var, session yok.

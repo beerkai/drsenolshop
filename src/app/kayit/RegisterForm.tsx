@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 export default function RegisterForm({ next }: { next: string }) {
@@ -10,6 +11,7 @@ export default function RegisterForm({ next }: { next: string }) {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false)
   const [info, setInfo] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -18,6 +20,7 @@ export default function RegisterForm({ next }: { next: string }) {
     if (loading) return
     setError(null)
     setInfo(null)
+    setAlreadyRegistered(false)
 
     if (password.length < 8) {
       setError('Şifre en az 8 karakter olmalı.')
@@ -35,6 +38,7 @@ export default function RegisterForm({ next }: { next: string }) {
 
       if (!res.ok || !data.ok) {
         setError(data.message ?? 'Kayıt başarısız.')
+        setAlreadyRegistered(Boolean(data.already_registered))
         setLoading(false)
         return
       }
@@ -45,7 +49,6 @@ export default function RegisterForm({ next }: { next: string }) {
         return
       }
 
-      // Otomatik oturum açıldıysa hedefe git
       router.push(next)
       router.refresh()
     } catch {
@@ -58,6 +61,7 @@ export default function RegisterForm({ next }: { next: string }) {
     <form onSubmit={handleSubmit} noValidate>
       <Field label="Ad Soyad (isteğe bağlı)">
         <input
+          className="auth-input"
           type="text"
           autoComplete="name"
           value={fullName}
@@ -69,6 +73,7 @@ export default function RegisterForm({ next }: { next: string }) {
 
       <Field label="E-posta">
         <input
+          className="auth-input"
           type="email"
           required
           autoComplete="email"
@@ -82,6 +87,7 @@ export default function RegisterForm({ next }: { next: string }) {
       <Field label="Şifre">
         <div style={{ position: 'relative' }}>
           <input
+            className="auth-input"
             type={showPassword ? 'text' : 'password'}
             required
             autoComplete="new-password"
@@ -95,6 +101,7 @@ export default function RegisterForm({ next }: { next: string }) {
             type="button"
             onClick={() => setShowPassword((s) => !s)}
             tabIndex={-1}
+            className="auth-input-toggle"
             style={togglePwStyle}
           >
             {showPassword ? 'Gizle' : 'Göster'}
@@ -106,8 +113,20 @@ export default function RegisterForm({ next }: { next: string }) {
       {error && (
         <div role="alert" style={errorBoxStyle}>
           <span aria-hidden style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', flexShrink: 0 }}>✕</span>
-          <span>{error}</span>
+          <span style={{ flex: 1 }}>{error}</span>
         </div>
+      )}
+
+      {/* Already-registered için tek tuşla giriş'e geç */}
+      {alreadyRegistered && (
+        <Link
+          href={`/giris?next=${encodeURIComponent(next)}`}
+          className="auth-submit"
+          style={{ ...altBtnStyle, marginBottom: '18px', textDecoration: 'none' }}
+        >
+          Giriş sayfasına git
+          <span style={{ fontFamily: 'var(--font-jetbrains)', opacity: 0.7 }}>→</span>
+        </Link>
       )}
 
       {info && (
@@ -120,6 +139,7 @@ export default function RegisterForm({ next }: { next: string }) {
       <button
         type="submit"
         disabled={loading || !email || !password}
+        className="auth-submit"
         style={{
           ...submitBtnStyle,
           opacity: loading || !email || !password ? 0.5 : 1,
@@ -132,13 +152,13 @@ export default function RegisterForm({ next }: { next: string }) {
 
       <p style={{ fontSize: '11px', color: '#6E665A', lineHeight: 1.6, margin: '16px 0 0', textAlign: 'center' }}>
         Hesap oluşturarak{' '}
-        <a href="/uyelik-sozlesmesi" target="_blank" rel="noopener" style={{ color: '#B8B0A0', textDecoration: 'underline' }}>
+        <Link href="/uyelik-sozlesmesi" target="_blank" rel="noopener" className="auth-link" style={{ color: '#B8B0A0', textDecoration: 'underline' }}>
           Üyelik Sözleşmesi
-        </a>{' '}
+        </Link>{' '}
         ve{' '}
-        <a href="/gizlilik-politikasi" target="_blank" rel="noopener" style={{ color: '#B8B0A0', textDecoration: 'underline' }}>
+        <Link href="/gizlilik-politikasi" target="_blank" rel="noopener" className="auth-link" style={{ color: '#B8B0A0', textDecoration: 'underline' }}>
           Gizlilik Politikası
-        </a>
+        </Link>
         &apos;nı kabul etmiş olursunuz.
       </p>
     </form>
@@ -174,6 +194,7 @@ const inputStyle: React.CSSProperties = {
   fontSize: '14px',
   letterSpacing: '0.02em',
   outline: 'none',
+  transition: 'border-color 0.15s',
 }
 
 const togglePwStyle: React.CSSProperties = {
@@ -242,4 +263,24 @@ const submitBtnStyle: React.CSSProperties = {
   justifyContent: 'center',
   gap: '10px',
   transition: 'all 0.2s',
+}
+
+const altBtnStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '14px',
+  backgroundColor: 'transparent',
+  border: '1px solid #C9A961',
+  color: '#C9A961',
+  fontFamily: 'var(--font-jetbrains), monospace',
+  fontSize: '12px',
+  letterSpacing: '0.22em',
+  textTransform: 'uppercase',
+  fontWeight: 500,
+  minHeight: '46px',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '10px',
+  cursor: 'pointer',
+  transition: 'all 0.15s',
 }

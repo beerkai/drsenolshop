@@ -52,6 +52,7 @@ export default function UpdatePasswordForm() {
         <label style={labelStyle}>Yeni şifre</label>
         <div style={{ position: 'relative' }}>
           <input
+            className="auth-input"
             type={showPassword ? 'text' : 'password'}
             required
             autoComplete="new-password"
@@ -65,6 +66,7 @@ export default function UpdatePasswordForm() {
             type="button"
             onClick={() => setShowPassword((s) => !s)}
             tabIndex={-1}
+            className="auth-input-toggle"
             style={togglePwStyle}
           >
             {showPassword ? 'Gizle' : 'Göster'}
@@ -75,6 +77,7 @@ export default function UpdatePasswordForm() {
       <div style={{ marginBottom: '18px' }}>
         <label style={labelStyle}>Şifreyi tekrar girin</label>
         <input
+          className="auth-input"
           type={showPassword ? 'text' : 'password'}
           required
           autoComplete="new-password"
@@ -96,6 +99,7 @@ export default function UpdatePasswordForm() {
       <button
         type="submit"
         disabled={loading || !password || !confirm}
+        className="auth-submit"
         style={{
           ...submitBtnStyle,
           opacity: loading || !password || !confirm ? 0.5 : 1,

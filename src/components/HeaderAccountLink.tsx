@@ -39,12 +39,13 @@ export default function HeaderAccountLink({ iconStyle }: Props) {
   }, [])
 
   const href = authed ? '/hesabim' : '/giris'
-  const label = authed ? 'Hesabım' : 'Giriş'
+  const label = mounted && authed ? 'Hesabım (giriş yapılmış)' : 'Giriş yap / Hesap oluştur'
 
   return (
     <Link
       href={href}
       aria-label={label}
+      title={label}
       className="hover:text-gold relative flex items-center text-cream transition-colors duration-200 min-h-[44px] min-w-[44px] justify-center px-1"
     >
       <svg

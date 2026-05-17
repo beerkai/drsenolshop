@@ -6,6 +6,7 @@
 
 import { NextResponse } from 'next/server'
 import { getSupabaseServer } from '@/lib/supabase-server'
+import { translateAuthError } from '@/lib/auth-errors'
 
 export async function POST(request: Request) {
   let body: { password?: string }
@@ -28,7 +29,10 @@ export async function POST(request: Request) {
 
   const { error } = await supabase.auth.updateUser({ password })
   if (error) {
-    return NextResponse.json({ ok: false, message: error.message }, { status: 400 })
+    return NextResponse.json(
+      { ok: false, message: translateAuthError(error, 'Şifre güncellenemedi.') },
+      { status: 400 }
+    )
   }
 
   return NextResponse.json({ ok: true })

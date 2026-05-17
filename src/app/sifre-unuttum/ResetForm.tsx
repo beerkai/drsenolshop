@@ -60,6 +60,7 @@ export default function ResetForm() {
       <div style={{ marginBottom: '18px' }}>
         <label style={labelStyle}>E-posta</label>
         <input
+          className="auth-input"
           type="email"
           required
           autoComplete="email"
@@ -81,6 +82,7 @@ export default function ResetForm() {
       <button
         type="submit"
         disabled={loading || !email}
+        className="auth-submit"
         style={{
           ...submitBtnStyle,
           opacity: loading || !email ? 0.5 : 1,
