@@ -45,6 +45,8 @@ const NAV_PRIMARY: NavItem[] = [
 ]
 
 const NAV_SECONDARY: NavItem[] = [
+  { href: '/admin/yorumlar', label: 'Yorumlar', icon: <IconAnalytics />, shortcut: '⌘9' },
+  { href: '/admin/kuponlar', label: 'Kuponlar', icon: <IconAnalytics />, shortcut: '⌘0' },
   { href: '/admin/ayarlar', label: 'Ayarlar', icon: <IconSettings />, shortcut: '⌘,' },
 ]
 

@@ -12,6 +12,9 @@ import {
   getProductImage,
 } from '@/types'
 import { productLd, breadcrumbLd, toJsonLdScript } from '@/lib/jsonld'
+import { getApprovedReviews, getReviewStats, getUserReview } from '@/lib/reviews'
+import { getCurrentCustomer } from '@/lib/customer-auth'
+import ProductReviews from '@/components/product/ProductReviews'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -48,10 +51,16 @@ export default async function UrunPage({ params }: Props) {
 
   const description = getProductDescription(product)
 
-  const related = product.category?.slug
-    ? await getProductsByCategory(product.category.slug, { limit: 4 })
-    : []
+  const [related, reviews, stats, me] = await Promise.all([
+    product.category?.slug
+      ? getProductsByCategory(product.category.slug, { limit: 4 })
+      : Promise.resolve([]),
+    getApprovedReviews(product.id, 20),
+    getReviewStats(product.id),
+    getCurrentCustomer(),
+  ])
   const relatedProducts = related.filter((p) => p.id !== product.id).slice(0, 3)
+  const userReview = me ? await getUserReview(product.id, me.user.id) : null
 
   const breadcrumbs: { label: string; href?: string }[] = [
     { label: 'Anasayfa', href: '/' },
@@ -62,12 +71,24 @@ export default async function UrunPage({ params }: Props) {
   }
   breadcrumbs.push({ label: product.name, href: `/urun/${product.slug}` })
 
+  // Product JSON-LD'ye AggregateRating ekle (varsa)
+  const productSchema = productLd(product) as Record<string, unknown>
+  if (stats && stats.review_count > 0) {
+    productSchema.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: stats.avg_rating.toFixed(2),
+      reviewCount: stats.review_count,
+      bestRating: '5',
+      worstRating: '1',
+    }
+  }
+
   return (
     <>
       <Header />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: toJsonLdScript([productLd(product), breadcrumbLd(breadcrumbs)]) }}
+        dangerouslySetInnerHTML={{ __html: toJsonLdScript([productSchema, breadcrumbLd(breadcrumbs)]) }}
       />
       <main style={{ backgroundColor: '#0A0908', minHeight: '100vh' }}>
         <ProductDetailClient product={product} />
@@ -164,6 +185,14 @@ export default async function UrunPage({ params }: Props) {
             </div>
           </section>
         )}
+
+        <ProductReviews
+          productId={product.id}
+          reviews={reviews}
+          stats={stats}
+          isLoggedIn={Boolean(me)}
+          userHasReview={Boolean(userReview)}
+        />
 
         {relatedProducts.length > 0 && (
           <section

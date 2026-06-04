@@ -114,6 +114,13 @@ const INPUT_STYLE: React.CSSProperties = {
 
 type PaymentChoice = 'bank_transfer' | 'paytr'
 
+interface AppliedCoupon {
+  code: string
+  discount: number
+  discount_type: 'percent' | 'fixed'
+  discount_value: number
+}
+
 interface Props {
   prefill?: CheckoutPrefill | null
   paytrEnabled?: boolean
@@ -127,6 +134,10 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
   const [validationError, setValidationError] = useState<string | null>(null)
   const [form, setForm] = useState<FormState>(() => buildInitial(prefill))
   const [paymentMethod, setPaymentMethod] = useState<PaymentChoice>(paytrEnabled ? 'paytr' : 'bank_transfer')
+  const [couponInput, setCouponInput] = useState('')
+  const [couponLoading, setCouponLoading] = useState(false)
+  const [couponError, setCouponError] = useState<string | null>(null)
+  const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
@@ -164,6 +175,44 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
     setForm((f) => ({ ...f, [k]: v }))
   }
 
+  async function applyCoupon() {
+    if (couponLoading || !couponInput.trim()) return
+    setCouponError(null)
+    setCouponLoading(true)
+    try {
+      const res = await fetch('/api/cart/apply-coupon', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: couponInput.trim(),
+          items: items.map((i) => ({ productId: i.productId, variantId: i.variantId, quantity: i.quantity })),
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok || !data.ok) {
+        setCouponError(data.message ?? 'Kupon doğrulanamadı.')
+        setCouponLoading(false)
+        return
+      }
+      setAppliedCoupon({
+        code: data.code,
+        discount: data.discount,
+        discount_type: data.discount_type,
+        discount_value: data.discount_value,
+      })
+      setCouponInput('')
+    } catch {
+      setCouponError('Sunucuya bağlanılamadı.')
+    } finally {
+      setCouponLoading(false)
+    }
+  }
+
+  function removeCoupon() {
+    setAppliedCoupon(null)
+    setCouponError(null)
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (submitting || !validated) return
@@ -186,6 +235,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
       },
       payment_method: paymentMethod,
       notes: form.notes || undefined,
+      coupon_code: appliedCoupon?.code,
       items: items.map((i) => ({
         productId: i.productId,
         variantId: i.variantId,
@@ -482,7 +532,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
               border: 'none',
               cursor: submitting ? 'wait' : 'pointer',
             }}>
-            {submitting ? 'Gönderiliyor…' : `Siparişi Tamamla · ${formatPrice(validated.totals.total)}`}
+            {submitting ? 'Gönderiliyor…' : `Siparişi Tamamla · ${formatPrice(Math.max(0, validated.totals.total - (appliedCoupon?.discount ?? 0)))}`}
           </button>
         </form>
 
@@ -546,12 +596,84 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
                 · Ücretsiz kargoya {formatPrice(Math.max(0, validated.shipping.free_threshold - validated.totals.subtotal))} kaldı
               </p>
             )}
+            {appliedCoupon && (
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-jetbrains)', fontSize: '12px', color: '#7AAD8B' }}>
+                <span>
+                  İndirim ·{' '}
+                  <span style={{ fontFamily: 'var(--font-jetbrains)', letterSpacing: '0.1em' }}>{appliedCoupon.code}</span>
+                </span>
+                <span>-{formatPrice(appliedCoupon.discount)}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Kupon alanı */}
+          <div style={{ borderTop: '1px solid rgba(244,240,232,0.08)', marginTop: '16px', paddingTop: '16px' }}>
+            {appliedCoupon ? (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 12px', border: '1px solid rgba(122,173,139,0.4)', backgroundColor: 'rgba(122,173,139,0.06)' }}>
+                <div style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', color: '#E5DDC8' }}>
+                  <span style={{ color: '#7AAD8B', marginRight: '6px' }}>✓</span>
+                  Kupon uygulandı: <strong style={{ color: '#F4F0E8', letterSpacing: '0.06em' }}>{appliedCoupon.code}</strong>
+                </div>
+                <button
+                  type="button"
+                  onClick={removeCoupon}
+                  aria-label="Kuponu kaldır"
+                  style={{ background: 'transparent', border: 'none', color: '#B8B0A0', fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', cursor: 'pointer', padding: '4px 6px' }}
+                >
+                  Kaldır
+                </button>
+              </div>
+            ) : (
+              <>
+                <label htmlFor="coupon-code" style={{ display: 'block', fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#6E665A', marginBottom: '6px' }}>
+                  Kupon kodu (opsiyonel)
+                </label>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <input
+                    id="coupon-code"
+                    className="ck-input"
+                    type="text"
+                    value={couponInput}
+                    onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                    placeholder="KUPON"
+                    autoCapitalize="characters"
+                    style={{ ...INPUT_STYLE, padding: '11px 12px', fontFamily: 'var(--font-jetbrains)', letterSpacing: '0.1em' }}
+                  />
+                  <button
+                    type="button"
+                    onClick={applyCoupon}
+                    disabled={couponLoading || !couponInput.trim()}
+                    style={{
+                      padding: '0 16px',
+                      backgroundColor: 'transparent',
+                      border: '1px solid #C9A961',
+                      color: '#C9A961',
+                      fontFamily: 'var(--font-jetbrains), monospace',
+                      fontSize: '11px',
+                      letterSpacing: '0.22em',
+                      textTransform: 'uppercase',
+                      whiteSpace: 'nowrap',
+                      cursor: couponLoading || !couponInput.trim() ? 'not-allowed' : 'pointer',
+                      opacity: couponLoading || !couponInput.trim() ? 0.5 : 1,
+                    }}
+                  >
+                    {couponLoading ? '…' : 'Uygula'}
+                  </button>
+                </div>
+                {couponError && (
+                  <p role="alert" style={{ marginTop: '8px', fontSize: '12px', color: '#D17B6A', fontFamily: 'var(--font-sans)' }}>
+                    {couponError}
+                  </p>
+                )}
+              </>
+            )}
           </div>
 
           <div style={{ borderTop: '1px solid rgba(244,240,232,0.12)', marginTop: '20px', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
             <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.22em', color: '#F4F0E8', textTransform: 'uppercase' }}>Toplam</span>
             <span style={{ fontFamily: 'var(--font-cormorant)', color: '#C9A961', fontSize: '28px', fontWeight: 500 }}>
-              {formatPrice(validated.totals.total)}
+              {formatPrice(Math.max(0, validated.totals.total - (appliedCoupon?.discount ?? 0)))}
             </span>
           </div>
         </aside>

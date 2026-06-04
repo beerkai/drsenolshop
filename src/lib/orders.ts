@@ -10,6 +10,7 @@ import type { CheckoutLine } from './cart-totals'
 import { calculateTotals } from './cart-totals'
 import { getProductsByIds } from './products'
 import { getShippingConfig, calculateShipping } from './site-settings'
+import { validateCoupon, incrementCouponUsage } from './coupons'
 import {
   findDefaultVariant,
   getVariantPrice,
@@ -47,6 +48,8 @@ export interface CreateOrderInput {
   // Logged-in müşterinin Supabase auth.uid()'si; sadece API route'ta server-side
   // doldurulur. Client gönderse bile route override eder.
   user_id?: string | null
+  // Kupon kodu — server-side yeniden doğrulanır (race-safe)
+  coupon_code?: string | null
 }
 
 export type CreateOrderResult =
@@ -165,7 +168,20 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
   const draftTotals = calculateTotals(validated.lines, { shippingCost: 0 })
   const shippingConfig = await getShippingConfig()
   const shippingCost = calculateShipping(draftTotals.subtotal, shippingConfig)
-  const totals = calculateTotals(validated.lines, { shippingCost })
+
+  // Kupon doğrulama — server-side (client'tan gelen tutar güvenilmez)
+  let discountAmount = 0
+  let appliedCouponCode: string | null = null
+  if (input.coupon_code) {
+    const couponResult = await validateCoupon(input.coupon_code, draftTotals.subtotal)
+    if (!couponResult.ok) {
+      return { ok: false, code: 'INVALID_INPUT', message: couponResult.message }
+    }
+    discountAmount = couponResult.discount
+    appliedCouponCode = couponResult.code
+  }
+
+  const totals = calculateTotals(validated.lines, { shippingCost, discountAmount })
 
   // 4) DB insert — orders + order_items
   const supabase = getSupabaseAdmin()
@@ -188,7 +204,10 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
       total_amount: totals.total,
       payment_method: input.payment_method ?? 'bank_transfer',
       payment_status: 'pending',
-      notes: input.notes?.trim() || null,
+      notes: [
+        input.notes?.trim(),
+        appliedCouponCode ? `[kupon: ${appliedCouponCode}]` : null,
+      ].filter(Boolean).join(' · ') || null,
       user_id: input.user_id ?? null,
     })
     .select()
@@ -241,6 +260,13 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
   // 'paid' olunca admin elle düşürür veya bir trigger handle eder.
   // (MVP: havale ödemesi için bu yaklaşım yeterli; iyzico/3DS sonrası
   //  callback'te stok düşürülür.)
+
+  // 7) Kupon kullanım sayacını artır (best-effort; sipariş zaten kaydedildi)
+  if (appliedCouponCode) {
+    incrementCouponUsage(appliedCouponCode).catch((err) => {
+      console.error('[createOrder] kupon sayacı artırılamadı:', err)
+    })
+  }
 
   return {
     ok: true,
