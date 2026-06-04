@@ -1,10 +1,18 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Script from 'next/script'
+
+declare global {
+  interface Window {
+    iFrameResize?: (options: Record<string, unknown>, selector: string) => void
+  }
+}
 
 export default function PaytrIframeClient({ orderNumber }: { orderNumber: string }) {
   const [iframeUrl, setIframeUrl] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [resizerReady, setResizerReady] = useState(false)
   const fetched = useRef(false)
 
   useEffect(() => {
@@ -26,6 +34,11 @@ export default function PaytrIframeClient({ orderNumber }: { orderNumber: string
       })
       .catch(() => setError('Sunucuya bağlanılamadı'))
   }, [orderNumber])
+
+  useEffect(() => {
+    if (!iframeUrl || !resizerReady || !window.iFrameResize) return
+    window.iFrameResize({}, '#paytriframe')
+  }, [iframeUrl, resizerReady])
 
   if (error) {
     return (
@@ -49,10 +62,16 @@ export default function PaytrIframeClient({ orderNumber }: { orderNumber: string
   return (
     <div style={{ background: '#141210', padding: '16px', border: '1px solid rgba(244,240,232,0.08)' }}>
       <iframe
+        id="paytriframe"
         src={iframeUrl}
         title="PayTR güvenli ödeme"
-        style={{ width: '100%', minHeight: '720px', border: 'none', display: 'block' }}
+        style={{ width: '100%', minHeight: '720px', border: 'none', display: 'block', background: '#FFFFFF' }}
         allow="payment"
+      />
+      <Script
+        src="https://www.paytr.com/js/iframeResizer.min.js"
+        strategy="lazyOnload"
+        onLoad={() => setResizerReady(true)}
       />
     </div>
   )

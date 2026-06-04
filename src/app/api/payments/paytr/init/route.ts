@@ -42,12 +42,13 @@ export async function POST(request: Request) {
   }
 
   const origin = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || new URL(request.url).origin
+  const no = encodeURIComponent(order.order_number)
   const result = await paytrInitToken({
     order,
     items,
     user_ip: getClientIp(request),
-    merchant_ok_url: `${origin}/siparis/${order.order_number}?paytr=ok`,
-    merchant_fail_url: `${origin}/siparis/${order.order_number}?paytr=fail`,
+    merchant_ok_url: `${origin}/odeme/basarili?no=${no}`,
+    merchant_fail_url: `${origin}/odeme/basarisiz?no=${no}`,
   })
 
   if (!result.ok) {

@@ -137,6 +137,8 @@ CREATE TABLE IF NOT EXISTS public.orders (
   payment_method payment_method NOT NULL DEFAULT 'bank_transfer',
   payment_status payment_status NOT NULL DEFAULT 'pending',
   payment_ref TEXT,
+  paytr_response JSONB,
+  paid_at TIMESTAMPTZ,
   notes TEXT,
   tracking_number TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),

@@ -163,6 +163,8 @@ export interface Order {
   payment_method: PaymentMethod
   payment_status: PaymentStatus
   payment_ref: string | null
+  paytr_response: Record<string, unknown> | null
+  paid_at: string | null
   notes: string | null
   tracking_number: string | null
   reminded_at: string | null

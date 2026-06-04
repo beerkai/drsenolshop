@@ -93,7 +93,9 @@ export default async function AdminSettingsPage() {
             <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>PAYTR_MERCHANT_KEY</code>,{' '}
             <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>PAYTR_MERCHANT_SALT</code><br />
             Opsiyonel: <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>PAYTR_TEST_MODE=1</code> (test kartları için).<br />
-            PayTR panelinde <strong>bildirim URL&apos;si</strong>: <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>/api/payments/paytr/callback</code>
+            PayTR panelinde <strong>bildirim URL&apos;si</strong> (ikisi de çalışır):{' '}
+            <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>/api/payment/callback</code> veya{' '}
+            <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>/api/payments/paytr/callback</code>
           </p>
         )}
       </div>
