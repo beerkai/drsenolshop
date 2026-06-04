@@ -576,14 +576,28 @@ export interface ListedOrder {
 
 export async function listOrders(opts: {
   status?: string
+  search?: string  // order_number / customer_email / customer_phone / customer_name partial match
   limit?: number
   offset?: number
 } = {}): Promise<{ orders: ListedOrder[]; total: number }> {
-  const { status, limit = 30, offset = 0 } = opts
+  const { status, search, limit = 30, offset = 0 } = opts
   const supabase = getSupabaseAdmin()
+
+  // Arama terimi varsa OR koşulu PostgREST formatında: a.ilike.*x*,b.ilike.*x*
+  const buildOr = (q: string) => {
+    const e = q.replace(/[%_,]/g, (m) => `\\${m}`)
+    return [
+      `order_number.ilike.%${e}%`,
+      `customer_email.ilike.%${e}%`,
+      `customer_phone.ilike.%${e}%`,
+      `customer_name.ilike.%${e}%`,
+    ].join(',')
+  }
+  const orFilter = search?.trim() ? buildOr(search.trim()) : null
 
   let countQuery = supabase.from('orders').select('id', { count: 'exact', head: true })
   if (status) countQuery = countQuery.eq('status', status)
+  if (orFilter) countQuery = countQuery.or(orFilter)
   const { count } = await countQuery
 
   let query = supabase
@@ -597,6 +611,7 @@ export async function listOrders(opts: {
     .range(offset, offset + limit - 1)
 
   if (status) query = query.eq('status', status)
+  if (orFilter) query = query.or(orFilter)
 
   const { data, error } = await query
   if (error || !data) {

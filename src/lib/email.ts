@@ -335,6 +335,50 @@ const STATUS_COPY: Record<string, { title: string; intro: string; cta: string }>
   },
 }
 
+// ─── Ödeme hatırlatma (pending sipariş) ─────────────────────────
+export interface PaymentReminderInput {
+  order: Order
+  bankInfo: BankInfo | null
+  attempt: number      // 1, 2, ...
+  siteUrl?: string
+}
+
+export async function sendPaymentReminder(input: PaymentReminderInput): Promise<EmailResult> {
+  const { order, bankInfo, attempt } = input
+  const siteUrl = (input.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://drsenolnaturalhoney.shop').replace(/\/$/, '')
+  const orderUrl = `${siteUrl}/siparis/${order.order_number}`
+
+  const isBankTransfer = order.payment_method === 'bank_transfer'
+  const intro = attempt === 1
+    ? 'Sipariş kaydınızı aldık ancak ödemenizi henüz göremedik. Aşağıdaki bilgilerle ödemenizi tamamlayabilirsiniz.'
+    : 'Sipariş kaydınız hâlâ bekliyor. Ödemenizi tamamlamak için bilgiler aşağıdadır. Tamamlayamıyorsanız siparişi iptal edebilirsiniz.'
+
+  const body = `
+    <div style="margin:0 0 24px; padding:16px 20px; background-color:#FAFAF7; border-left:3px solid #C9A961;">
+      <p style="margin:0; font-family:Menlo, Consolas, monospace; font-size:10px; letter-spacing:0.3em; color:#9C7C3C; text-transform:uppercase;">Sipariş No</p>
+      <p style="margin:6px 0 0; font-family:Menlo, Consolas, monospace; font-size:18px; color:#1A1714; letter-spacing:0.05em; font-weight:500;">${escapeHtml(order.order_number)}</p>
+      <p style="margin:6px 0 0; font-size:14px; color:#1A1714;">Tutar: <strong>${escapeHtml(formatPrice(Number(order.total_amount)))}</strong></p>
+    </div>
+    ${isBankTransfer && bankInfo ? bankInfoBlock(bankInfo, order.order_number, Number(order.total_amount)) : ''}
+    <p style="margin:24px 0 0; font-size:13px; line-height:1.7; color:#6B6258;">
+      Ödemenizi gerçekleştiremeyecekseniz <a href="${escapeHtml(orderUrl)}" style="color:#9C7C3C;">sipariş sayfanızdan</a> siparişi iptal edebilirsiniz.
+    </p>`
+
+  const html = emailLayout({
+    preheader: `Sipariş ${order.order_number} için ödeme bekleniyor`,
+    title: 'Ödemenizi bekliyoruz.',
+    intro,
+    bodyHtml: body,
+    cta: { label: 'Siparişi Görüntüle', url: orderUrl },
+  })
+
+  return sendEmail({
+    to: order.customer_email,
+    subject: `Ödeme hatırlatması — ${order.order_number}`,
+    html,
+  })
+}
+
 export async function sendOrderStatusUpdate(input: OrderStatusUpdateInput): Promise<EmailResult> {
   const copy = STATUS_COPY[input.newStatus]
   if (!copy) return { ok: false, error: 'no_template' }

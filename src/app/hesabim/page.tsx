@@ -9,6 +9,7 @@ import { formatPrice, type Order } from '@/types'
 import LogoutButton from './LogoutButton'
 import ProfileForm, { type ProfileInitial } from './ProfileForm'
 import DeleteAccountSection from './DeleteAccountSection'
+import ReorderButton from './ReorderButton'
 
 export const metadata: Metadata = {
   title: 'Hesabım',
@@ -275,8 +276,11 @@ function OrderCard({ order, email }: { order: Order; email: string }) {
         </div>
       )}
 
-      <div style={{ marginTop: '12px', fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#C9A961' }}>
-        Detayları gör →
+      <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+        <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#C9A961' }}>
+          Detayları gör →
+        </span>
+        <ReorderButton orderNumber={order.order_number} />
       </div>
     </Link>
   )

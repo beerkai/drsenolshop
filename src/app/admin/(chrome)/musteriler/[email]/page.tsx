@@ -2,9 +2,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { requireAdmin } from '@/lib/admin-auth'
 import { getCustomerDetail } from '@/lib/admin-data'
+import { getSupabaseAdmin } from '@/lib/supabase'
 import { formatPrice } from '@/types'
 import { StatusBadge, Badge } from '@/components/admin/ui/Badge'
 import { MetricCard } from '@/components/admin/dashboard/MetricCard'
+import CustomerNotes, { type CustomerNote } from './CustomerNotes'
 
 type Props = { params: Promise<{ email: string }> }
 
@@ -14,6 +16,15 @@ export default async function CustomerDetailPage({ params }: Props) {
   const email = decodeURIComponent(emailRaw)
   const detail = await getCustomerDetail(email)
   if (!detail) notFound()
+
+  // Admin notları
+  const { data: noteRows } = await getSupabaseAdmin()
+    .from('customer_notes')
+    .select('*')
+    .eq('customer_email', email.toLowerCase())
+    .order('created_at', { ascending: false })
+    .limit(50)
+  const notes = (noteRows ?? []) as CustomerNote[]
 
   return (
     <div>
@@ -68,6 +79,15 @@ export default async function CustomerDetailPage({ params }: Props) {
           value={new Date(detail.first_order_at).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: 'numeric' })}
           hint={`Son: ${new Date(detail.last_order_at).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: 'numeric' })}`}
         />
+      </div>
+
+      {/* Admin notları */}
+      <div className="ad-card" style={{ marginBottom: '20px' }}>
+        <p className="ad-eyebrow-muted" style={{ marginBottom: '6px' }}>Müşteri Notları</p>
+        <p style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: '0 0 14px' }}>
+          Yalnız admin görür. Müşteri arşivi için kısa kayıtlar (özel istek, iletişim notu, sorunlar).
+        </p>
+        <CustomerNotes customerEmail={email.toLowerCase()} initial={notes} />
       </div>
 
       {/* 2 sütun — Siparişler / Adresler */}

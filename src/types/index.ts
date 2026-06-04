@@ -165,6 +165,8 @@ export interface Order {
   payment_ref: string | null
   notes: string | null
   tracking_number: string | null
+  reminded_at: string | null
+  reminder_count: number
   created_at: string
   updated_at: string | null
   shipped_at: string | null

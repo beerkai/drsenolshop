@@ -2,6 +2,7 @@ import { requireAdmin } from '@/lib/admin-auth'
 import { listOrders } from '@/lib/admin-data'
 import { RecentOrdersTable } from '@/components/admin/dashboard/RecentOrdersTable'
 import Link from 'next/link'
+import SearchBar from './SearchBar'
 
 const STATUS_FILTERS = [
   { value: '',           label: 'Tümü' },
@@ -13,17 +14,18 @@ const STATUS_FILTERS = [
   { value: 'cancelled',  label: 'İptal' },
 ]
 
-type SP = Promise<{ status?: string; page?: string }>
+type SP = Promise<{ status?: string; page?: string; q?: string }>
 
 export default async function AdminOrdersPage({ searchParams }: { searchParams: SP }) {
   await requireAdmin()
   const sp = await searchParams
   const status = sp.status || undefined
+  const search = sp.q || ''
   const page = Math.max(1, Number(sp.page) || 1)
   const limit = 30
   const offset = (page - 1) * limit
 
-  const { orders, total } = await listOrders({ status, limit, offset })
+  const { orders, total } = await listOrders({ status, search, limit, offset })
   const totalPages = Math.max(1, Math.ceil(total / limit))
 
   return (
@@ -36,11 +38,16 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
         </h1>
       </div>
 
+      <SearchBar initial={search} />
+
       {/* Filtre çubuğu */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '20px' }}>
         {STATUS_FILTERS.map((f) => {
           const isActive = (status ?? '') === f.value
-          const href = f.value ? `/admin/siparisler?status=${f.value}` : '/admin/siparisler'
+          const params = new URLSearchParams()
+          if (f.value) params.set('status', f.value)
+          if (search) params.set('q', search)
+          const href = `/admin/siparisler${params.toString() ? '?' + params.toString() : ''}`
           return (
             <Link key={f.value || 'all'} href={href}
               className={['ad-btn', 'ad-btn-sm', isActive ? 'ad-btn-primary' : 'ad-btn-secondary'].join(' ')}>
@@ -58,6 +65,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
             const isActive = p === page
             const params = new URLSearchParams()
             if (status) params.set('status', status)
+            if (search) params.set('q', search)
             if (p > 1) params.set('page', String(p))
             const href = `/admin/siparisler${params.toString() ? '?' + params.toString() : ''}`
             return (
