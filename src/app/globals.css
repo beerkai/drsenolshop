@@ -236,6 +236,96 @@ a {
   text-decoration-thickness: 1px;
 }
 
+/* ══ HEADER NAV — Premium hover etkileri ══
+   Üst düzey link (Bal, Signature, Hikâye):
+     ─ Underline kayışı (sol → sağ, scale-X)
+   Dropdown alt link:
+     ─ Sol kenarda gold accent
+     ─ Hafif metin sağa kayar (4px)
+     ─ Sağda ok belirir
+     ─ Solid arka plan YOK — "blok seçim" hissi kaybedildi
+*/
+
+.ds-nav-link {
+  position: relative;
+}
+.ds-nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  height: 1px;
+  background-color: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.32s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.ds-nav-link:hover::after,
+.ds-nav-link[data-open="true"]::after,
+.ds-nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Dropdown alt link */
+.ds-nav-sublink {
+  position: relative;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 22px 10px 22px;
+  letter-spacing: 0.02em;
+  transition: color 0.18s ease, padding-left 0.22s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.ds-nav-sublink::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background-color: var(--color-gold);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 0.24s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.ds-nav-sublink-text {
+  display: inline-block;
+  transition: transform 0.22s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.ds-nav-sublink-arrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-gold);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.22s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.ds-nav-sublink:hover {
+  color: var(--color-cream);
+  padding-left: 26px;
+}
+.ds-nav-sublink:hover::before {
+  transform: scaleY(1);
+}
+.ds-nav-sublink:hover .ds-nav-sublink-text {
+  transform: translateX(2px);
+}
+.ds-nav-sublink:hover .ds-nav-sublink-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+.ds-nav-sublink:focus-visible {
+  outline: none;
+  color: var(--color-cream);
+  padding-left: 26px;
+}
+.ds-nav-sublink:focus-visible::before {
+  transform: scaleY(1);
+}
+
 /* ══ HERO ANİMASYON ══ */
 
 @keyframes honeyFlow {

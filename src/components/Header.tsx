@@ -214,16 +214,23 @@ export default function Header() {
               </button>
 
               <nav className="hidden items-center lg:flex" style={{ gap: 'clamp(2rem, 4vw, 2.75rem)' }}>
-                {NAV.map((item) => (
+                {NAV.map((item) => {
+                  const isOpen = dropdown === item.label
+                  return (
                   <div
                     key={item.label}
                     className="relative"
                     onMouseEnter={() => setDropdown(item.label)}
                     onMouseLeave={() => setDropdown(null)}
                   >
+                    {/*
+                      Üst düzey link: zarif gold underline kayışı.
+                      Underline ::after ile, scale-x transform — opaklığı korunur, perform iyi.
+                    */}
                     <Link
                       href={item.href}
-                      className="block py-3 font-mono uppercase text-cream transition-colors duration-300 hover:text-gold"
+                      className="ds-nav-link block py-3 font-mono uppercase text-cream transition-colors duration-300 hover:text-gold"
+                      data-open={isOpen ? 'true' : undefined}
                       style={{
                         fontSize: 'clamp(10px, 1.8vw, 11px)',
                         letterSpacing: '0.22em',
@@ -233,24 +240,28 @@ export default function Header() {
                       {item.label}
                     </Link>
 
-                    {item.children && dropdown === item.label && (
+                    {item.children && isOpen && (
                       <div className="absolute left-0 top-full z-50 min-w-[260px] pt-3">
-                        <div className="animate-fade-in border border-[var(--color-line-dark)] bg-ink-2 py-3">
+                        <div
+                          className="animate-fade-in border border-[var(--color-line-dark)] bg-ink-2 py-2"
+                          style={{ boxShadow: '0 14px 40px -16px rgba(0,0,0,0.5), 0 4px 14px -8px rgba(0,0,0,0.4)' }}
+                        >
                           {item.children.map((c) => (
                             <Link
                               key={c.label}
                               href={c.href}
-                              className="block px-5 py-3 text-[13px] text-cream-muted transition-all duration-200 hover:bg-ink-3 hover:text-gold"
+                              className="ds-nav-sublink block text-[13px] text-cream-muted"
                               lang={item.label === 'Signature' ? 'en' : undefined}
                             >
-                              {c.label}
+                              <span className="ds-nav-sublink-text">{c.label}</span>
+                              <span className="ds-nav-sublink-arrow" aria-hidden>→</span>
                             </Link>
                           ))}
                         </div>
                       </div>
                     )}
                   </div>
-                ))}
+                )})}
               </nav>
             </div>
 
