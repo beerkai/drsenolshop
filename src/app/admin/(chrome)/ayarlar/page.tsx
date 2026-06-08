@@ -127,7 +127,7 @@ export default async function AdminSettingsPage() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--ad-line-faint)' }}>
           <span className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Gönderen</span>
           <span className="ad-mono" style={{ fontSize: '12px', color: 'var(--ad-fg)' }}>
-            {process.env.RESEND_FROM_EMAIL ?? 'siparis@drsenolnaturalhoney.shop (default)'}
+            {process.env.RESEND_FROM_EMAIL ?? 'siparis@drsenol.shop (default)'}
           </span>
         </div>
         {!emailConfigured && (

@@ -36,7 +36,7 @@ export function getLegalCompany(): LegalCompanyInfo {
     email: val('NEXT_PUBLIC_CONTACT_EMAIL', 'bilgi@drsenol.shop'),
     phone: val('NEXT_PUBLIC_CONTACT_PHONE', '+90 224 123 45 67'),
     kep: val('NEXT_PUBLIC_KEP_ADDRESS', '[KEP adresi — varsa]'),
-    website: val('NEXT_PUBLIC_SITE_URL', 'https://drsenolnaturalhoney.shop'),
+    website: val('NEXT_PUBLIC_SITE_URL', 'https://drsenol.shop'),
   }
 }
 

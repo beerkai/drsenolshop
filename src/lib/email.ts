@@ -23,7 +23,7 @@ interface EmailConfig {
 
 function getConfig(): EmailConfig | null {
   const apiKey = process.env.RESEND_API_KEY?.trim()
-  const fromAddress = process.env.RESEND_FROM_EMAIL?.trim() || 'siparis@drsenolnaturalhoney.shop'
+  const fromAddress = process.env.RESEND_FROM_EMAIL?.trim() || 'siparis@drsenol.shop'
   const fromName = process.env.RESEND_FROM_NAME?.trim() || 'Dr. Şenol Shop'
   const replyTo = process.env.RESEND_REPLY_TO?.trim()
   if (!apiKey) return null
@@ -250,7 +250,7 @@ export interface OrderConfirmationInput {
 
 export async function sendOrderConfirmation(input: OrderConfirmationInput): Promise<EmailResult> {
   const { order, items, bankInfo } = input
-  const siteUrl = (input.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://drsenolnaturalhoney.shop').replace(/\/$/, '')
+  const siteUrl = (input.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://drsenol.shop').replace(/\/$/, '')
   const orderUrl = `${siteUrl}/siparis/${order.order_number}`
   const trackUrl = `${siteUrl}/siparis-takibi?order=${encodeURIComponent(order.order_number)}&email=${encodeURIComponent(order.customer_email)}`
 
@@ -345,7 +345,7 @@ export interface PaymentReminderInput {
 
 export async function sendPaymentReminder(input: PaymentReminderInput): Promise<EmailResult> {
   const { order, bankInfo, attempt } = input
-  const siteUrl = (input.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://drsenolnaturalhoney.shop').replace(/\/$/, '')
+  const siteUrl = (input.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://drsenol.shop').replace(/\/$/, '')
   const orderUrl = `${siteUrl}/siparis/${order.order_number}`
 
   const isBankTransfer = order.payment_method === 'bank_transfer'
@@ -383,7 +383,7 @@ export async function sendOrderStatusUpdate(input: OrderStatusUpdateInput): Prom
   const copy = STATUS_COPY[input.newStatus]
   if (!copy) return { ok: false, error: 'no_template' }
 
-  const siteUrl = (input.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://drsenolnaturalhoney.shop').replace(/\/$/, '')
+  const siteUrl = (input.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://drsenol.shop').replace(/\/$/, '')
   const orderUrl = `${siteUrl}/siparis-takibi?order=${encodeURIComponent(input.order.order_number)}&email=${encodeURIComponent(input.order.customer_email)}`
 
   const trackingBlock = input.trackingNumber

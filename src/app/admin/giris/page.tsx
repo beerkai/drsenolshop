@@ -126,7 +126,7 @@ export default async function AdminGirisPage({ searchParams }: { searchParams: S
           }}
         >
           <span>EST. 1985 · BURSA, TR</span>
-          <span lang="en">lab.drsenolnaturalhoney.shop</span>
+          <span lang="en">lab.drsenol.shop</span>
         </div>
       </div>
     </div>
