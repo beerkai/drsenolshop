@@ -45,7 +45,7 @@ export default async function OrderPage({ params }: Props) {
   return (
     <>
       <Header />
-      <main style={{ backgroundColor: '#0A0908', minHeight: '70vh' }}>
+      <main style={{ backgroundColor: '#15110D', minHeight: '70vh' }}>
         <div className="px-responsive" style={{ maxWidth: '900px', margin: '0 auto', paddingTop: '48px', paddingBottom: '96px' }}>
 
           {/* Üst — başarı */}
@@ -66,7 +66,7 @@ export default async function OrderPage({ params }: Props) {
 
           {/* Banka bilgileri — havale ise */}
           {isBankTransfer && order.status === 'pending' && (
-            <div style={{ backgroundColor: '#141210', border: '1px solid rgba(201,169,97,0.3)', padding: '28px', marginBottom: '32px' }}>
+            <div style={{ backgroundColor: '#1C1814', border: '1px solid rgba(201,169,97,0.3)', padding: '28px', marginBottom: '32px' }}>
               <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 16px' }}>
                 Banka Bilgileri
               </p>
@@ -89,14 +89,14 @@ export default async function OrderPage({ params }: Props) {
           )}
 
           {/* Sipariş özeti */}
-          <div style={{ backgroundColor: '#141210', padding: '28px', marginBottom: '32px' }}>
+          <div style={{ backgroundColor: '#1C1814', padding: '28px', marginBottom: '32px' }}>
             <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 20px' }}>
               Ürünler
             </p>
 
             {items.map((it) => (
               <div key={it.id} style={{ display: 'flex', gap: '14px', paddingBottom: '16px', marginBottom: '16px', borderBottom: '1px solid rgba(244,240,232,0.06)' }}>
-                <div style={{ width: '64px', height: '80px', flexShrink: 0, backgroundColor: '#0A0908', position: 'relative' }}>
+                <div style={{ width: '64px', height: '80px', flexShrink: 0, backgroundColor: '#15110D', position: 'relative' }}>
                   {it.product_image ? (
                     <Image src={it.product_image} alt={it.product_name} fill sizes="64px" style={{ objectFit: 'cover' }} />
                   ) : (
@@ -139,7 +139,7 @@ export default async function OrderPage({ params }: Props) {
 
           {/* Teslimat adresi */}
           {ship && (
-            <div style={{ backgroundColor: '#141210', padding: '28px', marginBottom: '32px' }}>
+            <div style={{ backgroundColor: '#1C1814', padding: '28px', marginBottom: '32px' }}>
               <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 20px' }}>
                 Teslimat
               </p>

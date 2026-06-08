@@ -195,7 +195,7 @@ export default function CategoryFilters({
                 position: 'absolute',
                 top: '0',
                 left: '4px',
-                color: '#0A0908',
+                color: '#15110D',
                 fontSize: '11px',
                 lineHeight: 1,
               }}
@@ -238,7 +238,7 @@ export default function CategoryFilters({
                 position: 'absolute',
                 top: '0',
                 left: '4px',
-                color: '#0A0908',
+                color: '#15110D',
                 fontSize: '11px',
                 lineHeight: 1,
               }}
@@ -264,7 +264,7 @@ export default function CategoryFilters({
             onClick={onClose}
             style={{
               background: '#C9A961',
-              color: '#0A0908',
+              color: '#15110D',
               fontFamily: 'var(--font-jetbrains)',
               fontSize: '11px',
               letterSpacing: '0.25em',
@@ -306,7 +306,7 @@ export default function CategoryFilters({
         style={{
           width: '240px',
           borderRight: '1px solid rgba(244,240,232,0.08)',
-          background: '#0A0908',
+          background: '#15110D',
           flexShrink: 0,
         }}
       >
@@ -340,7 +340,7 @@ export default function CategoryFilters({
           bottom: 0,
           width: '85vw',
           maxWidth: '320px',
-          background: '#0A0908',
+          background: '#15110D',
           borderRight: '1px solid rgba(244,240,232,0.08)',
           zIndex: 101,
           transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',

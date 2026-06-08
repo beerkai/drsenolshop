@@ -35,7 +35,7 @@ export default function StaticPageLayout({
   return (
     <>
       <Header />
-      <main style={{ background: '#0A0908', minHeight: '100vh' }}>
+      <main style={{ background: '#15110D', minHeight: '100vh' }}>
         {topNotice}
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav

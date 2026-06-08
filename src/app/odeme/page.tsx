@@ -65,7 +65,7 @@ export default async function OdemePage() {
   return (
     <>
       <Header />
-      <main style={{ backgroundColor: '#0A0908', minHeight: '70vh' }}>
+      <main style={{ backgroundColor: '#15110D', minHeight: '70vh' }}>
         <CheckoutClient prefill={prefill} paytrEnabled={paytrEnabled} />
       </main>
       <Footer />

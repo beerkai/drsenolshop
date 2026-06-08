@@ -45,7 +45,7 @@ export default function CartDrawer() {
           bottom: 0,
           width: '100%',
           maxWidth: '440px',
-          backgroundColor: '#141210',
+          backgroundColor: '#1C1814',
           borderLeft: '1px solid rgba(244,240,232,0.08)',
           zIndex: 201,
           display: 'flex',
@@ -109,7 +109,7 @@ export default function CartDrawer() {
               {items.map(item => (
                 <div key={item.id} style={{ display: 'flex', gap: '16px', padding: '20px 0', borderBottom: '1px solid rgba(244,240,232,0.06)' }}>
                   {/* Görsel */}
-                  <div style={{ width: '70px', height: '88px', flexShrink: 0, backgroundColor: '#0A0908', position: 'relative' }}>
+                  <div style={{ width: '70px', height: '88px', flexShrink: 0, backgroundColor: '#15110D', position: 'relative' }}>
                     {item.image ? (
                       <Image src={item.image} alt={item.name} fill sizes="70px" style={{ objectFit: 'cover' }} />
                     ) : (
@@ -181,7 +181,7 @@ export default function CartDrawer() {
             </div>
 
             <Link href="/odeme" onClick={closeCart}
-              style={{ display: 'block', textAlign: 'center', padding: '18px', backgroundColor: '#C9A961', color: '#0A0908', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.25em', textTransform: 'uppercase', textDecoration: 'none', marginBottom: '10px' }}>
+              style={{ display: 'block', textAlign: 'center', padding: '18px', backgroundColor: '#C9A961', color: '#15110D', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.25em', textTransform: 'uppercase', textDecoration: 'none', marginBottom: '10px' }}>
               Ödemeye Geç →
             </Link>
 

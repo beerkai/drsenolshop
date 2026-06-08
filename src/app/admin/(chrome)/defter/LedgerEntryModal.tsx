@@ -601,7 +601,7 @@ function ToggleRow({ label, hint, checked, onChange }: { label: string; hint?: s
             left: checked ? '16px' : '2px',
             width: '16px',
             height: '16px',
-            backgroundColor: checked ? '#0A0908' : 'var(--ad-surface)',
+            backgroundColor: checked ? '#15110D' : 'var(--ad-surface)',
             transition: 'left 160ms, background-color 160ms',
             boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
           }}
@@ -633,7 +633,7 @@ function CheckboxRow({ label, checked, onChange }: { label: string; checked: boo
           alignItems: 'center',
           justifyContent: 'center',
           flexShrink: 0,
-          color: '#0A0908',
+          color: '#15110D',
           fontFamily: 'var(--font-jetbrains), monospace',
           fontSize: '12px',
           fontWeight: 700,

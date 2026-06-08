@@ -90,7 +90,7 @@ export default function Footer({ variant = 'default' }: FooterProps) {
       : [...TICKER, ...TICKER]
 
   return (
-    <footer style={{ backgroundColor: '#0A0908', borderTop: '1px solid rgba(244,240,232,0.06)', overflow: 'hidden' }}>
+    <footer style={{ backgroundColor: '#15110D', borderTop: '1px solid rgba(244,240,232,0.06)', overflow: 'hidden' }}>
       <style>{`
         @media (max-width: 899px) {
           .footer-link-grid {

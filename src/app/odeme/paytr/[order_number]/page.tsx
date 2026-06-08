@@ -26,7 +26,7 @@ export default async function PaytrOdemePage({ params }: { params: SP }) {
   return (
     <>
       <Header />
-      <main style={{ background: '#0A0908', minHeight: '70vh', padding: '40px 16px' }}>
+      <main style={{ background: '#15110D', minHeight: '70vh', padding: '40px 16px' }}>
         <div style={{ maxWidth: '760px', margin: '0 auto' }}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 14px' }}>
             Sipariş {order.order_number} · Kart ile Ödeme

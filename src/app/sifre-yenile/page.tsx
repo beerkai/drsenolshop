@@ -20,7 +20,7 @@ export default async function SifreYenilePage() {
   return (
     <>
       <Header />
-      <main style={{ background: '#0A0908', minHeight: '70vh' }}>
+      <main style={{ background: '#15110D', minHeight: '70vh' }}>
         <AuthShell
           eyebrow="Hesap · Yeni Şifre"
           title={<>Yeni şifrenizi <span style={{ color: '#C9A961', fontStyle: 'italic', fontWeight: 300 }}>belirleyin</span></>}

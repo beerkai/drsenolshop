@@ -6,7 +6,7 @@ export default function KategoriLoading() {
   return (
     <>
       <Header />
-      <main style={{ backgroundColor: '#0A0908', minHeight: '70vh' }}>
+      <main style={{ backgroundColor: '#15110D', minHeight: '70vh' }}>
         {/* Kategori Hero */}
         <section style={{ paddingTop: 'clamp(48px, 8vw, 96px)', paddingBottom: 'clamp(40px, 6vw, 72px)' }}>
           <div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
@@ -30,7 +30,7 @@ export default function KategoriLoading() {
               }}
             >
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} style={{ background: '#0A0908' }}>
+                <div key={i} style={{ background: '#15110D' }}>
                   <SkeletonBox width="100%" height={320} />
                   <div style={{ padding: '18px 22px' }}>
                     <SkeletonBox width={80} height={10} style={{ marginBottom: '12px' }} />

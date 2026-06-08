@@ -6,7 +6,7 @@ export default function KoleksiyonLoading() {
   return (
     <>
       <Header />
-      <main style={{ backgroundColor: '#0A0908', minHeight: '70vh' }}>
+      <main style={{ backgroundColor: '#15110D', minHeight: '70vh' }}>
         <div
           className="px-responsive"
           style={{ maxWidth: '1440px', margin: '0 auto', paddingTop: '48px', paddingBottom: '64px' }}
@@ -43,7 +43,7 @@ export default function KoleksiyonLoading() {
             }}
           >
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} style={{ background: '#0A0908', padding: '0' }}>
+              <div key={i} style={{ background: '#15110D', padding: '0' }}>
                 <SkeletonBox width="100%" height={320} />
                 <div style={{ padding: '18px 22px' }}>
                   <SkeletonBox width={80} height={10} style={{ marginBottom: '12px' }} />

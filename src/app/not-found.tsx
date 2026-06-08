@@ -15,7 +15,7 @@ export default function NotFound() {
       <main
         style={{
           minHeight: '70vh',
-          backgroundColor: '#0A0908',
+          backgroundColor: '#15110D',
           display: 'flex',
           alignItems: 'center',
           position: 'relative',
@@ -123,7 +123,7 @@ export default function NotFound() {
                 gap: '10px',
                 padding: 'clamp(14px, 3vw, 16px) clamp(22px, 5vw, 32px)',
                 backgroundColor: '#C9A961',
-                color: '#0A0908',
+                color: '#15110D',
                 fontFamily: 'var(--font-jetbrains), monospace',
                 fontSize: '11px',
                 letterSpacing: '0.22em',

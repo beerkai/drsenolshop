@@ -138,7 +138,7 @@ export default function ReviewForm({ productId }: { productId: string }) {
           padding: '13px 22px',
           backgroundColor: '#C9A961',
           border: '1px solid #C9A961',
-          color: '#0A0908',
+          color: '#15110D',
           fontFamily: 'var(--font-jetbrains), monospace',
           fontSize: '11px',
           letterSpacing: '0.22em',

@@ -109,7 +109,7 @@ export default function ProductActions({ product }: Props) {
                 <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '13px', color: '#6E665A', textDecoration: 'line-through' }}>
                   {formatPrice(priceData.original)}
                 </span>
-                <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '9px', letterSpacing: '0.15em', color: '#0A0908', backgroundColor: '#C9A961', padding: '4px 8px', textTransform: 'uppercase' }}>
+                <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '9px', letterSpacing: '0.15em', color: '#15110D', backgroundColor: '#C9A961', padding: '4px 8px', textTransform: 'uppercase' }}>
                   %{priceData.discount} İndirim
                 </span>
               </>
@@ -187,7 +187,7 @@ export default function ProductActions({ product }: Props) {
           width: '100%',
           padding: 'clamp(14px, 3.8vw, 18px) clamp(18px, 4vw, 24px)',
           backgroundColor: !inStock ? '#2A251E' : added ? '#9C7C3C' : '#C9A961',
-          color: !inStock ? '#6E665A' : '#0A0908',
+          color: !inStock ? '#6E665A' : '#15110D',
           fontFamily: 'var(--font-jetbrains)',
           fontSize: 'clamp(11px, 2.5vw, 13px)',
           letterSpacing: '0.28em',

@@ -25,7 +25,7 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
       <Header />
       <main
         style={{
-          background: '#0A0908',
+          background: '#15110D',
           minHeight: '70vh',
           display: 'flex',
           alignItems: 'center',
@@ -46,7 +46,7 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
               justifyContent: 'center',
             }}
           >
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0A0908" strokeWidth="2.5" aria-hidden>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#15110D" strokeWidth="2.5" aria-hidden>
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </div>
@@ -92,7 +92,7 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
           {order && orderNumber && (
             <div
               style={{
-                background: '#141210',
+                background: '#1C1814',
                 border: '1px solid rgba(244,240,232,0.08)',
                 padding: 'clamp(20px, 4vw, 32px)',
                 margin: '0 0 32px',
@@ -145,7 +145,7 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
                 display: 'inline-block',
                 padding: '16px 48px',
                 background: '#C9A961',
-                color: '#0A0908',
+                color: '#15110D',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '11px',
                 letterSpacing: '0.3em',

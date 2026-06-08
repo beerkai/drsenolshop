@@ -126,7 +126,7 @@ export default function SearchOverlay({ open, onClose }: Props) {
           transform: 'translateX(-50%)',
           width: 'calc(100% - 32px)',
           maxWidth: '680px',
-          backgroundColor: '#0A0908',
+          backgroundColor: '#15110D',
           border: '1px solid rgba(244,240,232,0.1)',
           zIndex: 210,
           maxHeight: '76vh',
@@ -230,7 +230,7 @@ export default function SearchOverlay({ open, onClose }: Props) {
                       borderLeft: isActive ? '2px solid #C9A961' : '2px solid transparent',
                     }}
                   >
-                    <div style={{ width: '56px', height: '70px', flexShrink: 0, background: '#141210', position: 'relative' }}>
+                    <div style={{ width: '56px', height: '70px', flexShrink: 0, background: '#1C1814', position: 'relative' }}>
                       {img ? (
                         <Image src={img} alt={p.name} fill sizes="56px" style={{ objectFit: 'cover' }} />
                       ) : (
@@ -268,7 +268,7 @@ export default function SearchOverlay({ open, onClose }: Props) {
           style={{
             padding: '10px 22px',
             borderTop: '1px solid rgba(244,240,232,0.06)',
-            backgroundColor: '#141210',
+            backgroundColor: '#1C1814',
             fontFamily: 'var(--font-jetbrains), monospace',
             fontSize: '10px',
             letterSpacing: '0.1em',
@@ -298,7 +298,7 @@ export default function SearchOverlay({ open, onClose }: Props) {
 const kbdStyle: React.CSSProperties = {
   fontFamily: 'var(--font-jetbrains), monospace',
   fontSize: '9px',
-  background: '#0A0908',
+  background: '#15110D',
   border: '1px solid rgba(244,240,232,0.12)',
   color: '#9B9285',
   padding: '1px 5px',

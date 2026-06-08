@@ -131,7 +131,7 @@ ${opts.preheader ? `<div style="display:none; max-height:0; overflow:hidden; vis
             <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:32px 0 0;">
               <tr>
                 <td style="background-color:#C9A961; padding:14px 28px;">
-                  <a href="${escapeHtml(opts.cta.url)}" style="display:inline-block; font-family:Menlo, Consolas, monospace; font-size:11px; letter-spacing:0.28em; color:#0A0908; text-decoration:none; text-transform:uppercase;">${escapeHtml(opts.cta.label)} &rarr;</a>
+                  <a href="${escapeHtml(opts.cta.url)}" style="display:inline-block; font-family:Menlo, Consolas, monospace; font-size:11px; letter-spacing:0.28em; color:#15110D; text-decoration:none; text-transform:uppercase;">${escapeHtml(opts.cta.label)} &rarr;</a>
                 </td>
               </tr>
             </table>` : ''}

@@ -21,7 +21,7 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
       <Header />
       <main
         style={{
-          background: '#0A0908',
+          background: '#15110D',
           minHeight: '70vh',
           display: 'flex',
           alignItems: 'center',
@@ -95,7 +95,7 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
                   display: 'inline-block',
                   padding: '16px 32px',
                   background: '#C9A961',
-                  color: '#0A0908',
+                  color: '#15110D',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '11px',
                   letterSpacing: '0.3em',
@@ -113,7 +113,7 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
                   display: 'inline-block',
                   padding: '16px 32px',
                   background: '#C9A961',
-                  color: '#0A0908',
+                  color: '#15110D',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '11px',
                   letterSpacing: '0.3em',

@@ -6,11 +6,14 @@
    ═══════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* ── KOYU ZEMIN ── */
-  --color-ink: #0A0908;           /* Ana zemin — sıcak siyah */
-  --color-ink-2: #141210;          /* Panel/kart zemini */
-  --color-ink-3: #1E1B17;          /* Vurgu paneller */
-  --color-ink-4: #2A251E;          /* Hover yüzeyler */
+  /* ── KOYU ZEMIN ──
+     v2: ink ailesi bir miktar açıldı — saf siyah (#0A0908) ürün
+     fotolarını boğuyordu. "Kavrulmuş kahve" tonuna geçti; ürünler
+     daha hava alıyor, gold rozetlerin kontrastı korunuyor. */
+  --color-ink: #15110D;            /* Ana zemin (eski #0A0908) */
+  --color-ink-2: #1C1814;          /* Panel/kart zemini (eski #141210) */
+  --color-ink-3: #25201A;          /* Vurgu paneller (önceki #1E1B17) */
+  --color-ink-4: #322B22;          /* Hover yüzeyler (önceki #2A251E) */
 
   /* ── AÇIK ZEMIN ── */
   --color-bone: #F4F0E8;           /* Ana açık zemin */
@@ -19,8 +22,8 @@
 
   /* ── METİN ── */
   --color-cream: #F4F0E8;          /* Koyu zeminde ana metin */
-  --color-cream-muted: #B8B0A0;    /* Koyu zeminde soluk metin */
-  --color-cream-faint: #6E665A;    /* Koyu zeminde çok soluk */
+  --color-cream-muted: #C3BCA9;    /* Soluk metin — biraz parlatıldı (B8B0A0) */
+  --color-cream-faint: #7D7466;    /* Çok soluk — okunaklılık için açıldı (6E665A) */
 
   --color-text: #1A1714;           /* Açık zeminde ana metin */
   --color-text-muted: #6B6258;     /* Açık zeminde soluk */

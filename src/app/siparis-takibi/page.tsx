@@ -60,7 +60,7 @@ export default async function SiparisTakibiPage({ searchParams }: { searchParams
   return (
     <>
       <Header />
-      <main style={{ background: '#0A0908', minHeight: '70vh' }}>
+      <main style={{ background: '#15110D', minHeight: '70vh' }}>
         {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
@@ -100,7 +100,7 @@ export default async function SiparisTakibiPage({ searchParams }: { searchParams
             <form
               method="get"
               style={{
-                background: '#141210',
+                background: '#1C1814',
                 border: '1px solid rgba(244,240,232,0.08)',
                 padding: 'clamp(20px, 4vw, 32px)',
               }}
@@ -158,7 +158,7 @@ export default async function SiparisTakibiPage({ searchParams }: { searchParams
                   width: '100%',
                   padding: 'clamp(14px, 3vw, 16px)',
                   backgroundColor: '#C9A961',
-                  color: '#0A0908',
+                  color: '#15110D',
                   fontFamily: 'var(--font-jetbrains), monospace',
                   fontSize: '11px',
                   letterSpacing: '0.28em',
@@ -245,7 +245,7 @@ function OrderResultPanel({ order, items }: { order: Order; items: OrderItem[] }
 
       {/* Status timeline */}
       {!isCancelled ? (
-        <div style={{ background: '#141210', border: '1px solid rgba(244,240,232,0.08)', padding: 'clamp(20px, 4vw, 32px)', marginBottom: '24px' }}>
+        <div style={{ background: '#1C1814', border: '1px solid rgba(244,240,232,0.08)', padding: 'clamp(20px, 4vw, 32px)', marginBottom: '24px' }}>
           <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 24px' }}>
             Durum
           </p>
@@ -276,7 +276,7 @@ function OrderResultPanel({ order, items }: { order: Order; items: OrderItem[] }
                         display: 'inline-flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        color: '#0A0908',
+                        color: '#15110D',
                         fontFamily: 'var(--font-jetbrains), monospace',
                         fontSize: '11px',
                         fontWeight: 600,
@@ -332,13 +332,13 @@ function OrderResultPanel({ order, items }: { order: Order; items: OrderItem[] }
       )}
 
       {/* Ürünler */}
-      <div style={{ background: '#141210', border: '1px solid rgba(244,240,232,0.08)', padding: 'clamp(20px, 4vw, 32px)', marginBottom: '24px' }}>
+      <div style={{ background: '#1C1814', border: '1px solid rgba(244,240,232,0.08)', padding: 'clamp(20px, 4vw, 32px)', marginBottom: '24px' }}>
         <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 20px' }}>
           Ürünler
         </p>
         {items.map((it) => (
           <div key={it.id} style={{ display: 'flex', gap: '14px', paddingBottom: '16px', marginBottom: '16px', borderBottom: '1px solid rgba(244,240,232,0.05)' }}>
-            <div style={{ width: '64px', height: '80px', flexShrink: 0, background: '#0A0908', position: 'relative' }}>
+            <div style={{ width: '64px', height: '80px', flexShrink: 0, background: '#15110D', position: 'relative' }}>
               {it.product_image ? (
                 <Image src={it.product_image} alt={it.product_name} fill sizes="64px" style={{ objectFit: 'cover' }} />
               ) : (
@@ -381,7 +381,7 @@ function OrderResultPanel({ order, items }: { order: Order; items: OrderItem[] }
 
       {/* Teslimat adresi */}
       {ship && (
-        <div style={{ background: '#141210', border: '1px solid rgba(244,240,232,0.08)', padding: 'clamp(20px, 4vw, 32px)', marginBottom: '24px' }}>
+        <div style={{ background: '#1C1814', border: '1px solid rgba(244,240,232,0.08)', padding: 'clamp(20px, 4vw, 32px)', marginBottom: '24px' }}>
           <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 16px' }}>
             Teslimat Adresi
           </p>

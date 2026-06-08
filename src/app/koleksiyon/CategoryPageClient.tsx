@@ -87,7 +87,7 @@ export default function CategoryPageClient({
             alignItems: 'center',
             padding: '14px 20px',
             borderBottom: '1px solid rgba(244,240,232,0.08)',
-            background: '#0A0908',
+            background: '#15110D',
           }}
         >
           <button

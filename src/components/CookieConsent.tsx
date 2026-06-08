@@ -76,7 +76,7 @@ export default function CookieConsent() {
         .cookie-btn-primary {
           background-color: #C9A961;
           border: 1px solid #C9A961;
-          color: #0A0908;
+          color: #15110D;
           font-weight: 500;
         }
         .cookie-btn-primary:hover { background-color: #D4B879; border-color: #D4B879; }

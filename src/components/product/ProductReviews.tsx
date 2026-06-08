@@ -39,7 +39,7 @@ export default function ProductReviews({ productId, reviews, stats, isLoggedIn, 
     <section
       style={{
         padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 48px)',
-        backgroundColor: '#0A0908',
+        backgroundColor: '#15110D',
         borderTop: '1px solid rgba(244,240,232,0.06)',
       }}
     >

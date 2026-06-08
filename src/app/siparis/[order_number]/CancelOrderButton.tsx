@@ -93,7 +93,7 @@ export default function CancelOrderButton({ orderNumber, email }: Props) {
             padding: '12px 20px',
             backgroundColor: '#D17B6A',
             border: '1px solid #D17B6A',
-            color: '#0A0908',
+            color: '#15110D',
             fontFamily: 'var(--font-jetbrains), monospace',
             fontSize: '11px',
             letterSpacing: '0.22em',

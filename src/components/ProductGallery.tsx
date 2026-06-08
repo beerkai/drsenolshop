@@ -26,7 +26,7 @@ export default function ProductGallery({ images, productName }: Props) {
         @media (max-width: 480px) { .gallery-main { aspect-ratio: 1 / 1; } }
       `}</style>
       {/* Ana görsel */}
-      <div className="gallery-main" style={{ position: 'relative', backgroundColor: '#141210', overflow: 'hidden' }}>
+      <div className="gallery-main" style={{ position: 'relative', backgroundColor: '#1C1814', overflow: 'hidden' }}>
         {selected && !errors[selectedIdx] ? (
           <Image
             src={selected}
@@ -75,7 +75,7 @@ export default function ProductGallery({ images, productName }: Props) {
               {!errors[idx] ? (
                 <Image src={img} alt={`${productName} ${idx + 1}`} fill sizes="(max-width: 768px) 56px, 68px" style={{ objectFit: 'cover', opacity: idx === selectedIdx ? 1 : 0.55, transition: 'opacity 0.2s' }} onError={() => setErrors(p => ({ ...p, [idx]: true }))} />
               ) : (
-                <div style={{ position: 'absolute', inset: 0, backgroundColor: '#141210', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ position: 'absolute', inset: 0, backgroundColor: '#1C1814', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <span style={{ color: '#3A3530', fontSize: '10px' }}>—</span>
                 </div>
               )}

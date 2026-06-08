@@ -28,7 +28,7 @@ export default function CategoryHero({
     <section
       lang="tr"
       style={{
-        backgroundColor: '#0A0908',
+        backgroundColor: '#15110D',
         padding: 'clamp(36px, 8vw, 64px) clamp(18px, 5vw, 24px) clamp(28px, 7vw, 48px)',
         borderBottom: '1px solid rgba(244,240,232,0.08)',
         textAlign: 'center',

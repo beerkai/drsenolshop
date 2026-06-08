@@ -19,7 +19,7 @@ export default function GlobalError({
 
   return (
     <html lang="tr">
-      <body style={{ margin: 0, backgroundColor: '#0A0908', color: '#F4F0E8', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      <body style={{ margin: 0, backgroundColor: '#15110D', color: '#F4F0E8', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
         <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 16px', textAlign: 'center' }}>
           <p style={{ fontSize: '11px', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C9A961', margin: '0 0 16px' }}>
             Bir şeyler ters gitti
@@ -38,7 +38,7 @@ export default function GlobalError({
                 padding: '13px 24px',
                 backgroundColor: '#C9A961',
                 border: '1px solid #C9A961',
-                color: '#0A0908',
+                color: '#15110D',
                 fontFamily: 'monospace',
                 fontSize: '12px',
                 letterSpacing: '0.22em',

@@ -80,7 +80,7 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
             top: '100%',
             right: 0,
             marginTop: '6px',
-            background: '#141210',
+            background: '#1C1814',
             border: '1px solid rgba(244,240,232,0.15)',
             minWidth: '240px',
             zIndex: 50,

@@ -49,7 +49,7 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
       style={{
         display: 'flex',
         flexDirection: 'column',
-        background: '#0A0908',
+        background: '#15110D',
         opacity: inStock ? 1 : 0.75,
         cursor: inStock ? 'pointer' : 'default',
         textDecoration: 'none',
@@ -76,7 +76,7 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
         style={{
           position: 'relative',
           aspectRatio: '4 / 5',
-          background: '#141210',
+          background: '#1C1814',
           overflow: 'hidden',
           flexShrink: 0,
         }}
@@ -148,7 +148,7 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
               fontFamily: 'var(--font-jetbrains)',
               fontSize: '9px',
               letterSpacing: '0.22em',
-              color: '#0A0908',
+              color: '#15110D',
               background: '#C9A961',
               padding: '5px 9px',
               textTransform: 'uppercase',
@@ -307,7 +307,7 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
                 fontFamily: 'var(--font-jetbrains)',
                 fontSize: '10px',
                 letterSpacing: '0.25em',
-                color: isHovered ? '#0A0908' : '#F4F0E8',
+                color: isHovered ? '#15110D' : '#F4F0E8',
                 textTransform: 'uppercase',
                 transition: 'color 0.3s',
               }}
@@ -316,7 +316,7 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
             </span>
             <span
               style={{
-                color: isHovered ? '#0A0908' : '#C9A961',
+                color: isHovered ? '#15110D' : '#C9A961',
                 fontSize: '14px',
                 lineHeight: 1,
                 transition: 'color 0.3s',

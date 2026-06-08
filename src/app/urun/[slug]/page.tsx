@@ -90,13 +90,13 @@ export default async function UrunPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: toJsonLdScript([productSchema, breadcrumbLd(breadcrumbs)]) }}
       />
-      <main style={{ backgroundColor: '#0A0908', minHeight: '100vh' }}>
+      <main style={{ backgroundColor: '#15110D', minHeight: '100vh' }}>
         <ProductDetailClient product={product} />
 
         {description && (
           <section
             className="product-desc-section"
-            style={{ backgroundColor: '#141210', borderTop: '1px solid rgba(244,240,232,0.06)' }}
+            style={{ backgroundColor: '#1C1814', borderTop: '1px solid rgba(244,240,232,0.06)' }}
           >
             <style>{`
               .product-desc-section {

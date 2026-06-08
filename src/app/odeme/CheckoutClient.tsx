@@ -283,7 +283,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
         <p style={{ color: '#B8B0A0', fontSize: '14px', marginBottom: '32px' }}>
           Önce sepetinize ürün ekleyin.
         </p>
-        <Link href="/koleksiyon" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '14px 28px', backgroundColor: '#C9A961', color: '#0A0908', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.25em', textTransform: 'uppercase', textDecoration: 'none' }}>
+        <Link href="/koleksiyon" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '14px 28px', backgroundColor: '#C9A961', color: '#15110D', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.25em', textTransform: 'uppercase', textDecoration: 'none' }}>
           Koleksiyona Git →
         </Link>
       </div>
@@ -330,7 +330,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
         .checkout-summary {
           position: sticky;
           top: 108px;
-          background-color: #141210;
+          background-color: #1C1814;
           padding: 28px;
           border: 1px solid rgba(244,240,232,0.06);
         }
@@ -524,7 +524,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
               width: '100%',
               padding: '20px',
               backgroundColor: submitting ? '#9C7C3C' : '#C9A961',
-              color: '#0A0908',
+              color: '#15110D',
               fontFamily: 'var(--font-jetbrains)',
               fontSize: '12px',
               letterSpacing: '0.28em',
@@ -545,7 +545,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
           <div style={{ marginBottom: '24px' }}>
             {validated.lines.map((line) => (
               <div key={`${line.productId}:${line.variantId ?? 'base'}`} style={{ display: 'flex', gap: '14px', paddingBottom: '16px', marginBottom: '16px', borderBottom: '1px solid rgba(244,240,232,0.06)' }}>
-                <div style={{ width: '60px', height: '75px', flexShrink: 0, backgroundColor: '#0A0908', position: 'relative' }}>
+                <div style={{ width: '60px', height: '75px', flexShrink: 0, backgroundColor: '#15110D', position: 'relative' }}>
                   {line.image ? (
                     <Image src={line.image} alt={line.name} fill sizes="60px" style={{ objectFit: 'cover' }} />
                   ) : (

@@ -37,7 +37,7 @@ export default async function AdminGirisPage({ searchParams }: { searchParams: S
                 alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: 'var(--ad-gold)',
-                color: '#0A0908',
+                color: '#15110D',
                 fontFamily: 'var(--font-jetbrains), monospace',
                 fontSize: '11px',
                 fontWeight: 500,

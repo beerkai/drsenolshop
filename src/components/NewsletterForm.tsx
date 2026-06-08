@@ -73,7 +73,7 @@ export default function NewsletterForm() {
           style={{
             padding: '14px 24px',
             backgroundColor: status === 'loading' ? '#9C7C3C' : '#C9A961',
-            color: '#0A0908',
+            color: '#15110D',
             border: 'none',
             fontFamily: 'var(--font-mono)',
             fontSize: '10px',

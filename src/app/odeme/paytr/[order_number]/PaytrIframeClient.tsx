@@ -60,7 +60,7 @@ export default function PaytrIframeClient({ orderNumber }: { orderNumber: string
   }
 
   return (
-    <div style={{ background: '#141210', padding: '16px', border: '1px solid rgba(244,240,232,0.08)' }}>
+    <div style={{ background: '#1C1814', padding: '16px', border: '1px solid rgba(244,240,232,0.08)' }}>
       <iframe
         id="paytriframe"
         src={iframeUrl}

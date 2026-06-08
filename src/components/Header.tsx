@@ -180,24 +180,25 @@ export default function Header() {
       <header
         className={`sticky top-0 z-50 transition-all duration-500 relative ${
           scrolled
-            ? 'bg-[rgba(10,9,8,0.88)] backdrop-blur-xl border-b border-[var(--color-line-dark)]'
+            ? 'bg-[rgba(21,17,13,0.88)] backdrop-blur-xl border-b border-[var(--color-line-dark)]'
             : 'bg-ink border-b border-transparent'
         }`}
       >
         {/*
-          Sticky satır: max-width yok — ultra-wide’da da Sepet viewport sağına (PAD_X ile), Bal sola yakın kalır.
-          İçerik alanı 1440 ile sınırlı olsa bile başlık kenarlara yayılır; logo iki eşit 1fr kolon arasında geometrik ortada.
+          Sticky satır: top announcement bar ile aynı max-width (1440) + mx-auto.
+          Mobile ve desktop'ta aynı 1fr|auto|1fr grid → logo gerçek geometrik ortada.
+          Side col'lar minmax(0,1fr); content justify-self ile yan kenarlara yapışır.
         */}
         <div
-          className="w-full"
+          className="mx-auto w-full max-w-[1440px]"
           style={{
             paddingLeft: PAD_X,
             paddingRight: PAD_X,
           }}
         >
-          {/* Mobil: auto | 1fr | auto — lg+: 1fr | auto | 1fr */}
+          {/* Tüm breakpoint'lerde simetrik: 1fr | auto | 1fr */}
           <div
-            className="grid w-full min-h-[clamp(64px,12vw,96px)] grid-cols-[minmax(0,auto)_minmax(0,1fr)_minmax(0,auto)] items-center gap-x-3 sm:gap-x-4 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:gap-x-0"
+            className="grid w-full min-h-[clamp(64px,12vw,96px)] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-3 sm:gap-x-4 lg:gap-x-0"
             style={{ minHeight: 'clamp(64px, 12vw, 96px)' }}
           >
             <div className="flex min-w-0 items-center justify-self-start">
@@ -335,7 +336,7 @@ export default function Header() {
                       justifyContent: 'center',
                       padding: '0 4px',
                       background: '#C9A961',
-                      color: '#0A0908',
+                      color: '#15110D',
                       fontSize: '9px',
                       lineHeight: 1,
                       fontWeight: 500,

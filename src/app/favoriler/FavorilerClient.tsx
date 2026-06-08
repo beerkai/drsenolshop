@@ -107,7 +107,7 @@ export default function FavorilerClient() {
               gap: '10px',
               padding: 'clamp(14px, 3vw, 16px) clamp(22px, 5vw, 32px)',
               backgroundColor: '#C9A961',
-              color: '#0A0908',
+              color: '#15110D',
               fontFamily: 'var(--font-jetbrains), monospace',
               fontSize: '11px',
               letterSpacing: '0.22em',
@@ -227,7 +227,7 @@ function FavCard({
   onRemove: () => void
 }) {
   return (
-    <div style={{ background: '#0A0908', position: 'relative' }}>
+    <div style={{ background: '#15110D', position: 'relative' }}>
       {/* Üst sağ — kaldır */}
       <button
         type="button"
@@ -266,7 +266,7 @@ function FavCard({
         }}
       >
         {/* Görsel */}
-        <div style={{ position: 'relative', aspectRatio: '4 / 5', background: '#141210', overflow: 'hidden' }}>
+        <div style={{ position: 'relative', aspectRatio: '4 / 5', background: '#1C1814', overflow: 'hidden' }}>
           {image ? (
             <Image
               src={image}

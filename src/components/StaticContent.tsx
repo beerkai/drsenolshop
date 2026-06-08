@@ -108,7 +108,7 @@ export function InfoBox({ title, children }: { title: string; children: ReactNod
   return (
     <div
       style={{
-        background: '#141210',
+        background: '#1C1814',
         border: '1px solid rgba(244,240,232,0.08)',
         padding: 'clamp(24px, 4vw, 36px)',
         margin: '32px 0',

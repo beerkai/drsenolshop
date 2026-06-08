@@ -139,7 +139,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     priceData && inStock ? priceData.current * quantity : null
 
   return (
-    <div className="pdc-root" style={{ background: '#0A0908', color: '#F4F0E8' }}>
+    <div className="pdc-root" style={{ background: '#15110D', color: '#F4F0E8' }}>
       <style>{`
         .pdc-root .pdc-main {
           display: flex;
@@ -154,7 +154,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           flex: none;
           width: 100%;
           padding: 0;
-          background: #0A0908;
+          background: #15110D;
         }
         @media (min-width: 1024px) {
           .pdc-root .pdc-gallery-col {
@@ -355,7 +355,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  background: '#141210',
+                  background: '#1C1814',
                 }}
               >
                 <p
@@ -583,7 +583,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                         fontFamily: 'var(--font-mono)',
                         fontSize: '9px',
                         letterSpacing: '0.18em',
-                        color: '#0A0908',
+                        color: '#15110D',
                         background: '#C9A961',
                         padding: '4px 8px',
                         textTransform: 'uppercase',
@@ -776,7 +776,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 width: '100%',
                 padding: '16px 28px',
                 background: !inStock ? '#2A251E' : added ? '#9C7C3C' : '#C9A961',
-                color: !inStock ? '#6E665A' : '#0A0908',
+                color: !inStock ? '#6E665A' : '#15110D',
                 border: 'none',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '12px',
@@ -924,7 +924,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             width: '100%',
             padding: '14px 20px',
             background: !inStock ? '#1E1B17' : added ? '#9C7C3C' : '#C9A961',
-            color: !inStock ? '#6E665A' : '#0A0908',
+            color: !inStock ? '#6E665A' : '#15110D',
             border: 'none',
             fontFamily: 'var(--font-mono)',
             fontSize: '11px',

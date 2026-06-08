@@ -146,7 +146,7 @@
 
 .ad-btn-primary {
   background-color: var(--ad-gold);
-  color: #0A0908;
+  color: #15110D;
   border-color: var(--ad-gold);
 }
 .ad-btn-primary:hover:not(:disabled) {
