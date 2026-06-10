@@ -26,7 +26,7 @@ export default function LegalDraftNotice() {
             fontSize: '10px',
             letterSpacing: '0.28em',
             textTransform: 'uppercase',
-            color: '#D17B6A',
+            color: 'var(--color-alert-soft)',
             padding: '4px 10px',
             border: '1px solid rgba(209, 123, 106, 0.5)',
             flexShrink: 0,
@@ -35,9 +35,9 @@ export default function LegalDraftNotice() {
           Taslak
         </span>
         <p style={{ margin: 0, color: '#E5DDC8', fontSize: '13px', lineHeight: 1.6, flex: 1 }}>
-          Bu sayfadaki <strong style={{ color: '#F4F0E8' }}>şirket bilgileri</strong> henüz tamamlanmamıştır.
+          Bu sayfadaki <strong style={{ color: 'var(--color-cream)' }}>şirket bilgileri</strong> henüz tamamlanmamıştır.
           Resmi başvurular ve işlemler için lütfen{' '}
-          <a href="/iletisim" style={{ color: '#C9A961', textDecoration: 'underline' }}>iletişim sayfası</a>
+          <a href="/iletisim" style={{ color: 'var(--color-gold)', textDecoration: 'underline' }}>iletişim sayfası</a>
           {' '}üzerinden bize ulaşın.
         </p>
       </div>

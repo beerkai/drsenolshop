@@ -69,25 +69,25 @@ export default async function OrderPage({ params }: Props) {
   return (
     <>
       <Header />
-      <main style={{ backgroundColor: '#15110D', minHeight: '70vh' }}>
+      <main style={{ backgroundColor: 'var(--color-ink)', minHeight: '70vh' }}>
         <div className="px-responsive" style={{ maxWidth: '900px', margin: '0 auto', paddingTop: '48px', paddingBottom: '96px' }}>
 
           {/* Üst — başarı */}
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <div style={{ width: '60px', height: '60px', margin: '0 auto 20px', border: '1px solid #C9A961', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%' }}>
-              <span style={{ color: '#C9A961', fontSize: '24px' }}>✓</span>
+            <div style={{ width: '60px', height: '60px', margin: '0 auto 20px', border: '1px solid var(--color-gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%' }}>
+              <span style={{ color: 'var(--color-gold)', fontSize: '24px' }}>✓</span>
             </div>
-            <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 14px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 14px' }}>
               Teşekkürler
             </p>
-            <h1 style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 500, lineHeight: 1.1, margin: '0 0 12px' }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 500, lineHeight: 1.1, margin: '0 0 12px' }}>
               Siparişiniz alındı.
             </h1>
-            <p style={{ color: '#B8B0A0', fontSize: '15px', marginTop: '8px' }}>
-              Sipariş No: <span style={{ fontFamily: 'var(--font-jetbrains)', color: '#F4F0E8', letterSpacing: '0.1em' }}>{order.order_number}</span>
+            <p style={{ color: 'var(--color-cream-muted)', fontSize: '15px', marginTop: '8px' }}>
+              Sipariş No: <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-cream)', letterSpacing: '0.1em' }}>{order.order_number}</span>
             </p>
             {!isOwner && (
-              <p style={{ color: '#6E665A', fontSize: '12px', marginTop: '10px', fontStyle: 'italic' }}>
+              <p style={{ color: 'var(--color-cream-faint)', fontSize: '12px', marginTop: '10px', fontStyle: 'italic' }}>
                 Tam detaylar için hesabınıza giriş yapın.
               </p>
             )}
@@ -95,15 +95,15 @@ export default async function OrderPage({ params }: Props) {
 
           {/* PayTR pending — kart ile ödeme CTA'sı */}
           {isPaytr && order.status === 'pending' && (
-            <div style={{ backgroundColor: '#1C1814', border: '1px solid rgba(201,169,97,0.3)', padding: '28px', marginBottom: '32px' }}>
-              <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 16px' }}>
+            <div style={{ backgroundColor: 'var(--color-ink-2)', border: '1px solid rgba(201,169,97,0.3)', padding: '28px', marginBottom: '32px' }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 16px' }}>
                 Kart ile Ödeme
               </p>
-              <h2 style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '22px', fontWeight: 500, lineHeight: 1.2, margin: '0 0 12px' }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '22px', fontWeight: 500, lineHeight: 1.2, margin: '0 0 12px' }}>
                 Kart ile ödemenizi tamamlayın.
               </h2>
-              <p style={{ color: '#B8B0A0', fontSize: '14px', lineHeight: 1.7, margin: '0 0 24px' }}>
-                <strong style={{ color: '#F4F0E8' }}>{formatPrice(Number(order.total_amount))}</strong> tutarındaki ödemenizi güvenli ödeme sayfamızdan tek seferde gerçekleştirebilirsiniz.
+              <p style={{ color: 'var(--color-cream-muted)', fontSize: '14px', lineHeight: 1.7, margin: '0 0 24px' }}>
+                <strong style={{ color: 'var(--color-cream)' }}>{formatPrice(Number(order.total_amount))}</strong> tutarındaki ödemenizi güvenli ödeme sayfamızdan tek seferde gerçekleştirebilirsiniz.
               </p>
               <Link
                 href={`/odeme/paytr/${order.order_number}`}
@@ -112,9 +112,9 @@ export default async function OrderPage({ params }: Props) {
                   alignItems: 'center',
                   gap: '10px',
                   padding: '14px 28px',
-                  backgroundColor: '#C9A961',
-                  color: '#15110D',
-                  fontFamily: 'var(--font-jetbrains)',
+                  backgroundColor: 'var(--color-gold)',
+                  color: 'var(--color-ink)',
+                  fontFamily: 'var(--font-mono)',
                   fontSize: '11px',
                   letterSpacing: '0.28em',
                   textTransform: 'uppercase',
@@ -129,13 +129,13 @@ export default async function OrderPage({ params }: Props) {
 
           {/* Banka bilgileri — havale ise */}
           {isBankTransfer && order.status === 'pending' && (
-            <div style={{ backgroundColor: '#1C1814', border: '1px solid rgba(201,169,97,0.3)', padding: '28px', marginBottom: '32px' }}>
-              <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 16px' }}>
+            <div style={{ backgroundColor: 'var(--color-ink-2)', border: '1px solid rgba(201,169,97,0.3)', padding: '28px', marginBottom: '32px' }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 16px' }}>
                 Banka Bilgileri
               </p>
-              <p style={{ color: '#B8B0A0', fontSize: '14px', lineHeight: 1.7, marginBottom: '20px' }}>
-                Aşağıdaki hesaba <strong style={{ color: '#F4F0E8' }}>{formatPrice(Number(order.total_amount))}</strong> tutarında havale/EFT gönderin.
-                Açıklamaya <strong style={{ color: '#C9A961' }}>{order.order_number}</strong> yazmayı unutmayın.
+              <p style={{ color: 'var(--color-cream-muted)', fontSize: '14px', lineHeight: 1.7, marginBottom: '20px' }}>
+                Aşağıdaki hesaba <strong style={{ color: 'var(--color-cream)' }}>{formatPrice(Number(order.total_amount))}</strong> tutarında havale/EFT gönderin.
+                Açıklamaya <strong style={{ color: 'var(--color-gold)' }}>{order.order_number}</strong> yazmayı unutmayın.
               </p>
               {hasBankInfo ? (
                 <div style={{ borderTop: '1px solid rgba(244,240,232,0.08)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -144,7 +144,7 @@ export default async function OrderPage({ params }: Props) {
                   <Row label="IBAN" value={bankInfo!.iban ? formatIban(bankInfo!.iban) : '—'} />
                 </div>
               ) : (
-                <p style={{ marginTop: '12px', fontSize: '12px', color: '#6E665A', fontStyle: 'italic' }}>
+                <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--color-cream-faint)', fontStyle: 'italic' }}>
                   * Banka bilgileri henüz yapılandırılmamış. Lütfen sipariş onayı için bizimle iletişime geçin.
                 </p>
               )}
@@ -152,14 +152,14 @@ export default async function OrderPage({ params }: Props) {
           )}
 
           {/* Sipariş özeti */}
-          <div style={{ backgroundColor: '#1C1814', padding: '28px', marginBottom: '32px' }}>
-            <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 20px' }}>
+          <div style={{ backgroundColor: 'var(--color-ink-2)', padding: '28px', marginBottom: '32px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 20px' }}>
               Ürünler
             </p>
 
             {items.map((it) => (
               <div key={it.id} style={{ display: 'flex', gap: '14px', paddingBottom: '16px', marginBottom: '16px', borderBottom: '1px solid rgba(244,240,232,0.06)' }}>
-                <div style={{ width: '64px', height: '80px', flexShrink: 0, backgroundColor: '#15110D', position: 'relative' }}>
+                <div style={{ width: '64px', height: '80px', flexShrink: 0, backgroundColor: 'var(--color-ink)', position: 'relative' }}>
                   {it.product_image ? (
                     <Image src={it.product_image} alt={it.product_name} fill sizes="64px" style={{ objectFit: 'cover' }} />
                   ) : (
@@ -167,20 +167,20 @@ export default async function OrderPage({ params }: Props) {
                   )}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '16px', fontWeight: 500, lineHeight: 1.3, margin: '0 0 4px' }}>
+                  <p style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '16px', fontWeight: 500, lineHeight: 1.3, margin: '0 0 4px' }}>
                     {it.product_name}
                   </p>
                   {it.variant_label && (
-                    <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '9px', letterSpacing: '0.18em', color: '#6E665A', textTransform: 'uppercase', margin: '0 0 6px' }}>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.18em', color: 'var(--color-cream-faint)', textTransform: 'uppercase', margin: '0 0 6px' }}>
                       {it.variant_label}
                     </p>
                   )}
-                  <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', color: '#B8B0A0', margin: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-cream-muted)', margin: 0 }}>
                     {it.quantity} × {formatPrice(Number(it.unit_price))}
                   </p>
                 </div>
                 <div style={{ flexShrink: 0 }}>
-                  <p style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '16px', fontWeight: 500, margin: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '16px', fontWeight: 500, margin: 0 }}>
                     {formatPrice(Number(it.subtotal))}
                   </p>
                 </div>
@@ -192,8 +192,8 @@ export default async function OrderPage({ params }: Props) {
               <SummaryRow label="· içerisinde KDV" value={formatPrice(Number(order.tax_amount ?? 0))} muted />
               <SummaryRow label="Kargo" value={Number(order.shipping_cost ?? 0) > 0 ? formatPrice(Number(order.shipping_cost)) : 'Ücretsiz'} highlight={Number(order.shipping_cost ?? 0) === 0} />
               <div style={{ borderTop: '1px solid rgba(244,240,232,0.12)', marginTop: '8px', paddingTop: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.22em', color: '#F4F0E8', textTransform: 'uppercase' }}>Toplam</span>
-                <span style={{ fontFamily: 'var(--font-cormorant)', color: '#C9A961', fontSize: '26px', fontWeight: 500 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', color: 'var(--color-cream)', textTransform: 'uppercase' }}>Toplam</span>
+                <span style={{ fontFamily: 'var(--font-display)', color: 'var(--color-gold)', fontSize: '26px', fontWeight: 500 }}>
                   {formatPrice(Number(order.total_amount))}
                 </span>
               </div>
@@ -201,8 +201,8 @@ export default async function OrderPage({ params }: Props) {
           </div>
 
           {/* İletişim — maskeli/açık */}
-          <div style={{ backgroundColor: '#1C1814', padding: '28px', marginBottom: '32px' }}>
-            <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 14px' }}>
+          <div style={{ backgroundColor: 'var(--color-ink-2)', padding: '28px', marginBottom: '32px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 14px' }}>
               İletişim
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -215,32 +215,32 @@ export default async function OrderPage({ params }: Props) {
 
           {/* Teslimat adresi */}
           {ship && (
-            <div style={{ backgroundColor: '#1C1814', padding: '28px', marginBottom: '32px' }}>
-              <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 20px' }}>
+            <div style={{ backgroundColor: 'var(--color-ink-2)', padding: '28px', marginBottom: '32px' }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 20px' }}>
                 Teslimat
               </p>
-              <p style={{ color: '#F4F0E8', fontSize: '15px', lineHeight: 1.7, margin: 0 }}>
+              <p style={{ color: 'var(--color-cream)', fontSize: '15px', lineHeight: 1.7, margin: 0 }}>
                 {displayShipName}<br />
                 {displayShipLine1}{displayShipLine2 ? `, ${displayShipLine2}` : ''}<br />
                 {ship.district}, {ship.city}{ship.postal_code ? ` ${ship.postal_code}` : ''}<br />
-                <span style={{ color: '#6E665A', fontSize: '13px', fontFamily: 'var(--font-jetbrains)' }}>{displayShipPhone}</span>
+                <span style={{ color: 'var(--color-cream-faint)', fontSize: '13px', fontFamily: 'var(--font-mono)' }}>{displayShipPhone}</span>
               </p>
             </div>
           )}
 
           {/* Durum + Devam + İptal */}
           <div style={{ textAlign: 'center', paddingTop: '8px' }}>
-            <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.22em', color: '#B8B0A0', textTransform: 'uppercase', marginBottom: '24px' }}>
-              Durum: <span style={{ color: '#C9A961' }}>{STATUS_LABEL[order.status] ?? order.status}</span>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', color: 'var(--color-cream-muted)', textTransform: 'uppercase', marginBottom: '24px' }}>
+              Durum: <span style={{ color: 'var(--color-gold)' }}>{STATUS_LABEL[order.status] ?? order.status}</span>
             </p>
-            <Link href="/koleksiyon" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '14px 28px', border: '1px solid rgba(244,240,232,0.2)', color: '#F4F0E8', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.25em', textTransform: 'uppercase', textDecoration: 'none' }}>
+            <Link href="/koleksiyon" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '14px 28px', border: '1px solid rgba(244,240,232,0.2)', color: 'var(--color-cream)', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.25em', textTransform: 'uppercase', textDecoration: 'none' }}>
               Alışverişe Devam Et →
             </Link>
 
             {/* Müşteri iptal — yalnız pending ve sahip */}
             {order.status === 'pending' && isOwner && (
               <div style={{ marginTop: '32px', paddingTop: '24px', borderTop: '1px solid rgba(244,240,232,0.08)' }}>
-                <p style={{ fontSize: '12px', color: '#6E665A', marginBottom: '14px' }}>
+                <p style={{ fontSize: '12px', color: 'var(--color-cream-faint)', marginBottom: '14px' }}>
                   Henüz ödeme bekleniyor. İhtiyaç halinde siparişinizi iptal edebilirsiniz.
                 </p>
                 <CancelOrderButton orderNumber={order.order_number} email={order.customer_email} />
@@ -258,17 +258,17 @@ export default async function OrderPage({ params }: Props) {
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '16px' }}>
-      <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.22em', color: '#6E665A', textTransform: 'uppercase' }}>{label}</span>
-      <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '13px', color: '#F4F0E8', letterSpacing: '0.08em' }}>{value}</span>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.22em', color: 'var(--color-cream-faint)', textTransform: 'uppercase' }}>{label}</span>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--color-cream)', letterSpacing: '0.08em' }}>{value}</span>
     </div>
   )
 }
 
 function SummaryRow({ label, value, muted, highlight }: { label: string; value: string; muted?: boolean; highlight?: boolean }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-jetbrains)', fontSize: muted ? '11px' : '12px', color: muted ? '#6E665A' : '#B8B0A0' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: muted ? '11px' : '12px', color: muted ? 'var(--color-cream-faint)' : 'var(--color-cream-muted)' }}>
       <span>{label}</span>
-      <span style={highlight ? { color: '#5C7A3F' } : undefined}>{value}</span>
+      <span style={highlight ? { color: 'var(--color-success)' } : undefined}>{value}</span>
     </div>
   )
 }

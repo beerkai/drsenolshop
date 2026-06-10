@@ -28,13 +28,13 @@ const STATUS_LABEL: Record<string, string> = {
 }
 
 const STATUS_COLOR: Record<string, string> = {
-  pending: '#B8B0A0',
-  paid: '#C9A961',
-  preparing: '#C9A961',
-  shipped: '#7AAD8B',
-  delivered: '#7AAD8B',
-  cancelled: '#D17B6A',
-  refunded: '#D17B6A',
+  pending: 'var(--color-cream-muted)',
+  paid: 'var(--color-gold)',
+  preparing: 'var(--color-gold)',
+  shipped: 'var(--color-success-soft)',
+  delivered: 'var(--color-success-soft)',
+  cancelled: 'var(--color-alert-soft)',
+  refunded: 'var(--color-alert-soft)',
 }
 
 function str(v: unknown): string {
@@ -83,7 +83,7 @@ export default async function HesabimPage() {
   return (
     <>
       <Header />
-      <main style={{ background: '#15110D', minHeight: '70vh' }}>
+      <main style={{ background: 'var(--color-ink)', minHeight: '70vh' }}>
         {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
@@ -101,19 +101,19 @@ export default async function HesabimPage() {
           <div className="px-responsive" style={{ maxWidth: '1080px', margin: '0 auto' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '24px' }}>
               <div>
-                <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 16px' }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 16px' }}>
                   Hesabım
                 </p>
                 <h1
                   className="font-display"
-                  style={{ color: '#F4F0E8', fontSize: 'clamp(34px, 5vw, 52px)', fontWeight: 500, lineHeight: 1.1, letterSpacing: '-0.015em', margin: 0 }}
+                  style={{ color: 'var(--color-cream)', fontSize: 'clamp(34px, 5vw, 52px)', fontWeight: 500, lineHeight: 1.1, letterSpacing: '-0.015em', margin: 0 }}
                 >
                   Hoş geldiniz,{' '}
-                  <span style={{ color: '#C9A961', fontStyle: 'italic', fontWeight: 300 }}>
+                  <span style={{ color: 'var(--color-gold)', fontStyle: 'italic', fontWeight: 300 }}>
                     {(me.user.user_metadata?.full_name as string | undefined) || me.email.split('@')[0]}
                   </span>
                 </h1>
-                <p style={{ color: '#B8B0A0', fontSize: '14px', marginTop: '14px', fontFamily: 'var(--font-jetbrains), monospace' }}>
+                <p style={{ color: 'var(--color-cream-muted)', fontSize: '14px', marginTop: '14px', fontFamily: 'var(--font-mono)' }}>
                   {me.email}
                 </p>
               </div>
@@ -123,7 +123,7 @@ export default async function HesabimPage() {
                   Favorilerim
                 </Link>
                 {me.isAdmin && (
-                  <Link href="/admin" style={{ ...pillBtnStyle, borderColor: '#C9A961', color: '#C9A961' }}>
+                  <Link href="/admin" style={{ ...pillBtnStyle, borderColor: 'var(--color-gold)', color: 'var(--color-gold)' }}>
                     Admin Paneli
                   </Link>
                 )}
@@ -137,10 +137,10 @@ export default async function HesabimPage() {
         <section style={{ paddingBottom: 'clamp(32px, 5vw, 48px)' }}>
           <div className="px-responsive" style={{ maxWidth: '1080px', margin: '0 auto' }}>
             <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-              <h2 className="font-display" style={{ color: '#F4F0E8', fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 500, margin: 0, letterSpacing: '-0.01em' }}>
+              <h2 className="font-display" style={{ color: 'var(--color-cream)', fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 500, margin: 0, letterSpacing: '-0.01em' }}>
                 Profil & Adres
               </h2>
-              <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6E665A' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-cream-faint)' }}>
                 Bir sonraki siparişte otomatik dolar
               </span>
             </div>
@@ -154,10 +154,10 @@ export default async function HesabimPage() {
         <section style={{ paddingBottom: 'clamp(40px, 6vw, 64px)' }}>
           <div className="px-responsive" style={{ maxWidth: '1080px', margin: '0 auto' }}>
             <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-              <h2 className="font-display" style={{ color: '#F4F0E8', fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 500, margin: 0, letterSpacing: '-0.01em' }}>
+              <h2 className="font-display" style={{ color: 'var(--color-cream)', fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 500, margin: 0, letterSpacing: '-0.01em' }}>
                 Sipariş Geçmişim
               </h2>
-              <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6E665A' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-cream-faint)' }}>
                 {orderList.length} sipariş
               </span>
             </div>
@@ -178,7 +178,7 @@ export default async function HesabimPage() {
         <section style={{ paddingBottom: 'clamp(56px, 10vw, 96px)' }}>
           <div className="px-responsive" style={{ maxWidth: '1080px', margin: '0 auto' }}>
             <div style={{ marginBottom: '20px' }}>
-              <h2 className="font-display" style={{ color: '#F4F0E8', fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 500, margin: 0, letterSpacing: '-0.01em' }}>
+              <h2 className="font-display" style={{ color: 'var(--color-cream)', fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 500, margin: 0, letterSpacing: '-0.01em' }}>
                 Tehlikeli Bölge
               </h2>
             </div>
@@ -201,10 +201,10 @@ function EmptyState() {
         textAlign: 'center',
       }}
     >
-      <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.28em', textTransform: 'uppercase', color: '#C9A961', margin: '0 0 16px' }}>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--color-gold)', margin: '0 0 16px' }}>
         Henüz sipariş yok
       </p>
-      <p style={{ color: '#B8B0A0', fontSize: '14px', lineHeight: 1.7, margin: '0 auto 24px', maxWidth: '420px' }}>
+      <p style={{ color: 'var(--color-cream-muted)', fontSize: '14px', lineHeight: 1.7, margin: '0 auto 24px', maxWidth: '420px' }}>
         İlk siparişiniz burada görünecek. Koleksiyondan başlayın.
       </p>
       <Link href="/koleksiyon" style={pillBtnStyle}>
@@ -215,7 +215,7 @@ function EmptyState() {
 }
 
 function OrderCard({ order, email }: { order: Order; email: string }) {
-  const statusColor = STATUS_COLOR[order.status] || '#B8B0A0'
+  const statusColor = STATUS_COLOR[order.status] || 'var(--color-cream-muted)'
   const statusLabel = STATUS_LABEL[order.status] || order.status
   const trackingHref = `/siparis-takibi?order=${encodeURIComponent(order.order_number)}&email=${encodeURIComponent(email)}`
 
@@ -233,13 +233,13 @@ function OrderCard({ order, email }: { order: Order; email: string }) {
     >
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
         <div style={{ minWidth: 0 }}>
-          <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#6E665A', margin: '0 0 8px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--color-cream-faint)', margin: '0 0 8px' }}>
             Sipariş No
           </p>
-          <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '15px', color: '#F4F0E8', margin: 0, letterSpacing: '0.03em' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '15px', color: 'var(--color-cream)', margin: 0, letterSpacing: '0.03em' }}>
             {order.order_number}
           </p>
-          <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', color: '#6E665A', margin: '8px 0 0' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-cream-faint)', margin: '8px 0 0' }}>
             {formatDate(order.created_at)}
           </p>
         </div>
@@ -251,7 +251,7 @@ function OrderCard({ order, email }: { order: Order; email: string }) {
               padding: '5px 10px',
               border: `1px solid ${statusColor}`,
               color: statusColor,
-              fontFamily: 'var(--font-jetbrains), monospace',
+              fontFamily: 'var(--font-mono)',
               fontSize: '10px',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -262,7 +262,7 @@ function OrderCard({ order, email }: { order: Order; email: string }) {
           </span>
           <p
             className="font-display"
-            style={{ color: '#F4F0E8', fontSize: 'clamp(20px, 2.5vw, 24px)', margin: 0, letterSpacing: '-0.01em' }}
+            style={{ color: 'var(--color-cream)', fontSize: 'clamp(20px, 2.5vw, 24px)', margin: 0, letterSpacing: '-0.01em' }}
           >
             {formatPrice(order.total_amount)}
           </p>
@@ -270,14 +270,14 @@ function OrderCard({ order, email }: { order: Order; email: string }) {
       </div>
 
       {order.tracking_number && (
-        <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid rgba(244,240,232,0.06)', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', color: '#B8B0A0' }}>
-          <span style={{ color: '#6E665A', letterSpacing: '0.18em', textTransform: 'uppercase' }}>Kargo No · </span>
-          <span style={{ color: '#C9A961', letterSpacing: '0.05em' }}>{order.tracking_number}</span>
+        <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid rgba(244,240,232,0.06)', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-cream-muted)' }}>
+          <span style={{ color: 'var(--color-cream-faint)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>Kargo No · </span>
+          <span style={{ color: 'var(--color-gold)', letterSpacing: '0.05em' }}>{order.tracking_number}</span>
         </div>
       )}
 
       <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
-        <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#C9A961' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--color-gold)' }}>
           Detayları gör →
         </span>
         <ReorderButton orderNumber={order.order_number} />
@@ -287,13 +287,13 @@ function OrderCard({ order, email }: { order: Order; email: string }) {
 }
 
 const crumbDim: React.CSSProperties = {
-  fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.18em',
-  color: '#6E665A', textTransform: 'uppercase', textDecoration: 'none',
+  fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.18em',
+  color: 'var(--color-cream-faint)', textTransform: 'uppercase', textDecoration: 'none',
 }
 const crumbSep: React.CSSProperties = { color: 'rgba(244,240,232,0.15)', fontSize: '10px' }
 const crumbActive: React.CSSProperties = {
-  fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.18em',
-  color: '#C9A961', textTransform: 'uppercase',
+  fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.18em',
+  color: 'var(--color-gold)', textTransform: 'uppercase',
 }
 
 const pillBtnStyle: React.CSSProperties = {
@@ -302,8 +302,8 @@ const pillBtnStyle: React.CSSProperties = {
   padding: '11px 18px',
   backgroundColor: 'transparent',
   border: '1px solid rgba(244,240,232,0.2)',
-  color: '#F4F0E8',
-  fontFamily: 'var(--font-jetbrains), monospace',
+  color: 'var(--color-cream)',
+  fontFamily: 'var(--font-mono)',
   fontSize: '11px',
   letterSpacing: '0.22em',
   textTransform: 'uppercase',

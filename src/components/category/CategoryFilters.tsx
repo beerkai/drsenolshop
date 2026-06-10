@@ -60,10 +60,10 @@ export default function CategoryFilters({
         >
           <h3
             style={{
-              fontFamily: 'var(--font-cormorant)',
+              fontFamily: 'var(--font-display)',
               fontSize: '22px',
               fontWeight: 500,
-              color: '#F4F0E8',
+              color: 'var(--color-cream)',
               margin: 0,
             }}
           >
@@ -76,7 +76,7 @@ export default function CategoryFilters({
             style={{
               background: 'transparent',
               border: 'none',
-              color: '#B8B0A0',
+              color: 'var(--color-cream-muted)',
               fontSize: '24px',
               cursor: 'pointer',
               lineHeight: 1,
@@ -90,10 +90,10 @@ export default function CategoryFilters({
 
       <p
         style={{
-          fontFamily: 'var(--font-jetbrains)',
+          fontFamily: 'var(--font-mono)',
           fontSize: '9px',
           letterSpacing: '0.25em',
-          color: '#C9A961',
+          color: 'var(--color-gold)',
           textTransform: 'uppercase',
           margin: '0 0 14px',
         }}
@@ -111,9 +111,9 @@ export default function CategoryFilters({
       >
         <li
           style={{
-            color: activeCategorySlug === null ? '#F4F0E8' : '#B8B0A0',
+            color: activeCategorySlug === null ? 'var(--color-cream)' : 'var(--color-cream-muted)',
             fontWeight: activeCategorySlug === null ? 500 : 400,
-            borderLeft: activeCategorySlug === null ? '2px solid #C9A961' : 'none',
+            borderLeft: activeCategorySlug === null ? '2px solid var(--color-gold)' : 'none',
             paddingLeft: activeCategorySlug === null ? '10px' : '12px',
             marginLeft: activeCategorySlug === null ? '-12px' : '0',
             transition: 'all 0.2s',
@@ -131,9 +131,9 @@ export default function CategoryFilters({
           <li
             key={cat.id}
             style={{
-              color: activeCategorySlug === cat.slug ? '#F4F0E8' : '#B8B0A0',
+              color: activeCategorySlug === cat.slug ? 'var(--color-cream)' : 'var(--color-cream-muted)',
               fontWeight: activeCategorySlug === cat.slug ? 500 : 400,
-              borderLeft: activeCategorySlug === cat.slug ? '2px solid #C9A961' : 'none',
+              borderLeft: activeCategorySlug === cat.slug ? '2px solid var(--color-gold)' : 'none',
               paddingLeft: activeCategorySlug === cat.slug ? '10px' : '12px',
               marginLeft: activeCategorySlug === cat.slug ? '-12px' : '0',
               transition: 'all 0.2s',
@@ -152,10 +152,10 @@ export default function CategoryFilters({
 
       <p
         style={{
-          fontFamily: 'var(--font-jetbrains)',
+          fontFamily: 'var(--font-mono)',
           fontSize: '9px',
           letterSpacing: '0.25em',
-          color: '#C9A961',
+          color: 'var(--color-gold)',
           textTransform: 'uppercase',
           margin: '0 0 14px',
         }}
@@ -170,7 +170,7 @@ export default function CategoryFilters({
           cursor: 'pointer',
           fontSize: '13px',
           marginBottom: '10px',
-          color: filters.inStockOnly ? '#F4F0E8' : '#B8B0A0',
+          color: filters.inStockOnly ? 'var(--color-cream)' : 'var(--color-cream-muted)',
         }}
       >
         <input
@@ -183,8 +183,8 @@ export default function CategoryFilters({
           style={{
             width: '14px',
             height: '14px',
-            border: '1px solid #C9A961',
-            background: filters.inStockOnly ? '#C9A961' : 'transparent',
+            border: '1px solid var(--color-gold)',
+            background: filters.inStockOnly ? 'var(--color-gold)' : 'transparent',
             position: 'relative',
             flexShrink: 0,
           }}
@@ -195,7 +195,7 @@ export default function CategoryFilters({
                 position: 'absolute',
                 top: '0',
                 left: '4px',
-                color: '#15110D',
+                color: 'var(--color-ink)',
                 fontSize: '11px',
                 lineHeight: 1,
               }}
@@ -213,7 +213,7 @@ export default function CategoryFilters({
           gap: '10px',
           cursor: 'pointer',
           fontSize: '13px',
-          color: !filters.inStockOnly ? '#F4F0E8' : '#B8B0A0',
+          color: !filters.inStockOnly ? 'var(--color-cream)' : 'var(--color-cream-muted)',
         }}
       >
         <input
@@ -226,8 +226,8 @@ export default function CategoryFilters({
           style={{
             width: '14px',
             height: '14px',
-            border: `1px solid ${!filters.inStockOnly ? '#C9A961' : 'rgba(244,240,232,0.3)'}`,
-            background: !filters.inStockOnly ? '#C9A961' : 'transparent',
+            border: `1px solid ${!filters.inStockOnly ? 'var(--color-gold)' : 'rgba(244,240,232,0.3)'}`,
+            background: !filters.inStockOnly ? 'var(--color-gold)' : 'transparent',
             position: 'relative',
             flexShrink: 0,
           }}
@@ -238,7 +238,7 @@ export default function CategoryFilters({
                 position: 'absolute',
                 top: '0',
                 left: '4px',
-                color: '#15110D',
+                color: 'var(--color-ink)',
                 fontSize: '11px',
                 lineHeight: 1,
               }}
@@ -263,9 +263,9 @@ export default function CategoryFilters({
             type="button"
             onClick={onClose}
             style={{
-              background: '#C9A961',
-              color: '#15110D',
-              fontFamily: 'var(--font-jetbrains)',
+              background: 'var(--color-gold)',
+              color: 'var(--color-ink)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '11px',
               letterSpacing: '0.25em',
               textTransform: 'uppercase',
@@ -282,8 +282,8 @@ export default function CategoryFilters({
             onClick={() => onFiltersChange({ inStockOnly: true })}
             style={{
               background: 'transparent',
-              color: '#6E665A',
-              fontFamily: 'var(--font-jetbrains)',
+              color: 'var(--color-cream-faint)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '10px',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -306,7 +306,7 @@ export default function CategoryFilters({
         style={{
           width: '240px',
           borderRight: '1px solid rgba(244,240,232,0.08)',
-          background: '#15110D',
+          background: 'var(--color-ink)',
           flexShrink: 0,
         }}
       >
@@ -340,7 +340,7 @@ export default function CategoryFilters({
           bottom: 0,
           width: '85vw',
           maxWidth: '320px',
-          background: '#15110D',
+          background: 'var(--color-ink)',
           borderRight: '1px solid rgba(244,240,232,0.08)',
           zIndex: 101,
           transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',

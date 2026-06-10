@@ -25,7 +25,7 @@ export default function GizlilikPolitikasiPage() {
       <H2>Kim olduğumuz</H2>
       <P>
         6698 sayılı Kişisel Verilerin Korunması Kanunu (&ldquo;KVKK&rdquo;) uyarınca veri sorumlusu sıfatıyla{' '}
-        <strong style={{ color: '#F4F0E8' }}>{co.legal_name}</strong> (&ldquo;Şirket&rdquo; / &ldquo;{co.trade_name}&rdquo;) hareket etmektedir.
+        <strong style={{ color: 'var(--color-cream)' }}>{co.legal_name}</strong> (&ldquo;Şirket&rdquo; / &ldquo;{co.trade_name}&rdquo;) hareket etmektedir.
         Aşağıda kişisel verilerinizin hangi amaçlarla işlendiği, kimlerle paylaşılabileceği ve KVKK kapsamındaki haklarınız açıklanmıştır.
       </P>
 
@@ -34,7 +34,7 @@ export default function GizlilikPolitikasiPage() {
           {co.legal_name}<br />
           {co.address}<br />
           {co.city_country}<br />
-          E-posta: <a href={`mailto:${co.email}`} style={{ color: '#C9A961' }}>{co.email}</a><br />
+          E-posta: <a href={`mailto:${co.email}`} style={{ color: 'var(--color-gold)' }}>{co.email}</a><br />
           Telefon: {co.phone}<br />
           KEP: {co.kep}<br />
           MERSIS: {co.mersis}
@@ -96,7 +96,7 @@ export default function GizlilikPolitikasiPage() {
       <Eyebrow>Saklama Süresi</Eyebrow>
       <H2>Ne kadar süre saklıyoruz</H2>
       <P>
-        Sipariş ve fatura kayıtları Vergi Usul Kanunu ile Türk Ticaret Kanunu uyarınca <strong style={{ color: '#F4F0E8' }}>10 yıl</strong>{' '}
+        Sipariş ve fatura kayıtları Vergi Usul Kanunu ile Türk Ticaret Kanunu uyarınca <strong style={{ color: 'var(--color-cream)' }}>10 yıl</strong>{' '}
         saklanır. Hesap verileriniz, hesabınızı silmediğiniz sürece üyeliğiniz boyunca tutulur. Pazarlama izinleri
         izninizi geri çekene kadar geçerlidir.
       </P>
@@ -119,7 +119,7 @@ export default function GizlilikPolitikasiPage() {
       <Eyebrow>Başvuru</Eyebrow>
       <H2>Bize nasıl ulaşırsınız</H2>
       <P>
-        Yukarıdaki haklarınızı kullanmak için talebinizi <a href={`mailto:${co.email}`} style={{ color: '#C9A961' }}>{co.email}</a>{' '}
+        Yukarıdaki haklarınızı kullanmak için talebinizi <a href={`mailto:${co.email}`} style={{ color: 'var(--color-gold)' }}>{co.email}</a>{' '}
         e-posta adresimize veya yazılı olarak şirket adresimize iletebilirsiniz. Başvurunuz en geç 30 gün içinde yanıtlanır.
       </P>
 

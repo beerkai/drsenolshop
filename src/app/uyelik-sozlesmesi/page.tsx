@@ -23,8 +23,8 @@ export default function UyelikSozlesmesiPage() {
       <Eyebrow>Taraflar</Eyebrow>
       <H2>Sözleşmenin tarafları</H2>
       <P>
-        İşbu Üyelik Sözleşmesi (&ldquo;Sözleşme&rdquo;), <strong style={{ color: '#F4F0E8' }}>{co.legal_name}</strong> (&ldquo;{co.trade_name}&rdquo;)
-        ile <a href={co.website} style={{ color: '#C9A961' }}>{co.website}</a> sitesine üye olan gerçek/tüzel kişi (&ldquo;Üye&rdquo;) arasında
+        İşbu Üyelik Sözleşmesi (&ldquo;Sözleşme&rdquo;), <strong style={{ color: 'var(--color-cream)' }}>{co.legal_name}</strong> (&ldquo;{co.trade_name}&rdquo;)
+        ile <a href={co.website} style={{ color: 'var(--color-gold)' }}>{co.website}</a> sitesine üye olan gerçek/tüzel kişi (&ldquo;Üye&rdquo;) arasında
         elektronik ortamda akdedilir. Üye, hesap oluşturma işlemini tamamlayarak bu sözleşmenin tüm hükümlerini okuyup kabul ettiğini
         beyan eder.
       </P>
@@ -65,7 +65,7 @@ export default function UyelikSozlesmesiPage() {
       <Eyebrow>Fesih</Eyebrow>
       <H2>Üyeliğin sona ermesi</H2>
       <P>
-        Üye dilediği zaman <a href={`mailto:${co.email}`} style={{ color: '#C9A961' }}>{co.email}</a> üzerinden hesabının silinmesini talep edebilir.
+        Üye dilediği zaman <a href={`mailto:${co.email}`} style={{ color: 'var(--color-gold)' }}>{co.email}</a> üzerinden hesabının silinmesini talep edebilir.
         Şirket, sözleşme hükümlerine aykırılık halinde üyeliği önceden bildirim yaparak veya işin niteliği gereği bildirimsiz olarak
         askıya alma / sonlandırma hakkını saklı tutar.
       </P>
@@ -88,7 +88,7 @@ export default function UyelikSozlesmesiPage() {
         <p style={{ margin: 0 }}>
           {co.legal_name}<br />
           {co.address}<br />
-          E-posta: <a href={`mailto:${co.email}`} style={{ color: '#C9A961' }}>{co.email}</a>
+          E-posta: <a href={`mailto:${co.email}`} style={{ color: 'var(--color-gold)' }}>{co.email}</a>
         </p>
       </InfoBox>
     </StaticPageLayout>

@@ -46,8 +46,8 @@ export default function CancelOrderButton({ orderNumber, email }: Props) {
           padding: '13px 22px',
           backgroundColor: 'transparent',
           border: '1px solid rgba(209,123,106,0.5)',
-          color: '#D17B6A',
-          fontFamily: 'var(--font-jetbrains), monospace',
+          color: 'var(--color-alert-soft)',
+          fontFamily: 'var(--font-mono)',
           fontSize: '11px',
           letterSpacing: '0.22em',
           textTransform: 'uppercase',
@@ -66,21 +66,21 @@ export default function CancelOrderButton({ orderNumber, email }: Props) {
       aria-label="Sipariş iptal onayı"
       style={{
         padding: '20px',
-        border: '1px solid #D17B6A',
+        border: '1px solid var(--color-alert-soft)',
         backgroundColor: 'rgba(209,123,106,0.06)',
         maxWidth: '420px',
         margin: '0 auto',
         textAlign: 'left',
       }}
     >
-      <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.28em', color: '#D17B6A', textTransform: 'uppercase', margin: '0 0 12px' }}>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.28em', color: 'var(--color-alert-soft)', textTransform: 'uppercase', margin: '0 0 12px' }}>
         Onay
       </p>
       <p style={{ color: '#D4CFC2', fontSize: '14px', lineHeight: 1.6, margin: '0 0 18px' }}>
         Bu siparişi iptal etmek istediğinize emin misiniz? Bu işlem geri alınamaz.
       </p>
       {error && (
-        <div role="alert" style={{ padding: '10px 12px', border: '1px solid #C8472D', backgroundColor: 'rgba(200,71,45,0.1)', color: '#F4F0E8', fontSize: '13px', marginBottom: '14px' }}>
+        <div role="alert" style={{ padding: '10px 12px', border: '1px solid var(--color-alert)', backgroundColor: 'rgba(200,71,45,0.1)', color: 'var(--color-cream)', fontSize: '13px', marginBottom: '14px' }}>
           {error}
         </div>
       )}
@@ -91,10 +91,10 @@ export default function CancelOrderButton({ orderNumber, email }: Props) {
           disabled={loading}
           style={{
             padding: '12px 20px',
-            backgroundColor: '#D17B6A',
-            border: '1px solid #D17B6A',
-            color: '#15110D',
-            fontFamily: 'var(--font-jetbrains), monospace',
+            backgroundColor: 'var(--color-alert-soft)',
+            border: '1px solid var(--color-alert-soft)',
+            color: 'var(--color-ink)',
+            fontFamily: 'var(--font-mono)',
             fontSize: '11px',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
@@ -114,8 +114,8 @@ export default function CancelOrderButton({ orderNumber, email }: Props) {
             padding: '12px 20px',
             backgroundColor: 'transparent',
             border: '1px solid rgba(244,240,232,0.2)',
-            color: '#B8B0A0',
-            fontFamily: 'var(--font-jetbrains), monospace',
+            color: 'var(--color-cream-muted)',
+            fontFamily: 'var(--font-mono)',
             fontSize: '11px',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',

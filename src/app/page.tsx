@@ -71,7 +71,7 @@ export default function Home() {
               className="absolute inset-0"
               style={{
                 opacity: 0.025,
-                backgroundImage: 'radial-gradient(circle at 1px 1px, #C9A961 1px, transparent 0)',
+                backgroundImage: 'radial-gradient(circle at 1px 1px, var(--color-gold) 1px, transparent 0)',
                 backgroundSize: '40px 40px',
               }}
             />
@@ -170,7 +170,7 @@ export default function Home() {
             <div className="flex flex-wrap justify-center animate-fade-up-3" style={{ gap: '14px' }}>
               <Link
                 href="/kategori/bal"
-                className="inline-flex items-center bg-gold text-ink font-mono uppercase hover:bg-[#D4B570] transition-colors duration-300"
+                className="inline-flex items-center bg-gold text-ink font-mono uppercase hover:bg-[var(--color-gold-bright)] transition-colors duration-300"
                 style={{ gap: '12px', padding: 'clamp(14px, 3vw, 16px) clamp(22px, 5vw, 32px)', fontSize: 'clamp(10px, 2vw, 11px)', letterSpacing: '0.22em', minHeight: '44px' }}
               >
                 Koleksiyonu Keşfet
@@ -227,7 +227,7 @@ export default function Home() {
         </section>
 
         {/* ════════════ BÖLÜM II — KATEGORİLER ════════════ */}
-        <section style={{ backgroundColor: '#F4F0E8', paddingTop: 'clamp(32px, 7vw, 96px)', paddingBottom: 'clamp(32px, 7vw, 96px)', borderBottom: '1px solid rgba(26,23,20,0.08)' }}>
+        <section style={{ backgroundColor: 'var(--color-bone)', paddingTop: 'clamp(32px, 7vw, 96px)', paddingBottom: 'clamp(32px, 7vw, 96px)', borderBottom: '1px solid rgba(26,23,20,0.08)' }}>
           <div
             className="mx-auto px-responsive"
             style={{
@@ -311,7 +311,7 @@ export default function Home() {
         {/* ════════════ BÖLÜM III — HİKÂYEMİZ ════════════ */}
         <section
           style={{
-            backgroundColor: '#F4F0E8',
+            backgroundColor: 'var(--color-bone)',
             paddingTop: 'clamp(32px, 7vw, 96px)',
             paddingBottom: 'clamp(32px, 7vw, 96px)',
             borderTop: '1px solid rgba(26,23,20,0.08)',

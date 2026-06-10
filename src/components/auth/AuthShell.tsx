@@ -33,10 +33,10 @@ export default function AuthShell({ eyebrow, title, subtitle, children }: Props)
           <Link
             href="/"
             style={{
-              fontFamily: 'var(--font-jetbrains)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '10px',
               letterSpacing: '0.18em',
-              color: '#6E665A',
+              color: 'var(--color-cream-faint)',
               textTransform: 'uppercase',
               textDecoration: 'none',
             }}
@@ -46,10 +46,10 @@ export default function AuthShell({ eyebrow, title, subtitle, children }: Props)
           <span style={{ color: 'rgba(244,240,232,0.15)', fontSize: '10px' }}>·</span>
           <span
             style={{
-              fontFamily: 'var(--font-jetbrains)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '10px',
               letterSpacing: '0.18em',
-              color: '#C9A961',
+              color: 'var(--color-gold)',
               textTransform: 'uppercase',
             }}
           >
@@ -67,21 +67,21 @@ export default function AuthShell({ eyebrow, title, subtitle, children }: Props)
         <div className="px-responsive" style={{ maxWidth: '480px', margin: '0 auto', textAlign: 'center' }}>
           <p
             style={{
-              fontFamily: 'var(--font-jetbrains)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '10px',
               letterSpacing: '0.3em',
-              color: '#C9A961',
+              color: 'var(--color-gold)',
               textTransform: 'uppercase',
               margin: '0 0 20px',
             }}
           >
             {eyebrow}
           </p>
-          <div style={{ width: '40px', height: '1px', backgroundColor: '#C9A961', margin: '0 auto 24px' }} />
+          <div style={{ width: '40px', height: '1px', backgroundColor: 'var(--color-gold)', margin: '0 auto 24px' }} />
           <h1
             className="font-display"
             style={{
-              color: '#F4F0E8',
+              color: 'var(--color-cream)',
               fontSize: 'clamp(30px, 5vw, 44px)',
               fontWeight: 500,
               lineHeight: 1.1,
@@ -92,7 +92,7 @@ export default function AuthShell({ eyebrow, title, subtitle, children }: Props)
             {title}
           </h1>
           {subtitle && (
-            <p style={{ color: '#B8B0A0', fontSize: '14px', lineHeight: 1.7, marginTop: '16px' }}>
+            <p style={{ color: 'var(--color-cream-muted)', fontSize: '14px', lineHeight: 1.7, marginTop: '16px' }}>
               {subtitle}
             </p>
           )}

@@ -44,7 +44,7 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
       <Header />
       <main
         style={{
-          background: '#15110D',
+          background: 'var(--color-ink)',
           minHeight: '70vh',
           display: 'flex',
           alignItems: 'center',
@@ -58,14 +58,14 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
               width: '72px',
               height: '72px',
               borderRadius: '50%',
-              background: '#C9A961',
+              background: 'var(--color-gold)',
               margin: '0 auto 32px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#15110D" strokeWidth="2.5" aria-hidden>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke='var(--color-ink)' strokeWidth="2.5" aria-hidden>
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </div>
@@ -75,7 +75,7 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
               fontFamily: 'var(--font-mono)',
               fontSize: 'clamp(10px, 2vw, 11px)',
               letterSpacing: '0.3em',
-              color: '#C9A961',
+              color: 'var(--color-gold)',
               textTransform: 'uppercase',
               margin: '0 0 16px',
             }}
@@ -85,10 +85,10 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
 
           <h1
             style={{
-              fontFamily: 'var(--font-cormorant)',
+              fontFamily: 'var(--font-display)',
               fontSize: 'clamp(28px, 5vw, 44px)',
               fontWeight: 500,
-              color: '#F4F0E8',
+              color: 'var(--color-cream)',
               margin: '0 0 24px',
               lineHeight: 1.2,
             }}
@@ -100,7 +100,7 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
             style={{
               fontSize: 'clamp(14px, 2.5vw, 16px)',
               lineHeight: 1.7,
-              color: '#B8B0A0',
+              color: 'var(--color-cream-muted)',
               margin: '0 0 32px',
             }}
           >
@@ -111,7 +111,7 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
           {order && orderNumber && (
             <div
               style={{
-                background: '#1C1814',
+                background: 'var(--color-ink-2)',
                 border: '1px solid rgba(244,240,232,0.08)',
                 padding: 'clamp(20px, 4vw, 32px)',
                 margin: '0 0 32px',
@@ -119,18 +119,18 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid rgba(244,240,232,0.06)' }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em', color: '#6E665A', textTransform: 'uppercase' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em', color: 'var(--color-cream-faint)', textTransform: 'uppercase' }}>
                   Sipariş No
                 </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#F4F0E8' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-cream)' }}>
                   {order.order_number}
                 </span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0' }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em', color: '#6E665A', textTransform: 'uppercase' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em', color: 'var(--color-cream-faint)', textTransform: 'uppercase' }}>
                   Tutar
                 </span>
-                <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: '18px', color: '#C9A961', fontWeight: 500 }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', color: 'var(--color-gold)', fontWeight: 500 }}>
                   {formatPrice(Number(order.total_amount))}
                 </span>
               </div>
@@ -145,7 +145,7 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
                   display: 'inline-block',
                   padding: '16px 32px',
                   background: 'transparent',
-                  color: '#F4F0E8',
+                  color: 'var(--color-cream)',
                   border: '1px solid rgba(244,240,232,0.2)',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '11px',
@@ -163,8 +163,8 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
               style={{
                 display: 'inline-block',
                 padding: '16px 48px',
-                background: '#C9A961',
-                color: '#15110D',
+                background: 'var(--color-gold)',
+                color: 'var(--color-ink)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '11px',
                 letterSpacing: '0.3em',

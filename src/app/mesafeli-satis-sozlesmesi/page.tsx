@@ -30,7 +30,7 @@ export default function MesafeliSatisSozlesmesiPage() {
           Unvan: {co.legal_name}<br />
           Adres: {co.address}, {co.city_country}<br />
           Telefon: {co.phone}<br />
-          E-posta: <a href={`mailto:${co.email}`} style={{ color: '#C9A961' }}>{co.email}</a><br />
+          E-posta: <a href={`mailto:${co.email}`} style={{ color: 'var(--color-gold)' }}>{co.email}</a><br />
           MERSIS No: {co.mersis}<br />
           Vergi Dairesi / VKN: {co.tax_office} / {co.tax_number}
         </p>
@@ -45,7 +45,7 @@ export default function MesafeliSatisSozlesmesiPage() {
       <Eyebrow>Madde 2</Eyebrow>
       <H2>Konu</H2>
       <P>
-        İşbu Sözleşme&apos;nin konusu, Alıcı&apos;nın Satıcı&apos;ya ait <a href={co.website} style={{ color: '#C9A961' }}>{co.website}</a>{' '}
+        İşbu Sözleşme&apos;nin konusu, Alıcı&apos;nın Satıcı&apos;ya ait <a href={co.website} style={{ color: 'var(--color-gold)' }}>{co.website}</a>{' '}
         internet sitesinden elektronik ortamda siparişini yaptığı, aşağıda nitelikleri ve satış fiyatı belirtilen ürünün(lerin) satışı ve
         teslimi ile ilgili olarak 6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği hükümleri gereğince
         tarafların hak ve yükümlülüklerinin saptanmasıdır.
@@ -75,9 +75,9 @@ export default function MesafeliSatisSozlesmesiPage() {
       <H2>Cayma hakkı</H2>
       <P>
         Alıcı, sözleşme konusu ürünü kendisine veya gösterdiği adresteki kişi/kuruluşa teslim tarihinden itibaren{' '}
-        <strong style={{ color: '#F4F0E8' }}>14 (on dört) gün</strong> içerisinde, Satıcı&apos;ya bildirmek şartıyla hiçbir hukuki ve cezai
+        <strong style={{ color: 'var(--color-cream)' }}>14 (on dört) gün</strong> içerisinde, Satıcı&apos;ya bildirmek şartıyla hiçbir hukuki ve cezai
         sorumluluk üstlenmeksizin ve hiçbir gerekçe göstermeksizin sözleşmeden cayma hakkına sahiptir. Cayma hakkı bildirimi yazılı olarak{' '}
-        <a href={`mailto:${co.email}`} style={{ color: '#C9A961' }}>{co.email}</a> adresine yapılabilir.
+        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-gold)' }}>{co.email}</a> adresine yapılabilir.
       </P>
       <P>
         Cayma hakkının kullanılması halinde Satıcı, cayma bildiriminin kendisine ulaştığı tarihten itibaren 14 gün içinde tüm ödemeleri,

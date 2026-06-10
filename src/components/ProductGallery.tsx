@@ -26,7 +26,7 @@ export default function ProductGallery({ images, productName }: Props) {
         @media (max-width: 480px) { .gallery-main { aspect-ratio: 1 / 1; } }
       `}</style>
       {/* Ana görsel */}
-      <div className="gallery-main" style={{ position: 'relative', backgroundColor: '#1C1814', overflow: 'hidden' }}>
+      <div className="gallery-main" style={{ position: 'relative', backgroundColor: 'var(--color-ink-2)', overflow: 'hidden' }}>
         {selected && !errors[selectedIdx] ? (
           <Image
             src={selected}
@@ -39,7 +39,7 @@ export default function ProductGallery({ images, productName }: Props) {
           />
         ) : (
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <p style={{ fontFamily: 'var(--font-cormorant)', color: '#3A3530', fontStyle: 'italic', fontSize: '18px', margin: 0, textAlign: 'center', padding: '0 24px' }}>
+            <p style={{ fontFamily: 'var(--font-display)', color: '#3A3530', fontStyle: 'italic', fontSize: '18px', margin: 0, textAlign: 'center', padding: '0 24px' }}>
               {productName}
             </p>
           </div>
@@ -48,11 +48,11 @@ export default function ProductGallery({ images, productName }: Props) {
         {hasMultiple && (
           <>
             <button type="button" onClick={prev} aria-label="Önceki"
-              style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(10,9,8,0.72)', border: '1px solid rgba(244,240,232,0.12)', color: '#F4F0E8', cursor: 'pointer', zIndex: 2, fontSize: '16px' }}>
+              style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(10,9,8,0.72)', border: '1px solid rgba(244,240,232,0.12)', color: 'var(--color-cream)', cursor: 'pointer', zIndex: 2, fontSize: '16px' }}>
               ←
             </button>
             <button type="button" onClick={next} aria-label="Sonraki"
-              style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(10,9,8,0.72)', border: '1px solid rgba(244,240,232,0.12)', color: '#F4F0E8', cursor: 'pointer', zIndex: 2, fontSize: '16px' }}>
+              style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(10,9,8,0.72)', border: '1px solid rgba(244,240,232,0.12)', color: 'var(--color-cream)', cursor: 'pointer', zIndex: 2, fontSize: '16px' }}>
               →
             </button>
           </>
@@ -60,7 +60,7 @@ export default function ProductGallery({ images, productName }: Props) {
 
         {/* Görsel sayacı */}
         {hasMultiple && (
-          <div style={{ position: 'absolute', bottom: '14px', right: '14px', fontFamily: 'var(--font-jetbrains)', fontSize: '9px', letterSpacing: '0.2em', color: '#B8B0A0', backgroundColor: 'rgba(10,9,8,0.7)', padding: '4px 8px' }}>
+          <div style={{ position: 'absolute', bottom: '14px', right: '14px', fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.2em', color: 'var(--color-cream-muted)', backgroundColor: 'rgba(10,9,8,0.7)', padding: '4px 8px' }}>
             {selectedIdx + 1} / {images.length}
           </div>
         )}
@@ -71,11 +71,11 @@ export default function ProductGallery({ images, productName }: Props) {
         <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '4px', WebkitOverflowScrolling: 'touch' }}>
           {images.map((img, idx) => (
             <button key={idx} type="button" onClick={() => setSelectedIdx(idx)} aria-pressed={idx === selectedIdx} aria-label={`Görsel ${idx + 1}`}
-              style={{ position: 'relative', flexShrink: 0, width: 'clamp(48px, 14vw, 56px)', height: 'clamp(60px, 17vw, 70px)', border: idx === selectedIdx ? '1px solid #C9A961' : '1px solid rgba(244,240,232,0.1)', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'transparent', transition: 'border-color 0.2s' }}>
+              style={{ position: 'relative', flexShrink: 0, width: 'clamp(48px, 14vw, 56px)', height: 'clamp(60px, 17vw, 70px)', border: idx === selectedIdx ? '1px solid var(--color-gold)' : '1px solid rgba(244,240,232,0.1)', overflow: 'hidden', cursor: 'pointer', padding: 0, background: 'transparent', transition: 'border-color 0.2s' }}>
               {!errors[idx] ? (
                 <Image src={img} alt={`${productName} ${idx + 1}`} fill sizes="(max-width: 768px) 56px, 68px" style={{ objectFit: 'cover', opacity: idx === selectedIdx ? 1 : 0.55, transition: 'opacity 0.2s' }} onError={() => setErrors(p => ({ ...p, [idx]: true }))} />
               ) : (
-                <div style={{ position: 'absolute', inset: 0, backgroundColor: '#1C1814', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ position: 'absolute', inset: 0, backgroundColor: 'var(--color-ink-2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <span style={{ color: '#3A3530', fontSize: '10px' }}>—</span>
                 </div>
               )}

@@ -26,12 +26,12 @@ export default async function PaytrOdemePage({ params }: { params: SP }) {
   return (
     <>
       <Header />
-      <main style={{ background: '#15110D', minHeight: '70vh', padding: '40px 16px' }}>
+      <main style={{ background: 'var(--color-ink)', minHeight: '70vh', padding: '40px 16px' }}>
         <div style={{ maxWidth: '760px', margin: '0 auto' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 14px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 14px' }}>
             Sipariş {order.order_number} · Kart ile Ödeme
           </p>
-          <h1 style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: 'clamp(28px, 4.5vw, 44px)', fontWeight: 500, margin: '0 0 32px', lineHeight: 1.1 }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: 'clamp(28px, 4.5vw, 44px)', fontWeight: 500, margin: '0 0 32px', lineHeight: 1.1 }}>
             Güvenli ödeme.
           </h1>
 
@@ -51,8 +51,8 @@ export default async function PaytrOdemePage({ params }: { params: SP }) {
 
 function NotConfiguredNotice() {
   return (
-    <div style={{ padding: '24px', border: '1px solid #D17B6A', backgroundColor: 'rgba(209,123,106,0.08)', color: '#F4F0E8' }}>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.2em', color: '#D17B6A', textTransform: 'uppercase', margin: '0 0 10px' }}>
+    <div style={{ padding: '24px', border: '1px solid var(--color-alert-soft)', backgroundColor: 'rgba(209,123,106,0.08)', color: 'var(--color-cream)' }}>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.2em', color: 'var(--color-alert-soft)', textTransform: 'uppercase', margin: '0 0 10px' }}>
         Hazırlık aşaması
       </p>
       <p style={{ margin: 0, lineHeight: 1.7 }}>
@@ -64,13 +64,13 @@ function NotConfiguredNotice() {
 
 function AlreadyPaidNotice({ orderNumber }: { orderNumber: string }) {
   return (
-    <div style={{ padding: '24px', border: '1px solid #5C7A3F', backgroundColor: 'rgba(92,122,63,0.1)', color: '#F4F0E8' }}>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.2em', color: '#7AAD8B', textTransform: 'uppercase', margin: '0 0 10px' }}>
+    <div style={{ padding: '24px', border: '1px solid var(--color-success)', backgroundColor: 'rgba(92,122,63,0.1)', color: 'var(--color-cream)' }}>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.2em', color: 'var(--color-success-soft)', textTransform: 'uppercase', margin: '0 0 10px' }}>
         ✓ Ödeme alındı
       </p>
       <p style={{ margin: 0, lineHeight: 1.7 }}>
         Bu siparişin ödemesi tamamlanmış. Sipariş detayı için{' '}
-        <a href={`/siparis/${orderNumber}`} style={{ color: '#C9A961' }}>buraya tıklayın</a>.
+        <a href={`/siparis/${orderNumber}`} style={{ color: 'var(--color-gold)' }}>buraya tıklayın</a>.
       </p>
     </div>
   )

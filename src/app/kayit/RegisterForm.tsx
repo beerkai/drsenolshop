@@ -112,7 +112,7 @@ export default function RegisterForm({ next }: { next: string }) {
 
       {error && (
         <div role="alert" style={errorBoxStyle}>
-          <span aria-hidden style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', flexShrink: 0 }}>✕</span>
+          <span aria-hidden style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', flexShrink: 0 }}>✕</span>
           <span style={{ flex: 1 }}>{error}</span>
         </div>
       )}
@@ -125,13 +125,13 @@ export default function RegisterForm({ next }: { next: string }) {
           style={{ ...altBtnStyle, marginBottom: '18px', textDecoration: 'none' }}
         >
           Giriş sayfasına git
-          <span style={{ fontFamily: 'var(--font-jetbrains)', opacity: 0.7 }}>→</span>
+          <span style={{ fontFamily: 'var(--font-mono)', opacity: 0.7 }}>→</span>
         </Link>
       )}
 
       {info && (
         <div role="status" style={infoBoxStyle}>
-          <span aria-hidden style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', flexShrink: 0, color: '#C9A961' }}>✓</span>
+          <span aria-hidden style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', flexShrink: 0, color: 'var(--color-gold)' }}>✓</span>
           <span>{info}</span>
         </div>
       )}
@@ -147,16 +147,16 @@ export default function RegisterForm({ next }: { next: string }) {
         }}
       >
         {loading ? 'Hesap oluşturuluyor…' : 'Hesabımı oluştur'}
-        {!loading && <span style={{ fontFamily: 'var(--font-jetbrains)', opacity: 0.7 }}>→</span>}
+        {!loading && <span style={{ fontFamily: 'var(--font-mono)', opacity: 0.7 }}>→</span>}
       </button>
 
-      <p style={{ fontSize: '11px', color: '#6E665A', lineHeight: 1.6, margin: '16px 0 0', textAlign: 'center' }}>
+      <p style={{ fontSize: '11px', color: 'var(--color-cream-faint)', lineHeight: 1.6, margin: '16px 0 0', textAlign: 'center' }}>
         Hesap oluşturarak{' '}
-        <Link href="/uyelik-sozlesmesi" target="_blank" rel="noopener" className="auth-link" style={{ color: '#B8B0A0', textDecoration: 'underline' }}>
+        <Link href="/uyelik-sozlesmesi" target="_blank" rel="noopener" className="auth-link" style={{ color: 'var(--color-cream-muted)', textDecoration: 'underline' }}>
           Üyelik Sözleşmesi
         </Link>{' '}
         ve{' '}
-        <Link href="/gizlilik-politikasi" target="_blank" rel="noopener" className="auth-link" style={{ color: '#B8B0A0', textDecoration: 'underline' }}>
+        <Link href="/gizlilik-politikasi" target="_blank" rel="noopener" className="auth-link" style={{ color: 'var(--color-cream-muted)', textDecoration: 'underline' }}>
           Gizlilik Politikası
         </Link>
         &apos;nı kabul etmiş olursunuz.
@@ -176,11 +176,11 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 const labelStyle: React.CSSProperties = {
   display: 'block',
-  fontFamily: 'var(--font-jetbrains), monospace',
+  fontFamily: 'var(--font-mono)',
   fontSize: '10px',
   letterSpacing: '0.22em',
   textTransform: 'uppercase',
-  color: '#B8B0A0',
+  color: 'var(--color-cream-muted)',
   marginBottom: '8px',
 }
 
@@ -189,8 +189,8 @@ const inputStyle: React.CSSProperties = {
   padding: '13px 14px',
   backgroundColor: 'rgba(244,240,232,0.04)',
   border: '1px solid rgba(244,240,232,0.15)',
-  color: '#F4F0E8',
-  fontFamily: 'var(--font-jetbrains), monospace',
+  color: 'var(--color-cream)',
+  fontFamily: 'var(--font-mono)',
   fontSize: '14px',
   letterSpacing: '0.02em',
   outline: 'none',
@@ -204,8 +204,8 @@ const togglePwStyle: React.CSSProperties = {
   transform: 'translateY(-50%)',
   background: 'transparent',
   border: 'none',
-  color: '#B8B0A0',
-  fontFamily: 'var(--font-jetbrains), monospace',
+  color: 'var(--color-cream-muted)',
+  fontFamily: 'var(--font-mono)',
   fontSize: '10px',
   letterSpacing: '0.15em',
   textTransform: 'uppercase',
@@ -214,18 +214,18 @@ const togglePwStyle: React.CSSProperties = {
 }
 
 const hintStyle: React.CSSProperties = {
-  fontFamily: 'var(--font-jetbrains), monospace',
+  fontFamily: 'var(--font-mono)',
   fontSize: '10px',
   letterSpacing: '0.1em',
-  color: '#6E665A',
+  color: 'var(--color-cream-faint)',
   margin: '6px 0 0',
 }
 
 const errorBoxStyle: React.CSSProperties = {
   padding: '12px 14px',
-  border: '1px solid #D17B6A',
+  border: '1px solid var(--color-alert-soft)',
   backgroundColor: 'rgba(209,123,106,0.08)',
-  color: '#D17B6A',
+  color: 'var(--color-alert-soft)',
   fontSize: '13px',
   marginBottom: '18px',
   display: 'flex',
@@ -235,7 +235,7 @@ const errorBoxStyle: React.CSSProperties = {
 
 const infoBoxStyle: React.CSSProperties = {
   padding: '12px 14px',
-  border: '1px solid #C9A961',
+  border: '1px solid var(--color-gold)',
   backgroundColor: 'rgba(201,169,97,0.08)',
   color: '#E5DDC8',
   fontSize: '13px',
@@ -249,10 +249,10 @@ const infoBoxStyle: React.CSSProperties = {
 const submitBtnStyle: React.CSSProperties = {
   width: '100%',
   padding: '15px',
-  backgroundColor: '#C9A961',
-  border: '1px solid #C9A961',
-  color: '#15110D',
-  fontFamily: 'var(--font-jetbrains), monospace',
+  backgroundColor: 'var(--color-gold)',
+  border: '1px solid var(--color-gold)',
+  color: 'var(--color-ink)',
+  fontFamily: 'var(--font-mono)',
   fontSize: '12px',
   letterSpacing: '0.28em',
   textTransform: 'uppercase',
@@ -269,9 +269,9 @@ const altBtnStyle: React.CSSProperties = {
   width: '100%',
   padding: '14px',
   backgroundColor: 'transparent',
-  border: '1px solid #C9A961',
-  color: '#C9A961',
-  fontFamily: 'var(--font-jetbrains), monospace',
+  border: '1px solid var(--color-gold)',
+  color: 'var(--color-gold)',
+  fontFamily: 'var(--font-mono)',
   fontSize: '12px',
   letterSpacing: '0.22em',
   textTransform: 'uppercase',

@@ -92,10 +92,10 @@ function buildInitial(prefill: CheckoutPrefill | null | undefined): FormState {
 
 const LABEL_STYLE: React.CSSProperties = {
   display: 'block',
-  fontFamily: 'var(--font-jetbrains)',
+  fontFamily: 'var(--font-mono)',
   fontSize: '10px',
   letterSpacing: '0.22em',
-  color: '#6E665A',
+  color: 'var(--color-cream-faint)',
   textTransform: 'uppercase',
   marginBottom: '8px',
 }
@@ -105,7 +105,7 @@ const INPUT_STYLE: React.CSSProperties = {
   padding: '14px 16px',
   backgroundColor: 'rgba(244,240,232,0.04)',
   border: '1px solid rgba(244,240,232,0.12)',
-  color: '#F4F0E8',
+  color: 'var(--color-cream)',
   fontSize: '14px',
   fontFamily: 'var(--font-sans)',
   outline: 'none',
@@ -274,16 +274,16 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
   if (!validating && items.length === 0) {
     return (
       <div className="px-responsive" style={{ maxWidth: '720px', margin: '0 auto', padding: '96px 0', textAlign: 'center' }}>
-        <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 16px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 16px' }}>
           Ödeme
         </p>
-        <h1 style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 500, margin: '0 0 24px' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 500, margin: '0 0 24px' }}>
           Sepetiniz boş.
         </h1>
-        <p style={{ color: '#B8B0A0', fontSize: '14px', marginBottom: '32px' }}>
+        <p style={{ color: 'var(--color-cream-muted)', fontSize: '14px', marginBottom: '32px' }}>
           Önce sepetinize ürün ekleyin.
         </p>
-        <Link href="/koleksiyon" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '14px 28px', backgroundColor: '#C9A961', color: '#15110D', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.25em', textTransform: 'uppercase', textDecoration: 'none' }}>
+        <Link href="/koleksiyon" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '14px 28px', backgroundColor: 'var(--color-gold)', color: 'var(--color-ink)', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.25em', textTransform: 'uppercase', textDecoration: 'none' }}>
           Koleksiyona Git →
         </Link>
       </div>
@@ -294,7 +294,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
   if (validating) {
     return (
       <div className="px-responsive" style={{ maxWidth: '720px', margin: '0 auto', padding: '96px 0', textAlign: 'center' }}>
-        <p style={{ color: '#6E665A', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+        <p style={{ color: 'var(--color-cream-faint)', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
           Sepet doğrulanıyor…
         </p>
       </div>
@@ -305,13 +305,13 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
   if (validationError || !validated) {
     return (
       <div className="px-responsive" style={{ maxWidth: '720px', margin: '0 auto', padding: '96px 0', textAlign: 'center' }}>
-        <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C8472D', textTransform: 'uppercase', margin: '0 0 16px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-alert)', textTransform: 'uppercase', margin: '0 0 16px' }}>
           Hata
         </p>
-        <p style={{ color: '#F4F0E8', fontSize: '16px', marginBottom: '32px' }}>
+        <p style={{ color: 'var(--color-cream)', fontSize: '16px', marginBottom: '32px' }}>
           {validationError ?? 'Sepet doğrulanamadı.'}
         </p>
-        <Link href="/koleksiyon" style={{ color: '#C9A961', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', textDecoration: 'none' }}>
+        <Link href="/koleksiyon" style={{ color: 'var(--color-gold)', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', textDecoration: 'none' }}>
           ← Alışverişe Dön
         </Link>
       </div>
@@ -330,7 +330,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
         .checkout-summary {
           position: sticky;
           top: 108px;
-          background-color: #1C1814;
+          background-color: var(--color-ink-2);
           padding: 28px;
           border: 1px solid rgba(244,240,232,0.06);
         }
@@ -344,15 +344,15 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
           .checkout-summary { position: static; padding: 20px; }
           .form-row-2 { grid-template-columns: 1fr; }
         }
-        .ck-input:focus { border-color: #C9A961 !important; }
+        .ck-input:focus { border-color: var(--color-gold) !important; }
       `}</style>
 
       {/* Header */}
       <div style={{ marginBottom: '40px' }}>
-        <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 14px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 14px' }}>
           Adım 1 / 1 · Ödeme
         </p>
-        <h1 style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 500, lineHeight: 1.1, margin: 0 }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 500, lineHeight: 1.1, margin: 0 }}>
           Sipariş bilgileri.
         </h1>
       </div>
@@ -377,7 +377,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
             }}
           >
             <span>
-              <span style={{ color: '#C9A961', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', marginRight: '8px' }}>✓ Hesap</span>
+              <span style={{ color: 'var(--color-gold)', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', marginRight: '8px' }}>✓ Hesap</span>
               Önceki siparişinizdeki adres otomatik dolduruldu. Düzenleyebilirsiniz.
             </span>
           </div>
@@ -390,7 +390,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
             padding: '12px 16px',
             border: '1px solid rgba(244,240,232,0.1)',
             backgroundColor: 'rgba(244,240,232,0.02)',
-            color: '#B8B0A0',
+            color: 'var(--color-cream-muted)',
             fontSize: '13px',
             display: 'flex',
             alignItems: 'center',
@@ -403,11 +403,11 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
           <Link
             href="/giris?next=/odeme"
             style={{
-              fontFamily: 'var(--font-jetbrains)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '11px',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
-              color: '#C9A961',
+              color: 'var(--color-gold)',
               textDecoration: 'none',
             }}
           >
@@ -421,7 +421,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
         <form onSubmit={handleSubmit} noValidate>
           {/* İletişim */}
           <section style={{ marginBottom: '40px' }}>
-            <h2 style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
               İletişim
             </h2>
             <div style={{ marginBottom: '16px' }}>
@@ -442,7 +442,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
 
           {/* Teslimat Adresi */}
           <section style={{ marginBottom: '40px' }}>
-            <h2 style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
               Teslimat Adresi
             </h2>
             <div style={{ marginBottom: '16px' }}>
@@ -471,15 +471,15 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
 
           {/* Notlar */}
           <section style={{ marginBottom: '40px' }}>
-            <h2 style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
-              Sipariş Notu <span style={{ color: '#6E665A', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', marginLeft: '8px' }}>(ops.)</span>
+            <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
+              Sipariş Notu <span style={{ color: 'var(--color-cream-faint)', fontFamily: 'var(--font-mono)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', marginLeft: '8px' }}>(ops.)</span>
             </h2>
             <textarea className="ck-input" rows={3} value={form.notes} onChange={(e) => updateField('notes', e.target.value)} style={{ ...INPUT_STYLE, resize: 'vertical', minHeight: '90px', fontFamily: 'var(--font-sans)' }} placeholder="Teslimat tercihi, fatura bilgisi vb." />
           </section>
 
           {/* Ödeme yöntemi */}
           <section style={{ marginBottom: '40px' }}>
-            <h2 style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
               Ödeme Yöntemi
             </h2>
 
@@ -501,20 +501,20 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
           </section>
 
           {/* Mesafeli satış sözleşmesi onayı (tüketici hakkı bildirimi) */}
-          <p style={{ fontSize: '12px', color: '#B8B0A0', lineHeight: 1.7, margin: '0 0 20px', padding: '14px 16px', border: '1px solid rgba(244,240,232,0.08)', backgroundColor: 'rgba(244,240,232,0.02)' }}>
+          <p style={{ fontSize: '12px', color: 'var(--color-cream-muted)', lineHeight: 1.7, margin: '0 0 20px', padding: '14px 16px', border: '1px solid rgba(244,240,232,0.08)', backgroundColor: 'rgba(244,240,232,0.02)' }}>
             Siparişi tamamlayarak{' '}
-            <Link href="/on-bilgilendirme-formu" target="_blank" rel="noopener" style={{ color: '#C9A961', textDecoration: 'underline' }}>
+            <Link href="/on-bilgilendirme-formu" target="_blank" rel="noopener" style={{ color: 'var(--color-gold)', textDecoration: 'underline' }}>
               Ön Bilgilendirme Formu
             </Link>
             &apos;nu okuduğunuzu, ön bilgilerin tarafınıza iletildiğini ve{' '}
-            <Link href="/mesafeli-satis-sozlesmesi" target="_blank" rel="noopener" style={{ color: '#C9A961', textDecoration: 'underline' }}>
+            <Link href="/mesafeli-satis-sozlesmesi" target="_blank" rel="noopener" style={{ color: 'var(--color-gold)', textDecoration: 'underline' }}>
               Mesafeli Satış Sözleşmesi
             </Link>
             &apos;ni elektronik ortamda kabul ettiğinizi beyan etmiş olursunuz.
           </p>
 
           {submitError && (
-            <div style={{ padding: '14px 16px', border: '1px solid #C8472D', backgroundColor: 'rgba(200,71,45,0.08)', color: '#F4F0E8', fontSize: '13px', marginBottom: '20px' }}>
+            <div style={{ padding: '14px 16px', border: '1px solid var(--color-alert)', backgroundColor: 'rgba(200,71,45,0.08)', color: 'var(--color-cream)', fontSize: '13px', marginBottom: '20px' }}>
               {submitError}
             </div>
           )}
@@ -523,9 +523,9 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
             style={{
               width: '100%',
               padding: '20px',
-              backgroundColor: submitting ? '#9C7C3C' : '#C9A961',
-              color: '#15110D',
-              fontFamily: 'var(--font-jetbrains)',
+              backgroundColor: submitting ? 'var(--color-gold-deep)' : 'var(--color-gold)',
+              color: 'var(--color-ink)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '12px',
               letterSpacing: '0.28em',
               textTransform: 'uppercase',
@@ -538,14 +538,14 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
 
         {/* SAĞ — Özet */}
         <aside className="checkout-summary">
-          <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 20px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 20px' }}>
             Sipariş Özeti
           </p>
 
           <div style={{ marginBottom: '24px' }}>
             {validated.lines.map((line) => (
               <div key={`${line.productId}:${line.variantId ?? 'base'}`} style={{ display: 'flex', gap: '14px', paddingBottom: '16px', marginBottom: '16px', borderBottom: '1px solid rgba(244,240,232,0.06)' }}>
-                <div style={{ width: '60px', height: '75px', flexShrink: 0, backgroundColor: '#15110D', position: 'relative' }}>
+                <div style={{ width: '60px', height: '75px', flexShrink: 0, backgroundColor: 'var(--color-ink)', position: 'relative' }}>
                   {line.image ? (
                     <Image src={line.image} alt={line.name} fill sizes="60px" style={{ objectFit: 'cover' }} />
                   ) : (
@@ -553,20 +553,20 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
                   )}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '15px', fontWeight: 500, lineHeight: 1.3, margin: '0 0 4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <p style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '15px', fontWeight: 500, lineHeight: 1.3, margin: '0 0 4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {line.name}
                   </p>
                   {line.variantLabel && (
-                    <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '9px', letterSpacing: '0.18em', color: '#6E665A', textTransform: 'uppercase', margin: '0 0 6px' }}>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.18em', color: 'var(--color-cream-faint)', textTransform: 'uppercase', margin: '0 0 6px' }}>
                       {line.variantLabel}
                     </p>
                   )}
-                  <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', color: '#B8B0A0', margin: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-cream-muted)', margin: 0 }}>
                     {line.quantity} × {formatPrice(line.unitPrice)}
                   </p>
                 </div>
                 <div style={{ flexShrink: 0 }}>
-                  <p style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '15px', fontWeight: 500, margin: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '15px', fontWeight: 500, margin: 0 }}>
                     {formatPrice(line.unitPrice * line.quantity)}
                   </p>
                 </div>
@@ -575,32 +575,32 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
           </div>
 
           <div style={{ borderTop: '1px solid rgba(244,240,232,0.08)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-jetbrains)', fontSize: '12px', color: '#B8B0A0' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-cream-muted)' }}>
               <span>Ara Toplam</span>
               <span>{formatPrice(validated.totals.subtotal)}</span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', color: '#6E665A' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-cream-faint)' }}>
               <span>· içerisinde KDV</span>
               <span>{formatPrice(validated.totals.taxAmount)}</span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-jetbrains)', fontSize: '12px', color: '#B8B0A0' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-cream-muted)' }}>
               <span>Kargo</span>
               {validated.totals.shippingCost > 0 ? (
                 <span>{formatPrice(validated.totals.shippingCost)}</span>
               ) : (
-                <span style={{ color: '#5C7A3F' }}>Ücretsiz</span>
+                <span style={{ color: 'var(--color-success)' }}>Ücretsiz</span>
               )}
             </div>
             {validated.shipping && validated.shipping.flat_fee > 0 && validated.shipping.free_threshold > 0 && validated.totals.shippingCost > 0 && (
-              <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.12em', color: '#C9A961', margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.12em', color: 'var(--color-gold)', margin: 0 }}>
                 · Ücretsiz kargoya {formatPrice(Math.max(0, validated.shipping.free_threshold - validated.totals.subtotal))} kaldı
               </p>
             )}
             {appliedCoupon && (
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-jetbrains)', fontSize: '12px', color: '#7AAD8B' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-success-soft)' }}>
                 <span>
                   İndirim ·{' '}
-                  <span style={{ fontFamily: 'var(--font-jetbrains)', letterSpacing: '0.1em' }}>{appliedCoupon.code}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>{appliedCoupon.code}</span>
                 </span>
                 <span>-{formatPrice(appliedCoupon.discount)}</span>
               </div>
@@ -611,22 +611,22 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
           <div style={{ borderTop: '1px solid rgba(244,240,232,0.08)', marginTop: '16px', paddingTop: '16px' }}>
             {appliedCoupon ? (
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 12px', border: '1px solid rgba(122,173,139,0.4)', backgroundColor: 'rgba(122,173,139,0.06)' }}>
-                <div style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', color: '#E5DDC8' }}>
-                  <span style={{ color: '#7AAD8B', marginRight: '6px' }}>✓</span>
-                  Kupon uygulandı: <strong style={{ color: '#F4F0E8', letterSpacing: '0.06em' }}>{appliedCoupon.code}</strong>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#E5DDC8' }}>
+                  <span style={{ color: 'var(--color-success-soft)', marginRight: '6px' }}>✓</span>
+                  Kupon uygulandı: <strong style={{ color: 'var(--color-cream)', letterSpacing: '0.06em' }}>{appliedCoupon.code}</strong>
                 </div>
                 <button
                   type="button"
                   onClick={removeCoupon}
                   aria-label="Kuponu kaldır"
-                  style={{ background: 'transparent', border: 'none', color: '#B8B0A0', fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', cursor: 'pointer', padding: '4px 6px' }}
+                  style={{ background: 'transparent', border: 'none', color: 'var(--color-cream-muted)', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', cursor: 'pointer', padding: '4px 6px' }}
                 >
                   Kaldır
                 </button>
               </div>
             ) : (
               <>
-                <label htmlFor="coupon-code" style={{ display: 'block', fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#6E665A', marginBottom: '6px' }}>
+                <label htmlFor="coupon-code" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--color-cream-faint)', marginBottom: '6px' }}>
                   Kupon kodu (opsiyonel)
                 </label>
                 <div style={{ display: 'flex', gap: '8px' }}>
@@ -638,7 +638,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
                     onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
                     placeholder="KUPON"
                     autoCapitalize="characters"
-                    style={{ ...INPUT_STYLE, padding: '11px 12px', fontFamily: 'var(--font-jetbrains)', letterSpacing: '0.1em' }}
+                    style={{ ...INPUT_STYLE, padding: '11px 12px', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}
                   />
                   <button
                     type="button"
@@ -647,9 +647,9 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
                     style={{
                       padding: '0 16px',
                       backgroundColor: 'transparent',
-                      border: '1px solid #C9A961',
-                      color: '#C9A961',
-                      fontFamily: 'var(--font-jetbrains), monospace',
+                      border: '1px solid var(--color-gold)',
+                      color: 'var(--color-gold)',
+                      fontFamily: 'var(--font-mono)',
                       fontSize: '11px',
                       letterSpacing: '0.22em',
                       textTransform: 'uppercase',
@@ -662,7 +662,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
                   </button>
                 </div>
                 {couponError && (
-                  <p role="alert" style={{ marginTop: '8px', fontSize: '12px', color: '#D17B6A', fontFamily: 'var(--font-sans)' }}>
+                  <p role="alert" style={{ marginTop: '8px', fontSize: '12px', color: 'var(--color-alert-soft)', fontFamily: 'var(--font-sans)' }}>
                     {couponError}
                   </p>
                 )}
@@ -671,8 +671,8 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
           </div>
 
           <div style={{ borderTop: '1px solid rgba(244,240,232,0.12)', marginTop: '20px', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-            <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.22em', color: '#F4F0E8', textTransform: 'uppercase' }}>Toplam</span>
-            <span style={{ fontFamily: 'var(--font-cormorant)', color: '#C9A961', fontSize: '28px', fontWeight: 500 }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', color: 'var(--color-cream)', textTransform: 'uppercase' }}>Toplam</span>
+            <span style={{ fontFamily: 'var(--font-display)', color: 'var(--color-gold)', fontSize: '28px', fontWeight: 500 }}>
               {formatPrice(Math.max(0, validated.totals.total - (appliedCoupon?.discount ?? 0)))}
             </span>
           </div>
@@ -703,7 +703,7 @@ function PaymentOption({
         width: '100%',
         textAlign: 'left',
         padding: '20px',
-        border: `1px solid ${selected ? '#C9A961' : 'rgba(244,240,232,0.12)'}`,
+        border: `1px solid ${selected ? 'var(--color-gold)' : 'rgba(244,240,232,0.12)'}`,
         backgroundColor: selected ? 'rgba(201,169,97,0.05)' : 'transparent',
         marginBottom: '12px',
         cursor: 'pointer',
@@ -716,16 +716,16 @@ function PaymentOption({
             width: '14px',
             height: '14px',
             borderRadius: '50%',
-            border: '1px solid #C9A961',
-            backgroundColor: selected ? '#C9A961' : 'transparent',
+            border: '1px solid var(--color-gold)',
+            backgroundColor: selected ? 'var(--color-gold)' : 'transparent',
             flexShrink: 0,
           }}
         />
-        <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '12px', letterSpacing: '0.18em', color: '#F4F0E8', textTransform: 'uppercase', margin: 0 }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.18em', color: 'var(--color-cream)', textTransform: 'uppercase', margin: 0 }}>
           {title}
         </p>
       </div>
-      <p style={{ color: '#B8B0A0', fontSize: '13px', lineHeight: 1.6, margin: 0 }}>
+      <p style={{ color: 'var(--color-cream-muted)', fontSize: '13px', lineHeight: 1.6, margin: 0 }}>
         {desc}
       </p>
     </button>

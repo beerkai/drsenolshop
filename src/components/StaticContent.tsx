@@ -24,7 +24,7 @@ export function H2({ children }: { children: ReactNode }) {
         fontSize: 'clamp(24px, 4vw, 36px)',
         fontWeight: 500,
         lineHeight: 1.2,
-        color: '#F4F0E8',
+        color: 'var(--color-cream)',
         margin: '48px 0 20px',
         letterSpacing: '-0.005em',
       }}
@@ -41,7 +41,7 @@ export function Eyebrow({ children }: { children: ReactNode }) {
         fontFamily: 'var(--font-mono)',
         fontSize: '11px',
         letterSpacing: '0.25em',
-        color: '#C9A961',
+        color: 'var(--color-gold)',
         textTransform: 'uppercase',
         margin: '32px 0 12px',
       }}
@@ -60,8 +60,8 @@ export function Quote({ children }: { children: ReactNode }) {
         fontStyle: 'italic',
         fontWeight: 300,
         lineHeight: 1.5,
-        color: '#C9A961',
-        borderLeft: '2px solid #C9A961',
+        color: 'var(--color-gold)',
+        borderLeft: '2px solid var(--color-gold)',
         padding: '8px 0 8px 24px',
         margin: '32px 0',
       }}
@@ -94,7 +94,7 @@ export function List({ items }: { items: string[] }) {
               top: '14px',
               width: '8px',
               height: '1px',
-              background: '#C9A961',
+              background: 'var(--color-gold)',
             }}
           />
           {item}
@@ -108,7 +108,7 @@ export function InfoBox({ title, children }: { title: string; children: ReactNod
   return (
     <div
       style={{
-        background: '#1C1814',
+        background: 'var(--color-ink-2)',
         border: '1px solid rgba(244,240,232,0.08)',
         padding: 'clamp(24px, 4vw, 36px)',
         margin: '32px 0',
@@ -119,7 +119,7 @@ export function InfoBox({ title, children }: { title: string; children: ReactNod
           fontFamily: 'var(--font-mono)',
           fontSize: '10px',
           letterSpacing: '0.25em',
-          color: '#C9A961',
+          color: 'var(--color-gold)',
           textTransform: 'uppercase',
           margin: '0 0 12px',
         }}
@@ -153,7 +153,7 @@ export function FAQItem({ question, answer }: { question: string; answer: string
           fontFamily: 'var(--font-display)',
           fontSize: 'clamp(18px, 3vw, 22px)',
           fontWeight: 500,
-          color: '#F4F0E8',
+          color: 'var(--color-cream)',
           margin: '0 0 12px',
           lineHeight: 1.3,
         }}
@@ -165,7 +165,7 @@ export function FAQItem({ question, answer }: { question: string; answer: string
           fontFamily: 'var(--font-sans)',
           fontSize: 'clamp(14px, 2.5vw, 16px)',
           lineHeight: 1.7,
-          color: '#B8B0A0',
+          color: 'var(--color-cream-muted)',
           margin: 0,
         }}
       >

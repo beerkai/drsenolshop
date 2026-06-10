@@ -46,8 +46,8 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
           gap: '8px',
           background: 'transparent',
           border: 'none',
-          color: '#F4F0E8',
-          fontFamily: 'var(--font-jetbrains)',
+          color: 'var(--color-cream)',
+          fontFamily: 'var(--font-mono)',
           fontSize: '11px',
           letterSpacing: '0.2em',
           textTransform: 'uppercase',
@@ -55,7 +55,7 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
           padding: '6px 0',
         }}
       >
-        <span style={{ color: '#6E665A' }}>Sırala:</span>
+        <span style={{ color: 'var(--color-cream-faint)' }}>Sırala:</span>
         <span>{currentLabel}</span>
         <svg
           width="10"
@@ -80,7 +80,7 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
             top: '100%',
             right: 0,
             marginTop: '6px',
-            background: '#1C1814',
+            background: 'var(--color-ink-2)',
             border: '1px solid rgba(244,240,232,0.15)',
             minWidth: '240px',
             zIndex: 50,
@@ -101,10 +101,10 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
                 width: '100%',
                 textAlign: 'left',
                 padding: '12px 16px',
-                background: opt.value === value ? '#1E1B17' : 'transparent',
+                background: opt.value === value ? 'var(--color-ink-3)' : 'transparent',
                 border: 'none',
-                color: opt.value === value ? '#C9A961' : '#F4F0E8',
-                fontFamily: 'var(--font-jetbrains)',
+                color: opt.value === value ? 'var(--color-gold)' : 'var(--color-cream)',
+                fontFamily: 'var(--font-mono)',
                 fontSize: '11px',
                 letterSpacing: '0.05em',
                 cursor: 'pointer',

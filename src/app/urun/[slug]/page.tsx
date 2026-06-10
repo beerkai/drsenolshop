@@ -90,13 +90,13 @@ export default async function UrunPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: toJsonLdScript([productSchema, breadcrumbLd(breadcrumbs)]) }}
       />
-      <main style={{ backgroundColor: '#15110D', minHeight: '100vh' }}>
+      <main style={{ backgroundColor: 'var(--color-ink)', minHeight: '100vh' }}>
         <ProductDetailClient product={product} />
 
         {description && (
           <section
             className="product-desc-section"
-            style={{ backgroundColor: '#1C1814', borderTop: '1px solid rgba(244,240,232,0.06)' }}
+            style={{ backgroundColor: 'var(--color-ink-2)', borderTop: '1px solid rgba(244,240,232,0.06)' }}
           >
             <style>{`
               .product-desc-section {
@@ -116,7 +116,7 @@ export default async function UrunPage({ params }: Props) {
                   fontFamily: 'var(--font-mono)',
                   fontSize: '10px',
                   letterSpacing: '0.3em',
-                  color: '#C9A961',
+                  color: 'var(--color-gold)',
                   textTransform: 'uppercase',
                   margin: '0 0 32px',
                 }}
@@ -126,7 +126,7 @@ export default async function UrunPage({ params }: Props) {
               <div
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  color: '#B8B0A0',
+                  color: 'var(--color-cream-muted)',
                   fontSize: 'clamp(13px, 2.5vw, 15px)',
                   lineHeight: 1.65,
                 }}
@@ -150,7 +150,7 @@ export default async function UrunPage({ params }: Props) {
                         fontFamily: 'var(--font-mono)',
                         fontSize: '9px',
                         letterSpacing: '0.22em',
-                        color: '#C9A961',
+                        color: 'var(--color-gold)',
                         border: '1px solid rgba(201,169,97,0.25)',
                         padding: '5px 10px',
                         textTransform: 'uppercase',
@@ -171,7 +171,7 @@ export default async function UrunPage({ params }: Props) {
                         fontFamily: 'var(--font-mono)',
                         fontSize: '9px',
                         letterSpacing: '0.15em',
-                        color: '#6E665A',
+                        color: 'var(--color-cream-faint)',
                         border: '1px solid rgba(244,240,232,0.08)',
                         padding: '4px 9px',
                         textTransform: 'uppercase',
@@ -210,7 +210,7 @@ export default async function UrunPage({ params }: Props) {
                     fontFamily: 'var(--font-mono)',
                     fontSize: '10px',
                     letterSpacing: '0.3em',
-                    color: '#C9A961',
+                    color: 'var(--color-gold)',
                     textTransform: 'uppercase',
                     margin: '0 0 16px',
                   }}
@@ -227,7 +227,7 @@ export default async function UrunPage({ params }: Props) {
                     margin: 0,
                   }}
                 >
-                  Benzer <span style={{ fontStyle: 'italic', fontWeight: 300, color: '#C9A961' }}>ürünler.</span>
+                  Benzer <span style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--color-gold)' }}>ürünler.</span>
                 </h2>
               </div>
 

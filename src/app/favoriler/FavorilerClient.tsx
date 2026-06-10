@@ -69,24 +69,24 @@ export default function FavorilerClient() {
     <div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto', paddingTop: 'clamp(48px, 8vw, 80px)', paddingBottom: 'clamp(60px, 10vw, 96px)' }}>
       {/* Hero */}
       <div style={{ textAlign: 'center', marginBottom: 'clamp(32px, 6vw, 56px)' }}>
-        <p className="font-mono" style={{ fontSize: 'clamp(10px, 2vw, 11px)', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 20px' }}>
+        <p className="font-mono" style={{ fontSize: 'clamp(10px, 2vw, 11px)', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 20px' }}>
           Favorilerim
         </p>
-        <div style={{ width: '60px', height: '1px', backgroundColor: '#C9A961', margin: '0 auto 32px' }} />
-        <h1 className="font-display" style={{ color: '#F4F0E8', fontSize: 'clamp(32px, 6vw, 56px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>
+        <div style={{ width: '60px', height: '1px', backgroundColor: 'var(--color-gold)', margin: '0 auto 32px' }} />
+        <h1 className="font-display" style={{ color: 'var(--color-cream)', fontSize: 'clamp(32px, 6vw, 56px)', fontWeight: 500, lineHeight: 1.05, letterSpacing: '-0.015em', margin: 0 }}>
           {isEmpty ? (
-            <>Henüz <span style={{ color: '#C9A961', fontStyle: 'italic', fontWeight: 300 }}>favori yok.</span></>
+            <>Henüz <span style={{ color: 'var(--color-gold)', fontStyle: 'italic', fontWeight: 300 }}>favori yok.</span></>
           ) : (
             <>
               {items.length}{' '}
-              <span style={{ color: '#C9A961', fontStyle: 'italic', fontWeight: 300 }}>
+              <span style={{ color: 'var(--color-gold)', fontStyle: 'italic', fontWeight: 300 }}>
                 {items.length === 1 ? 'favori ürün.' : 'favori ürün.'}
               </span>
             </>
           )}
         </h1>
         {!isEmpty && (
-          <p style={{ color: '#B8B0A0', fontSize: 'clamp(14px, 2.5vw, 16px)', lineHeight: 1.7, marginTop: '20px', maxWidth: '440px', margin: '20px auto 0' }}>
+          <p style={{ color: 'var(--color-cream-muted)', fontSize: 'clamp(14px, 2.5vw, 16px)', lineHeight: 1.7, marginTop: '20px', maxWidth: '440px', margin: '20px auto 0' }}>
             Beğendiğin ürünler bu tarayıcıda kayıtlı. Hesap oluşturmadan da çalışır.
           </p>
         )}
@@ -94,8 +94,8 @@ export default function FavorilerClient() {
 
       {isEmpty ? (
         <div style={{ textAlign: 'center', padding: '48px 24px' }}>
-          <p style={{ color: '#B8B0A0', fontSize: '15px', lineHeight: 1.7, marginBottom: '32px', maxWidth: '420px', margin: '0 auto 32px' }}>
-            Ürün kartlarındaki <span style={{ color: '#C9A961' }}>♡</span> ikonuna tıklayarak ürünleri favorilere ekleyebilirsin.
+          <p style={{ color: 'var(--color-cream-muted)', fontSize: '15px', lineHeight: 1.7, marginBottom: '32px', maxWidth: '420px', margin: '0 auto 32px' }}>
+            Ürün kartlarındaki <span style={{ color: 'var(--color-gold)' }}>♡</span> ikonuna tıklayarak ürünleri favorilere ekleyebilirsin.
             <br />
             Daha sonra buradan kolayca dönersin.
           </p>
@@ -106,9 +106,9 @@ export default function FavorilerClient() {
               alignItems: 'center',
               gap: '10px',
               padding: 'clamp(14px, 3vw, 16px) clamp(22px, 5vw, 32px)',
-              backgroundColor: '#C9A961',
-              color: '#15110D',
-              fontFamily: 'var(--font-jetbrains), monospace',
+              backgroundColor: 'var(--color-gold)',
+              color: 'var(--color-ink)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '11px',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -144,7 +144,7 @@ export default function FavorilerClient() {
                 background: 'transparent',
                 border: '1px solid rgba(244,240,232,0.15)',
                 color: '#9B9285',
-                fontFamily: 'var(--font-jetbrains), monospace',
+                fontFamily: 'var(--font-mono)',
                 fontSize: '10px',
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
@@ -227,7 +227,7 @@ function FavCard({
   onRemove: () => void
 }) {
   return (
-    <div style={{ background: '#15110D', position: 'relative' }}>
+    <div style={{ background: 'var(--color-ink)', position: 'relative' }}>
       {/* Üst sağ — kaldır */}
       <button
         type="button"
@@ -245,7 +245,7 @@ function FavCard({
           justifyContent: 'center',
           background: 'rgba(10,9,8,0.6)',
           border: '1px solid rgba(244,240,232,0.15)',
-          color: '#C9A961',
+          color: 'var(--color-gold)',
           cursor: 'pointer',
           backdropFilter: 'blur(4px)',
         }}
@@ -266,7 +266,7 @@ function FavCard({
         }}
       >
         {/* Görsel */}
-        <div style={{ position: 'relative', aspectRatio: '4 / 5', background: '#1C1814', overflow: 'hidden' }}>
+        <div style={{ position: 'relative', aspectRatio: '4 / 5', background: 'var(--color-ink-2)', overflow: 'hidden' }}>
           {image ? (
             <Image
               src={image}
@@ -277,20 +277,20 @@ function FavCard({
             />
           ) : (
             <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <p style={{ fontFamily: 'var(--font-cormorant)', color: '#6E665A', fontStyle: 'italic', fontSize: '14px', margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream-faint)', fontStyle: 'italic', fontSize: '14px', margin: 0 }}>
                 {name}
               </p>
             </div>
           )}
           {removed && (
             <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,9,8,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span className="font-mono" style={{ fontSize: '10px', letterSpacing: '0.25em', color: '#F4F0E8', textTransform: 'uppercase' }}>
+              <span className="font-mono" style={{ fontSize: '10px', letterSpacing: '0.25em', color: 'var(--color-cream)', textTransform: 'uppercase' }}>
                 Bulunamadı
               </span>
             </div>
           )}
           {!removed && !inStock && (
-            <span style={{ position: 'absolute', top: '14px', left: '14px', fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.22em', color: '#F4F0E8', background: 'rgba(10,9,8,0.85)', padding: '5px 9px', textTransform: 'uppercase', border: '1px solid rgba(244,240,232,0.2)' }}>
+            <span style={{ position: 'absolute', top: '14px', left: '14px', fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.22em', color: 'var(--color-cream)', background: 'rgba(10,9,8,0.85)', padding: '5px 9px', textTransform: 'uppercase', border: '1px solid rgba(244,240,232,0.2)' }}>
               Stokta Yok
             </span>
           )}
@@ -299,24 +299,24 @@ function FavCard({
         {/* İçerik */}
         <div style={{ padding: '22px 22px 18px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
           {category && (
-            <p className="font-mono" style={{ fontSize: '9px', letterSpacing: '0.25em', color: '#6E665A', textTransform: 'uppercase', margin: 0 }}>
+            <p className="font-mono" style={{ fontSize: '9px', letterSpacing: '0.25em', color: 'var(--color-cream-faint)', textTransform: 'uppercase', margin: 0 }}>
               {category}
             </p>
           )}
-          <h3 className="font-display" style={{ color: '#F4F0E8', fontSize: '20px', fontWeight: 500, lineHeight: 1.25, letterSpacing: '-0.005em', margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+          <h3 className="font-display" style={{ color: 'var(--color-cream)', fontSize: '20px', fontWeight: 500, lineHeight: 1.25, letterSpacing: '-0.005em', margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {name}
           </h3>
           {loading ? (
-            <p className="font-mono" style={{ color: '#6E665A', fontSize: '11px', letterSpacing: '0.15em' }}>
+            <p className="font-mono" style={{ color: 'var(--color-cream-faint)', fontSize: '11px', letterSpacing: '0.15em' }}>
               Yükleniyor…
             </p>
           ) : priceText ? (
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginTop: '4px' }}>
-              <span className="font-display" style={{ color: inStock ? '#F4F0E8' : '#B8B0A0', fontSize: '22px', fontWeight: 500 }}>
+              <span className="font-display" style={{ color: inStock ? 'var(--color-cream)' : 'var(--color-cream-muted)', fontSize: '22px', fontWeight: 500 }}>
                 {priceText}
               </span>
               {originalPriceText && (
-                <span className="font-mono" style={{ fontSize: '11px', color: '#6E665A', textDecoration: 'line-through' }}>
+                <span className="font-mono" style={{ fontSize: '11px', color: 'var(--color-cream-faint)', textDecoration: 'line-through' }}>
                   {originalPriceText}
                 </span>
               )}

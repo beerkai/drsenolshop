@@ -15,7 +15,7 @@ export default function NotFound() {
       <main
         style={{
           minHeight: '70vh',
-          backgroundColor: '#15110D',
+          backgroundColor: 'var(--color-ink)',
           display: 'flex',
           alignItems: 'center',
           position: 'relative',
@@ -63,10 +63,10 @@ export default function NotFound() {
           {/* Lot rozet */}
           <p
             style={{
-              fontFamily: 'var(--font-jetbrains), monospace',
+              fontFamily: 'var(--font-mono)',
               fontSize: 'clamp(10px, 2vw, 12px)',
               letterSpacing: '0.3em',
-              color: '#C9A961',
+              color: 'var(--color-gold)',
               textTransform: 'uppercase',
               margin: '0 0 24px',
             }}
@@ -78,12 +78,12 @@ export default function NotFound() {
           {/* Büyük 404 */}
           <p
             style={{
-              fontFamily: 'var(--font-cormorant), serif',
+              fontFamily: 'var(--font-display)',
               fontSize: 'clamp(120px, 25vw, 240px)',
               fontWeight: 300,
               lineHeight: 0.9,
               letterSpacing: '-0.02em',
-              color: '#C9A961',
+              color: 'var(--color-gold)',
               fontStyle: 'italic',
               margin: '0 0 12px',
               opacity: 0.85,
@@ -92,12 +92,12 @@ export default function NotFound() {
             404
           </p>
 
-          <div style={{ width: '60px', height: '1px', backgroundColor: '#C9A961', margin: '0 auto 32px' }} />
+          <div style={{ width: '60px', height: '1px', backgroundColor: 'var(--color-gold)', margin: '0 auto 32px' }} />
 
           <h1
             style={{
-              fontFamily: 'var(--font-cormorant), serif',
-              color: '#F4F0E8',
+              fontFamily: 'var(--font-display)',
+              color: 'var(--color-cream)',
               fontSize: 'clamp(28px, 5vw, 48px)',
               fontWeight: 500,
               lineHeight: 1.1,
@@ -106,10 +106,10 @@ export default function NotFound() {
             }}
           >
             Aradığın kavanozu{' '}
-            <span style={{ color: '#C9A961', fontStyle: 'italic', fontWeight: 300 }}>bulamadık.</span>
+            <span style={{ color: 'var(--color-gold)', fontStyle: 'italic', fontWeight: 300 }}>bulamadık.</span>
           </h1>
 
-          <p style={{ color: '#B8B0A0', fontSize: 'clamp(14px, 2.5vw, 16px)', lineHeight: 1.7, maxWidth: '520px', margin: '0 auto 40px' }}>
+          <p style={{ color: 'var(--color-cream-muted)', fontSize: 'clamp(14px, 2.5vw, 16px)', lineHeight: 1.7, maxWidth: '520px', margin: '0 auto 40px' }}>
             Bu sayfa kovandan henüz çıkmamış olabilir, ya da farklı bir rafa kaldırılmış.
             Aşağıdaki rotaları öneririz.
           </p>
@@ -122,9 +122,9 @@ export default function NotFound() {
                 alignItems: 'center',
                 gap: '10px',
                 padding: 'clamp(14px, 3vw, 16px) clamp(22px, 5vw, 32px)',
-                backgroundColor: '#C9A961',
-                color: '#15110D',
-                fontFamily: 'var(--font-jetbrains), monospace',
+                backgroundColor: 'var(--color-gold)',
+                color: 'var(--color-ink)',
+                fontFamily: 'var(--font-mono)',
                 fontSize: '11px',
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',
@@ -143,8 +143,8 @@ export default function NotFound() {
                 gap: '10px',
                 padding: 'clamp(14px, 3vw, 16px) clamp(22px, 5vw, 32px)',
                 border: '1px solid rgba(244,240,232,0.2)',
-                color: '#F4F0E8',
-                fontFamily: 'var(--font-jetbrains), monospace',
+                color: 'var(--color-cream)',
+                fontFamily: 'var(--font-mono)',
                 fontSize: '11px',
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',
@@ -158,10 +158,10 @@ export default function NotFound() {
 
           <p
             style={{
-              fontFamily: 'var(--font-jetbrains), monospace',
+              fontFamily: 'var(--font-mono)',
               fontSize: '10px',
               letterSpacing: '0.22em',
-              color: '#6E665A',
+              color: 'var(--color-cream-faint)',
               textTransform: 'uppercase',
               marginTop: '48px',
             }}

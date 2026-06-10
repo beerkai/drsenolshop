@@ -20,10 +20,10 @@ export default async function SifreYenilePage() {
   return (
     <>
       <Header />
-      <main style={{ background: '#15110D', minHeight: '70vh' }}>
+      <main style={{ background: 'var(--color-ink)', minHeight: '70vh' }}>
         <AuthShell
           eyebrow="Hesap · Yeni Şifre"
-          title={<>Yeni şifrenizi <span style={{ color: '#C9A961', fontStyle: 'italic', fontWeight: 300 }}>belirleyin</span></>}
+          title={<>Yeni şifrenizi <span style={{ color: 'var(--color-gold)', fontStyle: 'italic', fontWeight: 300 }}>belirleyin</span></>}
           subtitle={`${me.email} için yeni şifre.`}
         >
           <UpdatePasswordForm />

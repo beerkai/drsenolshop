@@ -40,9 +40,9 @@ export default function IadeDegisimPage() {
       <InfoBox title="İade için">
         İade talepleri için 14 gün içinde:
         <br />
-        E-posta: <span style={{ color: '#C9A961' }}>iade@drsenol.shop</span>
+        E-posta: <span style={{ color: 'var(--color-gold)' }}>iade@drsenol.shop</span>
         <br />
-        Telefon: <span style={{ color: '#C9A961' }}>+90 224 123 45 67</span>
+        Telefon: <span style={{ color: 'var(--color-gold)' }}>+90 224 123 45 67</span>
       </InfoBox>
 
       <P>

@@ -76,8 +76,8 @@ export default function ReorderButton({ orderNumber }: { orderNumber: string }) 
           padding: '8px 14px',
           backgroundColor: 'transparent',
           border: '1px solid rgba(201,169,97,0.4)',
-          color: '#C9A961',
-          fontFamily: 'var(--font-jetbrains), monospace',
+          color: 'var(--color-gold)',
+          fontFamily: 'var(--font-mono)',
           fontSize: '10px',
           letterSpacing: '0.22em',
           textTransform: 'uppercase',
@@ -90,14 +90,14 @@ export default function ReorderButton({ orderNumber }: { orderNumber: string }) 
       </button>
 
       {feedback && (
-        <div role="status" style={{ marginTop: '8px', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', lineHeight: 1.5, color: '#B8B0A0' }}>
+        <div role="status" style={{ marginTop: '8px', fontFamily: 'var(--font-mono)', fontSize: '11px', lineHeight: 1.5, color: 'var(--color-cream-muted)' }}>
           {feedback.added > 0 && (
-            <p style={{ margin: 0, color: '#7AAD8B' }}>
+            <p style={{ margin: 0, color: 'var(--color-success-soft)' }}>
               ✓ {feedback.added} ürün sepete eklendi.
             </p>
           )}
           {feedback.skipped.length > 0 && (
-            <p style={{ margin: '4px 0 0', color: '#D17B6A' }}>
+            <p style={{ margin: '4px 0 0', color: 'var(--color-alert-soft)' }}>
               {feedback.skipped.length} ürün eklenemedi: {feedback.skipped.map((s) => `${s.name} (${s.reason})`).join(', ')}
             </p>
           )}

@@ -44,9 +44,9 @@ export default function ReviewForm({ productId }: { productId: string }) {
 
   if (sent) {
     return (
-      <div style={{ padding: '20px 24px', border: '1px solid #C9A961', backgroundColor: 'rgba(201,169,97,0.05)' }}>
+      <div style={{ padding: '20px 24px', border: '1px solid var(--color-gold)', backgroundColor: 'rgba(201,169,97,0.05)' }}>
         <p style={{ color: '#E5DDC8', fontSize: '14px', lineHeight: 1.6, margin: 0 }}>
-          <span style={{ color: '#C9A961', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', marginRight: '8px' }}>✓ Alındı</span>
+          <span style={{ color: 'var(--color-gold)', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', marginRight: '8px' }}>✓ Alındı</span>
           Yorumunuz moderasyon sırasında. Onaylandığında yayına alınacak.
         </p>
       </div>
@@ -55,7 +55,7 @@ export default function ReviewForm({ productId }: { productId: string }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ padding: '24px', border: '1px solid rgba(244,240,232,0.12)', backgroundColor: 'rgba(244,240,232,0.02)' }}>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.28em', textTransform: 'uppercase', color: '#C9A961', margin: '0 0 16px' }}>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--color-gold)', margin: '0 0 16px' }}>
         Yorum Bırak
       </p>
 
@@ -81,7 +81,7 @@ export default function ReviewForm({ productId }: { productId: string }) {
                   fontSize: '28px',
                   lineHeight: 1,
                   padding: '4px',
-                  color: active ? '#C9A961' : '#3A3530',
+                  color: active ? 'var(--color-gold)' : '#3A3530',
                   transition: 'color 0.1s',
                 }}
               >
@@ -118,7 +118,7 @@ export default function ReviewForm({ productId }: { productId: string }) {
           placeholder="Deneyiminizi paylaşın…"
           style={{ ...inputStyle, resize: 'vertical', minHeight: '120px', fontFamily: 'var(--font-sans)' }}
         />
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: '#6E665A', margin: '4px 0 0', textAlign: 'right' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--color-cream-faint)', margin: '4px 0 0', textAlign: 'right' }}>
           {body.length}/2000
         </p>
       </div>
@@ -136,10 +136,10 @@ export default function ReviewForm({ productId }: { productId: string }) {
         className="auth-submit"
         style={{
           padding: '13px 22px',
-          backgroundColor: '#C9A961',
-          border: '1px solid #C9A961',
-          color: '#15110D',
-          fontFamily: 'var(--font-jetbrains), monospace',
+          backgroundColor: 'var(--color-gold)',
+          border: '1px solid var(--color-gold)',
+          color: 'var(--color-ink)',
+          fontFamily: 'var(--font-mono)',
           fontSize: '11px',
           letterSpacing: '0.22em',
           textTransform: 'uppercase',
@@ -157,11 +157,11 @@ export default function ReviewForm({ productId }: { productId: string }) {
 
 const labelStyle: React.CSSProperties = {
   display: 'block',
-  fontFamily: 'var(--font-jetbrains), monospace',
+  fontFamily: 'var(--font-mono)',
   fontSize: '10px',
   letterSpacing: '0.22em',
   textTransform: 'uppercase',
-  color: '#6E665A',
+  color: 'var(--color-cream-faint)',
   marginBottom: '8px',
 }
 
@@ -170,17 +170,17 @@ const inputStyle: React.CSSProperties = {
   padding: '12px 14px',
   backgroundColor: 'rgba(244,240,232,0.04)',
   border: '1px solid rgba(244,240,232,0.15)',
-  color: '#F4F0E8',
-  fontFamily: 'var(--font-jetbrains), monospace',
+  color: 'var(--color-cream)',
+  fontFamily: 'var(--font-mono)',
   fontSize: '14px',
   outline: 'none',
 }
 
 const errBox: React.CSSProperties = {
   padding: '10px 12px',
-  border: '1px solid #D17B6A',
+  border: '1px solid var(--color-alert-soft)',
   backgroundColor: 'rgba(209,123,106,0.08)',
-  color: '#D17B6A',
+  color: 'var(--color-alert-soft)',
   fontSize: '13px',
   marginBottom: '14px',
   display: 'flex',

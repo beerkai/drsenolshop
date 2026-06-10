@@ -97,14 +97,14 @@ export default function ProfileForm({ initial }: { initial: ProfileInitial }) {
 
       {error && (
         <div role="alert" style={errBoxStyle}>
-          <span aria-hidden style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px' }}>✕</span>
+          <span aria-hidden style={{ fontFamily: 'var(--font-mono)', fontSize: '11px' }}>✕</span>
           <span>{error}</span>
         </div>
       )}
 
       {savedAt && !error && (
         <div role="status" style={okBoxStyle}>
-          <span aria-hidden style={{ color: '#C9A961' }}>✓</span>
+          <span aria-hidden style={{ color: 'var(--color-gold)' }}>✓</span>
           <span>Profil bilgileri kaydedildi. Bir sonraki siparişte otomatik dolacak.</span>
         </div>
       )}
@@ -120,7 +120,7 @@ export default function ProfileForm({ initial }: { initial: ProfileInitial }) {
         }}
       >
         {saving ? 'Kaydediliyor…' : 'Profili kaydet'}
-        {!saving && <span style={{ fontFamily: 'var(--font-jetbrains)', opacity: 0.7 }}>→</span>}
+        {!saving && <span style={{ fontFamily: 'var(--font-mono)', opacity: 0.7 }}>→</span>}
       </button>
     </form>
   )
@@ -137,11 +137,11 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 const labelStyle: React.CSSProperties = {
   display: 'block',
-  fontFamily: 'var(--font-jetbrains), monospace',
+  fontFamily: 'var(--font-mono)',
   fontSize: '10px',
   letterSpacing: '0.22em',
   textTransform: 'uppercase',
-  color: '#6E665A',
+  color: 'var(--color-cream-faint)',
   marginBottom: '8px',
 }
 
@@ -150,8 +150,8 @@ const inputStyle: React.CSSProperties = {
   padding: '13px 14px',
   backgroundColor: 'rgba(244,240,232,0.04)',
   border: '1px solid rgba(244,240,232,0.12)',
-  color: '#F4F0E8',
-  fontFamily: 'var(--font-jetbrains), monospace',
+  color: 'var(--color-cream)',
+  fontFamily: 'var(--font-mono)',
   fontSize: '14px',
   letterSpacing: '0.02em',
   outline: 'none',
@@ -160,9 +160,9 @@ const inputStyle: React.CSSProperties = {
 
 const errBoxStyle: React.CSSProperties = {
   padding: '10px 12px',
-  border: '1px solid #D17B6A',
+  border: '1px solid var(--color-alert-soft)',
   backgroundColor: 'rgba(209,123,106,0.08)',
-  color: '#D17B6A',
+  color: 'var(--color-alert-soft)',
   fontSize: '13px',
   marginBottom: '14px',
   display: 'flex',
@@ -172,7 +172,7 @@ const errBoxStyle: React.CSSProperties = {
 
 const okBoxStyle: React.CSSProperties = {
   padding: '10px 12px',
-  border: '1px solid #C9A961',
+  border: '1px solid var(--color-gold)',
   backgroundColor: 'rgba(201,169,97,0.08)',
   color: '#E5DDC8',
   fontSize: '13px',
@@ -184,10 +184,10 @@ const okBoxStyle: React.CSSProperties = {
 
 const submitStyle: React.CSSProperties = {
   padding: '14px 24px',
-  backgroundColor: '#C9A961',
-  border: '1px solid #C9A961',
-  color: '#15110D',
-  fontFamily: 'var(--font-jetbrains), monospace',
+  backgroundColor: 'var(--color-gold)',
+  border: '1px solid var(--color-gold)',
+  color: 'var(--color-ink)',
+  fontFamily: 'var(--font-mono)',
   fontSize: '11px',
   letterSpacing: '0.22em',
   textTransform: 'uppercase',

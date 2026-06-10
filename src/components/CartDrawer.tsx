@@ -45,7 +45,7 @@ export default function CartDrawer() {
           bottom: 0,
           width: '100%',
           maxWidth: '440px',
-          backgroundColor: '#1C1814',
+          backgroundColor: 'var(--color-ink-2)',
           borderLeft: '1px solid rgba(244,240,232,0.08)',
           zIndex: 201,
           display: 'flex',
@@ -63,11 +63,11 @@ export default function CartDrawer() {
           flexShrink: 0,
         }}>
           <div>
-            <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: 0 }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: 0 }}>
               Sepetiniz
             </p>
             {itemCount > 0 && (
-              <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', color: '#6E665A', margin: '4px 0 0' }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-cream-faint)', margin: '4px 0 0' }}>
                 {itemCount} ürün
               </p>
             )}
@@ -76,7 +76,7 @@ export default function CartDrawer() {
             type="button"
             onClick={closeCart}
             aria-label="Kapat"
-            style={{ color: '#6E665A', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px', lineHeight: 1 }}
+            style={{ color: 'var(--color-cream-faint)', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px', lineHeight: 1 }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" aria-hidden>
               <path d="M6 6l12 12M6 18L18 6" />
@@ -93,13 +93,13 @@ export default function CartDrawer() {
                 <path d="M3 6h18" />
                 <path d="M16 10a4 4 0 0 1-8 0" />
               </svg>
-              <p style={{ fontFamily: 'var(--font-cormorant)', color: '#6E665A', fontSize: '24px', fontStyle: 'italic', margin: 0, textAlign: 'center' }}>
+              <p style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream-faint)', fontSize: '24px', fontStyle: 'italic', margin: 0, textAlign: 'center' }}>
                 Sepetiniz boş.
               </p>
               <button
                 type="button"
                 onClick={closeCart}
-                style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.22em', color: '#C9A961', background: 'transparent', border: 'none', cursor: 'pointer', textTransform: 'uppercase' }}
+                style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.22em', color: 'var(--color-gold)', background: 'transparent', border: 'none', cursor: 'pointer', textTransform: 'uppercase' }}
               >
                 Alışverişe Devam →
               </button>
@@ -109,12 +109,12 @@ export default function CartDrawer() {
               {items.map(item => (
                 <div key={item.id} style={{ display: 'flex', gap: '16px', padding: '20px 0', borderBottom: '1px solid rgba(244,240,232,0.06)' }}>
                   {/* Görsel */}
-                  <div style={{ width: '70px', height: '88px', flexShrink: 0, backgroundColor: '#15110D', position: 'relative' }}>
+                  <div style={{ width: '70px', height: '88px', flexShrink: 0, backgroundColor: 'var(--color-ink)', position: 'relative' }}>
                     {item.image ? (
                       <Image src={item.image} alt={item.name} fill sizes="70px" style={{ objectFit: 'cover' }} />
                     ) : (
                       <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <span style={{ color: '#3A3530', fontFamily: 'var(--font-cormorant)', fontSize: '10px' }}>—</span>
+                        <span style={{ color: '#3A3530', fontFamily: 'var(--font-display)', fontSize: '10px' }}>—</span>
                       </div>
                     )}
                   </div>
@@ -122,11 +122,11 @@ export default function CartDrawer() {
                   {/* Bilgi */}
                   <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <div>
-                      <p style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '17px', fontWeight: 500, lineHeight: 1.25, margin: '0 0 4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <p style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '17px', fontWeight: 500, lineHeight: 1.25, margin: '0 0 4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {item.name}
                       </p>
                       {item.variantLabel && (
-                        <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '9px', letterSpacing: '0.18em', color: '#6E665A', textTransform: 'uppercase', margin: 0 }}>
+                        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.18em', color: 'var(--color-cream-faint)', textTransform: 'uppercase', margin: 0 }}>
                           {item.variantLabel}
                         </p>
                       )}
@@ -136,21 +136,21 @@ export default function CartDrawer() {
                       {/* Adet */}
                       <div style={{ display: 'flex', alignItems: 'center', border: '1px solid rgba(244,240,232,0.1)' }}>
                         <button type="button" onClick={() => dispatch({ type: 'SET_QTY', id: item.id, quantity: item.quantity - 1 })}
-                          style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6E665A', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '15px' }}>
+                          style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-cream-faint)', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '15px' }}>
                           −
                         </button>
-                        <span style={{ width: '24px', textAlign: 'center', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', color: '#F4F0E8' }}>
+                        <span style={{ width: '24px', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-cream)' }}>
                           {item.quantity}
                         </span>
                         <button type="button" onClick={() => dispatch({ type: 'SET_QTY', id: item.id, quantity: item.quantity + 1 })}
-                          style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6E665A', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '15px' }}>
+                          style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-cream-faint)', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '15px' }}>
                           +
                         </button>
                       </div>
 
                       {/* Fiyat + sil */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <span style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '19px', fontWeight: 500 }}>
+                        <span style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '19px', fontWeight: 500 }}>
                           {formatPrice(item.price * item.quantity)}
                         </span>
                         <button type="button" onClick={() => dispatch({ type: 'REMOVE', id: item.id })} aria-label="Kaldır"
@@ -172,21 +172,21 @@ export default function CartDrawer() {
         {items.length > 0 && (
           <div style={{ borderTop: '1px solid rgba(244,240,232,0.08)', padding: '24px 28px', flexShrink: 0 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '20px' }}>
-              <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.2em', color: '#6E665A', textTransform: 'uppercase' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em', color: 'var(--color-cream-faint)', textTransform: 'uppercase' }}>
                 Ara Toplam
               </span>
-              <span style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '28px', fontWeight: 500 }}>
+              <span style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '28px', fontWeight: 500 }}>
                 {formatPrice(subtotal)}
               </span>
             </div>
 
             <Link href="/odeme" onClick={closeCart}
-              style={{ display: 'block', textAlign: 'center', padding: '18px', backgroundColor: '#C9A961', color: '#15110D', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.25em', textTransform: 'uppercase', textDecoration: 'none', marginBottom: '10px' }}>
+              style={{ display: 'block', textAlign: 'center', padding: '18px', backgroundColor: 'var(--color-gold)', color: 'var(--color-ink)', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.25em', textTransform: 'uppercase', textDecoration: 'none', marginBottom: '10px' }}>
               Ödemeye Geç →
             </Link>
 
             <button type="button" onClick={closeCart}
-              style={{ display: 'block', width: '100%', padding: '12px', backgroundColor: 'transparent', color: '#6E665A', fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', border: 'none', cursor: 'pointer' }}>
+              style={{ display: 'block', width: '100%', padding: '12px', backgroundColor: 'transparent', color: 'var(--color-cream-faint)', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', border: 'none', cursor: 'pointer' }}>
               Alışverişe Devam
             </button>
           </div>

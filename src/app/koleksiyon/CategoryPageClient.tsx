@@ -87,7 +87,7 @@ export default function CategoryPageClient({
             alignItems: 'center',
             padding: '14px 20px',
             borderBottom: '1px solid rgba(244,240,232,0.08)',
-            background: '#15110D',
+            background: 'var(--color-ink)',
           }}
         >
           <button
@@ -100,8 +100,8 @@ export default function CategoryPageClient({
               gap: '10px',
               background: 'transparent',
               border: '1px solid rgba(244,240,232,0.2)',
-              color: '#F4F0E8',
-              fontFamily: 'var(--font-jetbrains)',
+              color: 'var(--color-cream)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '10px',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -117,8 +117,8 @@ export default function CategoryPageClient({
             Filtrele
             {filters.inStockOnly && (
               <>
-                <span style={{ color: '#C9A961' }}>·</span>
-                <span style={{ color: '#C9A961', fontWeight: 500 }}>1</span>
+                <span style={{ color: 'var(--color-gold)' }}>·</span>
+                <span style={{ color: 'var(--color-gold)', fontWeight: 500 }}>1</span>
               </>
             )}
           </button>

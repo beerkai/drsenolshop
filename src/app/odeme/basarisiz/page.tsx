@@ -21,7 +21,7 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
       <Header />
       <main
         style={{
-          background: '#15110D',
+          background: 'var(--color-ink)',
           minHeight: '70vh',
           display: 'flex',
           alignItems: 'center',
@@ -35,7 +35,7 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
               width: '72px',
               height: '72px',
               borderRadius: '50%',
-              background: '#1E1B17',
+              background: 'var(--color-ink-3)',
               border: '1px solid rgba(244,240,232,0.15)',
               margin: '0 auto 32px',
               display: 'flex',
@@ -43,7 +43,7 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
               justifyContent: 'center',
             }}
           >
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#B8B0A0" strokeWidth="2" aria-hidden>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke='var(--color-cream-muted)' strokeWidth="2" aria-hidden>
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
@@ -54,7 +54,7 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
               fontFamily: 'var(--font-mono)',
               fontSize: 'clamp(10px, 2vw, 11px)',
               letterSpacing: '0.3em',
-              color: '#B8B0A0',
+              color: 'var(--color-cream-muted)',
               textTransform: 'uppercase',
               margin: '0 0 16px',
             }}
@@ -64,10 +64,10 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
 
           <h1
             style={{
-              fontFamily: 'var(--font-cormorant)',
+              fontFamily: 'var(--font-display)',
               fontSize: 'clamp(28px, 5vw, 44px)',
               fontWeight: 500,
-              color: '#F4F0E8',
+              color: 'var(--color-cream)',
               margin: '0 0 24px',
               lineHeight: 1.2,
             }}
@@ -79,7 +79,7 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
             style={{
               fontSize: 'clamp(14px, 2.5vw, 16px)',
               lineHeight: 1.7,
-              color: '#B8B0A0',
+              color: 'var(--color-cream-muted)',
               margin: '0 0 32px',
             }}
           >
@@ -94,8 +94,8 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
                 style={{
                   display: 'inline-block',
                   padding: '16px 32px',
-                  background: '#C9A961',
-                  color: '#15110D',
+                  background: 'var(--color-gold)',
+                  color: 'var(--color-ink)',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '11px',
                   letterSpacing: '0.3em',
@@ -112,8 +112,8 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
                 style={{
                   display: 'inline-block',
                   padding: '16px 32px',
-                  background: '#C9A961',
-                  color: '#15110D',
+                  background: 'var(--color-gold)',
+                  color: 'var(--color-ink)',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '11px',
                   letterSpacing: '0.3em',
@@ -131,7 +131,7 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
                 display: 'inline-block',
                 padding: '16px 32px',
                 background: 'transparent',
-                color: '#F4F0E8',
+                color: 'var(--color-cream)',
                 border: '1px solid rgba(244,240,232,0.2)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '11px',

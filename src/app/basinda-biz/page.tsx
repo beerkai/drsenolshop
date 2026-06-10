@@ -25,7 +25,7 @@ export default function BasindaBizPage() {
 
       <P>
         İçerik talebi veya iş birliği için:{' '}
-        <span style={{ color: '#C9A961' }}>basin@drsenol.shop</span>
+        <span style={{ color: 'var(--color-gold)' }}>basin@drsenol.shop</span>
       </P>
     </StaticPageLayout>
   )

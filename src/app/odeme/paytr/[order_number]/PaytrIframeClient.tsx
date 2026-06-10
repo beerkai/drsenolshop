@@ -42,8 +42,8 @@ export default function PaytrIframeClient({ orderNumber }: { orderNumber: string
 
   if (error) {
     return (
-      <div style={{ padding: '24px', border: '1px solid #C8472D', backgroundColor: 'rgba(200,71,45,0.08)', color: '#F4F0E8' }}>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.2em', color: '#C8472D', textTransform: 'uppercase', margin: '0 0 10px' }}>
+      <div style={{ padding: '24px', border: '1px solid var(--color-alert)', backgroundColor: 'rgba(200,71,45,0.08)', color: 'var(--color-cream)' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.2em', color: 'var(--color-alert)', textTransform: 'uppercase', margin: '0 0 10px' }}>
           Hata
         </p>
         <p style={{ margin: 0, lineHeight: 1.7 }}>{error}</p>
@@ -53,14 +53,14 @@ export default function PaytrIframeClient({ orderNumber }: { orderNumber: string
 
   if (!iframeUrl) {
     return (
-      <div style={{ padding: '48px', textAlign: 'center', color: '#B8B0A0', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+      <div style={{ padding: '48px', textAlign: 'center', color: 'var(--color-cream-muted)', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
         Ödeme sayfası hazırlanıyor…
       </div>
     )
   }
 
   return (
-    <div style={{ background: '#1C1814', padding: '16px', border: '1px solid rgba(244,240,232,0.08)' }}>
+    <div style={{ background: 'var(--color-ink-2)', padding: '16px', border: '1px solid rgba(244,240,232,0.08)' }}>
       <iframe
         id="paytriframe"
         src={iframeUrl}

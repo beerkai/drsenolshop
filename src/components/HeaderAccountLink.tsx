@@ -71,7 +71,7 @@ export default function HeaderAccountLink({ iconStyle }: Props) {
             width: '6px',
             height: '6px',
             borderRadius: '50%',
-            backgroundColor: '#C9A961',
+            backgroundColor: 'var(--color-gold)',
           }}
         />
       )}

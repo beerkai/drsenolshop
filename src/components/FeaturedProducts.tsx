@@ -31,10 +31,10 @@ export default async function FeaturedProducts() {
         <div style={{ textAlign: 'center', marginBottom: 'clamp(28px, 7vw, 80px)' }}>
           <p
             style={{
-              fontFamily: 'var(--font-jetbrains)',
+              fontFamily: 'var(--font-mono)',
               fontSize: 'clamp(9px, 2vw, 11px)',
               letterSpacing: 'clamp(0.18em, 0.45vw, 0.3em)',
-              color: '#C9A961',
+              color: 'var(--color-gold)',
               textTransform: 'uppercase',
               marginBottom: '20px',
               margin: '0 0 20px',
@@ -46,13 +46,13 @@ export default async function FeaturedProducts() {
             style={{
               width: '60px',
               height: '1px',
-              background: '#C9A961',
+              background: 'var(--color-gold)',
               margin: '0 auto 32px',
             }}
           />
           <h2
             style={{
-              fontFamily: 'var(--font-cormorant)',
+              fontFamily: 'var(--font-display)',
               color: '#1A1714',
               fontSize: 'clamp(28px, 5.5vw, 60px)',
               fontWeight: 500,
@@ -62,7 +62,7 @@ export default async function FeaturedProducts() {
             }}
           >
             Premium{' '}
-            <span style={{ color: '#C9A961', fontStyle: 'italic', fontWeight: 300 }}>
+            <span style={{ color: 'var(--color-gold)', fontStyle: 'italic', fontWeight: 300 }}>
               koleksiyonumuz.
             </span>
           </h2>
@@ -137,7 +137,7 @@ export default async function FeaturedProducts() {
               alignItems: 'center',
               gap: '12px',
               color: '#1A1714',
-              fontFamily: 'var(--font-jetbrains)',
+              fontFamily: 'var(--font-mono)',
               fontSize: 'clamp(10px, 2vw, 11px)',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',

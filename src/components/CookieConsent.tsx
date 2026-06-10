@@ -66,7 +66,7 @@ export default function CookieConsent() {
           flex: 0 0 auto;
           min-height: 44px;
           padding: 12px 22px;
-          font-family: var(--font-jetbrains), monospace;
+          font-family: var(--font-mono);
           font-size: 11px;
           letter-spacing: 0.22em;
           text-transform: uppercase;
@@ -74,9 +74,9 @@ export default function CookieConsent() {
           transition: background-color 0.15s, border-color 0.15s;
         }
         .cookie-btn-primary {
-          background-color: #C9A961;
-          border: 1px solid #C9A961;
-          color: #15110D;
+          background-color: var(--color-gold);
+          border: 1px solid var(--color-gold);
+          color: var(--color-ink);
           font-weight: 500;
         }
         .cookie-btn-primary:hover { background-color: #D4B879; border-color: #D4B879; }
@@ -87,7 +87,7 @@ export default function CookieConsent() {
         }
         .cookie-btn-secondary:hover { border-color: #D4CFC2; }
         .cookie-btn:focus-visible {
-          outline: 2px solid #C9A961;
+          outline: 2px solid var(--color-gold);
           outline-offset: 2px;
         }
         @media (max-width: 640px) {
@@ -111,7 +111,7 @@ export default function CookieConsent() {
                 fontSize: '10px',
                 letterSpacing: '0.28em',
                 textTransform: 'uppercase',
-                color: '#C9A961',
+                color: 'var(--color-gold)',
                 margin: '0 0 6px',
               }}
             >
@@ -119,11 +119,11 @@ export default function CookieConsent() {
             </p>
             <p style={{ color: '#D4CFC2', fontSize: '13px', lineHeight: 1.6, margin: 0 }}>
               Sitenin doğru çalışması için zorunlu çerezler kullanıyoruz. Detay:{' '}
-              <Link href="/cerez-politikasi" style={{ color: '#C9A961', textDecoration: 'underline' }}>
+              <Link href="/cerez-politikasi" style={{ color: 'var(--color-gold)', textDecoration: 'underline' }}>
                 Çerez
               </Link>
               {' / '}
-              <Link href="/gizlilik-politikasi" style={{ color: '#C9A961', textDecoration: 'underline' }}>
+              <Link href="/gizlilik-politikasi" style={{ color: 'var(--color-gold)', textDecoration: 'underline' }}>
                 Gizlilik
               </Link>
               .

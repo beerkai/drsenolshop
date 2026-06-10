@@ -13,7 +13,7 @@ export default function FavorilerPage() {
   return (
     <>
       <Header />
-      <main style={{ background: '#15110D', minHeight: '70vh' }}>
+      <main style={{ background: 'var(--color-ink)', minHeight: '70vh' }}>
         <FavorilerClient />
       </main>
       <Footer />

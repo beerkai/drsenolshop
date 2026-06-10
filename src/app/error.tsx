@@ -18,8 +18,8 @@ export default function GlobalError({
     <main
       style={{
         minHeight: '100vh',
-        backgroundColor: '#15110D',
-        color: '#F4F0E8',
+        backgroundColor: 'var(--color-ink)',
+        color: 'var(--color-cream)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -29,10 +29,10 @@ export default function GlobalError({
       <div style={{ maxWidth: '520px', textAlign: 'center' }}>
         <p
           style={{
-            fontFamily: 'var(--font-jetbrains), monospace',
+            fontFamily: 'var(--font-mono)',
             fontSize: '11px',
             letterSpacing: '0.3em',
-            color: '#C8472D',
+            color: 'var(--color-alert)',
             textTransform: 'uppercase',
             margin: '0 0 14px',
           }}
@@ -41,8 +41,8 @@ export default function GlobalError({
         </p>
         <h1
           style={{
-            fontFamily: 'var(--font-cormorant), serif',
-            color: '#F4F0E8',
+            fontFamily: 'var(--font-display)',
+            color: 'var(--color-cream)',
             fontSize: 'clamp(28px, 5vw, 44px)',
             fontWeight: 500,
             lineHeight: 1.1,
@@ -50,18 +50,18 @@ export default function GlobalError({
           }}
         >
           Bir şeyler{' '}
-          <span style={{ color: '#C9A961', fontStyle: 'italic', fontWeight: 300 }}>ters gitti.</span>
+          <span style={{ color: 'var(--color-gold)', fontStyle: 'italic', fontWeight: 300 }}>ters gitti.</span>
         </h1>
-        <p style={{ color: '#B8B0A0', fontSize: '14px', lineHeight: 1.7, margin: '0 0 32px' }}>
+        <p style={{ color: 'var(--color-cream-muted)', fontSize: '14px', lineHeight: 1.7, margin: '0 0 32px' }}>
           Sayfa beklenmedik şekilde hata aldı. Sorun devam ederse bizimle iletişime geçebilirsin.
         </p>
 
         {error.digest && (
           <p
             style={{
-              fontFamily: 'var(--font-jetbrains), monospace',
+              fontFamily: 'var(--font-mono)',
               fontSize: '10px',
-              color: '#6E665A',
+              color: 'var(--color-cream-faint)',
               letterSpacing: '0.05em',
               margin: '0 0 24px',
             }}
@@ -76,9 +76,9 @@ export default function GlobalError({
             onClick={reset}
             style={{
               padding: '14px 28px',
-              backgroundColor: '#C9A961',
-              color: '#15110D',
-              fontFamily: 'var(--font-jetbrains), monospace',
+              backgroundColor: 'var(--color-gold)',
+              color: 'var(--color-ink)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '11px',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -94,8 +94,8 @@ export default function GlobalError({
             style={{
               padding: '14px 28px',
               border: '1px solid rgba(244,240,232,0.2)',
-              color: '#F4F0E8',
-              fontFamily: 'var(--font-jetbrains), monospace',
+              color: 'var(--color-cream)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '11px',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',

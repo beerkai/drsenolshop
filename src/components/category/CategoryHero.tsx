@@ -28,7 +28,7 @@ export default function CategoryHero({
     <section
       lang="tr"
       style={{
-        backgroundColor: '#15110D',
+        backgroundColor: 'var(--color-ink)',
         padding: 'clamp(36px, 8vw, 64px) clamp(18px, 5vw, 24px) clamp(28px, 7vw, 48px)',
         borderBottom: '1px solid rgba(244,240,232,0.08)',
         textAlign: 'center',
@@ -36,8 +36,8 @@ export default function CategoryHero({
     >
       <p
         style={{
-          fontFamily: 'var(--font-jetbrains)',
-          color: '#C9A961',
+          fontFamily: 'var(--font-mono)',
+          color: 'var(--color-gold)',
           fontSize: 'clamp(9px, 2vw, 11px)',
           letterSpacing: 'clamp(0.22em, 0.55vw, 0.3em)',
           textTransform: 'uppercase',
@@ -50,15 +50,15 @@ export default function CategoryHero({
         style={{
           width: '48px',
           height: '1px',
-          background: '#C9A961',
+          background: 'var(--color-gold)',
           margin: '0 auto 24px',
         }}
       />
       <h1
         lang={titleLangResolved}
         style={{
-          fontFamily: 'var(--font-cormorant)',
-          color: '#F4F0E8',
+          fontFamily: 'var(--font-display)',
+          color: 'var(--color-cream)',
           fontSize: 'clamp(32px, 5vw, 52px)',
           fontWeight: 500,
           lineHeight: 1.05,
@@ -72,7 +72,7 @@ export default function CategoryHero({
             {' '}
             <span
               style={{
-                color: '#C9A961',
+                color: 'var(--color-gold)',
                 fontStyle: 'italic',
                 fontWeight: 300,
               }}
@@ -86,7 +86,7 @@ export default function CategoryHero({
       {description && (
         <p
           style={{
-            color: '#B8B0A0',
+            color: 'var(--color-cream-muted)',
             fontSize: 'clamp(13px, 2.5vw, 15px)',
             lineHeight: 1.65,
             maxWidth: '520px',

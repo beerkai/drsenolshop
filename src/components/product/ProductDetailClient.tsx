@@ -139,7 +139,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     priceData && inStock ? priceData.current * quantity : null
 
   return (
-    <div className="pdc-root" style={{ background: '#15110D', color: '#F4F0E8' }}>
+    <div className="pdc-root" style={{ background: 'var(--color-ink)', color: 'var(--color-cream)' }}>
       <style>{`
         .pdc-root .pdc-main {
           display: flex;
@@ -154,7 +154,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           flex: none;
           width: 100%;
           padding: 0;
-          background: #15110D;
+          background: var(--color-ink);
         }
         @media (min-width: 1024px) {
           .pdc-root .pdc-gallery-col {
@@ -187,7 +187,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           height: 30px;
           background: rgba(10, 9, 8, 0.72);
           border: 1px solid rgba(244, 240, 232, 0.12);
-          color: #f4f0e8;
+          color: var(--color-cream);
           cursor: pointer;
           display: flex;
           align-items: center;
@@ -281,15 +281,15 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             fontFamily: 'var(--font-mono)',
             fontSize: 'clamp(8px, 2vw, 10px)',
             letterSpacing: '0.22em',
-            color: '#6E665A',
+            color: 'var(--color-cream-faint)',
             textTransform: 'uppercase',
           }}
         >
-          <Link href="/" style={{ color: '#6E665A', textDecoration: 'none' }}>
+          <Link href="/" style={{ color: 'var(--color-cream-faint)', textDecoration: 'none' }}>
             Anasayfa
           </Link>
           <span aria-hidden>·</span>
-          <Link href="/koleksiyon" style={{ color: '#6E665A', textDecoration: 'none' }}>
+          <Link href="/koleksiyon" style={{ color: 'var(--color-cream-faint)', textDecoration: 'none' }}>
             Koleksiyon
           </Link>
           {product.category && (
@@ -297,7 +297,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               <span aria-hidden>·</span>
               <Link
                 href={`/kategori/${product.category.slug}`}
-                style={{ color: '#6E665A', textDecoration: 'none' }}
+                style={{ color: 'var(--color-cream-faint)', textDecoration: 'none' }}
                 {...(isLikelyEnglish(product.category.name) ? { lang: 'en' } : {})}
               >
                 {product.category.name}
@@ -307,7 +307,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           <span aria-hidden>·</span>
           <span
             style={{
-              color: '#C9A961',
+              color: 'var(--color-gold)',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -355,7 +355,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  background: '#1C1814',
+                  background: 'var(--color-ink-2)',
                 }}
               >
                 <p
@@ -410,7 +410,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     right: '8px',
                     padding: '4px 10px',
                     background: 'rgba(10,9,8,0.72)',
-                    color: '#F4F0E8',
+                    color: 'var(--color-cream)',
                     fontFamily: 'var(--font-mono)',
                     fontSize: '10px',
                     letterSpacing: '0.1em',
@@ -437,7 +437,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   style={{
                     border:
                       idx === activeImageIndex
-                        ? '2px solid #C9A961'
+                        ? '2px solid var(--color-gold)'
                         : '1px solid rgba(244,240,232,0.1)',
                   }}
                 >
@@ -459,7 +459,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontSize: '10px',
-                        color: '#6E665A',
+                        color: 'var(--color-cream-faint)',
                       }}
                     >
                       —
@@ -495,7 +495,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 fontFamily: 'var(--font-mono)',
                 fontSize: 'clamp(9px, 2vw, 11px)',
                 letterSpacing: '0.28em',
-                color: '#C9A961',
+                color: 'var(--color-gold)',
                 textTransform: 'uppercase',
                 margin: '0 0 16px',
               }}
@@ -513,7 +513,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               fontWeight: 500,
               lineHeight: 1.12,
               letterSpacing: '-0.015em',
-              color: '#F4F0E8',
+              color: 'var(--color-cream)',
               margin: '0 0 18px',
             }}
             {...(isLikelyEnglish(product.name) ? { lang: 'en' } : {})}
@@ -528,7 +528,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 fontFamily: 'var(--font-sans)',
                 fontSize: 'clamp(13px, 2.5vw, 15px)',
                 lineHeight: 1.7,
-                color: '#B8B0A0',
+                color: 'var(--color-cream-muted)',
                 margin: '0 0 24px',
               }}
             >
@@ -541,7 +541,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             style={{
               width: '36px',
               height: '1px',
-              background: '#C9A961',
+              background: 'var(--color-gold)',
               margin: '0 0 20px',
             }}
           />
@@ -561,7 +561,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     fontFamily: 'var(--font-display)',
                     fontSize: 'clamp(26px, 6vw, 40px)',
                     fontWeight: 500,
-                    color: '#F4F0E8',
+                    color: 'var(--color-cream)',
                   }}
                 >
                   {formatPrice(priceData.current)}
@@ -572,7 +572,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                       style={{
                         fontFamily: 'var(--font-mono)',
                         fontSize: 'clamp(11px, 2.5vw, 14px)',
-                        color: '#6E665A',
+                        color: 'var(--color-cream-faint)',
                         textDecoration: 'line-through',
                       }}
                     >
@@ -583,8 +583,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                         fontFamily: 'var(--font-mono)',
                         fontSize: '9px',
                         letterSpacing: '0.18em',
-                        color: '#15110D',
-                        background: '#C9A961',
+                        color: 'var(--color-ink)',
+                        background: 'var(--color-gold)',
                         padding: '4px 8px',
                         textTransform: 'uppercase',
                         fontWeight: 500,
@@ -600,7 +600,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   fontFamily: 'var(--font-mono)',
                   fontSize: '10px',
                   letterSpacing: '0.15em',
-                  color: '#6E665A',
+                  color: 'var(--color-cream-faint)',
                   textTransform: 'uppercase',
                   margin: '8px 0 0',
                 }}
@@ -609,7 +609,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               </p>
             </div>
           ) : (
-            <p className="pdc-price-block" style={{ color: '#6E665A', fontSize: '14px', marginBottom: '22px' }}>
+            <p className="pdc-price-block" style={{ color: 'var(--color-cream-faint)', fontSize: '14px', marginBottom: '22px' }}>
               Fiyat bilgisi yok
             </p>
           )}
@@ -621,7 +621,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   fontFamily: 'var(--font-mono)',
                   fontSize: '10px',
                   letterSpacing: '0.22em',
-                  color: '#6E665A',
+                  color: 'var(--color-cream-faint)',
                   textTransform: 'uppercase',
                   margin: '0 0 10px',
                 }}
@@ -646,8 +646,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                       style={{
                         padding: '9px 14px',
                         background: sel ? 'rgba(201,169,97,0.12)' : 'transparent',
-                        color: sel ? '#C9A961' : available ? '#F4F0E8' : '#3A3530',
-                        border: `1px solid ${sel ? '#C9A961' : 'rgba(244,240,232,0.2)'}`,
+                        color: sel ? 'var(--color-gold)' : available ? 'var(--color-cream)' : '#3A3530',
+                        border: `1px solid ${sel ? 'var(--color-gold)' : 'rgba(244,240,232,0.2)'}`,
                         fontFamily: 'var(--font-mono)',
                         fontSize: '11px',
                         letterSpacing: '0.1em',
@@ -670,7 +670,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 fontFamily: 'var(--font-mono)',
                 fontSize: '10px',
                 letterSpacing: '0.18em',
-                color: '#C8472D',
+                color: 'var(--color-alert)',
                 textTransform: 'uppercase',
                 margin: '0 0 12px',
               }}
@@ -697,7 +697,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 fontFamily: 'var(--font-mono)',
                 fontSize: '10px',
                 letterSpacing: '0.22em',
-                color: '#6E665A',
+                color: 'var(--color-cream-faint)',
                 textTransform: 'uppercase',
               }}
             >
@@ -714,7 +714,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   height: '36px',
                   background: 'transparent',
                   border: '1px solid rgba(244,240,232,0.2)',
-                  color: quantity <= 1 ? '#6E665A' : '#F4F0E8',
+                  color: quantity <= 1 ? 'var(--color-cream-faint)' : 'var(--color-cream)',
                   fontSize: '18px',
                   cursor: quantity <= 1 ? 'not-allowed' : 'pointer',
                   display: 'flex',
@@ -730,7 +730,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   fontFamily: 'var(--font-display)',
                   fontSize: '18px',
                   fontWeight: 500,
-                  color: '#F4F0E8',
+                  color: 'var(--color-cream)',
                   minWidth: '28px',
                   textAlign: 'center',
                 }}
@@ -749,8 +749,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   border: '1px solid rgba(244,240,232,0.2)',
                   color:
                     inStock && selectedStock > 0 && quantity >= selectedStock
-                      ? '#6E665A'
-                      : '#F4F0E8',
+                      ? 'var(--color-cream-faint)'
+                      : 'var(--color-cream)',
                   fontSize: '18px',
                   cursor:
                     inStock && selectedStock > 0 && quantity >= selectedStock
@@ -775,8 +775,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               style={{
                 width: '100%',
                 padding: '16px 28px',
-                background: !inStock ? '#2A251E' : added ? '#9C7C3C' : '#C9A961',
-                color: !inStock ? '#6E665A' : '#15110D',
+                background: !inStock ? 'var(--color-ink-4)' : added ? 'var(--color-gold-deep)' : 'var(--color-gold)',
+                color: !inStock ? 'var(--color-cream-faint)' : 'var(--color-ink)',
                 border: 'none',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '12px',
@@ -820,7 +820,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                       fontFamily: 'var(--font-mono)',
                       fontSize: '9px',
                       letterSpacing: '0.22em',
-                      color: '#6E665A',
+                      color: 'var(--color-cream-faint)',
                       textTransform: 'uppercase',
                       flexShrink: 0,
                     }}
@@ -831,7 +831,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     style={{
                       fontFamily: 'var(--font-mono)',
                       fontSize: '11px',
-                      color: '#B8B0A0',
+                      color: 'var(--color-cream-muted)',
                     }}
                   >
                     {product.lot_number}
@@ -852,14 +852,14 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                       fontFamily: 'var(--font-mono)',
                       fontSize: '9px',
                       letterSpacing: '0.22em',
-                      color: '#6E665A',
+                      color: 'var(--color-cream-faint)',
                       textTransform: 'uppercase',
                       flexShrink: 0,
                     }}
                   >
                     Menşei
                   </span>
-                  <span style={{ fontSize: '12px', color: '#B8B0A0', textAlign: 'right' }}>
+                  <span style={{ fontSize: '12px', color: 'var(--color-cream-muted)', textAlign: 'right' }}>
                     {product.origin_location}
                   </span>
                 </div>
@@ -878,14 +878,14 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                       fontFamily: 'var(--font-mono)',
                       fontSize: '9px',
                       letterSpacing: '0.22em',
-                      color: '#6E665A',
+                      color: 'var(--color-cream-faint)',
                       textTransform: 'uppercase',
                       flexShrink: 0,
                     }}
                   >
                     Hasat
                   </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#B8B0A0' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-cream-muted)' }}>
                     {new Date(product.harvest_date).toLocaleDateString('tr-TR', {
                       year: 'numeric',
                       month: 'long',
@@ -902,7 +902,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     fontFamily: 'var(--font-mono)',
                     fontSize: '9px',
                     letterSpacing: '0.22em',
-                    color: '#C9A961',
+                    color: 'var(--color-gold)',
                     textTransform: 'uppercase',
                     textDecoration: 'none',
                   }}
@@ -923,8 +923,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           style={{
             width: '100%',
             padding: '14px 20px',
-            background: !inStock ? '#1E1B17' : added ? '#9C7C3C' : '#C9A961',
-            color: !inStock ? '#6E665A' : '#15110D',
+            background: !inStock ? 'var(--color-ink-3)' : added ? 'var(--color-gold-deep)' : 'var(--color-gold)',
+            color: !inStock ? 'var(--color-cream-faint)' : 'var(--color-ink)',
             border: 'none',
             fontFamily: 'var(--font-mono)',
             fontSize: '11px',
@@ -983,7 +983,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               height: '40px',
               border: '1px solid rgba(244,240,232,0.2)',
               background: 'rgba(10,9,8,0.6)',
-              color: '#F4F0E8',
+              color: 'var(--color-cream)',
               cursor: 'pointer',
               fontSize: '22px',
               lineHeight: 1,

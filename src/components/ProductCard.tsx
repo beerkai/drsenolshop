@@ -49,7 +49,7 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
       style={{
         display: 'flex',
         flexDirection: 'column',
-        background: '#15110D',
+        background: 'var(--color-ink)',
         opacity: inStock ? 1 : 0.75,
         cursor: inStock ? 'pointer' : 'default',
         textDecoration: 'none',
@@ -62,7 +62,7 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
           style={{
             position: 'absolute',
             inset: 0,
-            border: '1px solid #C9A961',
+            border: '1px solid var(--color-gold)',
             opacity: isHovered ? 1 : 0,
             transition: 'opacity 0.3s',
             pointerEvents: 'none',
@@ -76,7 +76,7 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
         style={{
           position: 'relative',
           aspectRatio: '4 / 5',
-          background: '#1C1814',
+          background: 'var(--color-ink-2)',
           overflow: 'hidden',
           flexShrink: 0,
         }}
@@ -106,8 +106,8 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
           >
             <p
               style={{
-                fontFamily: 'var(--font-cormorant)',
-                color: '#6E665A',
+                fontFamily: 'var(--font-display)',
+                color: 'var(--color-cream-faint)',
                 fontStyle: 'italic',
                 fontSize: '14px',
                 margin: 0,
@@ -126,10 +126,10 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
               position: 'absolute',
               top: '14px',
               left: '14px',
-              fontFamily: 'var(--font-jetbrains)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '9px',
               letterSpacing: '0.22em',
-              color: '#F4F0E8',
+              color: 'var(--color-cream)',
               background: 'rgba(10,9,8,0.85)',
               padding: '5px 9px',
               textTransform: 'uppercase',
@@ -145,11 +145,11 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
               position: 'absolute',
               top: '14px',
               left: '14px',
-              fontFamily: 'var(--font-jetbrains)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '9px',
               letterSpacing: '0.22em',
-              color: '#15110D',
-              background: '#C9A961',
+              color: 'var(--color-ink)',
+              background: 'var(--color-gold)',
               padding: '5px 9px',
               textTransform: 'uppercase',
               fontWeight: 500,
@@ -189,10 +189,10 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
           {/* Kategori (eyebrow) */}
           <p
             style={{
-              fontFamily: 'var(--font-jetbrains)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '9px',
               letterSpacing: '0.25em',
-              color: isHovered && inStock ? '#C9A961' : '#6E665A',
+              color: isHovered && inStock ? 'var(--color-gold)' : 'var(--color-cream-faint)',
               textTransform: 'uppercase',
               margin: '0 0 10px',
               transition: 'color 0.3s',
@@ -206,8 +206,8 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
           <h3
             className="product-card-title"
             style={{
-              fontFamily: 'var(--font-cormorant)',
-              color: '#F4F0E8',
+              fontFamily: 'var(--font-display)',
+              color: 'var(--color-cream)',
               fontSize: '22px',
               fontWeight: 500,
               lineHeight: 1.25,
@@ -227,7 +227,7 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
           {shortDesc && (
             <p
               style={{
-                color: '#B8B0A0',
+                color: 'var(--color-cream-muted)',
                 fontSize: '12.5px',
                 lineHeight: 1.55,
                 margin: '0 0 16px',
@@ -256,8 +256,8 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
             <>
               <span
                 style={{
-                  fontFamily: 'var(--font-cormorant)',
-                  color: inStock ? '#F4F0E8' : '#B8B0A0',
+                  fontFamily: 'var(--font-display)',
+                  color: inStock ? 'var(--color-cream)' : 'var(--color-cream-muted)',
                   fontSize: '22px',
                   fontWeight: 500,
                 }}
@@ -267,9 +267,9 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
               {hasDiscount && priceData.original && (
                 <span
                   style={{
-                    fontFamily: 'var(--font-jetbrains)',
+                    fontFamily: 'var(--font-mono)',
                     fontSize: '11px',
-                    color: '#6E665A',
+                    color: 'var(--color-cream-faint)',
                     textDecoration: 'line-through',
                   }}
                 >
@@ -278,7 +278,7 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
               )}
             </>
           ) : (
-            <span style={{ fontSize: '11px', color: '#6E665A' }}>
+            <span style={{ fontSize: '11px', color: 'var(--color-cream-faint)' }}>
               Fiyat bilgisi yok
             </span>
           )}
@@ -295,7 +295,7 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
           alignItems: 'center',
           justifyContent: 'center',
           gap: '10px',
-          background: isHovered && inStock ? '#C9A961' : 'transparent',
+          background: isHovered && inStock ? 'var(--color-gold)' : 'transparent',
           transition: 'background 0.3s',
           flexShrink: 0,
         }}
@@ -304,10 +304,10 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
           <>
             <span
               style={{
-                fontFamily: 'var(--font-jetbrains)',
+                fontFamily: 'var(--font-mono)',
                 fontSize: '10px',
                 letterSpacing: '0.25em',
-                color: isHovered ? '#15110D' : '#F4F0E8',
+                color: isHovered ? 'var(--color-ink)' : 'var(--color-cream)',
                 textTransform: 'uppercase',
                 transition: 'color 0.3s',
               }}
@@ -316,7 +316,7 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
             </span>
             <span
               style={{
-                color: isHovered ? '#15110D' : '#C9A961',
+                color: isHovered ? 'var(--color-ink)' : 'var(--color-gold)',
                 fontSize: '14px',
                 lineHeight: 1,
                 transition: 'color 0.3s',
@@ -328,10 +328,10 @@ export default function ProductCard({ product, categoryOverride }: ProductCardPr
         ) : (
           <span
             style={{
-              fontFamily: 'var(--font-jetbrains)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '10px',
               letterSpacing: '0.25em',
-              color: '#6E665A',
+              color: 'var(--color-cream-faint)',
               textTransform: 'uppercase',
             }}
           >

@@ -124,9 +124,9 @@ export default function ProductGrid({
       >
         <p
           style={{
-            fontFamily: 'var(--font-jetbrains)',
+            fontFamily: 'var(--font-mono)',
             fontSize: '11px',
-            color: '#B8B0A0',
+            color: 'var(--color-cream-muted)',
             margin: 0,
           }}
         >
@@ -139,12 +139,12 @@ export default function ProductGrid({
           style={{
             padding: '64px 24px',
             textAlign: 'center',
-            color: '#6E665A',
+            color: 'var(--color-cream-faint)',
           }}
         >
           <p
             style={{
-              fontFamily: 'var(--font-cormorant)',
+              fontFamily: 'var(--font-display)',
               fontSize: '20px',
               fontStyle: 'italic',
               margin: '0 0 8px',
@@ -184,10 +184,10 @@ export default function ProductGrid({
         >
           <p
             style={{
-              fontFamily: 'var(--font-jetbrains)',
+              fontFamily: 'var(--font-mono)',
               fontSize: '10px',
               letterSpacing: '0.22em',
-              color: '#6E665A',
+              color: 'var(--color-cream-faint)',
               textTransform: 'uppercase',
               margin: 0,
             }}

@@ -90,7 +90,7 @@ export default function Footer({ variant = 'default' }: FooterProps) {
       : [...TICKER, ...TICKER]
 
   return (
-    <footer style={{ backgroundColor: '#15110D', borderTop: '1px solid rgba(244,240,232,0.06)', overflow: 'hidden' }}>
+    <footer style={{ backgroundColor: 'var(--color-ink)', borderTop: '1px solid rgba(244,240,232,0.06)', overflow: 'hidden' }}>
       <style>{`
         @media (max-width: 899px) {
           .footer-link-grid {
@@ -139,7 +139,7 @@ export default function Footer({ variant = 'default' }: FooterProps) {
               {...(lang ? { lang } : {})}
             >
               {label}
-              <span style={{ color: '#C9A961', fontSize: '7px', opacity: 0.7 }}>✦</span>
+              <span style={{ color: 'var(--color-gold)', fontSize: '7px', opacity: 0.7 }}>✦</span>
             </span>
             )
           })}
@@ -189,9 +189,9 @@ export default function Footer({ variant = 'default' }: FooterProps) {
         {/* Lot tag */}
         <div style={{ position: 'absolute', top: '36px', left: 'clamp(24px, 5vw, 96px)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '1px', height: '28px', backgroundColor: '#C9A961', opacity: 0.5 }} />
+            <div style={{ width: '1px', height: '28px', backgroundColor: 'var(--color-gold)', opacity: 0.5 }} />
             <div>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.25em', color: '#C9A961', textTransform: 'uppercase', margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.25em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: 0 }}>
                 Lot No.
               </p>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.2em', color: 'rgba(244,240,232,0.25)', margin: '3px 0 0' }}>
@@ -206,7 +206,7 @@ export default function Footer({ variant = 'default' }: FooterProps) {
           fontFamily: 'var(--font-mono)',
           fontSize: '10px',
           letterSpacing: '0.35em',
-          color: '#C9A961',
+          color: 'var(--color-gold)',
           textTransform: 'uppercase',
           margin: '0 0 24px',
           position: 'relative',
@@ -216,7 +216,7 @@ export default function Footer({ variant = 'default' }: FooterProps) {
         </p>
 
         {/* Gold line */}
-        <div style={{ width: '48px', height: '1px', backgroundColor: '#C9A961', margin: '0 auto 48px', position: 'relative', zIndex: 1 }} />
+        <div style={{ width: '48px', height: '1px', backgroundColor: 'var(--color-gold)', margin: '0 auto 48px', position: 'relative', zIndex: 1 }} />
 
         {/* Quote */}
         <p style={{
@@ -225,13 +225,13 @@ export default function Footer({ variant = 'default' }: FooterProps) {
           fontWeight: 400,
           lineHeight: 1.55,
           letterSpacing: '-0.01em',
-          color: '#F4F0E8',
+          color: 'var(--color-cream)',
           maxWidth: '860px',
           margin: '0 auto',
           position: 'relative',
           zIndex: 1,
         }}>
-          <span style={{ color: '#C9A961', fontStyle: 'italic' }}>Kovandan laboratuvara </span>
+          <span style={{ color: 'var(--color-gold)', fontStyle: 'italic' }}>Kovandan laboratuvara </span>
           uzanan kırk yıllık bir yolculuk.{' '}
           <span style={{ color: 'rgba(244,240,232,0.4)', fontStyle: 'italic', fontWeight: 300 }}>
             Her kavanoz, bir bilim insanının imzasını taşır.
@@ -267,7 +267,7 @@ export default function Footer({ variant = 'default' }: FooterProps) {
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.22em', color: 'rgba(244,240,232,0.25)', textTransform: 'uppercase', margin: '0 0 10px' }}>
                 {label}
               </p>
-              <p style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 500, color: '#C9A961', margin: 0, letterSpacing: '0.01em' }}>
+              <p style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 500, color: 'var(--color-gold)', margin: 0, letterSpacing: '0.01em' }}>
                 {value}
               </p>
             </div>
@@ -293,10 +293,10 @@ export default function Footer({ variant = 'default' }: FooterProps) {
           <div>
             {/* Wordmark */}
             <div style={{ marginBottom: '28px' }}>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.4em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 10px' }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.4em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 10px' }}>
                 The Honey Scientist
               </p>
-              <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 6vw, 48px)', fontWeight: 500, color: '#F4F0E8', lineHeight: 1, margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 6vw, 48px)', fontWeight: 500, color: 'var(--color-cream)', lineHeight: 1, margin: 0 }}>
                 Dr. Şenol
               </p>
             </div>
@@ -341,7 +341,7 @@ export default function Footer({ variant = 'default' }: FooterProps) {
                 fontFamily: 'var(--font-mono)',
                 fontSize: '10px',
                 letterSpacing: '0.3em',
-                color: '#C9A961',
+                color: 'var(--color-gold)',
                 textTransform: 'uppercase',
                 margin: '0 0 28px',
               }}>
@@ -382,10 +382,10 @@ export default function Footer({ variant = 'default' }: FooterProps) {
           gap: '32px',
         }}>
           <div>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 10px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 10px' }}>
               Hasat Bildirimi
             </p>
-            <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(18px, 2vw, 24px)', color: '#F4F0E8', fontWeight: 400, margin: 0, letterSpacing: '-0.01em', lineHeight: 1.3 }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(18px, 2vw, 24px)', color: 'var(--color-cream)', fontWeight: 400, margin: 0, letterSpacing: '-0.01em', lineHeight: 1.3 }}>
               Yeni hasat döneminde ilk siz haberdar olun.
             </p>
           </div>

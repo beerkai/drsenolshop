@@ -27,7 +27,7 @@ export default function OnBilgilendirmePage() {
         <p style={{ margin: 0 }}>
           Unvan: {co.legal_name}<br />
           Adres: {co.address}, {co.city_country}<br />
-          E-posta: <a href={`mailto:${co.email}`} style={{ color: '#C9A961' }}>{co.email}</a><br />
+          E-posta: <a href={`mailto:${co.email}`} style={{ color: 'var(--color-gold)' }}>{co.email}</a><br />
           Telefon: {co.phone}<br />
           MERSIS No: {co.mersis}<br />
           Vergi Dairesi / VKN: {co.tax_office} / {co.tax_number}
@@ -61,7 +61,7 @@ export default function OnBilgilendirmePage() {
       <Eyebrow>Madde 5</Eyebrow>
       <H2>Teslimat</H2>
       <P>
-        Ürün, ödemenin alındığı tarihten itibaren en geç <strong style={{ color: '#F4F0E8' }}>30 gün</strong> içinde anlaşmalı kargo şirketi
+        Ürün, ödemenin alındığı tarihten itibaren en geç <strong style={{ color: 'var(--color-cream)' }}>30 gün</strong> içinde anlaşmalı kargo şirketi
         aracılığıyla Alıcı&apos;ya teslim edilir. Tipik teslimat süresi 2-4 iş günüdür.
         Kargo ücreti, sipariş tutarına ve uygulanan kampanyalara göre değişebilir; ödeme sayfasında ayrıca gösterilir.
       </P>
@@ -70,11 +70,11 @@ export default function OnBilgilendirmePage() {
       <H2>Cayma hakkı</H2>
       <P>
         Alıcı, sözleşme konusu ürünü teslim aldığı tarihten itibaren{' '}
-        <strong style={{ color: '#F4F0E8' }}>14 (on dört) gün</strong> içinde hiçbir gerekçe göstermeksizin ve cezai şart ödemeksizin cayma
+        <strong style={{ color: 'var(--color-cream)' }}>14 (on dört) gün</strong> içinde hiçbir gerekçe göstermeksizin ve cezai şart ödemeksizin cayma
         hakkını kullanabilir. Cayma bildirimi yazılı olarak{' '}
-        <a href={`mailto:${co.email}`} style={{ color: '#C9A961' }}>{co.email}</a> adresine yapılır. Cayma hakkının kullanılmasından itibaren
+        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-gold)' }}>{co.email}</a> adresine yapılır. Cayma hakkının kullanılmasından itibaren
         14 gün içinde ürün Satıcı&apos;ya iade edilir; iade kargo ücreti{' '}
-        <strong style={{ color: '#F4F0E8' }}>anlaşmalı kargo ile yapıldığında Satıcı&apos;ya aittir</strong>, aksi halde Alıcı tarafından karşılanır.
+        <strong style={{ color: 'var(--color-cream)' }}>anlaşmalı kargo ile yapıldığında Satıcı&apos;ya aittir</strong>, aksi halde Alıcı tarafından karşılanır.
       </P>
 
       <H2>Cayma hakkı kullanılamayacak ürünler</H2>
@@ -93,10 +93,10 @@ export default function OnBilgilendirmePage() {
       <H2>Şikayet ve uyuşmazlık çözüm yolları</H2>
       <P>
         Tüketici, talep ve şikayetlerini öncelikle{' '}
-        <a href={`mailto:${co.email}`} style={{ color: '#C9A961' }}>{co.email}</a> adresine veya {co.phone} numarasına iletebilir.
+        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-gold)' }}>{co.email}</a> adresine veya {co.phone} numarasına iletebilir.
         Uyuşmazlık halinde, T.C. Ticaret Bakanlığı tarafından belirlenen parasal sınırlar dahilinde tüketicinin yerleşim yerindeki veya
-        tüketici işleminin yapıldığı yerdeki <strong style={{ color: '#F4F0E8' }}>Tüketici Hakem Heyetleri</strong> veya{' '}
-        <strong style={{ color: '#F4F0E8' }}>Tüketici Mahkemeleri</strong> yetkilidir.
+        tüketici işleminin yapıldığı yerdeki <strong style={{ color: 'var(--color-cream)' }}>Tüketici Hakem Heyetleri</strong> veya{' '}
+        <strong style={{ color: 'var(--color-cream)' }}>Tüketici Mahkemeleri</strong> yetkilidir.
       </P>
 
       <Eyebrow>Madde 8</Eyebrow>

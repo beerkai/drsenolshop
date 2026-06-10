@@ -25,10 +25,10 @@ export default async function GirisPage({ searchParams }: { searchParams: SP }) 
   return (
     <>
       <Header />
-      <main style={{ background: '#15110D', minHeight: '70vh' }}>
+      <main style={{ background: 'var(--color-ink)', minHeight: '70vh' }}>
         <AuthShell
           eyebrow="Hesap · Giriş"
-          title={<>Tekrar <span style={{ color: '#C9A961', fontStyle: 'italic', fontWeight: 300 }}>hoş geldiniz</span></>}
+          title={<>Tekrar <span style={{ color: 'var(--color-gold)', fontStyle: 'italic', fontWeight: 300 }}>hoş geldiniz</span></>}
           subtitle="E-posta ve şifrenizle hesabınıza erişin."
         >
           {sp.registered && (
@@ -50,11 +50,11 @@ export default async function GirisPage({ searchParams }: { searchParams: SP }) 
 
           <LoginForm next={next} />
 
-          <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid rgba(244,240,232,0.08)', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-            <a href="/sifre-unuttum" style={{ color: '#B8B0A0', textDecoration: 'none' }}>
+          <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid rgba(244,240,232,0.08)', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+            <a href="/sifre-unuttum" style={{ color: 'var(--color-cream-muted)', textDecoration: 'none' }}>
               Şifremi unuttum
             </a>
-            <a href={`/kayit${next !== '/hesabim' ? `?next=${encodeURIComponent(next)}` : ''}`} style={{ color: '#C9A961', textDecoration: 'none' }}>
+            <a href={`/kayit${next !== '/hesabim' ? `?next=${encodeURIComponent(next)}` : ''}`} style={{ color: 'var(--color-gold)', textDecoration: 'none' }}>
               Hesap oluştur →
             </a>
           </div>
@@ -66,7 +66,7 @@ export default async function GirisPage({ searchParams }: { searchParams: SP }) 
 }
 
 function Notice({ tone, children }: { tone: 'success' | 'error'; children: React.ReactNode }) {
-  const color = tone === 'success' ? '#C9A961' : '#D17B6A'
+  const color = tone === 'success' ? 'var(--color-gold)' : 'var(--color-alert-soft)'
   return (
     <div
       role="alert"

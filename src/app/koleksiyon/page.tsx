@@ -35,7 +35,7 @@ export default async function KoleksiyonPage(props: { searchParams: SP }) {
   return (
     <>
       <Header />
-      <main style={{ background: '#15110D', minHeight: '100vh' }}>
+      <main style={{ background: 'var(--color-ink)', minHeight: '100vh' }}>
         <CategoryHero
           title="Tüm"
           titleAccent="Koleksiyon"
@@ -43,7 +43,7 @@ export default async function KoleksiyonPage(props: { searchParams: SP }) {
           description="Bilimin titizliği, doğanın saflığıyla buluşan tüm ürünlerimiz."
           totalProducts={total}
         />
-        <Suspense fallback={<div style={{ minHeight: 400, background: '#15110D' }} aria-hidden />}>
+        <Suspense fallback={<div style={{ minHeight: 400, background: 'var(--color-ink)' }} aria-hidden />}>
           <CategoryPageClient
             initialProducts={products}
             initialTotal={total}

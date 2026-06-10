@@ -35,7 +35,7 @@ export default function StaticPageLayout({
   return (
     <>
       <Header />
-      <main style={{ background: '#15110D', minHeight: '100vh' }}>
+      <main style={{ background: 'var(--color-ink)', minHeight: '100vh' }}>
         {topNotice}
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav
@@ -56,11 +56,11 @@ export default function StaticPageLayout({
                 fontFamily: 'var(--font-mono)',
                 fontSize: 'clamp(8px, 2vw, 10px)',
                 letterSpacing: '0.22em',
-                color: '#6E665A',
+                color: 'var(--color-cream-faint)',
                 textTransform: 'uppercase',
               }}
             >
-              <Link href="/" style={{ color: '#6E665A', textDecoration: 'none' }}>
+              <Link href="/" style={{ color: 'var(--color-cream-faint)', textDecoration: 'none' }}>
                 Anasayfa
               </Link>
               {breadcrumbs.map((crumb, i) => (
@@ -72,14 +72,14 @@ export default function StaticPageLayout({
                   {crumb.href ? (
                     <Link
                       href={crumb.href}
-                      style={{ color: '#6E665A', textDecoration: 'none' }}
+                      style={{ color: 'var(--color-cream-faint)', textDecoration: 'none' }}
                       {...(isLikelyEnglish(crumb.label) ? { lang: 'en' } : {})}
                     >
                       {crumb.label}
                     </Link>
                   ) : (
                     <span
-                      style={{ color: '#C9A961' }}
+                      style={{ color: 'var(--color-gold)' }}
                       {...(isLikelyEnglish(crumb.label) ? { lang: 'en' } : {})}
                     >
                       {crumb.label}
@@ -104,7 +104,7 @@ export default function StaticPageLayout({
                 fontFamily: 'var(--font-mono)',
                 fontSize: 'clamp(10px, 2vw, 11px)',
                 letterSpacing: '0.3em',
-                color: '#C9A961',
+                color: 'var(--color-gold)',
                 textTransform: 'uppercase',
                 margin: '0 0 20px',
               }}
@@ -115,7 +115,7 @@ export default function StaticPageLayout({
               style={{
                 width: '60px',
                 height: '1px',
-                background: '#C9A961',
+                background: 'var(--color-gold)',
                 margin: '0 auto clamp(24px, 5vw, 36px)',
               }}
             />
@@ -126,7 +126,7 @@ export default function StaticPageLayout({
                 fontWeight: 500,
                 lineHeight: 1.05,
                 letterSpacing: '-0.015em',
-                color: '#F4F0E8',
+                color: 'var(--color-cream)',
                 margin: 0,
               }}
               {...(isLikelyEnglish(title) ? { lang: 'en' } : {})}
@@ -136,7 +136,7 @@ export default function StaticPageLayout({
                 <>
                   <br />
                   <span
-                    style={{ color: '#C9A961', fontStyle: 'italic', fontWeight: 300 }}
+                    style={{ color: 'var(--color-gold)', fontStyle: 'italic', fontWeight: 300 }}
                     {...(isLikelyEnglish(titleAccent) ? { lang: 'en' } : {})}
                   >
                     {titleAccent}
@@ -150,7 +150,7 @@ export default function StaticPageLayout({
                   fontFamily: 'var(--font-sans)',
                   fontSize: 'clamp(14px, 2.5vw, 17px)',
                   lineHeight: 1.75,
-                  color: '#B8B0A0',
+                  color: 'var(--color-cream-muted)',
                   maxWidth: '600px',
                   margin: 'clamp(28px, 5vw, 40px) auto 0',
                 }}

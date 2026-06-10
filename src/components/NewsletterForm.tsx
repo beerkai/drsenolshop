@@ -60,7 +60,7 @@ export default function NewsletterForm() {
             backgroundColor: 'rgba(244,240,232,0.05)',
             border: '1px solid rgba(244,240,232,0.12)',
             borderRight: 'none',
-            color: '#F4F0E8',
+            color: 'var(--color-cream)',
             fontSize: '13px',
             fontFamily: 'var(--font-sans)',
             outline: 'none',
@@ -72,8 +72,8 @@ export default function NewsletterForm() {
           disabled={status === 'loading' || !email.trim()}
           style={{
             padding: '14px 24px',
-            backgroundColor: status === 'loading' ? '#9C7C3C' : '#C9A961',
-            color: '#15110D',
+            backgroundColor: status === 'loading' ? 'var(--color-gold-deep)' : 'var(--color-gold)',
+            color: 'var(--color-ink)',
             border: 'none',
             fontFamily: 'var(--font-mono)',
             fontSize: '10px',
@@ -98,7 +98,7 @@ export default function NewsletterForm() {
             fontFamily: 'var(--font-mono)',
             fontSize: '11px',
             lineHeight: 1.6,
-            color: isError ? '#D17B6A' : submitted ? '#C9A961' : 'rgba(244,240,232,0.5)',
+            color: isError ? 'var(--color-alert-soft)' : submitted ? 'var(--color-gold)' : 'rgba(244,240,232,0.5)',
           }}
         >
           {submitted && (

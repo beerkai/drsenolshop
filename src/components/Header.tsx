@@ -346,8 +346,8 @@ export default function Header() {
                       alignItems: 'center',
                       justifyContent: 'center',
                       padding: '0 4px',
-                      background: '#C9A961',
-                      color: '#15110D',
+                      background: 'var(--color-gold)',
+                      color: 'var(--color-ink)',
                       fontSize: '9px',
                       lineHeight: 1,
                       fontWeight: 500,
@@ -548,7 +548,7 @@ function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
             href="/giris"
             onClick={onNavigate}
             className="font-mono uppercase"
-            style={{ ...mobileAuthLinkStyle, color: '#C9A961', borderColor: '#C9A961' }}
+            style={{ ...mobileAuthLinkStyle, color: 'var(--color-gold)', borderColor: 'var(--color-gold)' }}
           >
             Giriş Yap
           </Link>
@@ -571,7 +571,7 @@ const mobileAuthLinkStyle: React.CSSProperties = {
   alignItems: 'center',
   padding: '10px 16px',
   border: '1px solid rgba(244,240,232,0.18)',
-  color: '#F4F0E8',
+  color: 'var(--color-cream)',
   fontSize: '11px',
   letterSpacing: '0.22em',
   textDecoration: 'none',

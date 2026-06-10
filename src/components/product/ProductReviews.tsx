@@ -21,7 +21,7 @@ function Stars({ value, size = 14 }: { value: number; size?: number }) {
   const full = Math.floor(value)
   const half = value - full >= 0.5
   return (
-    <span aria-label={`${value.toFixed(1)} / 5`} style={{ display: 'inline-flex', gap: '2px', color: '#C9A961', fontSize: `${size}px`, lineHeight: 1 }}>
+    <span aria-label={`${value.toFixed(1)} / 5`} style={{ display: 'inline-flex', gap: '2px', color: 'var(--color-gold)', fontSize: `${size}px`, lineHeight: 1 }}>
       {Array.from({ length: 5 }).map((_, i) => (
         <span key={i} aria-hidden>
           {i < full ? '★' : i === full && half ? '☆' : '☆'}
@@ -39,23 +39,23 @@ export default function ProductReviews({ productId, reviews, stats, isLoggedIn, 
     <section
       style={{
         padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 48px)',
-        backgroundColor: '#15110D',
+        backgroundColor: 'var(--color-ink)',
         borderTop: '1px solid rgba(244,240,232,0.06)',
       }}
     >
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 16px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 16px' }}>
           Müşteri Yorumları
         </p>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px', marginBottom: '36px', borderBottom: '1px solid rgba(244,240,232,0.08)', paddingBottom: '24px' }}>
           <div>
-            <h2 className="font-display" style={{ color: '#F4F0E8', fontSize: 'clamp(26px, 4vw, 36px)', fontWeight: 500, margin: 0, letterSpacing: '-0.01em' }}>
+            <h2 className="font-display" style={{ color: 'var(--color-cream)', fontSize: 'clamp(26px, 4vw, 36px)', fontWeight: 500, margin: 0, letterSpacing: '-0.01em' }}>
               {count > 0 ? `${count} müşteri yorumu` : 'Henüz yorum yok'}
             </h2>
             {count > 0 && (
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px' }}>
                 <Stars value={avg} size={18} />
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: '#C9A961' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--color-gold)' }}>
                   {avg.toFixed(1)} / 5
                 </span>
               </div>
@@ -66,17 +66,17 @@ export default function ProductReviews({ productId, reviews, stats, isLoggedIn, 
         {/* Form veya bilgi */}
         {!isLoggedIn ? (
           <div style={{ padding: '20px 24px', border: '1px solid rgba(244,240,232,0.12)', backgroundColor: 'rgba(244,240,232,0.02)', marginBottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px' }}>
-            <p style={{ color: '#B8B0A0', fontSize: '14px', margin: 0 }}>
+            <p style={{ color: 'var(--color-cream-muted)', fontSize: '14px', margin: 0 }}>
               Bu ürün hakkında yorum bırakmak için giriş yapın.
             </p>
-            <a href={`/giris?next=/urun/${encodeURIComponent(productId)}`} style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#C9A961', textDecoration: 'none' }}>
+            <a href={`/giris?next=/urun/${encodeURIComponent(productId)}`} style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--color-gold)', textDecoration: 'none' }}>
               Giriş Yap →
             </a>
           </div>
         ) : userHasReview ? (
           <div style={{ padding: '20px 24px', border: '1px solid rgba(201,169,97,0.3)', backgroundColor: 'rgba(201,169,97,0.05)', marginBottom: '32px' }}>
             <p style={{ color: '#E5DDC8', fontSize: '14px', lineHeight: 1.6, margin: 0 }}>
-              <span style={{ color: '#C9A961', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', marginRight: '8px' }}>✓ Teşekkürler</span>
+              <span style={{ color: 'var(--color-gold)', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', marginRight: '8px' }}>✓ Teşekkürler</span>
               Bu ürün hakkındaki yorumunuz alındı. Moderasyon sonrası yayınlanacaktır.
             </p>
           </div>
@@ -95,23 +95,23 @@ export default function ProductReviews({ productId, reviews, stats, isLoggedIn, 
                   <div>
                     <Stars value={r.rating} />
                     {r.title && (
-                      <p className="font-display" style={{ color: '#F4F0E8', fontSize: '18px', fontWeight: 500, margin: '6px 0 0', lineHeight: 1.3 }}>
+                      <p className="font-display" style={{ color: 'var(--color-cream)', fontSize: '18px', fontWeight: 500, margin: '6px 0 0', lineHeight: 1.3 }}>
                         {r.title}
                       </p>
                     )}
                   </div>
                   <div style={{ textAlign: 'right' }}>
-                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#B8B0A0', margin: 0 }}>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-cream-muted)', margin: 0 }}>
                       {r.customer_name ?? r.customer_email.split('@')[0]}
                     </p>
-                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: '#6E665A', margin: '2px 0 0' }}>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--color-cream-faint)', margin: '2px 0 0' }}>
                       {formatDate(r.created_at)}
                     </p>
                   </div>
                 </div>
 
                 {r.is_verified_purchase && (
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.22em', color: '#7AAD8B', textTransform: 'uppercase', margin: '6px 0 10px' }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.22em', color: 'var(--color-success-soft)', textTransform: 'uppercase', margin: '6px 0 10px' }}>
                     ✓ Doğrulanmış Alışveriş
                   </p>
                 )}
@@ -125,7 +125,7 @@ export default function ProductReviews({ productId, reviews, stats, isLoggedIn, 
             ))}
           </ul>
         ) : (
-          <p style={{ color: '#6E665A', fontSize: '14px', textAlign: 'center', padding: '20px 0' }}>
+          <p style={{ color: 'var(--color-cream-faint)', fontSize: '14px', textAlign: 'center', padding: '20px 0' }}>
             İlk yorumu siz bırakın.
           </p>
         )}

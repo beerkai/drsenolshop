@@ -126,7 +126,7 @@ export default function SearchOverlay({ open, onClose }: Props) {
           transform: 'translateX(-50%)',
           width: 'calc(100% - 32px)',
           maxWidth: '680px',
-          backgroundColor: '#15110D',
+          backgroundColor: 'var(--color-ink)',
           border: '1px solid rgba(244,240,232,0.1)',
           zIndex: 210,
           maxHeight: '76vh',
@@ -137,7 +137,7 @@ export default function SearchOverlay({ open, onClose }: Props) {
       >
         {/* Search bar */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '20px 22px', borderBottom: '1px solid rgba(244,240,232,0.08)' }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A961" strokeWidth="1.5" strokeLinecap="round" aria-hidden style={{ flexShrink: 0 }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke='var(--color-gold)' strokeWidth="1.5" strokeLinecap="round" aria-hidden style={{ flexShrink: 0 }}>
             <circle cx="11" cy="11" r="7" />
             <path d="m20 20-3.5-3.5" />
           </svg>
@@ -153,9 +153,9 @@ export default function SearchOverlay({ open, onClose }: Props) {
               background: 'transparent',
               border: 'none',
               outline: 'none',
-              fontFamily: 'var(--font-inter), sans-serif',
+              fontFamily: 'var(--font-sans)',
               fontSize: '16px',
-              color: '#F4F0E8',
+              color: 'var(--color-cream)',
             }}
             spellCheck={false}
           />
@@ -164,7 +164,7 @@ export default function SearchOverlay({ open, onClose }: Props) {
             onClick={onClose}
             aria-label="Kapat"
             style={{
-              fontFamily: 'var(--font-jetbrains), monospace',
+              fontFamily: 'var(--font-mono)',
               fontSize: '10px',
               letterSpacing: '0.15em',
               color: '#9B9285',
@@ -184,7 +184,7 @@ export default function SearchOverlay({ open, onClose }: Props) {
         <div style={{ flex: 1, overflowY: 'auto' }}>
           {query.length < 2 ? (
             <div style={{ padding: '40px 22px', textAlign: 'center' }}>
-              <p style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 12px' }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 12px' }}>
                 Arama
               </p>
               <p style={{ color: '#9B9285', fontSize: '13px', lineHeight: 1.6, margin: 0 }}>
@@ -204,7 +204,7 @@ export default function SearchOverlay({ open, onClose }: Props) {
               <p style={{ color: '#9B9285', fontSize: '14px', margin: '0 0 8px' }}>
                 <q>{query}</q> için sonuç yok.
               </p>
-              <p style={{ color: '#6E665A', fontSize: '12px', margin: 0 }}>
+              <p style={{ color: 'var(--color-cream-faint)', fontSize: '12px', margin: 0 }}>
                 Farklı bir kelime deneyin.
               </p>
             </div>
@@ -227,31 +227,31 @@ export default function SearchOverlay({ open, onClose }: Props) {
                       padding: '12px 22px',
                       textDecoration: 'none',
                       background: isActive ? 'rgba(201,169,97,0.06)' : 'transparent',
-                      borderLeft: isActive ? '2px solid #C9A961' : '2px solid transparent',
+                      borderLeft: isActive ? '2px solid var(--color-gold)' : '2px solid transparent',
                     }}
                   >
-                    <div style={{ width: '56px', height: '70px', flexShrink: 0, background: '#1C1814', position: 'relative' }}>
+                    <div style={{ width: '56px', height: '70px', flexShrink: 0, background: 'var(--color-ink-2)', position: 'relative' }}>
                       {img ? (
                         <Image src={img} alt={p.name} fill sizes="56px" style={{ objectFit: 'cover' }} />
                       ) : (
-                        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3A3530', fontFamily: 'var(--font-cormorant)', fontStyle: 'italic', fontSize: '10px', textAlign: 'center', padding: '0 4px' }}>
+                        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3A3530', fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: '10px', textAlign: 'center', padding: '0 4px' }}>
                           {p.name.slice(0, 12)}
                         </div>
                       )}
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       {p.category && (
-                        <p style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.22em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 4px' }}>
+                        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.22em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 4px' }}>
                           {p.category.name}
                         </p>
                       )}
-                      <p style={{ fontFamily: 'var(--font-cormorant), serif', color: '#F4F0E8', fontSize: '17px', fontWeight: 500, lineHeight: 1.25, margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <p style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '17px', fontWeight: 500, lineHeight: 1.25, margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {p.name}
                       </p>
                     </div>
                     {price && (
                       <div style={{ flexShrink: 0, textAlign: 'right' }}>
-                        <p style={{ fontFamily: 'var(--font-cormorant), serif', color: '#C9A961', fontSize: '18px', fontWeight: 500, margin: 0 }}>
+                        <p style={{ fontFamily: 'var(--font-display)', color: 'var(--color-gold)', fontSize: '18px', fontWeight: 500, margin: 0 }}>
                           {formatPrice(price.current)}
                         </p>
                       </div>
@@ -268,11 +268,11 @@ export default function SearchOverlay({ open, onClose }: Props) {
           style={{
             padding: '10px 22px',
             borderTop: '1px solid rgba(244,240,232,0.06)',
-            backgroundColor: '#1C1814',
-            fontFamily: 'var(--font-jetbrains), monospace',
+            backgroundColor: 'var(--color-ink-2)',
+            fontFamily: 'var(--font-mono)',
             fontSize: '10px',
             letterSpacing: '0.1em',
-            color: '#6E665A',
+            color: 'var(--color-cream-faint)',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -285,7 +285,7 @@ export default function SearchOverlay({ open, onClose }: Props) {
             <span><kbd style={kbdStyle}>↵</kbd> seç</span>
           </span>
           <span>
-            <Link href="/koleksiyon" onClick={onClose} style={{ color: '#C9A961', textDecoration: 'none' }}>
+            <Link href="/koleksiyon" onClick={onClose} style={{ color: 'var(--color-gold)', textDecoration: 'none' }}>
               Tüm koleksiyon →
             </Link>
           </span>
@@ -296,9 +296,9 @@ export default function SearchOverlay({ open, onClose }: Props) {
 }
 
 const kbdStyle: React.CSSProperties = {
-  fontFamily: 'var(--font-jetbrains), monospace',
+  fontFamily: 'var(--font-mono)',
   fontSize: '9px',
-  background: '#15110D',
+  background: 'var(--color-ink)',
   border: '1px solid rgba(244,240,232,0.12)',
   color: '#9B9285',
   padding: '1px 5px',

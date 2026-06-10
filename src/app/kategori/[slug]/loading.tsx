@@ -6,12 +6,12 @@ export default function KategoriLoading() {
   return (
     <>
       <Header />
-      <main style={{ backgroundColor: '#15110D', minHeight: '70vh' }}>
+      <main style={{ backgroundColor: 'var(--color-ink)', minHeight: '70vh' }}>
         {/* Kategori Hero */}
         <section style={{ paddingTop: 'clamp(48px, 8vw, 96px)', paddingBottom: 'clamp(40px, 6vw, 72px)' }}>
           <div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
             <SkeletonBox width={140} height={11} style={{ marginBottom: '20px' }} />
-            <SkeletonBox width={60} height={1} style={{ marginBottom: '32px', background: '#C9A961' }} />
+            <SkeletonBox width={60} height={1} style={{ marginBottom: '32px', background: 'var(--color-gold)' }} />
             <SkeletonBox width="60%" height={56} style={{ maxWidth: 520, marginBottom: '20px' }} />
             <SkeletonBox width="45%" height={16} style={{ maxWidth: 420 }} />
           </div>
@@ -30,7 +30,7 @@ export default function KategoriLoading() {
               }}
             >
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} style={{ background: '#15110D' }}>
+                <div key={i} style={{ background: 'var(--color-ink)' }}>
                   <SkeletonBox width="100%" height={320} />
                   <div style={{ padding: '18px 22px' }}>
                     <SkeletonBox width={80} height={10} style={{ marginBottom: '12px' }} />

@@ -24,17 +24,17 @@ export default async function KayitPage({ searchParams }: { searchParams: SP }) 
   return (
     <>
       <Header />
-      <main style={{ background: '#15110D', minHeight: '70vh' }}>
+      <main style={{ background: 'var(--color-ink)', minHeight: '70vh' }}>
         <AuthShell
           eyebrow="Hesap · Kayıt"
-          title={<>Bir <span style={{ color: '#C9A961', fontStyle: 'italic', fontWeight: 300 }}>hesap oluşturun</span></>}
+          title={<>Bir <span style={{ color: 'var(--color-gold)', fontStyle: 'italic', fontWeight: 300 }}>hesap oluşturun</span></>}
           subtitle="Siparişlerinizi takip edin, favorilerinizi kaydedin."
         >
           <RegisterForm next={next} />
 
-          <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid rgba(244,240,232,0.08)', textAlign: 'center', fontFamily: 'var(--font-jetbrains)', fontSize: '11px', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-            <span style={{ color: '#6E665A' }}>Zaten hesabınız var mı?{' '}</span>
-            <a href={`/giris${next !== '/hesabim' ? `?next=${encodeURIComponent(next)}` : ''}`} style={{ color: '#C9A961', textDecoration: 'none' }}>
+          <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid rgba(244,240,232,0.08)', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+            <span style={{ color: 'var(--color-cream-faint)' }}>Zaten hesabınız var mı?{' '}</span>
+            <a href={`/giris${next !== '/hesabim' ? `?next=${encodeURIComponent(next)}` : ''}`} style={{ color: 'var(--color-gold)', textDecoration: 'none' }}>
               Giriş yap →
             </a>
           </div>

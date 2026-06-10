@@ -42,6 +42,8 @@
   --color-line-light: rgba(26, 23, 20, 0.10);     /* Açık zeminde çizgi */
   --color-alert: #C8472D;          /* Sadece indirim/uyarı */
   --color-success: #5C7A3F;        /* Sadece onay */
+  --color-alert-soft: #D17B6A;     /* yumuşak hata metni — koyu zeminde okunaklı */
+  --color-success-soft: #7AAD8B;   /* yumuşak onay metni — koyu zeminde okunaklı */
 
   /* ── FONTLAR ── */
   --font-display: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
