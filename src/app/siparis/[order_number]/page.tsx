@@ -6,6 +6,8 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { getOrderByNumber } from '@/lib/orders'
 import { getBankInfo } from '@/lib/site-settings'
+import { getSupabaseServer } from '@/lib/supabase-server'
+import { maskEmail, maskPhone, maskFullName, maskAddressLine } from '@/lib/pii'
 import { formatPrice } from '@/types'
 import CancelOrderButton from './CancelOrderButton'
 
@@ -36,11 +38,33 @@ export default async function OrderPage({ params }: Props) {
   if (!result) notFound()
 
   const { order, items } = result
+
+  // Sahip kontrolü: logged-in kullanıcı siparişin email'i veya user_id'siyle
+  // eşleşiyor mu? Eşleşmezse kişisel verileri maskele (order_number enumerate
+  // edilebildiği için yabancı sipariş numarasıyla erişen kişiye PII verme).
+  const supabase = await getSupabaseServer()
+  const { data: { user } } = await supabase.auth.getUser()
+  const isOwner = Boolean(
+    user &&
+    (
+      (user.email && user.email.toLowerCase() === order.customer_email.toLowerCase()) ||
+      (order.user_id && user.id === order.user_id)
+    )
+  )
+
   const ship = order.shipping_address as Record<string, string> | null
   const isBankTransfer = order.payment_method === 'bank_transfer'
+  const isPaytr = order.payment_method === 'paytr'
   const bankInfo = isBankTransfer ? await getBankInfo() : null
   const hasBankInfo = bankInfo && (bankInfo.bank_name || bankInfo.iban)
   const formatIban = (i: string) => i.replace(/(.{4})/g, '$1 ').trim()
+
+  // Görüntü için PII güvenli alanları hazırla
+  const displayEmail = isOwner ? order.customer_email : maskEmail(order.customer_email)
+  const displayShipName = isOwner ? (ship?.full_name ?? '') : maskFullName(ship?.full_name)
+  const displayShipPhone = isOwner ? (ship?.phone ?? '') : maskPhone(ship?.phone)
+  const displayShipLine1 = isOwner ? (ship?.address_line1 ?? '') : maskAddressLine(ship?.address_line1)
+  const displayShipLine2 = isOwner ? (ship?.address_line2 ?? '') : (ship?.address_line2 ? '***' : '')
 
   return (
     <>
@@ -62,7 +86,46 @@ export default async function OrderPage({ params }: Props) {
             <p style={{ color: '#B8B0A0', fontSize: '15px', marginTop: '8px' }}>
               Sipariş No: <span style={{ fontFamily: 'var(--font-jetbrains)', color: '#F4F0E8', letterSpacing: '0.1em' }}>{order.order_number}</span>
             </p>
+            {!isOwner && (
+              <p style={{ color: '#6E665A', fontSize: '12px', marginTop: '10px', fontStyle: 'italic' }}>
+                Tam detaylar için hesabınıza giriş yapın.
+              </p>
+            )}
           </div>
+
+          {/* PayTR pending — kart ile ödeme CTA'sı */}
+          {isPaytr && order.status === 'pending' && (
+            <div style={{ backgroundColor: '#1C1814', border: '1px solid rgba(201,169,97,0.3)', padding: '28px', marginBottom: '32px' }}>
+              <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 16px' }}>
+                Kart ile Ödeme
+              </p>
+              <h2 style={{ fontFamily: 'var(--font-cormorant)', color: '#F4F0E8', fontSize: '22px', fontWeight: 500, lineHeight: 1.2, margin: '0 0 12px' }}>
+                Kart ile ödemenizi tamamlayın.
+              </h2>
+              <p style={{ color: '#B8B0A0', fontSize: '14px', lineHeight: 1.7, margin: '0 0 24px' }}>
+                <strong style={{ color: '#F4F0E8' }}>{formatPrice(Number(order.total_amount))}</strong> tutarındaki ödemenizi güvenli ödeme sayfamızdan tek seferde gerçekleştirebilirsiniz.
+              </p>
+              <Link
+                href={`/odeme/paytr/${order.order_number}`}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '14px 28px',
+                  backgroundColor: '#C9A961',
+                  color: '#15110D',
+                  fontFamily: 'var(--font-jetbrains)',
+                  fontSize: '11px',
+                  letterSpacing: '0.28em',
+                  textTransform: 'uppercase',
+                  fontWeight: 500,
+                  textDecoration: 'none',
+                }}
+              >
+                Kart ile Öde →
+              </Link>
+            </div>
+          )}
 
           {/* Banka bilgileri — havale ise */}
           {isBankTransfer && order.status === 'pending' && (
@@ -137,6 +200,19 @@ export default async function OrderPage({ params }: Props) {
             </div>
           </div>
 
+          {/* İletişim — maskeli/açık */}
+          <div style={{ backgroundColor: '#1C1814', padding: '28px', marginBottom: '32px' }}>
+            <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.3em', color: '#C9A961', textTransform: 'uppercase', margin: '0 0 14px' }}>
+              İletişim
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Row label="E-posta" value={displayEmail} />
+              {order.customer_phone && (
+                <Row label="Telefon" value={isOwner ? order.customer_phone : maskPhone(order.customer_phone)} />
+              )}
+            </div>
+          </div>
+
           {/* Teslimat adresi */}
           {ship && (
             <div style={{ backgroundColor: '#1C1814', padding: '28px', marginBottom: '32px' }}>
@@ -144,10 +220,10 @@ export default async function OrderPage({ params }: Props) {
                 Teslimat
               </p>
               <p style={{ color: '#F4F0E8', fontSize: '15px', lineHeight: 1.7, margin: 0 }}>
-                {ship.full_name}<br />
-                {ship.address_line1}{ship.address_line2 ? `, ${ship.address_line2}` : ''}<br />
+                {displayShipName}<br />
+                {displayShipLine1}{displayShipLine2 ? `, ${displayShipLine2}` : ''}<br />
                 {ship.district}, {ship.city}{ship.postal_code ? ` ${ship.postal_code}` : ''}<br />
-                <span style={{ color: '#6E665A', fontSize: '13px', fontFamily: 'var(--font-jetbrains)' }}>{ship.phone}</span>
+                <span style={{ color: '#6E665A', fontSize: '13px', fontFamily: 'var(--font-jetbrains)' }}>{displayShipPhone}</span>
               </p>
             </div>
           )}
@@ -161,8 +237,8 @@ export default async function OrderPage({ params }: Props) {
               Alışverişe Devam Et →
             </Link>
 
-            {/* Müşteri iptal — yalnız pending */}
-            {order.status === 'pending' && (
+            {/* Müşteri iptal — yalnız pending ve sahip */}
+            {order.status === 'pending' && isOwner && (
               <div style={{ marginTop: '32px', paddingTop: '24px', borderTop: '1px solid rgba(244,240,232,0.08)' }}>
                 <p style={{ fontSize: '12px', color: '#6E665A', marginBottom: '14px' }}>
                   Henüz ödeme bekleniyor. İhtiyaç halinde siparişinizi iptal edebilirsiniz.

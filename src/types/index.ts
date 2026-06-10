@@ -169,6 +169,10 @@ export interface Order {
   tracking_number: string | null
   reminded_at: string | null
   reminder_count: number
+  // 0017_stock_movement.sql
+  stock_decremented_at: string | null
+  coupon_code: string | null
+  coupon_consumed_at: string | null
   created_at: string
   updated_at: string | null
   shipped_at: string | null

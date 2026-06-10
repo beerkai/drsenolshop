@@ -3,6 +3,8 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { getOrderByNumber } from '@/lib/orders'
+import { getSupabaseServer } from '@/lib/supabase-server'
+import { maskEmail } from '@/lib/pii'
 import { formatPrice } from '@/types'
 
 export const metadata: Metadata = {
@@ -19,6 +21,23 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
   const orderNumber = no?.trim() || oid?.trim()
   const lookup = orderNumber ? await getOrderByNumber(orderNumber) : null
   const order = lookup?.order ?? null
+
+  // Sahip kontrolü — değilse e-posta maskeli gösterilir (enumerate koruması).
+  let isOwner = false
+  if (order) {
+    const supabase = await getSupabaseServer()
+    const { data: { user } } = await supabase.auth.getUser()
+    isOwner = Boolean(
+      user &&
+      (
+        (user.email && user.email.toLowerCase() === order.customer_email.toLowerCase()) ||
+        (order.user_id && user.id === order.user_id)
+      )
+    )
+  }
+  const displayEmail = order
+    ? (isOwner ? order.customer_email : maskEmail(order.customer_email))
+    : 'e-posta adresinize'
 
   return (
     <>
@@ -85,7 +104,7 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
               margin: '0 0 32px',
             }}
           >
-            Sipariş onay e-postası birazdan {order?.customer_email || 'e-posta adresinize'} gönderilecek.
+            Sipariş onay e-postası birazdan {displayEmail} gönderilecek.
             Siparişiniz kargolandığında ayrıca bilgilendirileceksiniz.
           </p>
 

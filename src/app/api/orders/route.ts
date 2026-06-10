@@ -57,21 +57,26 @@ export async function POST(request: Request) {
     console.error('[api/orders] Telegram bildirimi atılamadı:', err)
   })
 
-  ;(async () => {
-    try {
-      const bankInfo = result.order.payment_method === 'bank_transfer' ? await getBankInfo() : null
-      const mail = await sendOrderConfirmation({
-        order: result.order,
-        items: result.items,
-        bankInfo,
-      })
-      if (!mail.ok && mail.error !== 'not_configured') {
-        console.error('[api/orders] sipariş onay maili gönderilemedi:', mail.error)
+  // PayTR siparişlerinde sipariş onay mailini ÖDEME tamamlandığında atıyoruz
+  // (paytr-callback success branch). Burada atlanır — yoksa müşteri henüz
+  // ödemeden "siparişiniz alındı" maili alıyor, kafa karışıyor.
+  if (result.order.payment_method !== 'paytr') {
+    ;(async () => {
+      try {
+        const bankInfo = result.order.payment_method === 'bank_transfer' ? await getBankInfo() : null
+        const mail = await sendOrderConfirmation({
+          order: result.order,
+          items: result.items,
+          bankInfo,
+        })
+        if (!mail.ok && mail.error !== 'not_configured') {
+          console.error('[api/orders] sipariş onay maili gönderilemedi:', mail.error)
+        }
+      } catch (err) {
+        console.error('[api/orders] mail gönderim hatası:', err)
       }
-    } catch (err) {
-      console.error('[api/orders] mail gönderim hatası:', err)
-    }
-  })()
+    })()
+  }
 
   return NextResponse.json({
     ok: true,

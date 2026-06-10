@@ -347,11 +347,36 @@ export async function sendPaymentReminder(input: PaymentReminderInput): Promise<
   const { order, bankInfo, attempt } = input
   const siteUrl = (input.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://drsenol.shop').replace(/\/$/, '')
   const orderUrl = `${siteUrl}/siparis/${order.order_number}`
+  const paytrUrl = `${siteUrl}/odeme/paytr/${order.order_number}`
 
   const isBankTransfer = order.payment_method === 'bank_transfer'
-  const intro = attempt === 1
-    ? 'Sipariş kaydınızı aldık ancak ödemenizi henüz göremedik. Aşağıdaki bilgilerle ödemenizi tamamlayabilirsiniz.'
-    : 'Sipariş kaydınız hâlâ bekliyor. Ödemenizi tamamlamak için bilgiler aşağıdadır. Tamamlayamıyorsanız siparişi iptal edebilirsiniz.'
+  const isPaytr = order.payment_method === 'paytr'
+
+  // PayTR ile farklı içerik: IBAN yerine kart ile ödeme CTA'sı
+  const intro = isPaytr
+    ? (attempt === 1
+      ? 'Sipariş kaydınızı aldık ancak ödemenizi henüz tamamlamadınız. Aşağıdaki bağlantıdan kart ile ödemenizi gerçekleştirebilirsiniz.'
+      : 'Sipariş kaydınız hâlâ ödeme bekliyor. Kart ile ödemenizi tamamlamak için aşağıdaki bağlantıyı kullanabilirsiniz; tamamlayamayacaksanız siparişi iptal edebilirsiniz.')
+    : (attempt === 1
+      ? 'Sipariş kaydınızı aldık ancak ödemenizi henüz göremedik. Aşağıdaki bilgilerle ödemenizi tamamlayabilirsiniz.'
+      : 'Sipariş kaydınız hâlâ bekliyor. Ödemenizi tamamlamak için bilgiler aşağıdadır. Tamamlayamıyorsanız siparişi iptal edebilirsiniz.')
+
+  const paytrBlock = isPaytr
+    ? `
+    <div style="margin:24px 0 0; padding:20px; background-color:#FAFAF7; border:1px solid rgba(201,169,97,0.3);">
+      <p style="margin:0 0 12px; font-family:Menlo, Consolas, monospace; font-size:10px; letter-spacing:0.3em; color:#9C7C3C; text-transform:uppercase;">Kart ile Ödeme</p>
+      <p style="margin:0 0 16px; font-size:13px; line-height:1.7; color:#6B6258;">
+        <strong style="color:#1A1714;">${formatPrice(Number(order.total_amount))}</strong> tutarındaki ödemenizi güvenli ödeme sayfamızdan tamamlayabilirsiniz.
+      </p>
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td style="background-color:#C9A961; padding:12px 24px;">
+            <a href="${escapeHtml(paytrUrl)}" style="display:inline-block; font-family:Menlo, Consolas, monospace; font-size:11px; letter-spacing:0.28em; color:#15110D; text-decoration:none; text-transform:uppercase;">Kart ile Öde &rarr;</a>
+          </td>
+        </tr>
+      </table>
+    </div>`
+    : ''
 
   const body = `
     <div style="margin:0 0 24px; padding:16px 20px; background-color:#FAFAF7; border-left:3px solid #C9A961;">
@@ -360,16 +385,20 @@ export async function sendPaymentReminder(input: PaymentReminderInput): Promise<
       <p style="margin:6px 0 0; font-size:14px; color:#1A1714;">Tutar: <strong>${escapeHtml(formatPrice(Number(order.total_amount)))}</strong></p>
     </div>
     ${isBankTransfer && bankInfo ? bankInfoBlock(bankInfo, order.order_number, Number(order.total_amount)) : ''}
+    ${paytrBlock}
     <p style="margin:24px 0 0; font-size:13px; line-height:1.7; color:#6B6258;">
       Ödemenizi gerçekleştiremeyecekseniz <a href="${escapeHtml(orderUrl)}" style="color:#9C7C3C;">sipariş sayfanızdan</a> siparişi iptal edebilirsiniz.
     </p>`
+
+  const ctaLabel = isPaytr ? 'Kart ile Öde' : 'Siparişi Görüntüle'
+  const ctaUrl = isPaytr ? paytrUrl : orderUrl
 
   const html = emailLayout({
     preheader: `Sipariş ${order.order_number} için ödeme bekleniyor`,
     title: 'Ödemenizi bekliyoruz.',
     intro,
     bodyHtml: body,
-    cta: { label: 'Siparişi Görüntüle', url: orderUrl },
+    cta: { label: ctaLabel, url: ctaUrl },
   })
 
   return sendEmail({

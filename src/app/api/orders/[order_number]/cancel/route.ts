@@ -12,7 +12,8 @@ import { getSupabaseServer } from '@/lib/supabase-server'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { sendOrderStatusUpdate } from '@/lib/email'
 import { sendTelegramMessage, isTelegramConfigured, escapeHtml } from '@/lib/telegram'
-import { formatPrice, type Order } from '@/types'
+import { restoreOrderStock } from '@/lib/stock'
+import { formatPrice, type Order, type OrderItem } from '@/types'
 
 export async function POST(
   request: Request,
@@ -89,6 +90,18 @@ export async function POST(
   }
 
   const next = updated as Order
+
+  // Stok güvencesi — pending'de normalde stok düşmemiş olur (stock.ts no-op).
+  // Yine de defensive: stock_decremented_at varsa iade et.
+  if (next.stock_decremented_at) {
+    const { data: itemRows } = await admin
+      .from('order_items')
+      .select('*')
+      .eq('order_id', next.id)
+      .order('created_at', { ascending: true })
+    const items = (itemRows ?? []) as OrderItem[]
+    await restoreOrderStock(next, items)
+  }
 
   // Bildirimler (fire-and-forget)
   if (isTelegramConfigured()) {

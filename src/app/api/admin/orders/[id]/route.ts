@@ -3,13 +3,17 @@
 // ─ Admin yetkisi zorunlu (middleware + endpoint kontrolü)
 // ─ status, payment_status, tracking_number güncellenir
 // ─ status='shipped' set edilirse shipped_at otomatik
+// ─ Stok geçişleri (paid/captured → düşüm, cancelled/refunded → iade)
+//   src/lib/stock.ts üzerinden idempotent yürütülür.
+// ─ Kupon konsumpsiyonu: paid/captured geçişinde tek seferlik artırılır.
 // ═══════════════════════════════════════════════════════════════
 
 import { NextResponse } from 'next/server'
 import { getCurrentAdmin } from '@/lib/admin-auth'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { sendOrderStatusUpdate } from '@/lib/email'
-import type { Order } from '@/types'
+import { decrementOrderStock, restoreOrderStock, consumeCouponForOrder } from '@/lib/stock'
+import type { Order, OrderItem } from '@/types'
 
 type OrderStatus = 'pending' | 'paid' | 'preparing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
 type PaymentStatusEnum = 'pending' | 'authorized' | 'captured' | 'failed' | 'refunded'
@@ -23,6 +27,11 @@ interface PatchBody {
 
 const VALID_STATUS: OrderStatus[] = ['pending', 'paid', 'preparing', 'shipped', 'delivered', 'cancelled', 'refunded']
 const VALID_PAYMENT_STATUS: PaymentStatusEnum[] = ['pending', 'authorized', 'captured', 'failed', 'refunded']
+
+// Stoğun "düşük" olması beklenen durumlar
+const STOCK_DOWN_STATUSES: ReadonlyArray<OrderStatus> = ['paid', 'preparing', 'shipped', 'delivered']
+// Stoğun iade edilmesi gereken durumlar
+const STOCK_RESTORE_STATUSES: ReadonlyArray<OrderStatus> = ['cancelled', 'refunded']
 
 export async function PATCH(
   request: Request,
@@ -60,6 +69,10 @@ export async function PATCH(
       return NextResponse.json({ ok: false, message: 'Geçersiz payment_status' }, { status: 400 })
     }
     updates.payment_status = body.payment_status
+    // payment_status captured oldu ama paid_at boşsa şimdi damgala
+    if (body.payment_status === 'captured') {
+      updates.paid_at = new Date().toISOString()
+    }
   }
 
   if (body.tracking_number !== undefined) {
@@ -75,6 +88,14 @@ export async function PATCH(
   }
 
   const supabase = getSupabaseAdmin()
+
+  // Stok hareketi için kalemleri (snapshot) önceden çek
+  const { data: itemRows } = await supabase
+    .from('order_items')
+    .select('*')
+    .eq('order_id', id)
+    .order('created_at', { ascending: true })
+
   const { data, error } = await supabase
     .from('orders')
     .update(updates)
@@ -89,9 +110,26 @@ export async function PATCH(
     )
   }
 
+  const order = data as Order
+  const items = (itemRows ?? []) as OrderItem[]
+
+  // Stok geçişleri (idempotent; stock.ts kendi içinde state kontrolü yapar)
+  const wantsRestore = STOCK_RESTORE_STATUSES.includes(order.status)
+  const wantsDecrement =
+    !wantsRestore &&
+    (order.payment_status === 'captured' || STOCK_DOWN_STATUSES.includes(order.status))
+
+  if (wantsDecrement) {
+    await decrementOrderStock(order, items)
+    // Ödeme tamamlandığında kupon sayacını tek seferlik artır
+    await consumeCouponForOrder(order.id)
+  }
+  if (wantsRestore) {
+    await restoreOrderStock(order, items)
+  }
+
   // Status değiştiyse e-posta bildirimi (fire-and-forget)
   if (body.status !== undefined && ['paid', 'preparing', 'shipped', 'delivered', 'cancelled'].includes(body.status)) {
-    const order = data as Order
     ;(async () => {
       try {
         const mail = await sendOrderStatusUpdate({

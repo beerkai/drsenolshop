@@ -186,6 +186,13 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
   // 4) DB insert — orders + order_items
   const supabase = getSupabaseAdmin()
 
+  const paymentMethod = input.payment_method ?? 'bank_transfer'
+  // PayTR'da kupon sayacı ödeme onayında artırılır (paytr-callback success).
+  // Diğer yöntemlerde sipariş anında artırılır → coupon_consumed_at hemen
+  // damgalanır (idempotency için stock.ts consumeCouponForOrder ile aynı
+  // alanı kullanır; bir kez set edildikten sonra ikinci artırım yapılmaz).
+  const consumeCouponNow = appliedCouponCode !== null && paymentMethod !== 'paytr'
+
   const { data: orderRow, error: orderErr } = await supabase
     .from('orders')
     .insert({
@@ -202,13 +209,12 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
       tax_amount: totals.taxAmount,
       discount_amount: totals.discountAmount,
       total_amount: totals.total,
-      payment_method: input.payment_method ?? 'bank_transfer',
+      payment_method: paymentMethod,
       payment_status: 'pending',
-      notes: [
-        input.notes?.trim(),
-        appliedCouponCode ? `[kupon: ${appliedCouponCode}]` : null,
-      ].filter(Boolean).join(' · ') || null,
+      notes: input.notes?.trim() || null,
       user_id: input.user_id ?? null,
+      coupon_code: appliedCouponCode,
+      coupon_consumed_at: consumeCouponNow ? new Date().toISOString() : null,
     })
     .select()
     .single()
@@ -262,7 +268,9 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
   //  callback'te stok düşürülür.)
 
   // 7) Kupon kullanım sayacını artır (best-effort; sipariş zaten kaydedildi)
-  if (appliedCouponCode) {
+  // PayTR'da bu adım atlanır — ödeme tamamlandığında paytr-callback +
+  // stock.consumeCouponForOrder atomik artırır.
+  if (consumeCouponNow && appliedCouponCode) {
     incrementCouponUsage(appliedCouponCode).catch((err) => {
       console.error('[createOrder] kupon sayacı artırılamadı:', err)
     })

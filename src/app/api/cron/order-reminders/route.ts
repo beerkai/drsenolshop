@@ -49,7 +49,13 @@ export async function GET(request: Request) {
     return NextResponse.json({ ok: false, message: error.message }, { status: 500 })
   }
 
-  const bankInfo = await getBankInfo()
+  // bankInfo yalnız bank_transfer siparişler için gerekiyor — lazy hesapla
+  let bankInfoMemo: Awaited<ReturnType<typeof getBankInfo>> | null = null
+  const getBankInfoOnce = async () => {
+    if (bankInfoMemo === null) bankInfoMemo = await getBankInfo()
+    return bankInfoMemo
+  }
+
   let sent = 0
   let skipped = 0
 
@@ -64,6 +70,9 @@ export async function GET(request: Request) {
     }
 
     const attempt = row.reminder_count + 1
+    // bankInfo: yalnız havale siparişlerinde anlamlı; PayTR siparişine IBAN
+    // göstermek yanlış olur (mail PayTR dalına düşer ve null geçilir).
+    const bankInfo = row.payment_method === 'bank_transfer' ? await getBankInfoOnce() : null
     const result = await sendPaymentReminder({ order: row, bankInfo, attempt })
 
     if (result.ok) {

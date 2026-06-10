@@ -1,39 +1,22 @@
 // ═══════════════════════════════════════════════════════════════
 // PayTR bildirim (callback) işleyicisi — sunucu tarafı
+// ─ Hash doğrulanır
+// ─ Başarılıysa: paid + captured işaretle, stok düş, kupon konsumpsiyonu,
+//   sipariş onay maili + Telegram bildir
+// ─ Başarısızsa: payment_status='failed', not ekle
+// ─ Idempotent: aynı merchant_oid için tekrar gelirse no-op
 // ═══════════════════════════════════════════════════════════════
 
 import { verifyPaytrCallback, isPaytrConfigured } from '@/lib/paytr'
 import { getSupabaseAdmin } from '@/lib/supabase'
-import { sendOrderStatusUpdate } from '@/lib/email'
+import { sendOrderConfirmation } from '@/lib/email'
 import { sendTelegramMessage, isTelegramConfigured, escapeHtml } from '@/lib/telegram'
+import { decrementOrderStock, consumeCouponForOrder } from '@/lib/stock'
 import { formatPrice } from '@/types'
 import type { Order, OrderItem } from '@/types'
 
 function plain(body: string, status = 200) {
   return new Response(body, { status, headers: { 'Content-Type': 'text/plain' } })
-}
-
-async function decrementOrderStock(orderId: string, items: OrderItem[]) {
-  const supabase = getSupabaseAdmin()
-  for (const item of items) {
-    if (item.variant_id) {
-      const { error } = await supabase.rpc('decrement_variant_stock', {
-        p_variant_id: item.variant_id,
-        p_quantity: item.quantity,
-      })
-      if (error) {
-        console.error('[paytr/callback] variant stok düşürülemedi:', item.variant_id, error.message)
-      }
-    } else if (item.product_id) {
-      const { error } = await supabase.rpc('decrement_product_stock', {
-        p_product_id: item.product_id,
-        p_quantity: item.quantity,
-      })
-      if (error) {
-        console.error('[paytr/callback] ürün stok düşürülemedi:', item.product_id, error.message)
-      }
-    }
-  }
 }
 
 async function findOrderByMerchantOid(merchantOid: string): Promise<{ order: Order; items: OrderItem[] } | null> {
@@ -104,6 +87,7 @@ export async function handlePaytrCallback(request: Request): Promise<Response> {
   const { order, items } = lookup
   const supabase = getSupabaseAdmin()
 
+  // Idempotency: zaten captured ise tekrar işlem yapma
   if (order.payment_status === 'captured' && status === 'success') {
     return plain('OK', 200)
   }
@@ -131,7 +115,9 @@ export async function handlePaytrCallback(request: Request): Promise<Response> {
 
     const next = (updated as Order | null) ?? order
 
-    await decrementOrderStock(order.id, items)
+    // Stok düşümü ve kupon konsumpsiyonu (her ikisi de idempotent)
+    await decrementOrderStock(next, items)
+    await consumeCouponForOrder(next.id)
 
     if (isTelegramConfigured()) {
       sendTelegramMessage(
@@ -142,11 +128,20 @@ export async function handlePaytrCallback(request: Request): Promise<Response> {
       ).catch(() => {})
     }
 
+    // Sipariş onay maili — PayTR için /api/orders'ta atlanmıştı, burada
+    // tek bir mail (status update + confirmation çift mail olmasın).
     ;(async () => {
       try {
-        await sendOrderStatusUpdate({ order: next, newStatus: 'paid', trackingNumber: null })
+        const mail = await sendOrderConfirmation({
+          order: next,
+          items,
+          bankInfo: null,
+        })
+        if (!mail.ok && mail.error !== 'not_configured') {
+          console.error('[paytr/callback] onay mail hatası:', mail.error)
+        }
       } catch (err) {
-        console.error('[paytr/callback] paid mail hatası:', err)
+        console.error('[paytr/callback] mail hatası:', err)
       }
     })()
   } else {
