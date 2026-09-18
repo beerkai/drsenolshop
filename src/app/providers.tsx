@@ -2,7 +2,7 @@
 
 import { CartProvider } from '@/lib/cart-context'
 import { WishlistProvider } from '@/lib/wishlist-context'
-import CartDrawer from '@/components/_deprecated/CartDrawer'
+import CartDrawer from '@/components/editorial/EditorialCartDrawer'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (

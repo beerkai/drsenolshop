@@ -90,98 +90,54 @@ export default async function UrunPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: toJsonLdScript([productSchema, breadcrumbLd(breadcrumbs)]) }}
       />
-      <main style={{ backgroundColor: 'var(--color-ink)', minHeight: '100vh' }}>
+      <main className="min-h-screen w-full bg-surface">
         <ProductDetailClient product={product} />
 
         {description && (
-          <section
-            className="product-desc-section"
-            style={{ backgroundColor: 'var(--color-ink-2)', borderTop: '1px solid rgba(244,240,232,0.06)' }}
-          >
-            <style>{`
-              .product-desc-section {
-                padding-top: clamp(40px, 8vw, 64px);
-                padding-bottom: clamp(40px, 8vw, 64px);
-              }
-              @media (max-width: 640px) {
-                .product-desc-section {
-                  padding-top: clamp(28px, 6vw, 40px);
-                  padding-bottom: clamp(28px, 6vw, 40px);
-                }
-              }
-            `}</style>
-            <div className="px-responsive" style={{ maxWidth: '760px', margin: '0 auto' }}>
-              <p
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '10px',
-                  letterSpacing: '0.3em',
-                  color: 'var(--color-gold)',
-                  textTransform: 'uppercase',
-                  margin: '0 0 32px',
-                }}
-              >
-                Ürün Hakkında
-              </p>
-              <div
-                style={{
-                  fontFamily: 'var(--font-sans)',
-                  color: 'var(--color-cream-muted)',
-                  fontSize: 'clamp(13px, 2.5vw, 15px)',
-                  lineHeight: 1.65,
-                }}
-              >
-                {stripHtml(description)
-                  .split(/\.\s+/)
-                  .filter((s) => s.trim().length > 10)
-                  .map((para, i) => (
-                    <p key={i} style={{ margin: '0 0 16px' }}>
-                      {para.trim().endsWith('.') ? para.trim() : `${para.trim()}.`}
-                    </p>
-                  ))}
+          <section className="w-full border-t border-hairline-light bg-surface-container-low ed-section-y">
+            <div className="ed-section-inner">
+              <div className="mx-auto max-w-[760px]">
+                <p className="mb-space-lg font-nav-caps text-nav-caps uppercase tracking-[0.2em] text-honey-amber">
+                  Ürün Hakkında
+                </p>
+
+                <div className="ed-prose font-body-lg text-body-lg text-on-surface-variant">
+                  {stripHtml(description)
+                    .split(/\.\s+/)
+                    .filter((s) => s.trim().length > 10)
+                    .map((para, i) => (
+                      <p key={i}>
+                        {para.trim().endsWith('.') ? para.trim() : `${para.trim()}.`}
+                      </p>
+                    ))}
+                </div>
+
+                {product.certifications && product.certifications.length > 0 && (
+                  <div className="mt-space-lg flex flex-wrap gap-space-sm">
+                    {product.certifications.map((cert, i) => (
+                      <span
+                        key={i}
+                        className="border border-hairline-light px-2.5 py-1 font-label-spec text-label-spec uppercase tracking-[0.12em] text-honey-amber"
+                      >
+                        {cert}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {product.tags && product.tags.length > 0 && (
+                  <div className="mt-space-md flex flex-wrap gap-space-sm">
+                    {product.tags.map((tag, i) => (
+                      <span
+                        key={i}
+                        className="border border-hairline-light px-2 py-1 font-editorial-caption text-editorial-caption uppercase tracking-[0.1em] text-on-surface-variant"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
-
-              {product.certifications && product.certifications.length > 0 && (
-                <div style={{ marginTop: '40px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                  {product.certifications.map((cert, i) => (
-                    <span
-                      key={i}
-                      style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '9px',
-                        letterSpacing: '0.22em',
-                        color: 'var(--color-gold)',
-                        border: '1px solid rgba(201,169,97,0.25)',
-                        padding: '5px 10px',
-                        textTransform: 'uppercase',
-                      }}
-                    >
-                      {cert}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {product.tags && product.tags.length > 0 && (
-                <div style={{ marginTop: '24px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                  {product.tags.map((tag, i) => (
-                    <span
-                      key={i}
-                      style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '9px',
-                        letterSpacing: '0.15em',
-                        color: 'var(--color-cream-faint)',
-                        border: '1px solid rgba(244,240,232,0.08)',
-                        padding: '4px 9px',
-                        textTransform: 'uppercase',
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
             </div>
           </section>
         )}
@@ -195,52 +151,20 @@ export default async function UrunPage({ params }: Props) {
         />
 
         {relatedProducts.length > 0 && (
-          <section
-            className="product-related-section"
-            style={{ backgroundColor: '#EBE5D8', borderTop: '1px solid rgba(26,23,20,0.08)' }}
-          >
-            <style>{`
-              .product-related-section { padding-top: 64px; padding-bottom: 64px; }
-              @media (max-width: 640px) { .product-related-section { padding-top: 40px; padding-bottom: 40px; } }
-            `}</style>
-            <div className="px-responsive" style={{ maxWidth: '1440px', margin: '0 auto' }}>
-              <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-                <p
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '10px',
-                    letterSpacing: '0.3em',
-                    color: 'var(--color-gold)',
-                    textTransform: 'uppercase',
-                    margin: '0 0 16px',
-                  }}
-                >
-                  Aynı Aileden
-                </p>
-                <h2
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    color: '#1A1714',
-                    fontSize: 'clamp(28px, 3.5vw, 44px)',
-                    fontWeight: 500,
-                    lineHeight: 1.1,
-                    margin: 0,
-                  }}
-                >
-                  Benzer <span style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--color-gold)' }}>ürünler.</span>
-                </h2>
+          <section className="w-full border-t border-hairline-light bg-surface ed-section-y">
+            <div className="ed-section-inner">
+              <div className="ed-section-head">
+                <div>
+                  <span className="mb-1 block font-nav-caps text-nav-caps uppercase tracking-[0.16em] text-honey-amber">
+                    Aynı Aileden
+                  </span>
+                  <h2 className="font-headline-lg text-headline-lg font-light text-on-surface">
+                    Benzer ürünler
+                  </h2>
+                </div>
               </div>
 
-              <div
-                className="related-products-grid"
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: `repeat(${relatedProducts.length}, 1fr)`,
-                  gap: '1px',
-                  background: 'rgba(26,23,20,0.08)',
-                  border: '1px solid rgba(26,23,20,0.08)',
-                }}
-              >
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
                 {relatedProducts.map((p) => (
                   <ProductCard
                     key={p.id}
@@ -249,14 +173,6 @@ export default async function UrunPage({ params }: Props) {
                   />
                 ))}
               </div>
-
-              <style>{`
-                @media (max-width: 640px) {
-                  .related-products-grid {
-                    grid-template-columns: repeat(2, 1fr) !important;
-                  }
-                }
-              `}</style>
             </div>
           </section>
         )}
