@@ -3,7 +3,7 @@ import { Inter, Cormorant_Garamond, DM_Sans, JetBrains_Mono } from 'next/font/go
 import './globals.css';
 import { Providers } from './providers';
 import CookieConsent from '@/components/editorial/EditorialCookieConsent';
-import Analytics from '@/components/_deprecated/Analytics';
+import Analytics from '@/components/Analytics';
 import { organizationLd, websiteLd, toJsonLdScript } from '@/lib/jsonld';
 import { getSiteUrl } from '@/lib/site-url';
 

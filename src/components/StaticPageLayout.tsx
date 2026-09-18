@@ -82,7 +82,12 @@ export default function StaticPageLayout({
                 {titleAccent ? (
                   <>
                     {' '}
-                    <span className="text-honey-amber">{titleAccent}</span>
+                    {/*
+                      Vurgu rengi: --color-secondary (#745b1b) — honey-amber
+                      açık zeminde ~2.3:1 kalıyor (büyük metin eşiği 3:1).
+                      Derin altın hem marka kimliğini korur hem okunur (~5.9:1).
+                    */}
+                    <span className="text-secondary">{titleAccent}</span>
                   </>
                 ) : null}
               </h1>

@@ -49,7 +49,8 @@ export default function CategoryHero({
               {titleAccent ? (
                 <>
                   {' '}
-                  <span lang={titleAccentLang} className="text-honey-amber">
+                  {/* Derin altın — honey-amber açık zeminde kontrast bırakmıyor */}
+                  <span lang={titleAccentLang} className="text-secondary">
                     {titleAccent}
                   </span>
                 </>
