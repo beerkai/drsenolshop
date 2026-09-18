@@ -146,6 +146,38 @@ export default function CategoryFilters({
             >
               {cat.name} · {cat.product_count ?? 0}
             </Link>
+            {cat.children && cat.children.length > 0 && (
+              <ul
+                style={{
+                  listStyle: 'none',
+                  padding: 0,
+                  margin: '2px 0 4px',
+                  fontSize: '12px',
+                }}
+              >
+                {cat.children.map((child) => (
+                  <li
+                    key={child.id}
+                    style={{
+                      color: activeCategorySlug === child.slug ? 'var(--color-cream)' : 'var(--color-cream-faint)',
+                      fontWeight: activeCategorySlug === child.slug ? 500 : 400,
+                      borderLeft: activeCategorySlug === child.slug ? '2px solid var(--color-gold)' : 'none',
+                      paddingLeft: activeCategorySlug === child.slug ? '20px' : '22px',
+                      marginLeft: activeCategorySlug === child.slug ? '-12px' : '0',
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    <Link
+                      href={`/kategori/${child.slug}`}
+                      style={{ color: 'inherit', textDecoration: 'none' }}
+                      onClick={isMobile ? onClose : undefined}
+                    >
+                      {child.name} · {child.product_count ?? 0}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
         ))}
       </ul>

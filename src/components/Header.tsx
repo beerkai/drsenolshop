@@ -25,11 +25,11 @@ const NAV: NavItem[] = [
     label: 'Bal',
     href: '/kategori/bal',
     children: [
-      { label: 'Kestane Balı', href: '/kategori/bal/kestane' },
-      { label: 'Yabani Kekik Balı', href: '/kategori/bal/kekik' },
-      { label: 'Çiçek Balı', href: '/kategori/bal/cicek' },
-      { label: 'Yayla Balı', href: '/kategori/bal/yayla' },
-      { label: 'Petek Balı', href: '/kategori/bal/petek' },
+      { label: 'Kestane Balı', href: '/urun/kestane-bali' },
+      { label: 'Yabani Kekik Balı', href: '/urun/kekik-bali' },
+      { label: 'Çiçek Balı', href: '/urun/cicek-bali' },
+      { label: 'Dağ Balı', href: '/urun/dag-bali' },
+      { label: 'Petek Balı', href: '/urun/petek-bali' },
     ],
   },
   {
@@ -99,6 +99,9 @@ export default function Header() {
         }
         @media (max-width: 767px) {
           .ds-header-announce-promo { display: none !important; }
+        }
+        @media (max-width: 639px) {
+          .ds-header-account-icon { display: none !important; }
         }
       `}</style>
 
@@ -198,7 +201,7 @@ export default function Header() {
         >
           {/* Tüm breakpoint'lerde simetrik: 1fr | auto | 1fr */}
           <div
-            className="grid w-full min-h-[clamp(64px,12vw,96px)] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-3 sm:gap-x-4 lg:gap-x-0"
+            className="grid w-full min-h-[clamp(64px,12vw,96px)] grid-cols-[minmax(0,1fr)_minmax(0,auto)_minmax(0,1fr)] items-center gap-x-3 sm:gap-x-4 lg:gap-x-0"
             style={{ minHeight: 'clamp(64px, 12vw, 96px)' }}
           >
             <div className="flex min-w-0 items-center justify-self-start">
@@ -311,8 +314,10 @@ export default function Header() {
                 </svg>
               </button>
 
-              {/* Hesap */}
-              <HeaderAccountLink iconStyle={svgIcon} />
+              {/* Hesap — mobil genişlikte gizli, giriş/kayıt hamburger menüsünde zaten var */}
+              <div className="ds-header-account-icon">
+                <HeaderAccountLink iconStyle={svgIcon} />
+              </div>
 
               {/* Favoriler */}
               <Link

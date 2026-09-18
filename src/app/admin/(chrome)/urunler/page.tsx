@@ -73,7 +73,7 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
                     </td>
                     <td style={{ color: 'var(--ad-fg-muted)' }}>{p.category_name ?? '—'}</td>
                     <td className="is-right">
-                      {p.base_price !== null
+                      {p.base_price !== null && p.base_price > 0
                         ? <span className="ad-display" style={{ fontSize: '16px', fontWeight: 500 }}>{formatPrice(p.base_price)}</span>
                         : p.variants_count > 0
                           ? <span className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>varyantta</span>
