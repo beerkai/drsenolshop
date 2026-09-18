@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   const admin = await getCurrentAdmin()
   if (!admin) return NextResponse.json({ ok: false, message: 'Yetkisiz' }, { status: 401 })
 
-  let body: { bank_name?: string; account_holder?: string; iban?: string }
+  let body: { bank_name?: string; account_holder?: string; iban?: string; enabled?: boolean }
   try {
     body = await request.json()
   } catch {
@@ -21,6 +21,7 @@ export async function POST(request: Request) {
     bank_name: (body.bank_name ?? '').toString(),
     account_holder: (body.account_holder ?? '').toString(),
     iban: (body.iban ?? '').toString(),
+    enabled: Boolean(body.enabled),
   })
 
   if (!ok) return NextResponse.json({ ok: false, message: 'Kaydedilemedi.' }, { status: 500 })

@@ -5,6 +5,7 @@ import CheckoutClient, { type CheckoutPrefill } from './CheckoutClient'
 import { getCurrentCustomer } from '@/lib/customer-auth'
 import { getSupabaseServer } from '@/lib/supabase-server'
 import { isPaytrConfigured } from '@/lib/paytr'
+import { getBankInfo } from '@/lib/site-settings'
 import type { Order } from '@/types'
 
 export const metadata: Metadata = {
@@ -62,11 +63,12 @@ async function getCustomerPrefill(): Promise<CheckoutPrefill | null> {
 export default async function OdemePage() {
   const prefill = await getCustomerPrefill()
   const paytrEnabled = isPaytrConfigured()
+  const bankInfo = await getBankInfo()
   return (
     <>
       <Header />
       <main style={{ backgroundColor: 'var(--color-ink)', minHeight: '70vh' }}>
-        <CheckoutClient prefill={prefill} paytrEnabled={paytrEnabled} />
+        <CheckoutClient prefill={prefill} paytrEnabled={paytrEnabled} bankTransferEnabled={bankInfo.enabled} />
       </main>
       <Footer />
     </>

@@ -124,9 +124,10 @@ interface AppliedCoupon {
 interface Props {
   prefill?: CheckoutPrefill | null
   paytrEnabled?: boolean
+  bankTransferEnabled?: boolean
 }
 
-export default function CheckoutClient({ prefill, paytrEnabled = false }: Props) {
+export default function CheckoutClient({ prefill, paytrEnabled = false, bankTransferEnabled = false }: Props) {
   const router = useRouter()
   const { items, dispatch } = useCart()
   const [validated, setValidated] = useState<{ lines: ValidatedLine[]; totals: Totals; shipping: ShippingInfo | null } | null>(null)
@@ -492,12 +493,14 @@ export default function CheckoutClient({ prefill, paytrEnabled = false }: Props)
               />
             )}
 
-            <PaymentOption
-              selected={paymentMethod === 'bank_transfer'}
-              onSelect={() => setPaymentMethod('bank_transfer')}
-              title="Havale / EFT"
-              desc="Sipariş oluşturulduktan sonra banka bilgileri e-posta ile size iletilir. Ödemeniz onaylandıktan sonra kargoya verilir."
-            />
+            {bankTransferEnabled && (
+              <PaymentOption
+                selected={paymentMethod === 'bank_transfer'}
+                onSelect={() => setPaymentMethod('bank_transfer')}
+                title="Havale / EFT"
+                desc="Sipariş oluşturulduktan sonra banka bilgileri e-posta ile size iletilir. Ödemeniz onaylandıktan sonra kargoya verilir."
+              />
+            )}
           </section>
 
           {/* Mesafeli satış sözleşmesi onayı (tüketici hakkı bildirimi) */}

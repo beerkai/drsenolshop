@@ -9,9 +9,10 @@ export interface BankInfo {
   bank_name: string
   account_holder: string
   iban: string
+  enabled: boolean
 }
 
-const EMPTY_BANK: BankInfo = { bank_name: '', account_holder: '', iban: '' }
+const EMPTY_BANK: BankInfo = { bank_name: '', account_holder: '', iban: '', enabled: false }
 
 // ─── Kargo Yapılandırması ────────────────────────────────────────
 export interface ShippingConfig {
@@ -53,6 +54,7 @@ export async function getBankInfo(): Promise<BankInfo> {
     bank_name: v?.bank_name ?? EMPTY_BANK.bank_name,
     account_holder: v?.account_holder ?? EMPTY_BANK.account_holder,
     iban: v?.iban ?? EMPTY_BANK.iban,
+    enabled: v?.enabled ?? EMPTY_BANK.enabled,
   }
 }
 
@@ -61,6 +63,7 @@ export async function setBankInfo(input: BankInfo): Promise<boolean> {
     bank_name: input.bank_name.trim(),
     account_holder: input.account_holder.trim(),
     iban: input.iban.replace(/\s+/g, '').toUpperCase(),
+    enabled: input.enabled,
   })
 }
 

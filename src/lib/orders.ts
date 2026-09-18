@@ -9,7 +9,7 @@ import type { Order, OrderItem } from '@/types'
 import type { CheckoutLine } from './cart-totals'
 import { calculateTotals } from './cart-totals'
 import { getProductsByIds } from './products'
-import { getShippingConfig, calculateShipping } from './site-settings'
+import { getShippingConfig, calculateShipping, getBankInfo } from './site-settings'
 import { validateCoupon, incrementCouponUsage } from './coupons'
 import {
   findDefaultVariant,
@@ -187,6 +187,9 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
   const supabase = getSupabaseAdmin()
 
   const paymentMethod = input.payment_method ?? 'bank_transfer'
+  if (paymentMethod === 'bank_transfer' && !(await getBankInfo()).enabled) {
+    return { ok: false, code: 'INVALID_INPUT', message: 'Havale / EFT ile ödeme şu anda kabul edilmiyor.' }
+  }
   // PayTR'da kupon sayacı ödeme onayında artırılır (paytr-callback success).
   // Diğer yöntemlerde sipariş anında artırılır → coupon_consumed_at hemen
   // damgalanır (idempotency için stock.ts consumeCouponForOrder ile aynı

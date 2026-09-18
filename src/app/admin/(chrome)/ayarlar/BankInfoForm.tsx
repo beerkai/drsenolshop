@@ -78,6 +78,22 @@ export default function BankInfoForm({ initial }: { initial: BankInfo }) {
         )}
       </div>
 
+      <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', cursor: 'pointer' }}>
+        <input
+          type="checkbox"
+          checked={form.enabled}
+          onChange={(e) => setForm((f) => ({ ...f, enabled: e.target.checked }))}
+        />
+        <span className="ad-label" style={{ marginBottom: 0 }}>
+          Havale / EFT ile ödemeyi kabul et
+        </span>
+      </label>
+      {!form.enabled && (
+        <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '-8px', marginBottom: '16px', letterSpacing: '0.08em' }}>
+          Kapalı — checkout&apos;ta sadece kart ile ödeme (PayTR) görünür.
+        </p>
+      )}
+
       <button type="submit" disabled={saving} className="ad-btn ad-btn-primary">
         {saving ? 'Kaydediliyor…' : 'Kaydet'}
       </button>
