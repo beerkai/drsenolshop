@@ -2,17 +2,40 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import type { ProductWithRelations } from '@/types'
+import type { Category, ProductWithRelations } from '@/types'
 import { formatPrice, getVariantLabel } from '@/types'
 import { toast } from '@/components/admin/toast/toast'
+import ProductImageManager from './ProductImageManager'
 
-export default function ProductEditForm({ product }: { product: ProductWithRelations }) {
+export default function ProductEditForm({
+  product,
+  categories = [],
+}: {
+  product: ProductWithRelations
+  categories?: Category[]
+}) {
   const router = useRouter()
   const [isActive, setIsActive] = useState(product.is_active !== false)
   const [isFeatured, setIsFeatured] = useState(product.is_featured === true)
   const [basePrice, setBasePrice] = useState(product.base_price?.toString() ?? '')
   const [stockQuantity, setStockQuantity] = useState(product.stock_quantity?.toString() ?? '')
   const [taxRate, setTaxRate] = useState(product.tax_rate?.toString() ?? '0')
+  const [isNew, setIsNew] = useState(product.is_new === true)
+
+  // İçerik alanları
+  const [name, setName] = useState(product.name)
+  const [slug, setSlug] = useState(product.slug)
+  const [shortDesc, setShortDesc] = useState(product.short_desc ?? '')
+  const [longDesc, setLongDesc] = useState(product.long_desc ?? product.description ?? '')
+  const [categoryId, setCategoryId] = useState(product.category_id ?? '')
+  const [badge, setBadge] = useState(product.badge ?? '')
+  const [sku, setSku] = useState(product.sku ?? '')
+  const [weight, setWeight] = useState(product.weight_grams?.toString() ?? '')
+  const [tagsText, setTagsText] = useState((product.tags ?? []).join(', '))
+  const [metaTitle, setMetaTitle] = useState(product.meta_title ?? '')
+  const [metaDesc, setMetaDesc] = useState(product.meta_description ?? '')
+  const [displayOrder, setDisplayOrder] = useState(product.display_order?.toString() ?? '')
+  const [images, setImages] = useState<string[]>(product.images ?? [])
 
   // Varyant stokları
   const [variantStocks, setVariantStocks] = useState<Record<string, string>>(() => {
@@ -34,6 +57,20 @@ export default function ProductEditForm({ product }: { product: ProductWithRelat
         body: JSON.stringify({
           is_active: isActive,
           is_featured: isFeatured,
+          is_new: isNew,
+          name,
+          slug,
+          short_desc: shortDesc,
+          long_desc: longDesc,
+          category_id: categoryId,
+          badge,
+          sku,
+          weight_grams: weight === '' ? null : Number(weight),
+          tags: tagsText.split(',').map((t) => t.trim()).filter(Boolean),
+          meta_title: metaTitle,
+          meta_description: metaDesc,
+          display_order: displayOrder === '' ? null : Number(displayOrder),
+          images,
           base_price: basePrice === '' ? null : Number(basePrice),
           stock_quantity: stockQuantity === '' ? null : Number(stockQuantity),
           tax_rate: taxRate === '' ? 0 : Number(taxRate),
@@ -63,6 +100,93 @@ export default function ProductEditForm({ product }: { product: ProductWithRelat
         <p className="ad-eyebrow" style={{ marginBottom: '16px' }}>Yayın Durumu</p>
         <ToggleRow label="Aktif" hint="Sitede görünür" checked={isActive} onChange={setIsActive} />
         <ToggleRow label="Öne Çıkan" hint="Anasayfa vitrininde göster" checked={isFeatured} onChange={setIsFeatured} />
+        <ToggleRow label="Yeni" hint="Katalogda yeni rozeti" checked={isNew} onChange={setIsNew} />
+        <div style={{ marginTop: '12px' }}>
+          <label className="ad-label">Katalog Sırası</label>
+          <input
+            type="number"
+            value={displayOrder}
+            onChange={(e) => setDisplayOrder(e.target.value)}
+            className="ad-input"
+            placeholder="Boş = sona"
+          />
+          <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
+            Küçük sayı önce gelir. Toplu sıralama ürün listesinden yapılır.
+          </p>
+        </div>
+      </div>
+
+      {/* İçerik */}
+      <div className="ad-card" style={{ gridColumn: '1 / -1' }}>
+        <p className="ad-eyebrow" style={{ marginBottom: '16px' }}>İçerik</p>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px', marginBottom: '12px' }}>
+          <div>
+            <label className="ad-label">Ürün Adı</label>
+            <input value={name} onChange={(e) => setName(e.target.value)} className="ad-input" />
+          </div>
+          <div>
+            <label className="ad-label">Slug</label>
+            <input value={slug} onChange={(e) => setSlug(e.target.value)} className="ad-input" />
+            <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
+              /urun/{slug || '…'} — değiştirirseniz eski bağlantılar kırılır.
+            </p>
+          </div>
+          <div>
+            <label className="ad-label">Kategori</label>
+            <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className="ad-select">
+              <option value="">— Kategorisiz —</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="ad-label">Rozet</label>
+            <input value={badge} onChange={(e) => setBadge(e.target.value)} className="ad-input" placeholder="Örn. Sınırlı Hasat" />
+          </div>
+          <div>
+            <label className="ad-label">Stok Kodu (SKU)</label>
+            <input value={sku} onChange={(e) => setSku(e.target.value)} className="ad-input" />
+          </div>
+          <div>
+            <label className="ad-label">Ağırlık (gram)</label>
+            <input type="number" min="0" value={weight} onChange={(e) => setWeight(e.target.value)} className="ad-input" />
+          </div>
+        </div>
+
+        <div style={{ marginBottom: '12px' }}>
+          <label className="ad-label">Kısa Açıklama</label>
+          <textarea rows={2} value={shortDesc} onChange={(e) => setShortDesc(e.target.value)} className="ad-textarea" />
+        </div>
+
+        <div style={{ marginBottom: '12px' }}>
+          <label className="ad-label">Uzun Açıklama</label>
+          <textarea rows={8} value={longDesc} onChange={(e) => setLongDesc(e.target.value)} className="ad-textarea" />
+        </div>
+
+        <div>
+          <label className="ad-label">Etiketler</label>
+          <input value={tagsText} onChange={(e) => setTagsText(e.target.value)} className="ad-input" placeholder="virgülle ayırın" />
+        </div>
+      </div>
+
+      {/* Görseller */}
+      <div className="ad-card" style={{ gridColumn: '1 / -1' }}>
+        <ProductImageManager productId={product.id} initialImages={images} onChange={setImages} />
+      </div>
+
+      {/* SEO */}
+      <div className="ad-card" style={{ gridColumn: '1 / -1' }}>
+        <p className="ad-eyebrow" style={{ marginBottom: '16px' }}>Arama Motoru</p>
+        <div style={{ marginBottom: '12px' }}>
+          <label className="ad-label">Meta Başlık</label>
+          <input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className="ad-input" />
+        </div>
+        <div>
+          <label className="ad-label">Meta Açıklama</label>
+          <textarea rows={2} value={metaDesc} onChange={(e) => setMetaDesc(e.target.value)} className="ad-textarea" />
+        </div>
       </div>
 
       {/* Fiyat & KDV */}

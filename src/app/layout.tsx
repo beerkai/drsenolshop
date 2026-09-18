@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Cormorant_Garamond, DM_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
+import { getHomeContent } from '@/lib/cms/home-content';
 import CookieConsent from '@/components/editorial/EditorialCookieConsent';
 import Analytics from '@/components/Analytics';
 import { organizationLd, websiteLd, toJsonLdScript } from '@/lib/jsonld';
@@ -68,16 +69,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // Katalog etiketleri tema editöründen gelir; istek başına tek okuma (cache)
+  const { productLabels } = await getHomeContent();
+
   return (
     <html
       lang="tr"
       className={`${inter.variable} ${cormorant.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        <Providers>{children}</Providers>
+        <Providers productLabels={productLabels}>{children}</Providers>
         <CookieConsent />
         <Analytics />
         <script

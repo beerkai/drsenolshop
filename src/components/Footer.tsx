@@ -9,7 +9,7 @@
 
 import EditorialFooter from '@/components/editorial/EditorialFooter'
 import EditorialMobileNav from '@/components/editorial/EditorialMobileNav'
-import { editorialHomeContent } from '@/lib/cms/home-page'
+import { getHomeContent } from '@/lib/cms/home-content'
 import type { EditorialFooterContent, EditorialMobileNavItem } from '@/types/editorial-home'
 
 interface Props {
@@ -19,14 +19,16 @@ interface Props {
   hideMobileNav?: boolean
 }
 
-export default function Footer({ content, mobileNav, hideMobileNav = false }: Props) {
+export default async function Footer({ content, mobileNav, hideMobileNav = false }: Props) {
+  const cms = content && mobileNav ? null : (await getHomeContent()).editorial
+
   return (
     <>
-      <EditorialFooter content={content ?? editorialHomeContent.footer} />
+      <EditorialFooter content={content ?? cms!.footer} />
       {hideMobileNav ? null : (
         <>
           <div aria-hidden className="h-16 lg:hidden" />
-          <EditorialMobileNav items={mobileNav ?? editorialHomeContent.mobileNav} />
+          <EditorialMobileNav items={mobileNav ?? cms!.mobileNav} />
         </>
       )}
     </>

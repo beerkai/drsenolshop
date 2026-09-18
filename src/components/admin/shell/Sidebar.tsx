@@ -37,6 +37,7 @@ const NAV_PRIMARY: NavItem[] = [
   { href: '/admin',             label: 'Pano',        icon: <IconDashboard />, shortcut: '⌘1' },
   { href: '/admin/siparisler',  label: 'Siparişler',  icon: <IconOrders />,    shortcut: '⌘2' },
   { href: '/admin/urunler',     label: 'Ürünler',     icon: <IconProducts />,  shortcut: '⌘3' },
+  { href: '/admin/kategoriler', label: 'Kategoriler', icon: <IconCategories /> },
   { href: '/admin/musteriler',  label: 'Müşteriler',  icon: <IconCustomers />, shortcut: '⌘4' },
   { href: '/admin/analitik',    label: 'Analitik',    icon: <IconAnalytics />, shortcut: '⌘5' },
   { href: '/admin/stok',        label: 'Stok',        icon: <IconStock />,     shortcut: '⌘6' },
@@ -44,7 +45,34 @@ const NAV_PRIMARY: NavItem[] = [
   { href: '/admin/defter',      label: 'Defter',      icon: <IconLedger />,    shortcut: '⌘8' },
 ]
 
+// Kategori ağacı
+function IconCategories({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="9" y1="12" x2="20" y2="12" />
+      <line x1="9" y1="18" x2="20" y2="18" />
+      <path d="M4 6v12" />
+      <line x1="4" y1="12" x2="6" y2="12" />
+      <line x1="4" y1="18" x2="6" y2="18" />
+    </svg>
+  )
+}
+
+// Tema editörü — anasayfa metinleri, öne çıkan ürünler, katalog etiketleri
+function IconTheme({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 3a9 9 0 0 0 0 18 3 3 0 0 0 0-6 3 3 0 0 1 0-6 3 3 0 0 0 0-6z" />
+      <circle cx="15.5" cy="8.5" r="1" fill="currentColor" stroke="none" />
+      <circle cx="17.5" cy="12.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
 const NAV_SECONDARY: NavItem[] = [
+  { href: '/admin/tema', label: 'Tema', icon: <IconTheme /> },
   { href: '/admin/yorumlar', label: 'Yorumlar', icon: <IconAnalytics />, shortcut: '⌘9' },
   { href: '/admin/kuponlar', label: 'Kuponlar', icon: <IconAnalytics />, shortcut: '⌘0' },
   { href: '/admin/ayarlar', label: 'Ayarlar', icon: <IconSettings />, shortcut: '⌘,' },

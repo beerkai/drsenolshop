@@ -11,6 +11,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import ProductCard from '@/components/ProductCard'
 import type { ProductWithRelations } from '@/types'
 import type { SortOption } from './SortDropdown'
+import { useProductLabels } from '@/lib/product-labels-context'
 
 interface ProductGridProps {
   initialProducts: ProductWithRelations[]
@@ -32,6 +33,7 @@ export default function ProductGrid({
   sortBy,
   onTotalChange,
 }: ProductGridProps) {
+  const labels = useProductLabels()
   const [products, setProducts] = useState(initialProducts)
   const [total, setTotal] = useState(initialTotal)
   const [loading, setLoading] = useState(false)
@@ -123,10 +125,10 @@ export default function ProductGrid({
       {products.length === 0 && !loading ? (
         <div className="border border-hairline-light bg-surface-container-lowest px-space-lg py-space-xl text-center">
           <p className="font-headline-sm text-headline-sm font-light text-on-surface">
-            Bu filtrelerle ürün bulunamadı.
+            {labels.emptyTitle}
           </p>
           <p className="mt-space-sm font-body-sm text-body-sm text-on-surface-variant">
-            Filtreleri temizleyip tekrar deneyin.
+            {labels.emptyHint}
           </p>
         </div>
       ) : (

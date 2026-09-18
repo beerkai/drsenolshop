@@ -1,6 +1,15 @@
-import { homeCurationStrip } from '@/lib/cms/home-page'
+import { homeCurationStrip as defaultCurationStrip } from '@/lib/cms/home-page'
 
-export default function HomeCurationStrip() {
+type CurationStripContent = typeof defaultCurationStrip
+
+export default function HomeCurationStrip({
+  content,
+}: {
+  /** Tema editöründen gelir; verilmezse statik varsayılan */
+  content?: CurationStripContent
+}) {
+  const homeCurationStrip = content ?? defaultCurationStrip
+
   return (
     <section className="relative z-10 w-full border-y border-hairline-light bg-canvas-cream ed-section-y-sm">
       <div className="ed-section-inner flex flex-col gap-space-sm md:flex-row md:flex-wrap md:items-center md:justify-between">

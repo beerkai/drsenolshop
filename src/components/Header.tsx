@@ -11,7 +11,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import EditorialHeader from '@/components/editorial/EditorialHeader'
-import { editorialHomeContent } from '@/lib/cms/home-page'
+import { getHomeContent } from '@/lib/cms/home-content'
 import type { EditorialHeaderContent } from '@/types/editorial-home'
 
 interface Props {
@@ -21,10 +21,12 @@ interface Props {
   underlap?: boolean
 }
 
-export default function Header({ content, underlap = false }: Props) {
+export default async function Header({ content, underlap = false }: Props) {
+  const resolved = content ?? (await getHomeContent()).editorial.header
+
   return (
     <>
-      <EditorialHeader content={content ?? editorialHomeContent.header} />
+      <EditorialHeader content={resolved} />
       {underlap ? null : (
         <div aria-hidden className="h-[5.25rem] lg:h-[var(--editorial-header-stack)]" />
       )}

@@ -9,18 +9,21 @@ import GoldyliumSpotlightSection from '@/components/editorial/GoldyliumSpotlight
 import InstagramCommunitySection from '@/components/editorial/InstagramCommunitySection'
 import HomeValuesTicker from '@/components/editorial/HomeValuesTicker'
 import EditorialFooter from '@/components/editorial/EditorialFooter'
-import { editorialHomeContent, homeHeroProps } from '@/lib/cms/home-page'
+import { getHomeContent } from '@/lib/cms/home-content'
 
-export default function HomePage() {
-  const cms = editorialHomeContent
+// İçerik admin tema editöründen geldiği için her istekte tazelenir.
+export const revalidate = 0
+
+export default async function HomePage() {
+  const { hero, curationStrip, editorial: cms } = await getHomeContent()
 
   return (
     <>
       <EditorialHeader content={cms.header} />
 
       <main className="flex w-full flex-col bg-surface pb-28 pt-28 lg:pb-0">
-        <Hero {...homeHeroProps} />
-        <HomeCurationStrip />
+        <Hero {...hero} />
+        <HomeCurationStrip content={curationStrip} />
         <HomeHarvestMetrics cells={cms.harvestMetrics} />
         <EditorialFeedSection header={cms.feed.header} items={cms.feed.items} />
         <EditorialJournalSection content={cms.journal} />

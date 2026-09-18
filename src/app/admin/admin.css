@@ -752,3 +752,249 @@
   overflow-y: auto;
   animation: ad-drawer-slide 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   TEMA EDİTÖRÜ
+   ═══════════════════════════════════════════════════════════════ */
+
+.theme-editor-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .theme-editor-grid { grid-template-columns: minmax(0, 1fr); }
+  .theme-editor-grid > :last-child { position: static !important; }
+}
+
+/* ── Önizleme: site tipografisini taklit eder ── */
+.theme-preview {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  border: 1px solid var(--ad-line);
+  background: #f9f9f7;
+  color: #1a1c1b;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.theme-preview-dark {
+  background: #15110d;
+  color: #f4f0e8;
+  margin: -20px -20px 0;
+  padding: 24px 20px;
+}
+
+.tp-eyebrow,
+.tp-eyebrow-amber {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #d9a342;
+  margin: 0 0 10px;
+}
+
+.tp-title {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+}
+
+.tp-title-light {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 22px;
+  font-weight: 300;
+  color: #1a1c1b;
+  margin: 0 0 8px;
+}
+
+.tp-body { font-size: 13px; line-height: 1.7; color: #dadad8; margin: 0 0 14px; }
+.tp-body-light { font-size: 13px; line-height: 1.7; color: #444748; margin: 0 0 10px; }
+
+.tp-cta {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.tp-aside { font-size: 11px; color: #747878; margin: 0 0 14px; }
+
+.tp-strip {
+  margin: 20px -20px -24px;
+  padding: 12px 20px;
+  background: #f4f0e8;
+  color: #1a1c1b;
+  font-size: 12px;
+}
+
+.tp-strip-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.tp-strip-tags span {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #444748;
+}
+
+.tp-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+
+.tp-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid #e8e8e4;
+  background: #fff;
+  padding: 10px;
+}
+
+.tp-card-cat { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: #747878; }
+.tp-card-title { font-size: 13px; color: #1a1c1b; }
+.tp-card-row { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+.tp-card-price {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  color: #d9a342;
+}
+.tp-card-cta {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1a1c1b;
+}
+
+.tp-btn-stack { display: flex; flex-direction: column; gap: 8px; }
+
+.tp-btn-primary,
+.tp-btn-muted {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tp-btn-primary { background: #0a0908; color: #fff; }
+.tp-btn-ok { background: #5c7a3f; }
+.tp-btn-muted { background: #eeeeec; color: #747878; }
+
+.tp-variant {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a1c1b;
+  border-top: 1px solid #e8e8e4;
+  padding-top: 8px;
+}
+.tp-variant em { font-style: normal; color: #747878; }
+
+.tp-metrics { display: flex; gap: 16px; border-top: 1px solid #e8e8e4; padding-top: 10px; margin-top: 10px; }
+.tp-metrics div { display: flex; flex-direction: column; }
+.tp-metrics strong {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 16px;
+  font-weight: 400;
+  color: #1a1c1b;
+}
+.tp-metrics span { font-size: 9px; text-transform: uppercase; color: #747878; letter-spacing: 0.08em; }
+
+.tp-footer { font-size: 11px; color: #444748; display: flex; flex-direction: column; gap: 6px; }
+
+/* ── Ürün görselleri ızgarası ──────────────────────────────── */
+.ad-image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.ad-image-tile { margin: 0; }
+
+.ad-image-tile-frame {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--ad-line);
+  background: var(--ad-surface-sunken, #f3f2ef);
+  overflow: hidden;
+}
+
+.ad-image-cover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 2px 6px;
+  background: var(--ad-gold);
+  color: #15110d;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ad-image-tools {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.ad-image-tools button {
+  flex: 1;
+  padding: 4px 0;
+  border: 1px solid var(--ad-line);
+  background: transparent;
+  color: var(--ad-fg-muted);
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: border-color 140ms, color 140ms;
+}
+
+.ad-image-tools button:hover:not(:disabled) { border-color: var(--ad-gold); color: var(--ad-fg); }
+.ad-image-tools button:disabled { opacity: 0.35; cursor: not-allowed; }
+.ad-image-tools button.is-danger:hover { border-color: var(--ad-danger); color: var(--ad-danger); }
+
+/* ── Kategori ağacı ────────────────────────────────────────── */
+.ad-cat-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--ad-line-faint);
+}
+
+.ad-cat-row.is-active { background: var(--ad-surface-sunken, #f3f2ef); }
+
+.ad-cat-name {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ad-fg);
+  font-size: 13px;
+}
+
+.ad-cat-name:hover { color: var(--ad-gold-deep); }
+
+.ad-cat-meta {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--ad-fg-faint);
+}

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { requireAdmin } from '@/lib/admin-auth'
 import { getProductDetailById } from '@/lib/admin-data'
+import { getAllCategories } from '@/lib/categories'
 import { IconExternal } from '@/components/admin/ui/Icon'
 import ProductEditForm from './ProductEditForm'
 
@@ -12,6 +13,7 @@ export default async function AdminProductEditPage({ params }: Props) {
   const { id } = await params
   const product = await getProductDetailById(id)
   if (!product) notFound()
+  const categories = await getAllCategories()
 
   return (
     <div>
@@ -60,7 +62,7 @@ export default async function AdminProductEditPage({ params }: Props) {
         </Link>
       </div>
 
-      <ProductEditForm product={product} />
+      <ProductEditForm product={product} categories={categories} />
     </div>
   )
 }

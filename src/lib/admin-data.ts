@@ -671,30 +671,53 @@ export interface ListedProduct {
   is_active: boolean
   is_featured: boolean
   tax_rate: number | null
+  display_order: number | null
 }
 
-export async function listProducts(opts: { search?: string; limit?: number; offset?: number } = {}): Promise<{ products: ListedProduct[]; total: number }> {
-  const { search, limit = 50, offset = 0 } = opts
+export async function listProducts(
+  opts: { search?: string; limit?: number; offset?: number; orderBy?: 'name' | 'display_order' } = {}
+): Promise<{ products: ListedProduct[]; total: number; ordered: boolean }> {
+  const { search, limit = 50, offset = 0, orderBy = 'name' } = opts
   const supabase = getSupabaseAdmin()
 
   let countQuery = supabase.from('products').select('id', { count: 'exact', head: true })
   if (search) countQuery = countQuery.ilike('name', `%${search}%`)
   const { count } = await countQuery
 
-  let query = supabase
-    .from('products')
-    .select(`
+  const SELECT_WITH_ORDER = `
+      id, slug, name, base_price, stock_quantity, is_active, is_featured, tax_rate, display_order,
+      category:categories(name),
+      variants:product_variants(id)
+    `
+  const SELECT_FALLBACK = `
       id, slug, name, base_price, stock_quantity, is_active, is_featured, tax_rate,
       category:categories(name),
       variants:product_variants(id)
-    `)
-    .order('name')
-    .range(offset, offset + limit - 1)
+    `
 
-  if (search) query = query.ilike('name', `%${search}%`)
+  async function run(withOrderColumn: boolean) {
+    let q = supabase.from('products').select(withOrderColumn ? SELECT_WITH_ORDER : SELECT_FALLBACK)
+    if (search) q = q.ilike('name', `%${search}%`)
+    if (withOrderColumn && orderBy === 'display_order') {
+      q = q.order('display_order', { ascending: true, nullsFirst: false }).order('name')
+    } else {
+      q = q.order('name')
+    }
+    return q.range(offset, offset + limit - 1)
+  }
 
-  const { data } = await query
-  if (!data) return { products: [], total: 0 }
+  // display_order kolonu 0018 migration'ı ile gelir; yoksa ada göre listelenir
+  let ordered = true
+  const first = await run(true)
+  let data = first.data
+  const error = first.error
+  if (error) {
+    console.error('[listProducts] display_order okunamadı, ada göre listeleniyor:', error.message)
+    ordered = false
+    ;({ data } = await run(false))
+  }
+
+  if (!data) return { products: [], total: 0, ordered }
 
   const products: ListedProduct[] = (data as unknown[]).map((row) => {
     const r = row as {
@@ -706,6 +729,7 @@ export async function listProducts(opts: { search?: string; limit?: number; offs
       is_active: boolean | null
       is_featured: boolean | null
       tax_rate: number | string | null
+      display_order?: number | null
       category: { name: string } | { name: string }[] | null
       variants: unknown[] | null
     }
@@ -721,10 +745,11 @@ export async function listProducts(opts: { search?: string; limit?: number; offs
       is_active: r.is_active !== false,
       is_featured: r.is_featured === true,
       tax_rate: r.tax_rate !== null ? Number(r.tax_rate) : null,
+      display_order: r.display_order ?? null,
     }
   })
 
-  return { products, total: count ?? 0 }
+  return { products, total: count ?? 0, ordered }
 }
 
 export async function getProductDetailById(id: string): Promise<ProductWithRelations | null> {
@@ -736,4 +761,61 @@ export async function getProductDetailById(id: string): Promise<ProductWithRelat
     .maybeSingle()
   if (!data) return null
   return data as ProductWithRelations
+}
+
+// ───────────────────────────────────────────────────────────────
+// KATEGORİLER (admin — pasifler dahil, ürün sayılarıyla)
+// ───────────────────────────────────────────────────────────────
+
+export interface AdminCategory {
+  id: string
+  slug: string
+  name: string
+  description: string | null
+  parent_id: string | null
+  display_order: number | null
+  image_url: string | null
+  is_active: boolean
+  meta_title: string | null
+  meta_description: string | null
+  product_count: number
+}
+
+export async function listCategoriesAdmin(): Promise<AdminCategory[]> {
+  const supabase = getSupabaseAdmin()
+
+  const [{ data: cats, error }, { data: prods }] = await Promise.all([
+    supabase
+      .from('categories')
+      .select('*')
+      .order('display_order', { ascending: true, nullsFirst: false })
+      .order('name', { ascending: true }),
+    supabase.from('products').select('category_id'),
+  ])
+
+  if (error) {
+    console.error('[listCategoriesAdmin] hata:', error.message)
+    return []
+  }
+
+  // Kategori başına ürün sayısı — tek sorguyla toplanır
+  const counts = new Map<string, number>()
+  for (const row of (prods ?? []) as { category_id: string | null }[]) {
+    if (!row.category_id) continue
+    counts.set(row.category_id, (counts.get(row.category_id) ?? 0) + 1)
+  }
+
+  return ((cats ?? []) as Record<string, unknown>[]).map((c) => ({
+    id: c.id as string,
+    slug: c.slug as string,
+    name: c.name as string,
+    description: (c.description as string | null) ?? null,
+    parent_id: (c.parent_id as string | null) ?? null,
+    display_order: (c.display_order as number | null) ?? null,
+    image_url: (c.image_url as string | null) ?? null,
+    is_active: c.is_active !== false,
+    meta_title: (c.meta_title as string | null) ?? null,
+    meta_description: (c.meta_description as string | null) ?? null,
+    product_count: counts.get(c.id as string) ?? 0,
+  }))
 }

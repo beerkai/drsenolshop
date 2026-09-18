@@ -13,6 +13,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { ProductWithRelations } from '@/types'
+import { useProductLabels } from '@/lib/product-labels-context'
 import {
   formatPrice,
   getProductImages,
@@ -44,6 +45,7 @@ export default function ProductCard({
   footnote,
   priority = false,
 }: ProductCardProps) {
+  const labels = useProductLabels()
   const images = getProductImages(product)
   const primary = images[0] ?? null
   const secondary = images[1] ?? null
@@ -91,7 +93,7 @@ export default function ProductCard({
 
           {!inStock ? (
             <span className="absolute right-2.5 top-2.5 border border-hairline-light bg-surface-container-lowest/90 px-1.5 py-0.5 font-label-spec text-[10px] uppercase tracking-wider text-on-surface">
-              Tükendi
+              {labels.outOfStock}
             </span>
           ) : secondary ? (
             <span className="absolute right-2.5 top-2.5 bg-surface/90 px-1.5 py-0.5 font-label-spec text-[10px] uppercase tracking-widest text-charcoal-pure opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -123,7 +125,7 @@ export default function ProductCard({
               </span>
             ) : (
               <span className="font-label-spec text-label-spec uppercase text-on-surface-variant">
-                Varyantta
+                {labels.variantPricePlaceholder}
               </span>
             )}
             {footnote ? (

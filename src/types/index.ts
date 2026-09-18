@@ -115,6 +115,8 @@ export interface Product {
   meta_description: string | null
   view_count: number | null
   sale_count: number | null
+  /** Katalog sıralaması — admin ürün yöneticisinden yönetilir (0018) */
+  display_order: number | null
 
   created_at: string
   updated_at: string | null

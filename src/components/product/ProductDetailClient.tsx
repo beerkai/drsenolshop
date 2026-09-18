@@ -13,6 +13,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart-context'
+import { useProductLabels } from '@/lib/product-labels-context'
 import type { ProductWithRelations } from '@/types'
 import {
   findDefaultVariant,
@@ -37,6 +38,7 @@ export default function ProductDetailClient({
   batchLabel,
 }: ProductDetailClientProps) {
   const { dispatch, openCart } = useCart()
+  const labels = useProductLabels()
 
   const variants = (product.variants ?? []).filter((v) => v.is_active !== false)
   const defaultVar = findDefaultVariant(variants)
@@ -207,10 +209,10 @@ export default function ProductDetailClient({
                 <div className="flex flex-col gap-space-xs pt-space-sm">
                   <div className="flex items-center justify-between">
                     <span className="font-nav-caps text-nav-caps uppercase tracking-widest text-on-surface">
-                      Gramaj / Boyut
+                      {labels.variantHeading}
                     </span>
                     <span className="font-label-spec text-[11px] text-on-surface-variant">
-                      Sınırlı Dolum
+                      {labels.variantNote}
                     </span>
                   </div>
 
@@ -242,7 +244,11 @@ export default function ProductDetailClient({
                               active ? 'text-honey-amber' : 'text-on-surface-variant'
                             }`}
                           >
-                            {vStock > 0 ? (active ? 'Seçili' : 'Mevcut') : 'Tükendi'}
+                            {vStock > 0
+                              ? active
+                                ? labels.variantSelected
+                                : labels.variantAvailable
+                              : labels.outOfStock}
                           </span>
                         </button>
                       )
@@ -283,7 +289,7 @@ export default function ProductDetailClient({
                       : 'cursor-not-allowed bg-surface-container text-on-surface-variant'
                   }`}
                 >
-                  {!inStock ? 'Tükendi' : added ? 'Sepete Eklendi ✓' : 'Sepete Ekle'}
+                  {!inStock ? labels.outOfStock : added ? labels.addedToCart : labels.addToCart}
                 </button>
               </div>
 
