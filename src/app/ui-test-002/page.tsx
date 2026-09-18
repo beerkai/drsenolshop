@@ -1,263 +1,202 @@
 // ═══════════════════════════════════════════════════════════════
-// /ui-test-002 — UI konsept önizlemesi B: "Saha Haritası"
-// ─ Koyu zemin, köşegen kesimli, altıgen çerçeveli — 001'in sakin
-//   defter diline karşı enerjik, diyagramatik bir yön.
+// /ui-test-002 — UI konsept önizlemesi: "Sepet" (app ekranı)
+// ─ 001 ile aynı bileşen dili (yuvarlatılmış app kartları, Manrope),
+//   farklı ekran: sepet / adet stepper / özet kartı.
 // ─ Canlı katalogla bağlantılı değil, navigasyonda linki yok.
 // ═══════════════════════════════════════════════════════════════
 
 import type { Metadata } from 'next'
+import { Manrope } from 'next/font/google'
 import Image from 'next/image'
 import { getProducts } from '@/lib/products'
 import { getProductImage, getProductStartingPrice, formatPrice } from '@/types'
+
+const manrope = Manrope({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['500', '600', '700', '800'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'UI Konsept 002',
   robots: { index: false, follow: false },
 }
 
-const FIELD_LOG: [string, string][] = [
-  ['Konum', '40°15′N · 29°07′E'],
-  ['Kuruluş', '1985'],
-  ['Aktif Kovan', '1.247'],
-  ['Hasat', 'Q1 — 2026'],
-]
-
-// Kart başına hafif, düzensiz-organik sapma — köşegen tema ile tutarlı.
-const TILT = [-2.2, 1.6, -1.1, 2.4, -1.8, 1.2]
-const LIFT = [0, 18, 6, 26, 10, 2]
+const QUANTITIES = [2, 1, 1]
 
 export default async function UiTest002Page() {
-  const { products } = await getProducts({ isActive: true, limit: 6, orderBy: 'newest' })
+  const { products } = await getProducts({ isActive: true, limit: 3, orderBy: 'newest' })
 
-  const pins = products.map((p, i) => {
+  const lines = products.map((p, i) => {
     const price = getProductStartingPrice(p)
+    const unit = price?.current ?? 0
+    const qty = QUANTITIES[i] ?? 1
     return {
       id: p.id,
-      no: String(i + 1).padStart(2, '0'),
       name: p.name,
-      category: p.category?.name ?? '—',
       image: getProductImage(p),
-      price: price ? formatPrice(price.current) : null,
-      tilt: TILT[i % TILT.length],
-      lift: LIFT[i % LIFT.length],
+      unit,
+      qty,
+      lineTotal: unit * qty,
     }
   })
 
-  return (
-    <div
-      lang="tr"
-      style={{
-        backgroundColor: '#15110D',
-        color: '#F4F0E8',
-        minHeight: '100vh',
-        fontFamily: 'var(--font-sans)',
-        overflowX: 'hidden',
-      }}
-    >
-      <style>{`
-        .ft-pin { transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s ease; }
-        .ft-pin:hover { transform: translateY(-6px) rotate(0deg) !important; box-shadow: 0 24px 48px -20px rgba(0,0,0,0.6); }
-        .ft-pin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 22px; }
-        .ft-log-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
-        @media (max-width: 900px) {
-          .ft-pin-grid { grid-template-columns: repeat(2, 1fr); }
-          .ft-log-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 560px) {
-          .ft-pin-grid { grid-template-columns: 1fr; }
-          .ft-headline { font-size: 44px !important; }
-        }
-      `}</style>
+  const subtotal = lines.reduce((sum, l) => sum + l.lineTotal, 0)
+  const shipping = 0
+  const total = subtotal + shipping
 
+  return (
+    <div className={manrope.className} style={{ backgroundColor: '#EBE5D8', minHeight: '100vh' }}>
       {/* ── Üst şerit ───────────────────────────────────────────── */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '18px clamp(20px, 4vw, 56px)',
-          borderBottom: '1px solid rgba(244,240,232,0.1)',
-        }}
-      >
-        <p style={{ margin: 0, fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.28em', textTransform: 'uppercase' }}>
-          Dr. Şenol
-        </p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px clamp(20px, 4vw, 56px)' }}>
+        <p style={{ margin: 0, fontWeight: 800, fontSize: '15px', letterSpacing: '-0.01em', color: '#15110D' }}>Dr. Şenol</p>
         <p
           style={{
             margin: 0,
-            fontFamily: 'var(--font-mono)',
-            fontSize: '9.5px',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            color: '#D4B570',
-            border: '1px solid rgba(212,181,112,0.4)',
+            fontWeight: 600,
+            fontSize: '11px',
+            color: '#9C7C3C',
+            border: '1px solid rgba(201,169,97,0.5)',
             borderRadius: '999px',
-            padding: '5px 12px',
+            padding: '6px 14px',
+            background: '#F4F0E8',
           }}
         >
           Önizleme · Yayında Değil
         </p>
       </div>
 
-      {/* ── Köşegen masthead ────────────────────────────────────── */}
-      <section
-        style={{
-          position: 'relative',
-          padding: 'clamp(64px, 10vw, 128px) clamp(20px, 4vw, 56px) clamp(72px, 9vw, 104px)',
-        }}
-      >
-        <svg
+      {/* ── Telefon çerçevesi ───────────────────────────────────── */}
+      <div style={{ display: 'flex', justifyContent: 'center', padding: 'clamp(24px, 5vw, 56px) 20px clamp(64px, 8vw, 96px)', position: 'relative' }}>
+        <div
           aria-hidden
-          viewBox="0 0 100 92"
           style={{
             position: 'absolute',
-            top: '6%',
-            right: 'clamp(-40px, -2vw, 20px)',
-            width: 'min(560px, 68vw)',
-            aspectRatio: '1 / 0.92',
-            transform: 'rotate(8deg)',
-            pointerEvents: 'none',
+            top: '10%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '480px',
+            height: '480px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(92,122,63,0.16), rgba(92,122,63,0) 70%)',
             zIndex: 0,
           }}
-        >
-          <polygon
-            points="25,3 75,3 100,46 75,89 25,89 0,46"
-            fill="none"
-            stroke="rgba(212,181,112,0.5)"
-            strokeWidth="1"
-          />
-        </svg>
-
-        <p style={{ margin: '0 0 22px', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.24em', textTransform: 'uppercase', color: '#D4B570' }}>
-          Saha Haritası — Uludağ Eteği
-        </p>
-
-        <h1
-          className="ft-headline"
-          style={{
-            position: 'relative',
-            margin: '0 0 28px',
-            fontFamily: 'var(--font-display)',
-            fontWeight: 600,
-            fontSize: 'clamp(52px, 9vw, 104px)',
-            lineHeight: 0.98,
-            letterSpacing: '-0.015em',
-            maxWidth: '13ch',
-            textWrap: 'balance' as const,
-          }}
-        >
-          Kovandan çıkan{' '}
-          <span style={{ color: '#D4B570', fontStyle: 'italic', fontWeight: 500 }}>koordinat.</span>
-        </h1>
+        />
 
         <div
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '14px',
-            fontFamily: 'var(--font-mono)',
-            fontSize: '12px',
-            color: '#C3BCA9',
-            letterSpacing: '0.05em',
+            position: 'relative',
+            zIndex: 1,
+            width: 'min(380px, 100%)',
+            background: '#15110D',
+            borderRadius: '46px',
+            padding: '14px',
+            boxShadow: '0 50px 90px -30px rgba(21,17,13,0.55), 0 20px 40px -24px rgba(21,17,13,0.35)',
           }}
         >
-          <span style={{ width: '28px', height: '1px', background: '#D4B570' }} />
-          40°15′N · 29°07′E — Saitabat Köyü, Bursa
-        </div>
-      </section>
+          <div style={{ background: '#F4F0E8', borderRadius: '34px', overflow: 'hidden', position: 'relative', minHeight: '760px', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ position: 'absolute', top: '14px', left: '50%', transform: 'translateX(-50%)', width: '90px', height: '24px', borderRadius: '999px', background: '#15110D', zIndex: 2 }} />
 
-      {/* ── Numune iğneleri (staggered grid) ───────────────────── */}
-      {pins.length > 0 && (
-        <section style={{ padding: '0 clamp(20px, 4vw, 56px) clamp(64px, 8vw, 96px)' }}>
-          <p style={{ margin: '0 0 32px', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#7D7466' }}>
-            İşaretlenen Numuneler
-          </p>
-          <div className="ft-pin-grid">
-            {pins.map((p) => (
-              <article
-                key={p.id}
-                className="ft-pin"
+            <div style={{ padding: '52px 22px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <h1 style={{ margin: 0, fontSize: '22px', fontWeight: 800, color: '#15110D', letterSpacing: '-0.01em' }}>Sepetim</h1>
+              <span style={{ width: '34px', height: '34px', borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 16px -10px rgba(21,17,13,0.3)' }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#15110D" strokeWidth="2" strokeLinecap="round">
+                  <path d="M18 6 6 18M6 6l12 12" />
+                </svg>
+              </span>
+            </div>
+
+            {/* Satırlar */}
+            <div style={{ padding: '8px 22px', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
+              {lines.map((l) => (
+                <div
+                  key={l.id}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '14px',
+                    background: '#fff',
+                    borderRadius: '18px',
+                    padding: '12px',
+                    boxShadow: '0 10px 24px -18px rgba(21,17,13,0.25)',
+                  }}
+                >
+                  <div style={{ position: 'relative', width: '56px', height: '56px', borderRadius: '14px', background: '#EBE5D8', flexShrink: 0 }}>
+                    {l.image && <Image src={l.image} alt={l.name} fill sizes="56px" style={{ objectFit: 'contain', padding: '6px' }} />}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ margin: '0 0 4px', fontSize: '13.5px', fontWeight: 700, color: '#15110D', lineHeight: 1.25 }}>{l.name}</p>
+                    <p style={{ margin: 0, fontSize: '12.5px', fontWeight: 600, color: '#9B9285' }}>{formatPrice(l.unit)}</p>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+                    <span style={{ width: '24px', height: '24px', borderRadius: '50%', background: '#EBE5D8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 700, color: '#15110D' }}>
+                      −
+                    </span>
+                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#15110D', minWidth: '14px', textAlign: 'center' }}>{l.qty}</span>
+                    <span style={{ width: '24px', height: '24px', borderRadius: '50%', background: '#15110D', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 700, color: '#F4F0E8' }}>
+                      +
+                    </span>
+                  </div>
+                </div>
+              ))}
+
+              {/* Promosyon */}
+              <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
+                <div style={{ flex: 1, background: '#fff', borderRadius: '14px', padding: '12px 14px', fontSize: '12.5px', fontWeight: 600, color: '#9B9285' }}>
+                  Kupon kodu
+                </div>
+                <div style={{ background: '#15110D', color: '#F4F0E8', borderRadius: '14px', padding: '12px 20px', fontSize: '12.5px', fontWeight: 700 }}>
+                  Uygula
+                </div>
+              </div>
+            </div>
+
+            {/* Özet + CTA */}
+            <div style={{ padding: '18px 22px 28px', background: '#fff', borderTopLeftRadius: '28px', borderTopRightRadius: '28px', boxShadow: '0 -16px 32px -24px rgba(21,17,13,0.2)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                <span style={{ fontSize: '12.5px', fontWeight: 600, color: '#9B9285' }}>Ara Toplam</span>
+                <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#15110D' }}>{formatPrice(subtotal)}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '14px' }}>
+                <span style={{ fontSize: '12.5px', fontWeight: 600, color: '#9B9285' }}>Kargo</span>
+                <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#5C7A3F' }}>Ücretsiz</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', paddingTop: '14px', borderTop: '1px dashed rgba(21,17,13,0.15)' }}>
+                <span style={{ fontSize: '15px', fontWeight: 800, color: '#15110D' }}>Toplam</span>
+                <span style={{ fontSize: '19px', fontWeight: 800, color: '#15110D' }}>{formatPrice(total)}</span>
+              </div>
+              <div
                 style={{
-                  transform: `rotate(${p.tilt}deg) translateY(${p.lift}px)`,
-                  background: '#1C1814',
-                  border: '1px solid rgba(244,240,232,0.08)',
+                  background: '#15110D',
+                  color: '#F4F0E8',
+                  borderRadius: '999px',
+                  padding: '16px',
+                  textAlign: 'center',
+                  fontSize: '14px',
+                  fontWeight: 700,
                 }}
               >
-                <div style={{ position: 'relative', aspectRatio: '4 / 3', background: '#25201A' }}>
-                  {p.image ? (
-                    <Image src={p.image} alt={p.name} fill sizes="(max-width: 900px) 50vw, 33vw" style={{ objectFit: 'contain', padding: '18px' }} />
-                  ) : (
-                    <div style={{ width: '100%', height: '100%' }} />
-                  )}
-                  <span
-                    style={{
-                      position: 'absolute',
-                      top: '10px',
-                      left: '10px',
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '9px',
-                      letterSpacing: '0.1em',
-                      color: '#15110D',
-                      background: '#7AAD8B',
-                      padding: '3px 7px',
-                      borderRadius: '2px',
-                    }}
-                  >
-                    ● NO.{p.no}
-                  </span>
-                </div>
-                <div style={{ padding: '16px 18px 20px' }}>
-                  <p style={{ margin: '0 0 4px', fontFamily: 'var(--font-mono)', fontSize: '9.5px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#7D7466' }}>
-                    {p.category}
-                  </p>
-                  <p style={{ margin: '0 0 8px', fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 500, lineHeight: 1.25 }}>
-                    {p.name}
-                  </p>
-                  {p.price && (
-                    <p style={{ margin: 0, fontFamily: 'var(--font-mono)', fontSize: '13px', color: '#D4B570', fontVariantNumeric: 'tabular-nums' }}>
-                      {p.price}
-                    </p>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* ── Saha kaydı — altın blok ─────────────────────────────── */}
-      <section style={{ background: '#D4B570', color: '#15110D' }}>
-        <div className="ft-log-grid">
-          {FIELD_LOG.map(([label, value], i) => (
-            <div
-              key={label}
-              style={{
-                padding: 'clamp(28px, 4vw, 40px) clamp(16px, 3vw, 28px)',
-                borderLeft: i === 0 ? 'none' : '1px solid rgba(21,17,13,0.18)',
-              }}
-            >
-              <p style={{ margin: '0 0 10px', fontFamily: 'var(--font-mono)', fontSize: '9.5px', letterSpacing: '0.16em', textTransform: 'uppercase', opacity: 0.7 }}>
-                {label}
-              </p>
-              <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'clamp(18px, 2.4vw, 26px)', fontVariantNumeric: 'tabular-nums', lineHeight: 1.15 }}>
-                {value}
-              </p>
+                Ödemeye Geç
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Alt not + palet ─────────────────────────────────────── */}
+      <footer style={{ padding: 'clamp(24px, 5vw, 32px) clamp(20px, 4vw, 56px)', display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center', justifyContent: 'space-between' }}>
+        <p style={{ margin: 0, fontSize: '11px', fontWeight: 500, color: '#9B9285', maxWidth: '48ch' }}>
+          Bu sayfa bir tasarım konseptidir — canlı katalogla bağlantılı değildir, arama motorlarında dizinlenmez.
+        </p>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          {[
+            { name: 'Ink', value: '#15110D' },
+            { name: 'Bone', value: '#F4F0E8' },
+            { name: 'Gold', value: '#C9A961' },
+          ].map((c) => (
+            <div key={c.name} style={{ width: '20px', height: '20px', borderRadius: '50%', background: c.value, border: '1px solid rgba(21,17,13,0.15)' }} />
           ))}
         </div>
-      </section>
-
-      {/* ── Alt not ──────────────────────────────────────────────── */}
-      <footer
-        style={{
-          padding: 'clamp(24px, 4vw, 32px) clamp(20px, 4vw, 56px)',
-          fontFamily: 'var(--font-mono)',
-          fontSize: '10px',
-          letterSpacing: '0.08em',
-          color: '#7D7466',
-        }}
-      >
-        Bu sayfa bir tasarım konseptidir — canlı katalogla bağlantılı değildir, arama motorlarında dizinlenmez.
       </footer>
     </div>
   )
