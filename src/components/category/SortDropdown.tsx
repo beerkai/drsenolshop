@@ -1,6 +1,11 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+// ═══════════════════════════════════════════════════════════════
+// Sıralama — Editorial Minimal (Stitch koleksiyon)
+// ─ Zemin yok, çerçeve yok; sadece nav-caps metin + chevron
+// ─ Native <select> (erişilebilir, mobilde sistem picker'ı)
+// ═══════════════════════════════════════════════════════════════
+
 import type { GridSortOption } from '@/lib/catalog-sort'
 
 export type SortOption = GridSortOption
@@ -8,114 +13,52 @@ export type SortOption = GridSortOption
 interface SortDropdownProps {
   value: SortOption
   onChange: (value: SortOption) => void
+  label?: string
 }
 
 const OPTIONS: { value: SortOption; label: string }[] = [
-  { value: 'newest', label: 'En Yeni' },
-  { value: 'popular', label: 'En Popüler' },
+  { value: 'newest', label: 'En Yeni Hasat' },
+  { value: 'popular', label: 'Öne Çıkanlar' },
   { value: 'price_asc', label: 'Fiyat: Düşükten Yükseğe' },
   { value: 'price_desc', label: 'Fiyat: Yüksekten Düşüğe' },
-  { value: 'name', label: 'İsim: A-Z' },
+  { value: 'name', label: 'İsim: A–Z' },
 ]
 
-export default function SortDropdown({ value, onChange }: SortDropdownProps) {
-  const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handler)
-    return () => document.removeEventListener('mousedown', handler)
-  }, [])
-
-  const currentLabel = OPTIONS.find((o) => o.value === value)?.label || 'Sırala'
-
+export default function SortDropdown({ value, onChange, label = 'Sıralama:' }: SortDropdownProps) {
   return (
-    <div ref={ref} style={{ position: 'relative' }}>
-      <button
-        type="button"
-        onClick={() => setOpen(!open)}
-        lang="tr"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          background: 'transparent',
-          border: 'none',
-          color: 'var(--color-cream)',
-          fontFamily: 'var(--font-mono)',
-          fontSize: '11px',
-          letterSpacing: '0.2em',
-          textTransform: 'uppercase',
-          cursor: 'pointer',
-          padding: '6px 0',
-        }}
+    <div className="flex items-center gap-1.5 text-on-surface">
+      <label
+        htmlFor="ed-sort-select"
+        className="font-editorial-caption text-editorial-caption uppercase tracking-[0.14em] text-on-surface-variant"
       >
-        <span style={{ color: 'var(--color-cream-faint)' }}>Sırala:</span>
-        <span>{currentLabel}</span>
+        {label}
+      </label>
+
+      <div className="relative flex items-center">
+        <select
+          id="ed-sort-select"
+          value={value}
+          onChange={(e) => onChange(e.target.value as SortOption)}
+          className="cursor-pointer appearance-none bg-transparent py-1 pr-5 font-nav-caps text-nav-caps uppercase tracking-[0.12em] text-on-surface focus:outline-none focus-visible:underline focus-visible:decoration-honey-amber focus-visible:underline-offset-4"
+        >
+          {OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+
         <svg
-          width="10"
-          height="10"
+          aria-hidden
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
-          style={{
-            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.2s',
-          }}
+          strokeWidth="1.5"
+          className="pointer-events-none absolute right-0 h-3.5 w-3.5 text-on-surface-variant"
         >
-          <polyline points="6 9 12 15 18 9" />
+          <path d="m6 9 6 6 6-6" />
         </svg>
-      </button>
-
-      {open && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '100%',
-            right: 0,
-            marginTop: '6px',
-            background: 'var(--color-ink-2)',
-            border: '1px solid rgba(244,240,232,0.15)',
-            minWidth: '240px',
-            zIndex: 50,
-            boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
-          }}
-        >
-          {OPTIONS.map((opt) => (
-            <button
-              key={opt.value}
-              type="button"
-              lang="tr"
-              onClick={() => {
-                onChange(opt.value)
-                setOpen(false)
-              }}
-              style={{
-                display: 'block',
-                width: '100%',
-                textAlign: 'left',
-                padding: '12px 16px',
-                background: opt.value === value ? 'var(--color-ink-3)' : 'transparent',
-                border: 'none',
-                color: opt.value === value ? 'var(--color-gold)' : 'var(--color-cream)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '11px',
-                letterSpacing: '0.05em',
-                cursor: 'pointer',
-                borderBottom: '1px solid rgba(244,240,232,0.05)',
-              }}
-            >
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      )}
+      </div>
     </div>
   )
 }

@@ -261,7 +261,7 @@ export default async function UrunPage({ params }: Props) {
           </section>
         )}
       </main>
-      <Footer variant="product" />
+      <Footer />
     </>
   )
 }

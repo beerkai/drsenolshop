@@ -1,344 +1,139 @@
-'use client';
+// ═══════════════════════════════════════════════════════════════
+// Ürün kartı — Editorial Minimal (Stitch koleksiyon lookbook)
+// ─ 3:4 portre görsel, hover'da ikinci görsele yumuşak geçiş
+// ─ Hairline çerçeve, sıfır köşe yuvarlaklığı, sıfır gölge
+// ─ Gövde: kategori (editorial-caption) + spec etiketi (label-spec),
+//   ad (body-md), fiyat (price-tag, honey-amber) + sağ caption
+//
+// Referans: design/stitch-export/.../dr._enol_koleksiyon_hasatlar/code.html
+// ═══════════════════════════════════════════════════════════════
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { useState } from 'react';
-import type { ProductWithRelations } from '@/types';
+'use client'
+
+import Image from 'next/image'
+import Link from 'next/link'
+import type { ProductWithRelations } from '@/types'
 import {
-  getProductImage,
-  getProductShortDesc,
-  getProductStartingPrice,
-  isProductInStock,
   formatPrice,
-} from '@/types';
-import WishlistButton from './WishlistButton';
+  getProductImages,
+  getProductStartingPrice,
+  getVariantStock,
+} from '@/types'
 
 interface ProductCardProps {
-  product: ProductWithRelations;
-  categoryOverride?: string;
+  product: ProductWithRelations
+  /** Kategori etiketini elle geçmek için (ör. alt kategori adı) */
+  categoryOverride?: string
+  /** Sağ üst spec etiketi — ileride CMS/ürün alanından gelecek */
+  specLabel?: string
+  /** Fiyatın altındaki sağ caption (Stitch: "Tek Hasat") */
+  footnote?: string
+  priority?: boolean
 }
 
-function isLikelyEnglish(text: string): boolean {
-  return !/[ğüşıöçĞÜŞİÖÇ]/.test(text);
+function isInStock(product: ProductWithRelations): boolean {
+  const variants = product.variants ?? []
+  if (variants.length === 0) return (product.stock_quantity ?? 0) > 0
+  return variants.some((v) => v.is_active !== false && getVariantStock(v) > 0)
 }
 
-export default function ProductCard({ product, categoryOverride }: ProductCardProps) {
-  const [imageError, setImageError] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const image = getProductImage(product);
-  const shortDesc = getProductShortDesc(product);
-  const priceData = getProductStartingPrice(product);
-  const inStock = isProductInStock(product);
-  const categoryName = categoryOverride || product.category?.name || '';
-  const productSlug = product.slug;
-
-  const hasDiscount =
-    priceData?.original !== null &&
-    priceData?.original !== undefined &&
-    (priceData?.discount ?? 0) > 0;
-
-  const Wrapper = inStock ? Link : 'div';
-  const wrapperProps = inStock ? { href: `/urun/${productSlug}` } : {};
+export default function ProductCard({
+  product,
+  categoryOverride,
+  specLabel,
+  footnote,
+  priority = false,
+}: ProductCardProps) {
+  const images = getProductImages(product)
+  const primary = images[0] ?? null
+  const secondary = images[1] ?? null
+  const price = getProductStartingPrice(product)
+  const category = categoryOverride ?? product.category?.name ?? 'Koleksiyon'
+  const inStock = isInStock(product)
 
   return (
-    <Wrapper
-      {...(wrapperProps as { href: string })}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        background: 'var(--color-ink)',
-        opacity: inStock ? 1 : 0.75,
-        cursor: inStock ? 'pointer' : 'default',
-        textDecoration: 'none',
-        position: 'relative',
-      }}
-    >
-      {/* Hover overlay — sınır yerine kart üzerine altın çerçeve */}
-      {inStock && (
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            border: '1px solid var(--color-gold)',
-            opacity: isHovered ? 1 : 0,
-            transition: 'opacity 0.3s',
-            pointerEvents: 'none',
-            zIndex: 2,
-          }}
-        />
-      )}
+    <article className="group relative flex flex-col border border-hairline-light bg-surface-container-lowest">
+      <Link href={`/urun/${product.slug}`} className="flex flex-1 flex-col">
+        {/* Görsel — 3:4 portre, hover'da ikinci kareye geçiş */}
+        <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden bg-surface-container-low">
+          {primary ? (
+            <Image
+              src={primary}
+              alt={product.name}
+              fill
+              priority={priority}
+              sizes="(max-width: 48rem) 50vw, (max-width: 64rem) 33vw, 25vw"
+              className={
+                secondary
+                  ? 'object-cover transition-opacity duration-500 ease-out group-hover:opacity-0'
+                  : 'object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]'
+              }
+            />
+          ) : null}
 
-      {/* GÖRSEL — sabit aspect ratio */}
-      <div
-        style={{
-          position: 'relative',
-          aspectRatio: '4 / 5',
-          background: 'var(--color-ink-2)',
-          overflow: 'hidden',
-          flexShrink: 0,
-        }}
-      >
-        {image && !imageError ? (
-          <Image
-            src={image}
-            alt={product.name}
-            fill
-            sizes="(max-width: 400px) 100vw, (max-width: 1024px) 50vw, 380px"
-            style={{
-              objectFit: 'cover',
-              transition: 'transform 0.7s',
-              transform: isHovered && inStock ? 'scale(1.05)' : 'scale(1)',
-            }}
-            onError={() => setImageError(true)}
-          />
-        ) : (
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <p
-              style={{
-                fontFamily: 'var(--font-display)',
-                color: 'var(--color-cream-faint)',
-                fontStyle: 'italic',
-                fontSize: '14px',
-                margin: 0,
-              }}
-              {...(isLikelyEnglish(product.name) && { lang: 'en' })}
-            >
-              {product.name}
-            </p>
-          </div>
-        )}
+          {secondary ? (
+            <Image
+              src={secondary}
+              alt=""
+              aria-hidden
+              fill
+              sizes="(max-width: 48rem) 50vw, (max-width: 64rem) 33vw, 25vw"
+              className="object-cover opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
+            />
+          ) : null}
 
-        {/* BADGE */}
-        {!inStock ? (
-          <span
-            style={{
-              position: 'absolute',
-              top: '14px',
-              left: '14px',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '9px',
-              letterSpacing: '0.22em',
-              color: 'var(--color-cream)',
-              background: 'rgba(10,9,8,0.85)',
-              padding: '5px 9px',
-              textTransform: 'uppercase',
-              border: '1px solid rgba(244,240,232,0.2)',
-              zIndex: 1,
-            }}
-          >
-            Stokta Yok
-          </span>
-        ) : hasDiscount ? (
-          <span
-            style={{
-              position: 'absolute',
-              top: '14px',
-              left: '14px',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '9px',
-              letterSpacing: '0.22em',
-              color: 'var(--color-ink)',
-              background: 'var(--color-gold)',
-              padding: '5px 9px',
-              textTransform: 'uppercase',
-              fontWeight: 500,
-              zIndex: 1,
-            }}
-          >
-            %{priceData?.discount} İndirim
-          </span>
-        ) : null}
+          {/* Rozetler */}
+          {product.badge ? (
+            <span className="absolute left-2.5 top-2.5 bg-charcoal-pure/85 px-2 py-0.5 font-label-spec text-[10px] uppercase tracking-[0.08em] text-surface">
+              {product.badge}
+            </span>
+          ) : null}
 
-        {/* Favori butonu — sağ üst */}
-        <div style={{ position: 'absolute', top: '12px', right: '12px', zIndex: 2 }}>
-          <WishlistButton
-            product={{
-              productId: product.id,
-              slug: product.slug,
-              name: product.name,
-              image: image,
-            }}
-            variant="icon"
-          />
-        </div>
-      </div>
-
-      {/* İÇERIK — flex column, içerik kısmı flex:1 ile genişler */}
-      <div
-        className="product-card-content"
-        style={{
-          padding: '22px 22px 0',
-          display: 'flex',
-          flexDirection: 'column',
-          flex: 1,
-        }}
-      >
-        {/* Üst kısım: eyebrow + ürün adı + açıklama */}
-        <div style={{ flex: 1 }}>
-          {/* Kategori (eyebrow) */}
-          <p
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '9px',
-              letterSpacing: '0.25em',
-              color: isHovered && inStock ? 'var(--color-gold)' : 'var(--color-cream-faint)',
-              textTransform: 'uppercase',
-              margin: '0 0 10px',
-              transition: 'color 0.3s',
-            }}
-            {...(isLikelyEnglish(categoryName) && { lang: 'en' })}
-          >
-            {categoryName || 'Ürün'}
-          </p>
-
-          {/* Ürün adı — minHeight YOK, doğal yüksekliğinde */}
-          <h3
-            className="product-card-title"
-            style={{
-              fontFamily: 'var(--font-display)',
-              color: 'var(--color-cream)',
-              fontSize: '22px',
-              fontWeight: 500,
-              lineHeight: 1.25,
-              letterSpacing: '-0.005em',
-              margin: '0 0 12px',
-              display: '-webkit-box',
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-            }}
-            {...(isLikelyEnglish(product.name) && { lang: 'en' })}
-          >
-            {product.name}
-          </h3>
-
-          {/* Kısa açıklama (varsa) */}
-          {shortDesc && (
-            <p
-              style={{
-                color: 'var(--color-cream-muted)',
-                fontSize: '12.5px',
-                lineHeight: 1.55,
-                margin: '0 0 16px',
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-              }}
-            >
-              {shortDesc}
-            </p>
-          )}
+          {!inStock ? (
+            <span className="absolute right-2.5 top-2.5 border border-hairline-light bg-surface-container-lowest/90 px-1.5 py-0.5 font-label-spec text-[10px] uppercase tracking-wider text-on-surface">
+              Tükendi
+            </span>
+          ) : secondary ? (
+            <span className="absolute right-2.5 top-2.5 bg-surface/90 px-1.5 py-0.5 font-label-spec text-[10px] uppercase tracking-widest text-charcoal-pure opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              1/2
+            </span>
+          ) : null}
         </div>
 
-        {/* Fiyat satırı — her zaman içerik bölümünün en altında */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'baseline',
-            gap: '10px',
-            paddingTop: '12px',
-            paddingBottom: '18px',
-          }}
-        >
-          {priceData ? (
-            <>
-              <span
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  color: inStock ? 'var(--color-cream)' : 'var(--color-cream-muted)',
-                  fontSize: '22px',
-                  fontWeight: 500,
-                }}
-              >
-                {formatPrice(priceData.current)}
-              </span>
-              {hasDiscount && priceData.original && (
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '11px',
-                    color: 'var(--color-cream-faint)',
-                    textDecoration: 'line-through',
-                  }}
-                >
-                  {formatPrice(priceData.original)}
+        {/* Gövde */}
+        <div className="flex flex-1 flex-col justify-between p-3.5">
+          <div className="ed-min-w-0">
+            <div className="mb-1 flex items-center justify-between gap-space-sm font-editorial-caption text-editorial-caption uppercase text-on-surface-variant">
+              <span className="ed-caption-truncate">{category}</span>
+              {specLabel ? (
+                <span className="shrink-0 font-label-spec text-label-spec text-honey-amber">
+                  {specLabel}
                 </span>
-              )}
-            </>
-          ) : (
-            <span style={{ fontSize: '11px', color: 'var(--color-cream-faint)' }}>
-              Fiyat bilgisi yok
-            </span>
-          )}
-        </div>
-      </div>
+              ) : null}
+            </div>
+            <h3 className="font-body-md text-body-md font-normal leading-snug text-on-surface">
+              {product.name}
+            </h3>
+          </div>
 
-      {/* ALT CTA ÇUBUK — her zaman kartın altında */}
-      <div
-        className="product-card-cta"
-        style={{
-          borderTop: '1px solid rgba(244,240,232,0.08)',
-          padding: '18px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '10px',
-          background: isHovered && inStock ? 'var(--color-gold)' : 'transparent',
-          transition: 'background 0.3s',
-          flexShrink: 0,
-        }}
-      >
-        {inStock ? (
-          <>
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '10px',
-                letterSpacing: '0.25em',
-                color: isHovered ? 'var(--color-ink)' : 'var(--color-cream)',
-                textTransform: 'uppercase',
-                transition: 'color 0.3s',
-              }}
-            >
-              Ürünü İncele
-            </span>
-            <span
-              style={{
-                color: isHovered ? 'var(--color-ink)' : 'var(--color-gold)',
-                fontSize: '14px',
-                lineHeight: 1,
-                transition: 'color 0.3s',
-              }}
-            >
-              →
-            </span>
-          </>
-        ) : (
-          <span
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '10px',
-              letterSpacing: '0.25em',
-              color: 'var(--color-cream-faint)',
-              textTransform: 'uppercase',
-            }}
-          >
-            Stok Bildirimi
-          </span>
-        )}
-      </div>
-    </Wrapper>
-  );
+          <div className="mt-2 flex items-baseline justify-between gap-space-sm pt-3">
+            {price ? (
+              <span className="font-price-tag text-price-tag font-medium text-honey-amber">
+                {formatPrice(price.current)}
+              </span>
+            ) : (
+              <span className="font-label-spec text-label-spec uppercase text-on-surface-variant">
+                Varyantta
+              </span>
+            )}
+            {footnote ? (
+              <span className="shrink-0 font-editorial-caption text-editorial-caption uppercase tracking-wider text-on-surface-variant">
+                {footnote}
+              </span>
+            ) : null}
+          </div>
+        </div>
+      </Link>
+    </article>
+  )
 }

@@ -1,0 +1,52 @@
+---
+description: Editorial Minimal anasayfa — section spacing, hizalama, taşma (Stitch)
+globs: src/components/editorial/**/*.tsx, src/components/Hero.tsx, src/app/page.tsx
+alwaysApply: false
+---
+
+# Editorial layout & spacing
+
+Kaynak: `design/stitch-export/.../saitabat_minimal_luxury/DESIGN.md` + `dr._enol_editorial_minimal_anasayfa/code.html`.
+
+## Section iskeleti (zorunlu)
+
+```tsx
+<section className="w-full … ed-section-y">
+  <div className="ed-section-inner">
+    <div className="ed-section-head">…</div>
+    {/* içerik */}
+  </div>
+</section>
+```
+
+- Yatay padding: **yalnızca** `ed-section-inner` veya `px-margin` — `lg:px-margin-desktop` ekleme (`.px-margin` / inner zaten 1024px+’da 3rem).
+- Dikey ritim: bölüm gövdesi `ed-section-y` (`space-xl` = 3rem). İnce şeritler `ed-section-y-sm`.
+
+## Section başlığı
+
+- `ed-section-head` + eyebrow (`block`, `mb-0` — gap stack’ten gelir).
+- Aside / sağ metin: `max-w-sm`, `leading-relaxed`, mobilde alt satır, md+ `items-end` veya `items-center`.
+
+## Metin blokları
+
+- Paragraflar: `ed-prose` veya `ed-journal-prose`, paragraf arası `space-sm` (Stitch `space-y-space-sm`).
+- Flex satırda metin: parent ve child’da `min-w-0`; gerekirse `ed-caption-truncate`.
+- Üst üste binmeyi önle: `gap-*` kullan, `mb-0.5` / negatif margin ile sıkıştırma.
+
+## Kartlar (feed)
+
+- Grid: `items-stretch`, kart `ed-feed-card` + `ed-card-body`.
+- Footer satır (fiyat + CTA): `ed-card-footer`, CTA `shrink-0`.
+- Alt caption şeridi: `ed-card-body--muted` + `ed-card-caption-row`.
+
+## Hero & Goldylium (bilinen tuzaklar)
+
+- Hero masaüstü: `ed-hero-section` + `ed-hero-content` — `items-end` + `pt-40` tek başına header altına taşır; üstte `--editorial-header-stack` padding şart.
+- Başlık/gövde: `text-display-hero` / `text-body-lg` sınıfları (globals’ta line-height ile) — `tracking-tight` ekleme.
+- Goldylium kart: `ed-goldylium-card` + `__footer` — fiyat satırı section footer ile **asla** paylaşılmaz; kart `height: 100%` + `justify-between`.
+
+## Yeni section eklerken
+
+1. Stitch HTML’de aynı bölümün `py-*`, `mb-*`, `gap-*` sınıflarını kopyala.
+2. Özel padding yazmadan önce `globals.css` içindeki `ed-*` sınıflarına bak.
+3. Değişiklikten sonra mobil + desktop’ta taşma / üst üste bindirme kontrol et.

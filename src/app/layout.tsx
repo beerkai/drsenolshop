@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Cormorant_Garamond, JetBrains_Mono } from 'next/font/google';
+import { Inter, Cormorant_Garamond, DM_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
-import CookieConsent from '@/components/CookieConsent';
-import Analytics from '@/components/Analytics';
+import CookieConsent from '@/components/_deprecated/CookieConsent';
+import Analytics from '@/components/_deprecated/Analytics';
 import { organizationLd, websiteLd, toJsonLdScript } from '@/lib/jsonld';
 import { getSiteUrl } from '@/lib/site-url';
 
@@ -11,7 +11,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: 'var(--color-ink)',
+  themeColor: 'var(--color-surface)',
 };
 
 const inter = Inter({
@@ -27,6 +27,13 @@ const cormorant = Cormorant_Garamond({
   display: 'swap',
   weight: ['300', '400', '500', '600', '700'],
   style: ['normal', 'italic'],
+});
+
+const dmSans = DM_Sans({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-dm-sans',
+  display: 'swap',
+  weight: ['300', '400', '500'],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -67,7 +74,7 @@ export default function RootLayout({
   return (
     <html
       lang="tr"
-      className={`${inter.variable} ${cormorant.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${cormorant.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
     >
       <body>
         <Providers>{children}</Providers>

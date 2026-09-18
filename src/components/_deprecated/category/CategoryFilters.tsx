@@ -1,0 +1,387 @@
+'use client'
+
+import Link from 'next/link'
+import { useEffect } from 'react'
+import type { Category } from '@/types'
+
+export interface FilterState {
+  inStockOnly: boolean
+}
+
+interface CategoryFiltersProps {
+  categories: Array<Category & { product_count?: number; children?: Array<Category & { product_count?: number }> }>
+  activeCategorySlug: string | null
+  totalProducts: number
+  filters: FilterState
+  onFiltersChange: (filters: FilterState) => void
+  isMobile: boolean
+  isOpen: boolean
+  onClose: () => void
+  resultCount: number
+}
+
+export default function CategoryFilters({
+  categories,
+  activeCategorySlug,
+  totalProducts,
+  filters,
+  onFiltersChange,
+  isMobile,
+  isOpen,
+  onClose,
+  resultCount,
+}: CategoryFiltersProps) {
+  useEffect(() => {
+    if (isMobile && isOpen) {
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = ''
+      }
+    }
+  }, [isMobile, isOpen])
+
+  const panelContent = (
+    <div
+      lang="tr"
+      style={{
+        padding: isMobile ? '20px' : '32px 28px',
+      }}
+    >
+      {isMobile && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '24px',
+            paddingBottom: '14px',
+            borderBottom: '1px solid rgba(244,240,232,0.08)',
+          }}
+        >
+          <h3
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '22px',
+              fontWeight: 500,
+              color: 'var(--color-cream)',
+              margin: 0,
+            }}
+          >
+            Filtrele
+          </h3>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Kapat"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--color-cream-muted)',
+              fontSize: '24px',
+              cursor: 'pointer',
+              lineHeight: 1,
+              padding: '4px 8px',
+            }}
+          >
+            ×
+          </button>
+        </div>
+      )}
+
+      <p
+        style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: '9px',
+          letterSpacing: '0.25em',
+          color: 'var(--color-gold)',
+          textTransform: 'uppercase',
+          margin: '0 0 14px',
+        }}
+      >
+        Kategoriler
+      </p>
+      <ul
+        style={{
+          listStyle: 'none',
+          padding: 0,
+          margin: '0 0 32px',
+          fontSize: '13px',
+          lineHeight: 2.1,
+        }}
+      >
+        <li
+          style={{
+            color: activeCategorySlug === null ? 'var(--color-cream)' : 'var(--color-cream-muted)',
+            fontWeight: activeCategorySlug === null ? 500 : 400,
+            borderLeft: activeCategorySlug === null ? '2px solid var(--color-gold)' : 'none',
+            paddingLeft: activeCategorySlug === null ? '10px' : '12px',
+            marginLeft: activeCategorySlug === null ? '-12px' : '0',
+            transition: 'all 0.2s',
+          }}
+        >
+          <Link
+            href="/koleksiyon"
+            style={{ color: 'inherit', textDecoration: 'none' }}
+            onClick={isMobile ? onClose : undefined}
+          >
+            Tüm Ürünler · {totalProducts}
+          </Link>
+        </li>
+        {categories.map((cat) => (
+          <li
+            key={cat.id}
+            style={{
+              color: activeCategorySlug === cat.slug ? 'var(--color-cream)' : 'var(--color-cream-muted)',
+              fontWeight: activeCategorySlug === cat.slug ? 500 : 400,
+              borderLeft: activeCategorySlug === cat.slug ? '2px solid var(--color-gold)' : 'none',
+              paddingLeft: activeCategorySlug === cat.slug ? '10px' : '12px',
+              marginLeft: activeCategorySlug === cat.slug ? '-12px' : '0',
+              transition: 'all 0.2s',
+            }}
+          >
+            <Link
+              href={`/kategori/${cat.slug}`}
+              style={{ color: 'inherit', textDecoration: 'none' }}
+              onClick={isMobile ? onClose : undefined}
+            >
+              {cat.name} · {cat.product_count ?? 0}
+            </Link>
+            {cat.children && cat.children.length > 0 && (
+              <ul
+                style={{
+                  listStyle: 'none',
+                  padding: 0,
+                  margin: '2px 0 4px',
+                  fontSize: '12px',
+                }}
+              >
+                {cat.children.map((child) => (
+                  <li
+                    key={child.id}
+                    style={{
+                      color: activeCategorySlug === child.slug ? 'var(--color-cream)' : 'var(--color-cream-faint)',
+                      fontWeight: activeCategorySlug === child.slug ? 500 : 400,
+                      borderLeft: activeCategorySlug === child.slug ? '2px solid var(--color-gold)' : 'none',
+                      paddingLeft: activeCategorySlug === child.slug ? '20px' : '22px',
+                      marginLeft: activeCategorySlug === child.slug ? '-12px' : '0',
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    <Link
+                      href={`/kategori/${child.slug}`}
+                      style={{ color: 'inherit', textDecoration: 'none' }}
+                      onClick={isMobile ? onClose : undefined}
+                    >
+                      {child.name} · {child.product_count ?? 0}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+
+      <p
+        style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: '9px',
+          letterSpacing: '0.25em',
+          color: 'var(--color-gold)',
+          textTransform: 'uppercase',
+          margin: '0 0 14px',
+        }}
+      >
+        Stok Durumu
+      </p>
+      <label
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          cursor: 'pointer',
+          fontSize: '13px',
+          marginBottom: '10px',
+          color: filters.inStockOnly ? 'var(--color-cream)' : 'var(--color-cream-muted)',
+        }}
+      >
+        <input
+          type="radio"
+          checked={filters.inStockOnly}
+          onChange={() => onFiltersChange({ ...filters, inStockOnly: true })}
+          style={{ display: 'none' }}
+        />
+        <span
+          style={{
+            width: '14px',
+            height: '14px',
+            border: '1px solid var(--color-gold)',
+            background: filters.inStockOnly ? 'var(--color-gold)' : 'transparent',
+            position: 'relative',
+            flexShrink: 0,
+          }}
+        >
+          {filters.inStockOnly && (
+            <span
+              style={{
+                position: 'absolute',
+                top: '0',
+                left: '4px',
+                color: 'var(--color-ink)',
+                fontSize: '11px',
+                lineHeight: 1,
+              }}
+            >
+              ✓
+            </span>
+          )}
+        </span>
+        Stokta Olanlar
+      </label>
+      <label
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          cursor: 'pointer',
+          fontSize: '13px',
+          color: !filters.inStockOnly ? 'var(--color-cream)' : 'var(--color-cream-muted)',
+        }}
+      >
+        <input
+          type="radio"
+          checked={!filters.inStockOnly}
+          onChange={() => onFiltersChange({ ...filters, inStockOnly: false })}
+          style={{ display: 'none' }}
+        />
+        <span
+          style={{
+            width: '14px',
+            height: '14px',
+            border: `1px solid ${!filters.inStockOnly ? 'var(--color-gold)' : 'rgba(244,240,232,0.3)'}`,
+            background: !filters.inStockOnly ? 'var(--color-gold)' : 'transparent',
+            position: 'relative',
+            flexShrink: 0,
+          }}
+        >
+          {!filters.inStockOnly && (
+            <span
+              style={{
+                position: 'absolute',
+                top: '0',
+                left: '4px',
+                color: 'var(--color-ink)',
+                fontSize: '11px',
+                lineHeight: 1,
+              }}
+            >
+              ✓
+            </span>
+          )}
+        </span>
+        Tüm Ürünler
+      </label>
+
+      {isMobile && (
+        <div
+          style={{
+            marginTop: '40px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+          }}
+        >
+          <button
+            type="button"
+            onClick={onClose}
+            style={{
+              background: 'var(--color-gold)',
+              color: 'var(--color-ink)',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '11px',
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              padding: '16px',
+              border: 'none',
+              fontWeight: 500,
+              cursor: 'pointer',
+            }}
+          >
+            Sonuçları Göster ({resultCount})
+          </button>
+          <button
+            type="button"
+            onClick={() => onFiltersChange({ inStockOnly: true })}
+            style={{
+              background: 'transparent',
+              color: 'var(--color-cream-faint)',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '10px',
+              letterSpacing: '0.22em',
+              textTransform: 'uppercase',
+              padding: '10px',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+          >
+            Filtreleri Temizle
+          </button>
+        </div>
+      )}
+    </div>
+  )
+
+  if (!isMobile) {
+    return (
+      <aside
+        lang="tr"
+        style={{
+          width: '240px',
+          borderRight: '1px solid rgba(244,240,232,0.08)',
+          background: 'var(--color-ink)',
+          flexShrink: 0,
+        }}
+      >
+        {panelContent}
+      </aside>
+    )
+  }
+
+  return (
+    <>
+      {isOpen && (
+        <div
+          onClick={onClose}
+          onKeyDown={(e) => e.key === 'Escape' && onClose()}
+          role="presentation"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(10,9,8,0.7)',
+            zIndex: 100,
+            transition: 'opacity 0.3s',
+          }}
+        />
+      )}
+
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          width: '85vw',
+          maxWidth: '320px',
+          background: 'var(--color-ink)',
+          borderRight: '1px solid rgba(244,240,232,0.08)',
+          zIndex: 101,
+          transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
+          transition: 'transform 0.3s ease-out',
+          overflowY: 'auto',
+        }}
+      >
+        {panelContent}
+      </div>
+    </>
+  )
+}

@@ -1,101 +1,81 @@
+// ═══════════════════════════════════════════════════════════════
+// Kategori başlığı — Editorial Minimal (Stitch koleksiyon)
+// ─ Amber kare + eyebrow, headline-lg başlık, body-md açıklama
+// ─ Sağda ürün sayısı / canlı stok notu
+//
+// Referans: dr._enol_koleksiyon_hasatlar/code.html "Editorial Category Header"
+// ═══════════════════════════════════════════════════════════════
+
 interface CategoryHeroProps {
   title: string
   titleAccent?: string
-  /** ASCII-only Türkçe kelimeler (örn. Koleksiyon) için açıkça verin */
+  /** ASCII-only Türkçe kelimeler için açıkça verin */
   titleAccentLang?: 'tr' | 'en'
+  titleLang?: 'tr' | 'en'
   description?: string
   totalProducts: number
   eyebrow?: string
-  titleLang?: 'tr' | 'en'
-}
-
-function isLikelyEnglish(text: string): boolean {
-  return !/[ğüşıöçĞÜŞİÖÇ]/.test(text)
+  /** Sağdaki canlı durum notu (Stitch: "Canlı Stok: 12 Seri Açık") */
+  statusNote?: string
 }
 
 export default function CategoryHero({
   title,
   titleAccent,
   titleAccentLang,
+  titleLang,
   description,
   totalProducts,
-  eyebrow = 'Koleksiyon',
-  titleLang,
+  eyebrow = 'Saitabat Köyü • Rakım 1120m • 2025 Mahsulü',
+  statusNote,
 }: CategoryHeroProps) {
-  const titleLangResolved = titleLang ?? (isLikelyEnglish(title) ? 'en' : 'tr')
-
   return (
-    <section
-      lang="tr"
-      style={{
-        backgroundColor: 'var(--color-ink)',
-        padding: 'clamp(36px, 8vw, 64px) clamp(18px, 5vw, 24px) clamp(28px, 7vw, 48px)',
-        borderBottom: '1px solid rgba(244,240,232,0.08)',
-        textAlign: 'center',
-      }}
-    >
-      <p
-        style={{
-          fontFamily: 'var(--font-mono)',
-          color: 'var(--color-gold)',
-          fontSize: 'clamp(9px, 2vw, 11px)',
-          letterSpacing: 'clamp(0.22em, 0.55vw, 0.3em)',
-          textTransform: 'uppercase',
-          margin: '0 0 16px',
-        }}
-      >
-        {eyebrow} · {totalProducts} Ürün
-      </p>
-      <div
-        style={{
-          width: '48px',
-          height: '1px',
-          background: 'var(--color-gold)',
-          margin: '0 auto 24px',
-        }}
-      />
-      <h1
-        lang={titleLangResolved}
-        style={{
-          fontFamily: 'var(--font-display)',
-          color: 'var(--color-cream)',
-          fontSize: 'clamp(32px, 5vw, 52px)',
-          fontWeight: 500,
-          lineHeight: 1.05,
-          letterSpacing: '-0.015em',
-          margin: '0 0 18px',
-        }}
-      >
-        {title}
-        {titleAccent && (
-          <>
-            {' '}
-            <span
-              style={{
-                color: 'var(--color-gold)',
-                fontStyle: 'italic',
-                fontWeight: 300,
-              }}
-              lang={titleAccentLang ?? (isLikelyEnglish(titleAccent) ? 'en' : 'tr')}
+    <section className="w-full bg-surface">
+      <div className="ed-section-inner pb-space-lg pt-space-lg">
+        <div className="flex flex-col justify-between gap-space-lg pb-space-lg md:flex-row md:items-end">
+          <div className="ed-min-w-0 flex flex-col gap-space-sm">
+            <div className="flex items-center gap-2">
+              <span aria-hidden className="inline-block h-1.5 w-1.5 shrink-0 bg-honey-amber" />
+              <p className="font-editorial-caption text-editorial-caption uppercase tracking-[0.2em] text-on-surface-variant">
+                {eyebrow}
+              </p>
+            </div>
+
+            <h1
+              lang={titleLang}
+              className="font-headline-lg text-headline-lg font-light tracking-[-0.02em] text-on-surface"
             >
-              {titleAccent}
+              {title}
+              {titleAccent ? (
+                <>
+                  {' '}
+                  <span lang={titleAccentLang} className="text-honey-amber">
+                    {titleAccent}
+                  </span>
+                </>
+              ) : null}
+            </h1>
+
+            {description ? (
+              <p className="max-w-2xl font-body-md text-body-md font-light text-on-surface-variant">
+                {description}
+              </p>
+            ) : null}
+          </div>
+
+          <div className="flex shrink-0 items-center gap-space-md self-start md:self-end">
+            <span className="font-label-spec text-label-spec uppercase text-on-surface-variant">
+              {totalProducts} Ürün
             </span>
-          </>
-        )}
-      </h1>
-      {description && (
-        <p
-          style={{
-            color: 'var(--color-cream-muted)',
-            fontSize: 'clamp(13px, 2.5vw, 15px)',
-            lineHeight: 1.65,
-            maxWidth: '520px',
-            margin: '0 auto',
-          }}
-        >
-          {description}
-        </p>
-      )}
+            {statusNote ? (
+              <span className="hidden items-center gap-2 font-label-spec text-label-spec text-on-surface-variant md:inline-flex">
+                <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-honey-amber" />
+                {statusNote}
+              </span>
+            ) : null}
+          </div>
+        </div>
+      </div>
     </section>
   )
 }

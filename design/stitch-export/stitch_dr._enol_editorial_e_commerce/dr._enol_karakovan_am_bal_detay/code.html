@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html lang="tr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "background": "#f9f9f7",
+        "surface-container-lowest": "#ffffff",
+        "on-primary-fixed": "#1c1b1b",
+        "on-tertiary-fixed": "#1b1c1a",
+        "on-error": "#ffffff",
+        "surface-container-high": "#e8e8e6",
+        "on-primary-fixed-variant": "#474646",
+        "charcoal-pure": "#0A0908",
+        "surface-container-highest": "#e2e3e1",
+        "inverse-surface": "#2f3130",
+        "tertiary-container": "#1b1c1a",
+        "on-secondary-fixed-variant": "#5a4302",
+        "surface": "#f9f9f7",
+        "on-tertiary-fixed-variant": "#464744",
+        "on-surface-variant": "#444748",
+        "surface-container-low": "#f4f4f2",
+        "secondary-fixed": "#ffdf9b",
+        "secondary-fixed-dim": "#e4c278",
+        "canvas-cream": "#F4F0E8",
+        "error-container": "#ffdad6",
+        "on-secondary-fixed": "#251a00",
+        "surface-dim": "#dadad8",
+        "hairline-subtle": "#8C8C8C",
+        "on-secondary": "#ffffff",
+        "hairline-light": "#E8E8E4",
+        "error": "#ba1a1a",
+        "secondary": "#745b1b",
+        "outline-variant": "#c4c7c7",
+        "primary-fixed": "#e5e2e1",
+        "outline": "#747878",
+        "inverse-on-surface": "#f1f1ef",
+        "on-error-container": "#93000a",
+        "primary-container": "#1c1b1b",
+        "surface-container": "#eeeeec",
+        "tertiary-fixed-dim": "#c7c6c3",
+        "tertiary-fixed": "#e4e2de",
+        "on-tertiary-container": "#848481",
+        "on-tertiary": "#ffffff",
+        "on-primary": "#ffffff",
+        "honey-amber": "#D9A342",
+        "on-background": "#1a1c1b",
+        "on-surface": "#1a1c1b",
+        "inverse-primary": "#c8c6c5",
+        "surface-bright": "#f9f9f7",
+        "secondary-container": "#ffdc8e",
+        "on-primary-container": "#858383",
+        "primary": "#000000",
+        "surface-variant": "#e2e3e1",
+        "tertiary": "#000000",
+        "surface-tint": "#5f5e5e",
+        "on-secondary-container": "#795f1f",
+        "primary-fixed-dim": "#c8c6c5"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      "spacing": {
+        "space-xs": "0.25rem",
+        "gutter-desktop": "1.5rem",
+        "margin": "1rem",
+        "space-sm": "0.5rem",
+        "margin-desktop": "3rem",
+        "space-lg": "1.5rem",
+        "space-md": "1rem",
+        "space-xl": "3rem",
+        "gutter": "0.75rem"
+      },
+      "fontFamily": {
+        "display-hero": ["DM Sans"],
+        "body-sm": ["Inter"],
+        "headline-sm": ["DM Sans"],
+        "nav-caps": ["DM Sans"],
+        "body-md": ["Inter"],
+        "editorial-caption": ["Inter"],
+        "display-hero-mobile": ["DM Sans"],
+        "headline-lg": ["DM Sans"],
+        "price-tag": ["JetBrains Mono"],
+        "label-spec": ["JetBrains Mono"],
+        "body-lg": ["Inter"],
+        "headline-md": ["DM Sans"],
+        "headline-lg-mobile": ["DM Sans"]
+      },
+      "fontSize": {
+        "display-hero": ["56px", {"lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "300"}],
+        "body-sm": ["13px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "400"}],
+        "headline-sm": ["17px", {"lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+        "nav-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.14em", "fontWeight": "500"}],
+        "body-md": ["14px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "300"}],
+        "editorial-caption": ["11px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "400"}],
+        "display-hero-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "300"}],
+        "headline-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "300"}],
+        "price-tag": ["13px", {"lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+        "label-spec": ["11px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "400"}],
+        "body-lg": ["16px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "300"}],
+        "headline-md": ["22px", {"lineHeight": "30px", "letterSpacing": "-0.01em", "fontWeight": "400"}],
+        "headline-lg-mobile": ["26px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "300"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-md"><div class="w-full bg-surface-container-low border-b border-hairline-light py-1.5 px-margin lg:px-margin-desktop text-center"><p class="font-editorial-caption text-editorial-caption uppercase tracking-[0.14em] text-on-surface-variant">1985'ten beri Saitabat'ın flora zenginliğinden sofranıza <span class="text-honey-amber mx-2">•</span> Ücretsiz Özel Teslimat</p></div><div class="h-20 max-w-[1440px] mx-auto px-margin lg:px-margin-desktop flex items-center justify-between border-b border-hairline-light"><div class="flex items-center gap-space-lg"><img alt="Dr. Senol Wordmark Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UkFbFpJf7RRCByVhJn_HH33Kf2oLFqb7jjrQlCcq8rf97hFc3wuc5GNZK2YXVWYisPKN0HMt0jzBbz2wBCV2qB6rSX_NZwXLSNQKUdi7kRUrkBO6c9c9XoxMlq2yO0SRqoJ5pR5MEwfhAVYQaWbF3XNFandxEzxWHEJF82TJaCaTQ__54IM9-ppr168ccV96eSWc4K_wNCbHa4GLdxMw4xEy_9HEfD4SRtRLMbAxrqAAQpgC1seZVAH-Q"/><nav class="hidden lg:flex items-center gap-space-lg" data-active-classes="text-primary font-medium underline underline-offset-8 decoration-1 decoration-honey-amber"><a aria-current="page" class="uppercase transition-colors text-primary font-medium underline underline-offset-8 decoration-1 decoration-honey-amber" data-path="koleksiyon" href="#">Koleksiyon</a><a class="font-nav-caps text-nav-caps uppercase text-on-surface-variant hover:text-on-surface transition-colors" data-path="aricilik-ve-miras" href="#">Arıcılık &amp; Miras</a><a class="font-nav-caps text-nav-caps uppercase text-on-surface-variant hover:text-on-surface transition-colors" data-path="goldylium-cosmetics" href="#">Goldylium Cosmetics</a><a class="font-nav-caps text-nav-caps uppercase text-on-surface-variant hover:text-on-surface transition-colors" data-path="editoryal-hikaye" href="#">Editöryal / Hikaye</a></nav></div><div class="flex items-center gap-space-lg"><button class="flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">search</span><span class="font-nav-caps text-nav-caps uppercase hidden sm:inline">Arama</span></button><a class="flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="hesabim" href="#"><span class="material-symbols-outlined text-[18px]">person</span><span class="font-nav-caps text-nav-caps uppercase hidden sm:inline">Hesabım</span></a><a class="flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="sepet" href="#"><span class="material-symbols-outlined text-[18px]">shopping_bag</span><span class="font-nav-caps text-nav-caps uppercase">Sepet</span><span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-honey-amber text-charcoal-pure font-label-spec text-[10px] font-semibold leading-none">0</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-28 bg-surface min-h-[calc(100vh-28rem)]"><div class="flex flex-col w-full">
+<!-- Editorial Breadcrumb / Status Strip -->
+<div class="w-full bg-surface-container-low px-margin lg:px-margin-desktop py-space-sm">
+<div class="max-w-[1440px] mx-auto flex items-center justify-between text-on-surface-variant font-editorial-caption text-editorial-caption uppercase tracking-[0.14em]">
+<div class="flex items-center gap-space-xs">
+<a class="hover:text-on-surface transition-colors" href="#">Koleksiyon</a>
+<span>/</span>
+<a class="hover:text-on-surface transition-colors" href="#">Karakovan Balları</a>
+<span>/</span>
+<span class="text-on-surface font-medium">Rezerve Çam Balı</span>
+</div>
+<div class="hidden md:flex items-center gap-space-md">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-honey-amber"></span>
+<span>Sınırlı Sonbahar Hasadı • 140 Kavanoz Kaldı</span>
+</div>
+</div>
+</div>
+<!-- Main Product Detail Canvas -->
+<div class="max-w-[1440px] mx-auto px-margin lg:px-margin-desktop w-full py-space-lg lg:py-space-xl">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg lg:gap-space-xl items-start">
+<!-- LEFT & CENTER: Instagram-Post Style Vertical Editorial Stream (7 cols desktop) -->
+<div class="lg:col-span-7 flex flex-col gap-space-lg">
+<!-- Stream Post 1: Hero Macro Jar -->
+<article class="flex flex-col bg-surface-container-lowest overflow-hidden shadow-sm">
+<div class="flex items-center justify-between p-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-label-spec text-[11px] text-charcoal-pure font-bold">
+                01
+              </div>
+<div class="flex flex-col">
+<span class="font-nav-caps text-nav-caps uppercase tracking-widest text-on-surface">Dr. Şenol Saitabat Atölyesi</span>
+<span class="font-label-spec text-[10px] text-on-surface-variant">40.1872° K, 29.2318° D • Uludağ Etekleri</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">verified</span>
+</div>
+<div class="relative w-full aspect-[4/5] bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" data-alt="Editorial luxury macro photograph of an amber apothecary glass honey jar labelled Dr. Şenol Karakovan Çam Balı sitting on coarse unbleached off-white linen cloth, bathed in direct morning sunlight that illuminates the dense golden liquid inside, minimalist silent luxury aesthetic with warm beige and natural honey shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApvNEoA7kaIadjea9B37d7D07whTOsFZeXxBkkKVmJvZcEd8fBotbyqPAIRvBc4WKJiK-s4vekz0y33kENTiRWixNXbLSzb7AANIAJHt3V62-cDg42Hnzi8ERGsgU0ZYOAQi789M9j25YHPF5GbuaFtnTDI7RC_fPoMQF4WwZXFBRFroI_03iKCEM1kbheryMAkiYp62siqHwKl3Gz2GfgtIoPuQbtPPYnLOsS3MBn5lDn7yIg7kuS"/>
+<div class="absolute bottom-4 left-4 bg-charcoal-pure/80 text-surface-container-lowest backdrop-blur-md px-3 py-1 font-label-spec text-label-spec tracking-widest uppercase">
+              Parti No: SB-2025/08
+            </div>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-md">
+<span class="material-symbols-outlined text-on-surface text-[20px]">favorite_border</span>
+<span class="material-symbols-outlined text-on-surface text-[20px]">chat_bubble_outline</span>
+<span class="material-symbols-outlined text-on-surface text-[20px]">share</span>
+</div>
+<span class="font-label-spec text-label-spec text-honey-amber font-semibold">1.420 mg/kg Prolin</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface pt-1">
+<strong class="font-medium">drsenol.apiterapi</strong> Saitabat’ın 1100 metre rakımında, el değmemiş çam ağaçlarının reçinesinden süzülen saf sonbahar hasadı. Güneşin ilk ışığıyla kristalize olmadan dinlendirildi.
+            </p>
+</div>
+</article>
+<!-- Stream Post 2: Dripping Honey Macro Texture -->
+<article class="flex flex-col bg-surface-container-lowest overflow-hidden shadow-sm">
+<div class="flex items-center justify-between p-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-label-spec text-[11px] text-charcoal-pure font-bold">
+                02
+              </div>
+<div class="flex flex-col">
+<span class="font-nav-caps text-nav-caps uppercase tracking-widest text-on-surface">Doku &amp; Viskozite</span>
+<span class="font-label-spec text-[10px] text-on-surface-variant">Sıfır Isıl İşlem • %100 Ham</span>
+</div>
+</div>
+<span class="font-label-spec text-label-spec uppercase tracking-wider text-outline">Kıvam Analizi</span>
+</div>
+<div class="relative w-full aspect-[4/5] bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" data-alt="Hyper detailed extreme macro photograph of thick deep-amber raw pine honey slowly cascading in thick silken ribbons off a hand-carved natural olive wood honey dipper, soft natural studio backlighting, rich molasses reflections and air micro-bubbles suspended in pure honey" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhZRts2lQV4FZod1Ei1HWvMO6KSk5PCA0BLyeMnMDqOtUraFM8qD0NhtV8JR51rXmYRAEASiu6Nohdvmg_zg73vfcNaCQ8qikUEvnpuCUx8TlPPtxinLHinjffb4GjaCJba3YJpOOuXJUq5FJzSXZjwqCjEEHJ_3DwePjeI6MG6oPjQ74UaWq98To5BqdjnwO563eRuepb7Jardz3CoZggRmMOVK-C3qSWMxfjYe7ybbejtapofPfL"/>
+<div class="absolute inset-0 bg-gradient-to-t from-charcoal-pure/40 via-transparent to-transparent pointer-events-none"></div>
+<div class="absolute bottom-4 right-4 text-surface-container-lowest font-nav-caps text-[10px] uppercase tracking-[0.2em]">
+              İpeksi Akışkanlık • Reçine Nüansı
+            </div>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong class="font-medium">drsenol.apiterapi</strong> Filtresiz ve pastörize edilmemiş canlı enzim yapısı. Kaşıktan düşerken oluşturduğu kadifemsi kıvrımlar, çam ormanı florasının yüksek yoğunluğunun somut kanıtıdır.
+            </p>
+<span class="font-editorial-caption text-editorial-caption text-outline">HMF Değeri: 3.2 mg/kg • Isıl İşlem Görmemiştir</span>
+</div>
+</article>
+<!-- Stream Post 3: Editorial Provenance Mist & Forest -->
+<article class="flex flex-col bg-surface-container-lowest overflow-hidden shadow-sm">
+<div class="flex items-center justify-between p-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-label-spec text-[11px] text-charcoal-pure font-bold">
+                03
+              </div>
+<div class="flex flex-col">
+<span class="font-nav-caps text-nav-caps uppercase tracking-widest text-on-surface">Saitabat Çam Florası</span>
+<span class="font-label-spec text-[10px] text-on-surface-variant">Rakım 1.100m • Bursa</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[18px]">nature</span>
+</div>
+<div class="relative w-full aspect-[4/5] bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" data-alt="Breathtaking atmospheric editorial photography of traditional weathered cedar beehives standing quietly in a misty pine forest in Saitabat Bursa, early autumn morning with soft diffused foggy sunlight breaking through dense evergreens, subtle Nordic and Kinfolk editorial mood" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSNV9uJ80AzxqdpqQbKgamBEj236wJXXSXrPun0HDZbJ13xUmQWfJw-pE8Y1kNP-bb81sxxiYNqy6D6X09tSL3-i5zLU62SE8klfHP35RQBIoD0FNUBbbtgC3Q8W3EVZo8iPdj3K-c0JMfkZXS1cyx2YQECE_FOpMpebLICM4uiKAKNUzd7U8KVaYh_LT0BGA-q8R6RzHDNymbxQAIUrA4FsuJgMWYoUQwY_o_ZSExrRhu-slkb82R"/>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong class="font-medium">drsenol.apiterapi</strong> Yalnızca arıların ve rüzgarın sesi. Saitabat kanyonunun nemli sabah sisi çekildiğinde, arılarımız asırlık karaçam ve kestane ağaçlarının gölgesinde tek bir hasat için çalışır.
+            </p>
+<div class="flex items-center gap-space-md pt-space-xs font-label-spec text-label-spec text-on-surface-variant">
+<span>Orman Florası Payı: %88</span>
+<span>•</span>
+<span>Tek Kaynak</span>
+</div>
+</div>
+</article>
+<!-- Stream Post 4: Certificate & Label Close-up -->
+<article class="flex flex-col bg-surface-container-lowest overflow-hidden shadow-sm">
+<div class="flex items-center justify-between p-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-label-spec text-[11px] text-charcoal-pure font-bold">
+                04
+              </div>
+<div class="flex flex-col">
+<span class="font-nav-caps text-nav-caps uppercase tracking-widest text-on-surface">Etiket &amp; Şeffaflık</span>
+<span class="font-label-spec text-[10px] text-on-surface-variant">Seri No: 08/140</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[18px]">document_scanner</span>
+</div>
+<div class="relative w-full aspect-[4/5] bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" data-alt="Close up architectural detail of an artisanal honey jar label printed on textured off-white cotton paper with fine typography, showing handwritten batch number SB-2025/08, Proline value 1420 mg per kg, and embossed minimalist Dr. Senol monogram seal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWXHHl2va64awrBPFdgoYXdbxJuOIT-QQqVPMRTJqxY0aWYijezrTdmfcnezBOrrwxriMvS682FNqwgG3ymCqlGQZJ0Tea5FTLQymvlrsXIdyPxtyvmv43d6jv0h9HgCj3IePFgD8dHCpuPJuyT-A4t-UN5Obf9S2UXpN6aUnfrJYWcwdOHDzcarvOG1Zh1ZY77xuGs4oQd-V2kkI-D2r6XoFIVjsW3dg5WCZqGwLxP8Eb6Tmmh7EO"/>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong class="font-medium">drsenol.apiterapi</strong> Her kavanoz, bağımsız akredite gıda laboratuvarında analiz edilmiş partiden tek tek numaralandırılarak mühürlenir.
+            </p>
+</div>
+</article>
+<!-- Stream Post 5: Bespoke Packaging Box & Wax Seal -->
+<article class="flex flex-col bg-surface-container-lowest overflow-hidden shadow-sm">
+<div class="flex items-center justify-between p-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-label-spec text-[11px] text-charcoal-pure font-bold">
+                05
+              </div>
+<div class="flex flex-col">
+<span class="font-nav-caps text-nav-caps uppercase tracking-widest text-on-surface">Koleksiyon Ambalajı</span>
+<span class="font-label-spec text-[10px] text-on-surface-variant">Ham Pamuklu Kutu &amp; Doğal Balmumu Mühür</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[18px]">inventory_2</span>
+</div>
+<div class="relative w-full aspect-[4/5] bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" data-alt="Editorial still life presentation of luxury handcrafted packaging box made of raw unbleached fibrous textured cotton cardboard tied with natural hemp cord and sealed with a dark raw beeswax stamp, nestled alongside dried pine twigs on a stone table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAJmWuCCiy8tj4Zm94l8t1eRmy8GJN5FbfEoFKyiMbhhyvsOzyq3HLAJL1yY364b9IUbpllbAvalmhZvCTerYKDXu7o0lH9A7VFsshZmQNVX6X5gJMljo5HA4Dofscsf5sNRfig7Ts2QKVa-bpNKv_CxWShVAZfFPVbe7KWSMeQOzEzfkimc2J79fTtgO_e_XpX_dX_7nWJdz-t_Z2hUeSsoUn5Bfmcbn5Gl1Gsoa0YcVVK_rZbZZP"/>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong class="font-medium">drsenol.apiterapi</strong> Doğanın hediyesini plastik kullanmadan, geri dönüştürülebilir ham pamuk lifleri ve saf balmumu mührüyle koruyoruz.
+            </p>
+</div>
+</article>
+</div>
+<!-- RIGHT: Sticky Editorial Commerce & Details Panel (5 cols desktop) -->
+<div class="lg:col-span-5 lg:sticky lg:top-28 flex flex-col gap-space-lg">
+<!-- Header Info Card -->
+<div class="bg-surface-container-lowest p-space-lg lg:p-space-xl shadow-sm flex flex-col gap-space-md">
+<!-- Provenance Eyebrow -->
+<div class="flex items-center justify-between">
+<span class="font-nav-caps text-nav-caps text-on-surface-variant uppercase tracking-[0.2em]">
+              1985'TEN BERİ • SAİTABAT KÖYÜ / BURSA
+            </span>
+<span class="inline-flex items-center gap-1 bg-surface-container px-2 py-0.5 font-label-spec text-[10px] text-charcoal-pure">
+<span class="w-1.5 h-1.5 rounded-full bg-honey-amber"></span>
+              REZERVE SEÇKİ
+            </span>
+</div>
+<!-- Product Title & Subtitle -->
+<div class="flex flex-col gap-space-xs">
+<h1 class="font-headline-lg text-headline-lg text-charcoal-pure leading-tight">
+              Rezerve Karakovan Çam Balı
+            </h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              450g Cam Kavanoz • Ham, Filtresiz &amp; Isıl İşlemsiz
+            </p>
+</div>
+<!-- Price & Tax Spec -->
+<div class="flex items-baseline gap-space-sm pt-space-xs">
+<span class="font-price-tag text-[28px] leading-none text-honey-amber font-semibold" id="priceDisplay">
+              ₺1.250
+            </span>
+<span class="font-editorial-caption text-editorial-caption text-on-surface-variant">
+              KDV Dahil • Özel Koruma Sandığında Teslim
+            </span>
+</div>
+<!-- Short Poetic Summary -->
+<p class="font-body-md text-body-md text-on-surface leading-relaxed pt-space-xs">
+            Saitabat’ın 1100 metre rakımlı asırlık çam korularında, arıların reçine özlerini aylarca olgunlaştırmasıyla elde edilen koyu kehribar rengi, reçinemsi ve odunsu bir doğa mirası.
+          </p>
+<!-- Grammage Selector -->
+<div class="flex flex-col gap-space-xs pt-space-sm">
+<div class="flex justify-between items-center">
+<label class="font-nav-caps text-nav-caps uppercase tracking-widest text-on-surface">Gramaj / Boyut</label>
+<span class="font-label-spec text-[11px] text-on-surface-variant">Sınırlı Dolum</span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs" id="grammageButtons">
+<button class="grammage-btn p-space-sm text-center bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col items-center" onclick="selectGrammage(this, '300g', '₺920', '300g Koleksiyon Kavanozu')" type="button">
+<span class="font-headline-sm text-headline-sm text-on-surface">300g</span>
+<span class="font-label-spec text-[10px] text-on-surface-variant">Deneme</span>
+</button>
+<button class="grammage-btn p-space-sm text-center bg-charcoal-pure text-surface-container-lowest transition-colors flex flex-col items-center ring-1 ring-charcoal-pure" onclick="selectGrammage(this, '450g', '₺1.250', '450g Cam Kavanoz • Ham &amp; Filtresiz')" type="button">
+<span class="font-headline-sm text-headline-sm text-surface-container-lowest">450g</span>
+<span class="font-label-spec text-[10px] text-honey-amber font-medium">Önerilen</span>
+</button>
+<button class="grammage-btn p-space-sm text-center bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col items-center" onclick="selectGrammage(this, '850g', '₺2.180', '850g Büyük Boy Rezerve')" type="button">
+<span class="font-headline-sm text-headline-sm text-on-surface">850g</span>
+<span class="font-label-spec text-[10px] text-on-surface-variant">Aile Boyu</span>
+</button>
+</div>
+</div>
+<!-- Quantity Counter + Add to Bag -->
+<div class="flex flex-col sm:flex-row gap-space-sm pt-space-sm">
+<!-- Counter -->
+<div class="flex items-center justify-between bg-surface-container-low px-3 h-12 w-full sm:w-32">
+<button class="text-on-surface hover:text-honey-amber transition-colors p-1" onclick="adjustQty(-1)" type="button">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<span class="font-price-tag text-price-tag text-on-surface" id="quantityVal">1</span>
+<button class="text-on-surface hover:text-honey-amber transition-colors p-1" onclick="adjustQty(1)" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<!-- Primary CTA -->
+<button class="flex-1 h-12 bg-charcoal-pure text-surface-container-lowest font-nav-caps text-nav-caps uppercase tracking-[0.14em] flex items-center justify-center gap-space-sm hover:bg-neutral-800 transition-colors" id="addToBagBtn" onclick="triggerAddToCart()" type="button">
+<span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+<span id="ctaLabel">Sepete Ekle — ₺1.250</span>
+</button>
+</div>
+<!-- Express Delivery Note -->
+<div class="flex items-start gap-space-sm pt-space-xs bg-surface-container-low p-space-sm">
+<span class="material-symbols-outlined text-honey-amber text-[20px] shrink-0">local_shipping</span>
+<div class="flex flex-col">
+<span class="font-nav-caps text-[10px] uppercase tracking-wider text-on-surface font-semibold">Özel Ambalaj &amp; Hızlı Sevk</span>
+<p class="font-editorial-caption text-editorial-caption text-on-surface-variant leading-tight">
+                Bugün 15:00'e kadar verilen siparişler aynı gün Saitabat atölyemizden strafor/hava yastıklı özel kutuda kargoya verilir.
+              </p>
+</div>
+</div>
+<!-- Guarantee Micro Badges -->
+<div class="grid grid-cols-3 gap-space-xs text-center pt-space-xs">
+<div class="flex flex-col items-center py-2 bg-surface-container-low">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px] mb-1">science</span>
+<span class="font-label-spec text-[10px] text-on-surface">Akredite Analizli</span>
+</div>
+<div class="flex flex-col items-center py-2 bg-surface-container-low">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px] mb-1">nest_eco_leaf</span>
+<span class="font-label-spec text-[10px] text-on-surface">Şeker/Glukozsuz</span>
+</div>
+<div class="flex flex-col items-center py-2 bg-surface-container-low">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px] mb-1">verified_user</span>
+<span class="font-label-spec text-[10px] text-on-surface">Kırılmaz Ambalaj</span>
+</div>
+</div>
+</div>
+<!-- Section: Tasting Palette & Story Block -->
+<div class="bg-surface-container-lowest p-space-lg lg:p-space-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<span class="font-nav-caps text-nav-caps uppercase tracking-[0.16em] text-on-surface-variant">Karakter &amp; Lezzet Paleti</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Ormanın Kadim Reçinesi</h2>
+</div>
+<!-- Tasting notes badges -->
+<div class="flex flex-wrap gap-space-xs">
+<span class="px-3 py-1 bg-surface-container-low font-editorial-caption text-editorial-caption uppercase tracking-wider text-on-surface">Karamelize Çam</span>
+<span class="px-3 py-1 bg-surface-container-low font-editorial-caption text-editorial-caption uppercase tracking-wider text-on-surface">Kozalak Buharı</span>
+<span class="px-3 py-1 bg-surface-container-low font-editorial-caption text-editorial-caption uppercase tracking-wider text-on-surface">Hafif İsli Bitiş</span>
+<span class="px-3 py-1 bg-surface-container-low font-editorial-caption text-editorial-caption uppercase tracking-wider text-honey-amber font-medium">Kadifemsi Kıvam</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Klasik çiçek ballarındaki keskin tatlılığın aksine, çam balı damağı yormayan yumuşak bir asiditeye ve zengin reçinemsi mineral tonlarına sahiptir. Kahvaltıda taze köy ekmeği ve kaymakla, ya da akşamüstü ıhlamur çayınızda aroma derinliği sunar.
+          </p>
+<!-- Collapsible Botanical Index & Lab Report -->
+<div class="flex flex-col gap-space-xs pt-space-sm">
+<span class="font-nav-caps text-nav-caps uppercase tracking-widest text-on-surface block">Hasat &amp; Laboratuvar Karnesi</span>
+<div class="flex flex-col gap-1 bg-surface-container-low p-space-md font-label-spec text-label-spec">
+<div class="flex justify-between py-1">
+<span class="text-on-surface-variant">Prolin Zenginliği</span>
+<span class="text-on-surface font-semibold text-honey-amber">1.420 mg/kg (Yüksek Aktiflik)</span>
+</div>
+<div class="flex justify-between py-1">
+<span class="text-on-surface-variant">Hasat Dönemi</span>
+<span class="text-on-surface">Eylül 2024 • Saitabat Vadisi</span>
+</div>
+<div class="flex justify-between py-1">
+<span class="text-on-surface-variant">HMF Değeri (Tazelik)</span>
+<span class="text-on-surface">3.2 mg/kg (Isıl İşlem Yok)</span>
+</div>
+<div class="flex justify-between py-1">
+<span class="text-on-surface-variant">Polen Profili</span>
+<span class="text-on-surface">%88 Çam Basrası &amp; Kestane Florası</span>
+</div>
+<div class="flex justify-between py-1">
+<span class="text-on-surface-variant">Diastaz Sayısı</span>
+<span class="text-on-surface">18.4 DN (Yüksek Enzim Canlılığı)</span>
+</div>
+</div>
+</div>
+<!-- Storage and Consumption Advice -->
+<div class="flex flex-col gap-space-xs bg-canvas-cream/60 p-space-md">
+<span class="font-nav-caps text-[10px] uppercase tracking-wider text-on-surface font-semibold">Tüketim &amp; Saklama Notu</span>
+<p class="font-body-sm text-[12px] text-on-surface-variant leading-normal">
+              Gerçek ham bal, canlı enzimler barındırdığı için zamanla kristalleşebilir. Bu durum saflığının doğal ispatıdır. Kristalleşmeyi çözmek isterseniz 45°C'yi geçmeyen ılık su banyosunda (benmari) bekletiniz. Metal kaşık yerine ahşap veya kemik kaşık tercih ediniz.
+            </p>
+</div>
+</div>
+<!-- Section: Saitabat Terroir Minimal Location Card -->
+<div class="bg-surface-container-lowest p-space-md shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-honey-amber text-[22px]">pin_drop</span>
+</div>
+<div class="flex flex-col">
+<span class="font-nav-caps text-nav-caps uppercase tracking-wider text-on-surface">Kovan Lokasyonu</span>
+<span class="font-editorial-caption text-editorial-caption text-on-surface-variant">Saitabat Şelalesi Üst Havzası • 1.100m</span>
+</div>
+</div>
+<span class="font-label-spec text-label-spec text-on-surface-variant">Kestel / Bursa</span>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION: Paired Products / "Masa Arkadaşları" -->
+<section class="w-full bg-surface-container-low py-space-xl px-margin lg:px-margin-desktop mt-space-lg">
+<div class="max-w-[1440px] mx-auto flex flex-col gap-space-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm">
+<div class="flex flex-col gap-space-xs">
+<span class="font-nav-caps text-nav-caps uppercase tracking-[0.2em] text-on-surface-variant">Bütünleyici Ritüel</span>
+<h3 class="font-headline-lg text-headline-lg text-charcoal-pure">Masa Arkadaşları</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-md">
+          Çam balının aromatik derinliğini tamamlayan, Saitabat arılığımızdan ve zanaatkârlarımızdan seçilmiş eşlikçiler.
+        </p>
+</div>
+<!-- 3-Column Recommendations Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Companion 1 -->
+<div class="group flex flex-col bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div class="relative aspect-square w-full bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Artisanal hand-turned wild olive wood honey dipper resting on textured linen next to an empty porcelain bowl, natural daylight, minimalist editorial product composition" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIpPwaRpKcW_ZaMuTdefwABrU6YwaIF3Cv3u95oFKg5xiy-3Y_JMHkFSo7kPndhfQmk_nFbO7G9WF6SqTr8U30QZ-4q-NAQ5d_2MpA6FUF8RkSu6XNJsCNMjc7p5OeZm-OAAyO4mcLtzxtLIK-0ogwDcXvKLyGua5ocvSEqgAkS7PJXOIGViUKfRLdsNYLNAGDL4EO20jfGYIQhEqmjhWYFCcueh-aYkcMxVv88Y6-pjqEnQmJEcoW"/>
+<div class="absolute top-3 left-3 bg-charcoal-pure text-surface-container-lowest font-label-spec text-[10px] px-2 py-0.5 uppercase tracking-wider">
+              Zanaatkâr Yapımı
+            </div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-1 gap-space-sm">
+<div class="flex flex-col">
+<span class="font-editorial-caption text-editorial-caption text-on-surface-variant uppercase tracking-wider">Zeytin Ağacı</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">El Yapımı Ahşap Bal Kaşığı</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">
+                Asırlık zeytin ağacından elde oyulmuş; balın enzim yapısını ve pH dengesini koruyan doğal servis aracı.
+              </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-price-tag text-price-tag text-charcoal-pure font-semibold">₺290</span>
+<button class="font-nav-caps text-nav-caps uppercase tracking-wider text-on-surface hover:text-honey-amber transition-colors flex items-center gap-1" type="button">
+                Ekle <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Companion 2 -->
+<div class="group flex flex-col bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div class="relative aspect-square w-full bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Editorial close up photograph of an amber apothecary dropper bottle of raw water-soluble propolis extract sitting on aged natural timber with soft warm reflections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHyz1wwOYLrdWMe1wzKpAFv77Wj2p5ij72OyDu1epsTPE8Hc3cto0PL_8l0eWVCoEND-YngVakZxlspZI7KUYsWjFoKwairSoE8CZqN3gOFjtySJW7FTpaaH4y5LuHbLTZtezQ50yOMaOZ05DPl8NvcLgs1K50JY4zdQQcA63QCz1PveBq7mKM7IB2Wf9lJBwKz1hK7OGSkEI3VPX2wc5T61BudpH8mNYnvPCDKXdE735mslDaSJXJ"/>
+<div class="absolute top-3 left-3 bg-honey-amber text-charcoal-pure font-label-spec text-[10px] font-semibold px-2 py-0.5 uppercase tracking-wider">
+              %30 Saf Ekstrakt
+            </div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-1 gap-space-sm">
+<div class="flex flex-col">
+<span class="font-editorial-caption text-editorial-caption text-on-surface-variant uppercase tracking-wider">Apiterapi &amp; Koruma</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Saf Propolis Damlası (30ml)</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">
+                Saitabat arılarının kovan hijyenini sağladığı saf reçineden elde edilen yüksek antioksidan koruyucu damla.
+              </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-price-tag text-price-tag text-charcoal-pure font-semibold">₺680</span>
+<button class="font-nav-caps text-nav-caps uppercase tracking-wider text-on-surface hover:text-honey-amber transition-colors flex items-center gap-1" type="button">
+                Ekle <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Companion 3 -->
+<div class="group flex flex-col bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div class="relative aspect-square w-full bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Glass jar of golden pale linden honey Dr. Senol standing in soft diffused natural interior light with dry linden flowers scattered artfully around" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdpSzzvVJLzQPixgzxgC-orSv2zFd8h14wZ-QVxo9x55jsVyXFA4seVLfhqlLISgKJScbGVspam6EQPDSitm9nZ37FDxWxrCd-VyPwD0pYZ9KYHOOJhEItMki43xovcD5UEqhNYbA0rw38OMPQHPK33uYmylWiFLdV87-fKR7DVV3kza1tcynyVqNT0W7hyC3nzwCv7VsGu4XtpmDvYy9uf_NFkZVi_eOAQheF4FSJkUqm4coLdaIW"/>
+<div class="absolute top-3 left-3 bg-charcoal-pure text-surface-container-lowest font-label-spec text-[10px] px-2 py-0.5 uppercase tracking-wider">
+              Yaz Hasadı
+            </div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-1 gap-space-sm">
+<div class="flex flex-col">
+<span class="font-editorial-caption text-editorial-caption text-on-surface-variant uppercase tracking-wider">Çiçek Florası</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Ham Saitabat Ihlamur Balı (450g)</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">
+                Temmuz ayında Uludağ yamaçlarındaki ıhlamur ağaçlarından toplanan, yatıştırıcı çiçek kokulu hafif kıvamlı bal.
+              </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-price-tag text-price-tag text-charcoal-pure font-semibold">₺1.150</span>
+<button class="font-nav-caps text-nav-caps uppercase tracking-wider text-on-surface hover:text-honey-amber transition-colors flex items-center gap-1" type="button">
+                Ekle <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Notification Toast for Interaction -->
+<div class="fixed bottom-6 right-6 z-50 bg-charcoal-pure text-surface-container-lowest px-space-lg py-space-md shadow-xl translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-space-md max-w-sm" id="cartToast">
+<span class="material-symbols-outlined text-honey-amber text-[24px]">check_circle</span>
+<div class="flex flex-col">
+<span class="font-nav-caps text-nav-caps uppercase tracking-wider">Sepete Eklendi</span>
+<span class="font-editorial-caption text-editorial-caption text-neutral-300" id="toastDesc">Rezerve Karakovan Çam Balı (450g)</span>
+</div>
+</div>
+</div>
+<script>
+  let currentQty = 1;
+  let currentPrice = '₺1.250';
+  let currentTitle = 'Rezerve Karakovan Çam Balı (450g)';
+
+  function adjustQty(delta) {
+    currentQty = Math.max(1, currentQty + delta);
+    document.getElementById('quantityVal').innerText = currentQty;
+    updateCtaText();
+  }
+
+  function selectGrammage(btn, size, price, desc) {
+    // Reset all buttons
+    const buttons = document.querySelectorAll('.grammage-btn');
+    buttons.forEach(b => {
+      b.className = 'grammage-btn p-space-sm text-center bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col items-center';
+      const spans = b.querySelectorAll('span');
+      if (spans[0]) spans[0].className = 'font-headline-sm text-headline-sm text-on-surface';
+      if (spans[1]) spans[1].className = 'font-label-spec text-[10px] text-on-surface-variant';
+    });
+
+    // Select active button
+    btn.className = 'grammage-btn p-space-sm text-center bg-charcoal-pure text-surface-container-lowest transition-colors flex flex-col items-center ring-1 ring-charcoal-pure';
+    const activeSpans = btn.querySelectorAll('span');
+    if (activeSpans[0]) activeSpans[0].className = 'font-headline-sm text-headline-sm text-surface-container-lowest';
+    if (activeSpans[1]) activeSpans[1].className = 'font-label-spec text-[10px] text-honey-amber font-medium';
+
+    currentPrice = price;
+    currentTitle = 'Rezerve Karakovan Çam Balı (' + size + ')';
+    document.getElementById('priceDisplay').innerText = price;
+    updateCtaText();
+  }
+
+  function updateCtaText() {
+    const cta = document.getElementById('ctaLabel');
+    cta.innerText = `Sepete Ekle — ${currentPrice} (x${currentQty})`;
+  }
+
+  function triggerAddToCart() {
+    const toast = document.getElementById('cartToast');
+    const toastDesc = document.getElementById('toastDesc');
+    toastDesc.innerText = `${currentTitle} • ${currentQty} Adet`;
+
+    toast.classList.remove('translate-y-24', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+      toast.classList.add('translate-y-24', 'opacity-0');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }, 3500);
+  }
+</script></main><footer class="w-full bg-surface-container-low border-t border-hairline-light mt-space-xl"><div class="max-w-[1440px] mx-auto px-margin lg:px-margin-desktop pt-space-xl pb-space-lg"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-xl pb-space-xl border-b border-hairline-light"><div><span class="font-nav-caps text-nav-caps uppercase tracking-[0.16em] text-on-surface block mb-space-md">Saitabat Mirası &amp; Laboratuvar</span><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md">Uludağ eteklerinde, Saitabat Köyü'nün endemik florasında 1985'ten bu yana süregelen butik arıcılık, analiz sertifikalı saf bal ve biyoteknolojik apiterapi formülleri.</p><span class="font-label-spec text-label-spec text-hairline-subtle uppercase block">Laboratuvar No: STB-1985-APIS</span></div><div><span class="font-nav-caps text-nav-caps uppercase tracking-[0.16em] text-on-surface block mb-space-md">Koleksiyonlar</span><ul class="space-y-space-sm"><li class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"><a data-path="koleksiyon" href="#">Ham Yayla &amp; Kestane Balları</a></li><li class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"><a data-path="koleksiyon" href="#">Saf Arı Sütü &amp; Propolis Eliksir</a></li><li class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"><a data-path="goldylium-cosmetics" href="#">Goldylium Apiterapi Serumu</a></li><li class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"><a data-path="koleksiyon" href="#">Sınırlı Hasat Seçkisi</a></li></ul></div><div><span class="font-nav-caps text-nav-caps uppercase tracking-[0.16em] text-on-surface block mb-space-md">Müşteri Deneyimi</span><ul class="space-y-space-sm"><li class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"><a data-path="editoryal-hikaye" href="#">Analiz ve Saflık Sertifikaları</a></li><li class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"><a data-path="hesabim" href="#">Sipariş Takibi &amp; Özel Kargo</a></li><li class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"><a data-path="hesabim" href="#">Kurumsal &amp; Özel Seçki Hediyelik</a></li><li class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"><a data-path="editoryal-hikaye" href="#">İletişim &amp; Saitabat Ziyaretleri</a></li></ul></div><div><span class="font-nav-caps text-nav-caps uppercase tracking-[0.16em] text-on-surface block mb-space-md">Editöryal Notlar</span><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-sm">Her mevsim döngüsünde yayımlanan flora kayıtları, hasat bültenleri ve sınırlı üretim duyuruları için abone olun.</p><div class="flex items-center border-b border-on-surface pb-1"><input class="w-full bg-transparent font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none" placeholder="E-posta adresiniz" type="email"/><button class="font-nav-caps text-nav-caps uppercase tracking-widest text-on-surface hover:text-honey-amber transition-colors pl-2" type="button">Gönder</button></div></div></div><div class="pt-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><p class="font-editorial-caption text-editorial-caption text-on-surface-variant">© 1985–2025 Dr. Şenol Apiterapi &amp; Arıcılık. Saitabat, Bursa.</p><span class="font-editorial-caption text-editorial-caption text-outline-variant">|</span><a class="font-editorial-caption text-editorial-caption text-on-surface-variant hover:text-on-surface transition-colors" href="#">@drsenol.shop Instagram</a></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs font-label-spec text-label-spec text-on-surface-variant"><button class="text-on-surface font-semibold underline underline-offset-4 decoration-1" type="button">TRY (₺)</button><span class="text-outline-variant">/</span><button class="hover:text-on-surface transition-colors" type="button">EUR (€)</button></div><span class="font-editorial-caption text-editorial-caption text-outline-variant">|</span><p class="font-editorial-caption text-editorial-caption text-on-surface-variant">Sessiz Lüks &amp; Saf Doğa</p></div></div></div></footer></body></html>

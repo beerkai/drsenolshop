@@ -1,57 +1,229 @@
 @import "tailwindcss";
+@config "../../tailwind.config.ts";
 
 /* ═══════════════════════════════════════════════════════════════
-   DR. ŞENOL SHOP — TASARIM SİSTEMİ
-   "Rolex saygınlığında bir bal markası"
+   DR. ŞENOL — EDITORIAL MINIMAL (Stitch / Saitabat Minimal Luxury)
+   Token kaynağı: design/stitch-export/.../DESIGN.md + code.html
    ═══════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* ── KOYU ZEMIN ──
-     v2: ink ailesi bir miktar açıldı — saf siyah (#0A0908) ürün
-     fotolarını boğuyordu. "Kavrulmuş kahve" tonuna geçti; ürünler
-     daha hava alıyor, gold rozetlerin kontrastı korunuyor. */
-  --color-ink: #15110D;            /* Ana zemin (eski #0A0908) */
-  --color-ink-2: #1C1814;          /* Panel/kart zemini (eski #141210) */
-  --color-ink-3: #25201A;          /* Vurgu paneller (önceki #1E1B17) */
-  --color-ink-4: #322B22;          /* Hover yüzeyler (önceki #2A251E) */
+  /* ── Breakpoints (Stitch: lg = 1024px masaüstü) ── */
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
 
-  /* ── AÇIK ZEMIN ── */
-  --color-bone: #F4F0E8;           /* Ana açık zemin */
-  --color-bone-2: #EBE5D8;         /* İkincil krem */
-  --color-bone-3: #E0D8C7;         /* Üçüncül */
+  /* ── Layout ── */
+  --container-editorial: 90rem;
+  --radius-DEFAULT: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
 
-  /* ── METİN ── */
-  --color-cream: #F4F0E8;          /* Koyu zeminde ana metin */
-  --color-cream-muted: #C3BCA9;    /* Soluk metin — biraz parlatıldı (B8B0A0) */
-  --color-cream-faint: #7D7466;    /* Çok soluk — okunaklılık için açıldı (6E665A) */
+  /* ── Stitch yüzey & semantik renkler ── */
+  --color-background: #f9f9f7;
+  --color-on-background: #1a1c1b;
+  --color-surface: #f9f9f7;
+  --color-surface-bright: #f9f9f7;
+  --color-surface-dim: #dadad8;
+  --color-surface-variant: #e2e3e1;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f4f4f2;
+  --color-surface-container: #eeeeec;
+  --color-surface-container-high: #e8e8e6;
+  --color-surface-container-highest: #e2e3e1;
+  --color-surface-tint: #5f5e5e;
 
-  --color-text: #1A1714;           /* Açık zeminde ana metin */
-  --color-text-muted: #6B6258;     /* Açık zeminde soluk */
-  --color-text-faint: #9B9285;     /* Açık zeminde çok soluk */
+  --color-on-surface: #1a1c1b;
+  --color-on-surface-variant: #444748;
+  --color-inverse-surface: #2f3130;
+  --color-inverse-on-surface: #f1f1ef;
+  --color-outline: #747878;
+  --color-outline-variant: #c4c7c7;
 
-  /* ── ALTIN (Rolex paleti) ── */
-  --color-gold: #C9A961;           /* Ana altın — Rolex tonu */
-  --color-gold-bright: #D4B570;    /* Hover/vurgu */
-  --color-gold-deep: #9C7C3C;      /* Gölge/koyu altın */
-  --color-champagne: #D4C094;      /* Şampanya — çok hafif vurgu */
-  --color-gold-line: rgba(201, 169, 97, 0.18);    /* Ayırıcı çizgiler */
-  --color-gold-faint: rgba(201, 169, 97, 0.08);   /* Çok soluk vurgu */
+  /* Primary: DESIGN.md soot-charcoal (#141414); saf #000 kullanılmaz */
+  --color-primary: #141414;
+  --color-primary-hover: #2a2a28;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1c1b1b;
+  --color-on-primary-container: #858383;
+  --color-inverse-primary: #c8c6c5;
+  --color-primary-fixed: #e5e2e1;
+  --color-primary-fixed-dim: #c8c6c5;
+  --color-on-primary-fixed: #1c1b1b;
+  --color-on-primary-fixed-variant: #474646;
 
-  /* ── FONKSİYONEL ── */
-  --color-line-dark: rgba(244, 240, 232, 0.08);   /* Koyu zeminde çizgi */
-  --color-line-light: rgba(26, 23, 20, 0.10);     /* Açık zeminde çizgi */
-  --color-alert: #C8472D;          /* Sadece indirim/uyarı */
-  --color-success: #5C7A3F;        /* Sadece onay */
-  --color-alert-soft: #D17B6A;     /* yumuşak hata metni — koyu zeminde okunaklı */
-  --color-success-soft: #7AAD8B;   /* yumuşak onay metni — koyu zeminde okunaklı */
+  --color-secondary: #745b1b;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #ffdc8e;
+  --color-on-secondary-container: #795f1f;
+  --color-secondary-fixed: #ffdf9b;
+  --color-secondary-fixed-dim: #e4c278;
+  --color-on-secondary-fixed: #251a00;
+  --color-on-secondary-fixed-variant: #5a4302;
 
-  /* ── FONTLAR ── */
+  --color-tertiary: #141414;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #1b1c1a;
+  --color-on-tertiary-container: #848481;
+  --color-tertiary-fixed: #e4e2de;
+  --color-tertiary-fixed-dim: #c7c6c3;
+  --color-on-tertiary-fixed: #1b1c1a;
+  --color-on-tertiary-fixed-variant: #464744;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  --color-honey-amber: #d9a342;
+  --color-canvas-cream: #f4f0e8;
+  --color-hairline-light: #e8e8e4;
+  --color-hairline-subtle: #8c8c8c;
+  --color-charcoal-pure: #0a0908;
+  --color-stone-muted: #737370;
+  --color-overlay-dim: rgb(20 20 20 / 0.25);
+
+  /* ── Spacing (Stitch: margin / gutter / space-*) ── */
+  --spacing-gutter: 0.75rem;
+  --spacing-gutter-desktop: 1.5rem;
+  --spacing-margin: 1rem;
+  --spacing-margin-desktop: 3rem;
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-md: 1rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-xl: 3rem;
+
+  /* Sabit header (duyuru şeridi + nav) — hero üst boşluğu */
+  --editorial-header-stack: 7.5rem;
+
+  /*
+   * Tipografi — Stitch / saitabat_minimal_luxury/DESIGN.md (tek kaynak).
+   * Başlık & display & nav-caps: DM Sans. Gövde & caption: Inter. Spec & fiyat: JetBrains Mono.
+   */
+  --font-display-hero: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+  --font-display-hero-mobile: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+  --font-headline-lg: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+  --font-headline-lg-mobile: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+  --font-headline-md: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+  --font-headline-sm: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+
+  --font-body-lg: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-body-md: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-body-sm: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-editorial-caption: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-nav-caps: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+
+  --font-label-spec: var(--font-jetbrains), 'JetBrains Mono', ui-monospace, monospace;
+  --font-price-tag: var(--font-jetbrains), 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Fluid tipografi (mobile → 1024px+); Stitch sabit px değerlerinin clamp karşılığı */
+  --text-display-hero: clamp(2.25rem, 1.15rem + 3.4vw, 3.5rem);
+  --text-display-hero--line-height: clamp(2.75rem, 1.65rem + 3.8vw, 4rem);
+  --text-display-hero--letter-spacing: -0.03em;
+  --text-display-hero--font-weight: 300;
+
+  --text-display-hero-mobile: clamp(1.625rem, 1.1rem + 2vw, 2.25rem);
+  --text-display-hero-mobile--line-height: clamp(2.125rem, 1.5rem + 2.2vw, 2.75rem);
+  --text-display-hero-mobile--letter-spacing: -0.02em;
+  --text-display-hero-mobile--font-weight: 300;
+
+  --text-headline-lg: clamp(1.625rem, 1.1rem + 2vw, 2.25rem);
+  --text-headline-lg--line-height: clamp(2.125rem, 1.5rem + 2.2vw, 2.75rem);
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg--font-weight: 300;
+
+  --text-headline-lg-mobile: clamp(1.625rem, 1.25rem + 1.4vw, 1.625rem);
+  --text-headline-lg-mobile--line-height: clamp(2.125rem, 1.75rem + 1.2vw, 2.125rem);
+  --text-headline-lg-mobile--letter-spacing: -0.01em;
+  --text-headline-lg-mobile--font-weight: 300;
+
+  --text-headline-md: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --text-headline-md--line-height: clamp(1.625rem, 1.45rem + 0.6vw, 1.875rem);
+  --text-headline-md--letter-spacing: -0.01em;
+  --text-headline-md--font-weight: 400;
+
+  --text-headline-sm: clamp(0.9375rem, 0.88rem + 0.25vw, 1.0625rem);
+  --text-headline-sm--line-height: clamp(1.375rem, 1.3rem + 0.3vw, 1.5rem);
+  --text-headline-sm--letter-spacing: 0.02em;
+  --text-headline-sm--font-weight: 500;
+
+  --text-body-lg: clamp(0.875rem, 0.82rem + 0.25vw, 1rem);
+  --text-body-lg--line-height: clamp(1.5rem, 1.4rem + 0.4vw, 1.75rem);
+  --text-body-lg--letter-spacing: 0.01em;
+  --text-body-lg--font-weight: 300;
+
+  --text-body-md: clamp(0.8125rem, 0.78rem + 0.15vw, 0.875rem);
+  --text-body-md--line-height: clamp(1.375rem, 1.32rem + 0.2vw, 1.5rem);
+  --text-body-md--letter-spacing: 0.01em;
+  --text-body-md--font-weight: 300;
+
+  --text-body-sm: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+  --text-body-sm--line-height: clamp(1.125rem, 1.08rem + 0.18vw, 1.25rem);
+  --text-body-sm--letter-spacing: 0.02em;
+  --text-body-sm--font-weight: 400;
+
+  --text-editorial-caption: 0.6875rem;
+  --text-editorial-caption--line-height: 1rem;
+  --text-editorial-caption--letter-spacing: 0.08em;
+  --text-editorial-caption--font-weight: 400;
+
+  --text-nav-caps: 0.6875rem;
+  --text-nav-caps--line-height: 0.875rem;
+  --text-nav-caps--letter-spacing: 0.14em;
+  --text-nav-caps--font-weight: 500;
+
+  --text-label-spec: 0.6875rem;
+  --text-label-spec--line-height: 1rem;
+  --text-label-spec--letter-spacing: 0.04em;
+  --text-label-spec--font-weight: 400;
+
+  --text-price-tag: 0.8125rem;
+  --text-price-tag--line-height: 1.125rem;
+  --text-price-tag--letter-spacing: 0.02em;
+  --text-price-tag--font-weight: 500;
+
+  /* ── Legacy (karantina / admin / eski sayfalar — kademeli kaldırılacak) ── */
+  --color-ink: #15110D;
+  --color-ink-2: #1C1814;
+  --color-ink-3: #25201A;
+  --color-ink-4: #322B22;
+  --color-bone: #F4F0E8;
+  --color-bone-2: #EBE5D8;
+  --color-bone-3: #E0D8C7;
+  --color-cream: #F4F0E8;
+  --color-cream-muted: #C3BCA9;
+  --color-cream-faint: #7D7466;
+  --color-text: #1A1714;
+  --color-text-muted: #6B6258;
+  --color-text-faint: #9B9285;
+  --color-gold: #C9A961;
+  --color-gold-bright: #D4B570;
+  --color-gold-deep: #9C7C3C;
+  --color-champagne: #D4C094;
+  --color-line-dark: rgba(244, 240, 232, 0.08);
+  --color-line-light: rgba(26, 23, 20, 0.10);
+  --color-alert: #C8472D;
+  --color-success: #5C7A3F;
+  --color-alert-soft: #D17B6A;
+  --color-success-soft: #7AAD8B;
+
   --font-display: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-jetbrains), 'JetBrains Mono', monospace;
 }
 
-/* ══ RESET ══ */
+/*
+ * ══ RESET ══
+ * Element reset'leri @layer base içinde OLMAK ZORUNDA.
+ * Tailwind v4'te `@import "tailwindcss"` utility'leri `@layer utilities`
+ * içine koyar; katmansız (unlayered) CSS cascade'de her zaman katmanlı
+ * CSS'i ezer. Bu blok katmansız bırakılırsa `img { display:block }`
+ * kuralı `hidden` / `lg:hidden` gibi TÜM display utility'lerini
+ * <img>/<svg> üzerinde etkisiz hale getirir (aynısı `a` ve renk
+ * utility'leri için de geçerli).
+ */
+@layer base {
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -67,12 +239,13 @@ html {
 }
 
 body {
-  background-color: var(--color-ink);
-  color: var(--color-cream);
-  font-family: var(--font-sans);
-  font-size: 15px;
-  line-height: 1.65;
-  font-weight: 400;
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-body-md);
+  font-size: var(--text-body-md);
+  line-height: var(--text-body-md--line-height);
+  font-weight: var(--text-body-md--font-weight);
+  letter-spacing: var(--text-body-md--letter-spacing);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -102,9 +275,11 @@ button {
 }
 
 ::selection {
-  background-color: var(--color-gold);
-  color: var(--color-ink);
+  background-color: var(--color-honey-amber);
+  color: var(--color-charcoal-pure);
 }
+
+} /* ── @layer base sonu ── */
 
 /* ══ KEYFRAMES ══ */
 @keyframes fadeUp {
@@ -129,13 +304,340 @@ button {
 
 /* ══ UTILITY CLASSES ══ */
 
-/* Containers */
-.container-page {
-  max-width: 1440px;
+/* ── Editorial layout (Stitch px-margin / max 1440) ── */
+.px-margin {
+  padding-left: var(--spacing-margin);
+  padding-right: var(--spacing-margin);
+}
+
+@media (min-width: 64rem) {
+  .px-margin {
+    padding-left: var(--spacing-margin-desktop);
+    padding-right: var(--spacing-margin-desktop);
+  }
+}
+
+.max-w-editorial {
+  max-width: var(--container-editorial);
+}
+
+/* ── Editorial section iskeleti (Stitch anasayfa — tüm section’lar bunu kullanır) ── */
+.ed-section-inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--container-editorial);
   margin-left: auto;
   margin-right: auto;
-  padding-left: clamp(16px, 4vw, 56px);
-  padding-right: clamp(16px, 4vw, 56px);
+  padding-left: var(--spacing-margin);
+  padding-right: var(--spacing-margin);
+}
+
+@media (min-width: 64rem) {
+  .ed-section-inner {
+    padding-left: var(--spacing-margin-desktop);
+    padding-right: var(--spacing-margin-desktop);
+  }
+}
+
+.ed-section-y {
+  padding-top: var(--spacing-space-xl);
+  padding-bottom: var(--spacing-space-xl);
+}
+
+.ed-section-y-sm {
+  padding-top: var(--spacing-space-sm);
+  padding-bottom: var(--spacing-space-sm);
+}
+
+.ed-section-head {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing-space-md);
+  margin-bottom: var(--spacing-space-lg);
+  padding-bottom: var(--spacing-space-sm);
+  border-bottom: 1px solid var(--color-hairline-light);
+}
+
+@media (min-width: 48rem) {
+  .ed-section-head {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .ed-section-head--center-md {
+    align-items: center;
+  }
+}
+
+.ed-section-head--dark {
+  border-bottom-color: rgb(140 140 140 / 0.3);
+}
+
+.ed-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-sm);
+}
+
+.ed-stack-md {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-md);
+}
+
+.ed-stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-lg);
+}
+
+.ed-prose {
+  line-height: 1.75;
+}
+
+.ed-prose p + p {
+  margin-top: var(--spacing-space-sm);
+}
+
+/* Hero / kenar boşlukları (Stitch margin token) */
+.p-margin {
+  padding: var(--spacing-margin);
+}
+
+.right-margin {
+  right: var(--spacing-margin);
+}
+
+@media (min-width: 64rem) {
+  .right-margin {
+    right: var(--spacing-margin-desktop);
+  }
+}
+
+/* Taşmayı önle — flex/grid içi metin */
+.ed-min-w-0 {
+  min-width: 0;
+}
+
+/* Stitch text-* token’ları — font-size + line-height birlikte (üst üste binmeyi önler) */
+.font-display-hero {
+  font-family: var(--font-display-hero);
+}
+
+.text-display-hero {
+  font-size: var(--text-display-hero);
+  line-height: var(--text-display-hero--line-height);
+  letter-spacing: var(--text-display-hero--letter-spacing);
+  font-weight: var(--text-display-hero--font-weight);
+}
+
+.text-headline-lg-mobile {
+  font-size: var(--text-headline-lg-mobile);
+  line-height: var(--text-headline-lg-mobile--line-height);
+  letter-spacing: var(--text-headline-lg-mobile--letter-spacing);
+  font-weight: var(--text-headline-lg-mobile--font-weight);
+}
+
+.text-body-lg {
+  font-size: var(--text-body-lg);
+  line-height: var(--text-body-lg--line-height);
+  letter-spacing: var(--text-body-lg--letter-spacing);
+  font-weight: var(--text-body-lg--font-weight);
+}
+
+.text-headline-sm {
+  font-size: var(--text-headline-sm);
+  line-height: var(--text-headline-sm--line-height);
+  letter-spacing: var(--text-headline-sm--letter-spacing);
+  font-weight: var(--text-headline-sm--font-weight);
+}
+
+/* ── Hero (masaüstü: header altında kalmaz, bloklar arası Stitch gap) ── */
+/*
+ * Hero masaüstü iskeleti (Stitch: min-h-[92vh], items-end).
+ * Yalnızca lg+ için geçerli — mobilde Hero kendi sabit yüksekliğini kullanır.
+ * NOT: Bu düz bir CSS class'ı, Tailwind utility'si değil; JSX'te
+ * `lg:ed-hero-section` yazılamaz (Tailwind böyle bir varyant üretmez).
+ * Breakpoint bu yüzden burada, CSS'te tanımlı.
+ */
+@media (min-width: 64rem) {
+  .ed-hero-section {
+    display: flex;
+    min-height: 92vh;
+    flex-direction: column;
+    padding-top: var(--editorial-header-stack);
+  }
+}
+
+.ed-hero-content {
+  margin-top: auto;
+  width: 100%;
+}
+
+/* ── Goldylium ürün kartı (Stitch: justify-between, alt satır kart içinde kalır) ── */
+.ed-goldylium-card {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--spacing-space-md);
+}
+
+.ed-goldylium-card__copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-height: 0;
+  padding-top: 0.125rem;
+}
+
+.ed-goldylium-card__copy p {
+  margin-top: 0.25rem;
+  line-height: 1.65;
+}
+
+.ed-goldylium-card__footer {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: var(--spacing-space-md);
+  padding-top: var(--spacing-space-sm);
+  border-top: 1px solid rgb(140 140 140 / 0.2);
+}
+
+/* ── Editorial kart iç boşlukları (Stitch feed / grid) ── */
+.ed-feed-card {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.ed-card-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 7.75rem;
+  padding: 1rem 1rem 1.125rem;
+}
+
+.ed-card-body--dark {
+  background-color: var(--color-charcoal-pure);
+}
+
+.ed-card-body--cream {
+  background-color: var(--color-canvas-cream);
+}
+
+.ed-card-body--muted {
+  background-color: var(--color-surface-container-low);
+  padding: 0.875rem 1rem;
+  min-height: 0;
+  gap: 0.75rem;
+  /*
+   * Stitch: kare kartlarda caption şeridi görsele yapışır; satır
+   * yüksekliği farkı kartın ALTINDA boşluk olarak kalır. Büyümemeli.
+   */
+  flex: 0 0 auto;
+}
+
+.ed-card-caption-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.ed-card-caption-row > * {
+  min-width: 0;
+}
+
+.ed-card-caption-row .ed-caption-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ed-card-eyebrow {
+  display: block;
+  margin-bottom: 0.375rem;
+  line-height: 1.45;
+}
+
+.ed-card-title {
+  /* line-height: Stitch `font-headline-sm` + `leading-snug` sınıflarından gelir */
+  letter-spacing: 0.02em;
+}
+
+.ed-card-desc {
+  margin-top: 0.625rem;
+  line-height: 1.65;
+}
+
+.ed-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-hairline-light);
+}
+
+.ed-card-footer--dark {
+  border-top-color: rgb(140 140 140 / 0.2);
+}
+
+.ed-quote-card {
+  display: flex;
+  height: 100%;
+  min-height: 15rem;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem 1.375rem;
+}
+
+@media (min-width: 64rem) {
+  .ed-card-body {
+    min-height: 8.25rem;
+    padding: 1.0625rem 1.125rem 1.25rem;
+  }
+
+  .ed-quote-card {
+    min-height: 17.5rem;
+    padding: 1.75rem 1.5rem;
+  }
+}
+
+.ed-journal-prose p + p {
+  margin-top: var(--spacing-space-sm);
+}
+
+.ed-journal-prose p {
+  line-height: 1.75;
+}
+
+/* Containers */
+.container-page {
+  max-width: var(--container-editorial);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-margin);
+  padding-right: var(--spacing-margin);
+}
+
+@media (min-width: 64rem) {
+  .container-page {
+    padding-left: var(--spacing-margin-desktop);
+    padding-right: var(--spacing-margin-desktop);
+  }
 }
 
 .container-narrow {
@@ -205,13 +707,13 @@ button {
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--color-ink); }
-::-webkit-scrollbar-thumb { background: var(--color-ink-3); }
-::-webkit-scrollbar-thumb:hover { background: var(--color-gold-deep); }
+::-webkit-scrollbar-track { background: var(--color-surface-container-low); }
+::-webkit-scrollbar-thumb { background: var(--color-outline-variant); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-honey-amber); }
 
-/* Focus ring */
+/* Focus ring — Stitch: honey-amber vurgu */
 *:focus-visible {
-  outline: 1px solid var(--color-gold);
+  outline: 1px solid var(--color-honey-amber);
   outline-offset: 2px;
 }
 

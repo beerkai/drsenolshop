@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html lang="tr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&amp;family=Inter:wght@300;400;500&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "canvas-cream": "#F4F0E8", "on-secondary-fixed": "#251a00", "outline-variant": "#c4c7c7", "on-primary-fixed": "#1c1b1b", "error-container": "#ffdad6", "on-primary-container": "#858383", "on-primary": "#ffffff", "error": "#ba1a1a", "on-tertiary-container": "#848481", "surface": "#f9f9f7", "surface-container-highest": "#e2e3e1", "secondary-fixed-dim": "#e4c278", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#5a4302", "inverse-primary": "#c8c6c5", "surface-container-high": "#e8e8e6", "tertiary": "#000000", "on-tertiary-fixed-variant": "#464744", "background": "#f9f9f7", "hairline-light": "#E8E8E4", "on-surface": "#1a1c1b", "tertiary-fixed-dim": "#c7c6c3", "primary-container": "#1c1b1b", "outline": "#747878", "surface-bright": "#f9f9f7", "on-primary-fixed-variant": "#474646", "on-error": "#ffffff", "on-tertiary": "#ffffff", "surface-container-lowest": "#ffffff", "primary-fixed": "#e5e2e1", "primary": "#000000", "surface-tint": "#5f5e5e", "secondary-container": "#ffdc8e", "on-surface-variant": "#444748", "honey-amber": "#D9A342", "on-error-container": "#93000a", "primary-fixed-dim": "#c8c6c5", "tertiary-container": "#1b1c1a", "secondary-fixed": "#ffdf9b", "on-background": "#1a1c1b", "secondary": "#745b1b", "surface-container-low": "#f4f4f2", "on-tertiary-fixed": "#1b1c1a", "tertiary-fixed": "#e4e2de", "surface-variant": "#e2e3e1", "inverse-surface": "#2f3130", "on-secondary-container": "#795f1f", "hairline-subtle": "#8C8C8C", "surface-container": "#eeeeec", "surface-dim": "#dadad8", "charcoal-pure": "#0A0908", "inverse-on-surface": "#f1f1ef" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-desktop": "1.5rem", "space-xl": "3rem", "gutter": "0.75rem", "margin": "1rem", "space-md": "1rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "margin-desktop": "3rem", "space-lg": "1.5rem" }, "fontFamily": { "headline-lg-mobile": ["DM Sans"], "editorial-caption": ["Inter"], "label-spec": ["JetBrains Mono"], "headline-lg": ["DM Sans"], "headline-md": ["DM Sans"], "display-hero": ["DM Sans"], "body-md": ["Inter"], "headline-sm": ["DM Sans"], "body-lg": ["Inter"], "price-tag": ["JetBrains Mono"], "display-hero-mobile": ["DM Sans"], "nav-caps": ["DM Sans"], "body-sm": ["Inter"] }, "fontSize": { "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "300" }], "editorial-caption": ["11px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "400" }], "label-spec": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "400" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "300" }], "headline-md": ["22px", { "lineHeight": "30px", "letterSpacing": "-0.01em", "fontWeight": "400" }], "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "300" }], "body-md": ["14px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "300" }], "headline-sm": ["17px", { "lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "500" }], "body-lg": ["16px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "300" }], "price-tag": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "500" }], "display-hero-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "300" }], "nav-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.14em", "fontWeight": "500" }], "body-sm": ["13px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "400" }] } } } }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col selection:bg-honey-amber selection:text-charcoal-pure"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.03)] pt-safe"><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm"><button aria-label="Geri" class="w-11 h-11 flex items-center justify-center text-on-surface hover:text-honey-amber transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[20px]">arrow_back</span></button><img alt="Brand logo. - Primary color: #141414 - Font: dmSans - Mode: light - Roundness: rounded-lg" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UkFbFpJf7RRCByVhJn_HH33Kf2oLFqb7jjrQlCcq8rf97hFc3wuc5GNZK2YXVWYisPKN0HMt0jzBbz2wBCV2qB6rSX_NZwXLSNQKUdi7kRUrkBO6c9c9XoxMlq2yO0SRqoJ5pR5MEwfhAVYQaWbF3XNFandxEzxWHEJF82TJaCaTQ__54IM9-ppr168ccV96eSWc4K_wNCbHa4GLdxMw4xEy_9HEfD4SRtRLMbAxrqAAQpgC1seZVAH-Q"/></div><h1 class="font-nav-caps text-nav-caps uppercase tracking-[0.16em] text-on-surface truncate max-w-[160px]">Urun Detay</h1><div class="flex items-center gap-space-xs"><button aria-label="Alışveriş Çantası" class="relative w-11 h-11 flex items-center justify-center text-on-surface hover:text-honey-amber transition-colors"><span class="material-symbols-outlined text-[20px]">shopping_bag</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-1"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 bg-surface pb-safe"><div class="flex flex-col w-full">
+<div class="px-margin pt-space-md pb-space-lg flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-honey-amber">verified</span>
+<span class="font-editorial-caption text-editorial-caption uppercase tracking-[0.14em]">1985'ten Beri • Saitabat Köyü / Bursa</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-charcoal-pure tracking-tight">
+      Rezerve Karakovan Çam Balı
+    </h1>
+<div class="flex items-baseline gap-space-sm mt-space-xs">
+<span class="font-price-tag text-[22px] leading-tight text-honey-amber tracking-tight font-medium">₺1.250</span>
+<span class="font-label-spec text-label-spec text-on-surface-variant">KDV Dahil • Ahşap Koruma Sandığında</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-sm leading-relaxed">
+      Saitabat'ın 1100 metre rakımlı asırlık çam korularında, arıların reçine özlerini aylarca olgunlaştırmasıyla elde edilen koyu kehribar rengi, reçinemsi ve odunsu bir doğa mirası.
+    </p>
+<div class="mt-space-md flex flex-col gap-space-xs">
+<span class="font-nav-caps text-nav-caps uppercase tracking-[0.12em] text-on-surface-variant">Kavanoz Hacmi</span>
+<div class="flex items-center gap-space-sm overflow-x-auto pb-space-xs no-scrollbar" id="weight-selector">
+<button class="weight-pill px-space-md py-space-sm bg-surface-container-low text-on-surface-variant text-editorial-caption font-editorial-caption uppercase tracking-wider transition-all duration-200" onclick="selectWeight(this, '₺890')" type="button">
+          300g <span class="opacity-70">(Deneme)</span>
+</button>
+<button class="weight-pill active-pill px-space-md py-space-sm bg-charcoal-pure text-on-primary text-editorial-caption font-editorial-caption uppercase tracking-wider transition-all duration-200" onclick="selectWeight(this, '₺1.250')" type="button">
+          450g <span class="text-honey-amber">(Önerilen)</span>
+</button>
+<button class="weight-pill px-space-md py-space-sm bg-surface-container-low text-on-surface-variant text-editorial-caption font-editorial-caption uppercase tracking-wider transition-all duration-200" onclick="selectWeight(this, '₺2.180')" type="button">
+          850g <span class="opacity-70">(Aile Boyu)</span>
+</button>
+</div>
+</div>
+</div>
+<section class="flex flex-col w-full gap-space-lg mb-space-xl">
+<div class="flex flex-col w-full bg-surface-container-lowest">
+<div class="relative w-full aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Macro close-up shot of thick raw dark amber organic pine honey slowly dripping from a wild rustic honeycomb frame, backlit by soft morning studio light, highlighting viscous amber texture and golden transparency, high fashion apothecary editorial photography in Kinfolk style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrRoBUgTmk8q0zZFQOdbUVUmU_hIQ77Z0iHXaVjPoeIpA0yxLu3hFlW-21m3kFe2H1rDdqUXHBYs2kOPJPZ07KiplIsy-Jxirr6OYRaMxhjSla74N1Uv1d6ERQTvfotGTJLSuyEfsO4fz2S_Rc8LKuHvREbAqjNVXr3pFZK7M2SnwKWoS_hhXUQoS_kl3XWTDJu0MXWS2VmiX5utrgAotVfbI1gII3aVxeMXM0cqmNUeMpdXXiC55Y"/>
+<div class="absolute top-space-md right-space-md bg-charcoal-pure/85 text-on-primary px-space-sm py-space-xs backdrop-blur-sm">
+<span class="font-label-spec text-label-spec tracking-widest text-[10px]">HASAT 01/03</span>
+</div>
+</div>
+<div class="p-space-md flex items-center justify-between bg-surface-container-low">
+<div class="flex items-center gap-space-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-honey-amber"></span>
+<span class="font-label-spec text-label-spec text-on-surface">Parti No: SB-2025/08</span>
+</div>
+<span class="font-price-tag text-label-spec text-honey-amber">1.420 mg/kg Prolin</span>
+</div>
+</div>
+<div class="flex flex-col w-full bg-surface-container-lowest">
+<div class="relative w-full aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Breathtaking atmospheric misty morning vista of ancient Uludag Saitabat Pine Valley gorge with traditional rustic log beehives perched on mossy cliffs, soft ethereal fog, muted earthy forest tones, quiet luxury lifestyle photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZTC0QE_LR-ouiasC-0GyedL0spr0N71ej1iGFmp5azacypxGbfMb_0J-hqgvV802v5pcw1cMhFvxpI5SIkX4Vvk9uV9uCUYLMDmIWTltYv0rvL3xRdrZTydXe3GPzel_LghiNbbPEBKtN88f0AKMgNLMu29xpHPXvDyfJKRyAmwlJgvGO-UCswkA9o-Xo1R6JqUV_95qdRUE_IlI7igCVapMA_7MaqlrxG7vM7yn4YWw6_sbX5Pfy"/>
+<div class="absolute bottom-space-md left-space-md bg-surface-container-lowest/90 px-space-md py-space-xs flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[14px] text-honey-amber">location_on</span>
+<span class="font-label-spec text-label-spec text-on-surface tracking-wide">1.120m Rakım</span>
+</div>
+</div>
+<div class="p-space-md flex items-center justify-between bg-surface-container-low">
+<span class="font-body-sm text-body-sm text-on-surface">Saitabat Şelalesi Üst Havzası</span>
+<span class="font-editorial-caption text-editorial-caption uppercase text-on-surface-variant tracking-wider">İzole Flora</span>
+</div>
+</div>
+<div class="flex flex-col w-full bg-surface-container-lowest">
+<div class="relative w-full aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Artisanal heavy apothecary glass jar containing glowing amber pine honey, sealed with raw natural beeswax stamp, sitting in a bespoke natural unbleached kraft paper gift box on an aged slate surface, minimalist editorial packaging still-life" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSjLewyC1lfKpsWJTisRiDmSWNEOJLX8HbOSGuK0ehyjgLSWp5OZIkpIDC7V9Zma4TkSD9W3o60POFkOrYZOGlrmZ01qg9k3nnjM7G7cBC-y81vXVxIYpiRFY2HZqN5nCdLatcIKB-zw7GC5RfGf-zRUKAQp_okgcn9YPOxpApRmuXIeqUhEF6ezdWWqPB68GpfDv8bUd4GCZG8Er7D-74bLv6jipkkq42WB-gOU-MHzAnjTjU9ypt"/>
+<div class="absolute top-space-md left-space-md bg-honey-amber text-charcoal-pure px-space-sm py-space-xs font-label-spec text-[10px] tracking-wider font-medium">
+          MÜHÜRLÜ ŞİŞELEME
+        </div>
+</div>
+<div class="p-space-md flex items-center justify-between bg-surface-container-low">
+<span class="font-body-sm text-body-sm text-on-surface">Özel Tasarım Amber Cam &amp; Balmumu Mühür</span>
+<span class="font-label-spec text-label-spec text-on-surface-variant">Sınırlı 800 Adet</span>
+</div>
+</div>
+</section>
+<section class="px-margin flex flex-col gap-space-md mb-space-xl">
+<div class="flex flex-col gap-space-xs">
+<span class="font-editorial-caption text-editorial-caption uppercase tracking-[0.14em] text-on-surface-variant">Duyusal Deneyim</span>
+<h2 class="font-headline-sm text-headline-sm text-charcoal-pure">Karakter &amp; Aroma Paleti</h2>
+</div>
+<div class="flex flex-wrap gap-space-xs">
+<div class="px-space-md py-space-sm bg-surface-container-low flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-honey-amber text-[16px]">forest</span>
+<span class="font-body-sm text-body-sm text-on-surface">Karamelize Çam</span>
+</div>
+<div class="px-space-md py-space-sm bg-surface-container-low flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-honey-amber text-[16px]">spa</span>
+<span class="font-body-sm text-body-sm text-on-surface">Kozalak Buharı</span>
+</div>
+<div class="px-space-md py-space-sm bg-surface-container-low flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-honey-amber text-[16px]">water_drop</span>
+<span class="font-body-sm text-body-sm text-on-surface">Kadifemsi Kıvam</span>
+</div>
+</div>
+<div class="mt-space-sm bg-surface-container-low p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-honey-amber text-[18px]">biotech</span>
+<span class="font-nav-caps text-nav-caps uppercase tracking-wider text-charcoal-pure">Akredite Laboratuvar Analizi</span>
+</div>
+<span class="font-label-spec text-label-spec text-on-surface-variant">TÜRKAK Onaylı</span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="flex justify-between items-center py-space-xs bg-surface-container-lowest px-space-sm">
+<span class="font-body-sm text-body-sm text-on-surface">Prolin Zenginliği</span>
+<span class="font-price-tag text-price-tag text-honey-amber">1.420 mg/kg</span>
+</div>
+<div class="flex justify-between items-center py-space-xs bg-surface-container-lowest px-space-sm">
+<span class="font-body-sm text-body-sm text-on-surface">HMF Değeri</span>
+<div class="text-right">
+<span class="font-price-tag text-price-tag text-charcoal-pure">3.2 mg/kg</span>
+<span class="block font-editorial-caption text-[10px] text-on-surface-variant">Isıl İşlemsiz Ham Bal</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-space-xs bg-surface-container-lowest px-space-sm">
+<span class="font-body-sm text-body-sm text-on-surface">Polen Profili</span>
+<span class="font-price-tag text-price-tag text-charcoal-pure">%80 Çam &amp; Kestane</span>
+</div>
+<div class="flex justify-between items-center py-space-xs bg-surface-container-lowest px-space-sm">
+<span class="font-body-sm text-body-sm text-on-surface">Diyastaz Sayısı</span>
+<span class="font-price-tag text-price-tag text-charcoal-pure">18.4 DN</span>
+</div>
+</div>
+<p class="font-editorial-caption text-editorial-caption text-on-surface-variant leading-relaxed">
+        * Her kavanoz, kapağındaki karekod aracılığıyla doğrudan laboratuvar analiz sertifikasına bağlanır. Hiçbir katkı maddesi, pastörizasyon veya endüstriyel filtreleme uygulanmaz.
+      </p>
+</div>
+</section>
+<section class="px-margin flex flex-col gap-space-md mb-28">
+<div class="flex flex-col gap-space-xs">
+<span class="font-editorial-caption text-editorial-caption uppercase tracking-[0.14em] text-on-surface-variant">Tamamlayıcı Seçimler</span>
+<h2 class="font-headline-sm text-headline-sm text-charcoal-pure">Bal Ritüelini Tamamla</h2>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-md p-space-sm bg-surface-container-low">
+<div class="w-20 h-20 bg-surface-container flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Handcrafted artisanal dark olive wood honey dipper spoon resting on textured linen, soft studio luxury product lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3dS-jaL6TpxVR4lF88qgMkJWewct3z6MahzAe714zYqEz3dfgos_Oip5MTUxPvyV8HkjadtQ5PTGLhF8NW2PirpTtjFOMZxM6jIAXoscMtAnAyZlirvVd6bDWcm1GR8ann1OFzpPfW2grfv-seWKPzDSxh3HcUKn7vQBb26vJIdIFvyuDBkTSCaPD7nldkV85tg5wsVeep6VE4BmidmX_B3WpwmsOB36xyIZPToCEW-QnABeOEWI3"/>
+</div>
+<div class="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
+<div>
+<h3 class="font-headline-sm text-[15px] leading-snug text-charcoal-pure truncate">El Yapımı Ahşap Bal Kaşığı</h3>
+<p class="font-editorial-caption text-editorial-caption text-on-surface-variant mt-0.5">Zeytin Ağacı • Tek Parça Oyma</p>
+</div>
+<div class="flex items-center justify-between mt-space-xs">
+<span class="font-price-tag text-price-tag text-charcoal-pure">₺290</span>
+<button class="px-space-sm py-1 bg-surface-container-highest hover:bg-charcoal-pure hover:text-on-primary transition-colors text-editorial-caption font-editorial-caption uppercase tracking-wider" onclick="toggleAddRitual(this, '₺290')" type="button">
+              Ekle +
+            </button>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-md p-space-sm bg-surface-container-low">
+<div class="w-20 h-20 bg-surface-container flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Dark amber glass dropper bottle of pure raw bee propolis extract on minimal stone pedestal, apothecary luxury aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBPH5YnGHjBeKvOa5CVBlOGc9rPRS4w5tKcKZqDAgUYapR0d0QFyMm1Wq1i0FaSFCXNE--aRlN04vt-5NnXq3S8q8xVGNo30s7eXdZPCj4gE628CZVKDavzMGY3O1FWiQRNKc_GDlND7EPoQ-SYuETYlGoXvEnmgInZypFyleCncXaG4P7hREWIiggy_VXSVyOQtYTwc26i5WbEz3iwWVH08EvdMJUAGTs_-VuwgfMFZIxMBh7uRLm"/>
+</div>
+<div class="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
+<div>
+<h3 class="font-headline-sm text-[15px] leading-snug text-charcoal-pure truncate">Saf Propolis Damlası</h3>
+<p class="font-editorial-caption text-editorial-caption text-on-surface-variant mt-0.5">30ml • %20 Saf Su Bazlı Ekstrakt</p>
+</div>
+<div class="flex items-center justify-between mt-space-xs">
+<span class="font-price-tag text-price-tag text-charcoal-pure">₺680</span>
+<button class="px-space-sm py-1 bg-surface-container-highest hover:bg-charcoal-pure hover:text-on-primary transition-colors text-editorial-caption font-editorial-caption uppercase tracking-wider" onclick="toggleAddRitual(this, '₺680')" type="button">
+              Ekle +
+            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<div class="fixed bottom-0 inset-x-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md px-margin py-space-sm pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] flex items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<span class="font-editorial-caption text-[10px] uppercase tracking-wider text-on-surface-variant">Toplam Değer</span>
+<span class="font-price-tag text-[18px] text-charcoal-pure font-medium" id="bottom-price">₺1.250</span>
+</div>
+<button class="flex-1 max-w-[260px] h-12 bg-charcoal-pure active:bg-honey-amber text-on-primary flex items-center justify-center gap-space-xs transition-colors duration-200" id="cart-submit-btn" onclick="handleAddToCart()" type="button">
+<span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+<span class="font-nav-caps text-nav-caps uppercase tracking-[0.14em]" id="cart-btn-text">Sepete Ekle</span>
+</button>
+</div>
+</div>
+<script>
+  function selectWeight(button, price) {
+    const pills = document.querySelectorAll('.weight-pill');
+    pills.forEach(p => {
+      p.classList.remove('bg-charcoal-pure', 'text-on-primary', 'active-pill');
+      p.classList.add('bg-surface-container-low', 'text-on-surface-variant');
+      const innerAmber = p.querySelector('.text-honey-amber');
+      if (innerAmber) innerAmber.classList.add('opacity-70');
+    });
+    
+    button.classList.remove('bg-surface-container-low', 'text-on-surface-variant');
+    button.classList.add('bg-charcoal-pure', 'text-on-primary', 'active-pill');
+    const amberSpan = button.querySelector('.text-honey-amber');
+    if (amberSpan) amberSpan.classList.remove('opacity-70');
+
+    const bottomPrice = document.getElementById('bottom-price');
+    if (bottomPrice) {
+      bottomPrice.innerText = price;
+    }
+  }
+
+  function toggleAddRitual(btn, price) {
+    if (btn.innerText.includes('+')) {
+      btn.innerText = 'Eklendi ✓';
+      btn.classList.remove('bg-surface-container-highest');
+      btn.classList.add('bg-honey-amber', 'text-charcoal-pure');
+    } else {
+      btn.innerText = 'Ekle +';
+      btn.classList.remove('bg-honey-amber', 'text-charcoal-pure');
+      btn.classList.add('bg-surface-container-highest');
+    }
+  }
+
+  function handleAddToCart() {
+    const btnText = document.getElementById('cart-btn-text');
+    const submitBtn = document.getElementById('cart-submit-btn');
+    if (btnText && submitBtn) {
+      const originalText = btnText.innerText;
+      btnText.innerText = 'Çantaya Eklendi';
+      submitBtn.classList.add('bg-honey-amber', 'text-charcoal-pure');
+      submitBtn.classList.remove('bg-charcoal-pure', 'text-on-primary');
+      setTimeout(() => {
+        btnText.innerText = originalText;
+        submitBtn.classList.remove('bg-honey-amber', 'text-charcoal-pure');
+        submitBtn.classList.add('bg-charcoal-pure', 'text-on-primary');
+      }, 1600);
+    }
+  }
+</script></main></body></html>

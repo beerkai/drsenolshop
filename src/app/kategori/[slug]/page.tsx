@@ -57,14 +57,14 @@ export default async function CategoryPage({
   return (
     <>
       <Header />
-      <main style={{ background: 'var(--color-ink)', minHeight: '100vh' }}>
+      <main className="min-h-screen w-full bg-surface">
         <CategoryHero
           title={category.name}
           description={category.description || undefined}
           totalProducts={total}
           titleLang={isEnglishCategory ? 'en' : 'tr'}
         />
-        <Suspense fallback={<div style={{ minHeight: 400, background: 'var(--color-ink)' }} aria-hidden />}>
+        <Suspense fallback={<div className="min-h-[400px] bg-surface" aria-hidden />}>
           <CategoryPageClient
             initialProducts={products}
             initialTotal={total}

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useEffect } from 'react'
 
-export default function GlobalError({
+export default function Error({
   error,
   reset,
 }: {
@@ -11,100 +11,42 @@ export default function GlobalError({
   reset: () => void
 }) {
   useEffect(() => {
-    console.error('[app error]', error)
+    console.error('[app error]', error.message, error)
   }, [error])
 
   return (
-    <main
-      style={{
-        minHeight: '100vh',
-        backgroundColor: 'var(--color-ink)',
-        color: 'var(--color-cream)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '40px 24px',
-      }}
-    >
-      <div style={{ maxWidth: '520px', textAlign: 'center' }}>
-        <p
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '11px',
-            letterSpacing: '0.3em',
-            color: 'var(--color-alert)',
-            textTransform: 'uppercase',
-            margin: '0 0 14px',
-          }}
-        >
-          Beklenmedik Bir Sorun
+    <main className="flex min-h-screen items-center justify-center bg-surface px-margin py-16 text-on-surface">
+      <div className="max-w-lg text-center">
+        <p className="font-label-spec text-label-spec uppercase tracking-[0.2em] text-honey-amber">
+          Beklenmedik bir sorun
         </p>
-        <h1
-          style={{
-            fontFamily: 'var(--font-display)',
-            color: 'var(--color-cream)',
-            fontSize: 'clamp(28px, 5vw, 44px)',
-            fontWeight: 500,
-            lineHeight: 1.1,
-            margin: '0 0 20px',
-          }}
-        >
+        <h1 className="mt-4 font-display-hero text-display-hero-mobile font-light tracking-tight">
           Bir şeyler{' '}
-          <span style={{ color: 'var(--color-gold)', fontStyle: 'italic', fontWeight: 300 }}>ters gitti.</span>
+          <span className="text-honey-amber">ters gitti.</span>
         </h1>
-        <p style={{ color: 'var(--color-cream-muted)', fontSize: '14px', lineHeight: 1.7, margin: '0 0 32px' }}>
-          Sayfa beklenmedik şekilde hata aldı. Sorun devam ederse bizimle iletişime geçebilirsin.
+        <p className="mt-4 font-body-md text-body-md font-light text-on-surface-variant">
+          Sayfa yüklenirken hata oluştu. Dev sunucusunu yeniden başlatmayı deneyin; sorun sürerse bize yazın.
         </p>
 
-        {error.digest && (
-          <p
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '10px',
-              color: 'var(--color-cream-faint)',
-              letterSpacing: '0.05em',
-              margin: '0 0 24px',
-            }}
-          >
-            Hata kodu: <code>{error.digest}</code>
-          </p>
-        )}
+        {error.message ? (
+          <p className="mt-4 font-label-spec text-[10px] text-hairline-subtle">{error.message}</p>
+        ) : null}
 
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+        {error.digest ? (
+          <p className="mt-2 font-label-spec text-[10px] text-hairline-subtle">ref: {error.digest}</p>
+        ) : null}
+
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <button
             type="button"
             onClick={reset}
-            style={{
-              padding: '14px 28px',
-              backgroundColor: 'var(--color-gold)',
-              color: 'var(--color-ink)',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '11px',
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              border: 'none',
-              cursor: 'pointer',
-              minHeight: '44px',
-            }}
+            className="h-12 bg-primary px-6 font-nav-caps text-nav-caps uppercase tracking-[0.14em] text-surface-container-lowest transition-colors hover:bg-primary-hover"
           >
-            Tekrar Dene
+            Tekrar dene
           </button>
           <Link
             href="/"
-            style={{
-              padding: '14px 28px',
-              border: '1px solid rgba(244,240,232,0.2)',
-              color: 'var(--color-cream)',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '11px',
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              textDecoration: 'none',
-              minHeight: '44px',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+            className="inline-flex h-12 items-center border border-hairline-light px-6 font-nav-caps text-nav-caps uppercase tracking-[0.14em] text-on-surface transition-colors hover:border-on-surface"
           >
             Anasayfa
           </Link>

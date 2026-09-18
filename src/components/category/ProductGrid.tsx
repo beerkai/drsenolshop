@@ -1,6 +1,13 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
+// ═══════════════════════════════════════════════════════════════
+// Ürün ızgarası — Editorial Minimal (Stitch koleksiyon lookbook)
+// ─ Görsel: 2 / md:3 / lg:4 sütun, gap-3 (Stitch: tight 12px)
+// ─ Veri akışı DEĞİŞMEDİ: /api/products + IntersectionObserver ile
+//   sonsuz kaydırma, aynı parametreler ve sayfa boyutu.
+// ═══════════════════════════════════════════════════════════════
+
+import { useCallback, useEffect, useRef, useState } from 'react'
 import ProductCard from '@/components/ProductCard'
 import type { ProductWithRelations } from '@/types'
 import type { SortOption } from './SortDropdown'
@@ -11,7 +18,7 @@ interface ProductGridProps {
   categorySlug: string | null
   inStockOnly: boolean
   sortBy: SortOption
-  isMobile: boolean
+  isMobile?: boolean
   onTotalChange?: (total: number) => void
 }
 
@@ -23,7 +30,6 @@ export default function ProductGrid({
   categorySlug,
   inStockOnly,
   sortBy,
-  isMobile,
   onTotalChange,
 }: ProductGridProps) {
   const [products, setProducts] = useState(initialProducts)
@@ -32,20 +38,25 @@ export default function ProductGrid({
   const [hasMore, setHasMore] = useState(initialProducts.length < initialTotal)
   const sentinelRef = useRef<HTMLDivElement | null>(null)
 
+  const buildQuery = useCallback(
+    (offset: number) =>
+      `/api/products?` +
+      new URLSearchParams({
+        ...(categorySlug ? { category: categorySlug } : {}),
+        inStock: inStockOnly ? '1' : '0',
+        sort: sortBy,
+        limit: String(PAGE_SIZE),
+        offset: String(offset),
+      }),
+    [categorySlug, inStockOnly, sortBy]
+  )
+
+  // Filtre / sıralama değişince baştan yükle
   useEffect(() => {
     let cancelled = false
     setLoading(true)
 
-    fetch(
-      `/api/products?` +
-        new URLSearchParams({
-          ...(categorySlug ? { category: categorySlug } : {}),
-          inStock: inStockOnly ? '1' : '0',
-          sort: sortBy,
-          limit: String(PAGE_SIZE),
-          offset: '0',
-        })
-    )
+    fetch(buildQuery(0))
       .then((r) => r.json())
       .then((data: { products?: ProductWithRelations[]; total?: number }) => {
         if (cancelled) return
@@ -57,7 +68,7 @@ export default function ProductGrid({
         onTotalChange?.(t)
       })
       .catch((err) => {
-        if (!cancelled) console.error('Ürünler yüklenemedi:', err)
+        if (!cancelled) console.error('[ProductGrid] ürünler yüklenemedi:', err)
       })
       .finally(() => {
         if (!cancelled) setLoading(false)
@@ -66,46 +77,35 @@ export default function ProductGrid({
     return () => {
       cancelled = true
     }
-  }, [categorySlug, inStockOnly, sortBy, onTotalChange])
+  }, [buildQuery, onTotalChange])
 
   const loadMore = useCallback(async () => {
     if (loading || !hasMore) return
     setLoading(true)
     try {
-      const res = await fetch(
-        `/api/products?` +
-          new URLSearchParams({
-            ...(categorySlug ? { category: categorySlug } : {}),
-            inStock: inStockOnly ? '1' : '0',
-            sort: sortBy,
-            limit: String(PAGE_SIZE),
-            offset: String(products.length),
-          })
-      )
+      const res = await fetch(buildQuery(products.length))
       const data = (await res.json()) as { products?: ProductWithRelations[]; total?: number }
-      const newProducts: ProductWithRelations[] = data.products || []
+      const next = data.products || []
       const t = data.total ?? 0
       setProducts((prev) => {
-        const merged = [...prev, ...newProducts]
+        const merged = [...prev, ...next]
         setHasMore(merged.length < t)
         return merged
       })
       onTotalChange?.(t)
     } catch (err) {
-      console.error('Daha fazla yüklenemedi:', err)
+      console.error('[ProductGrid] daha fazla yüklenemedi:', err)
     } finally {
       setLoading(false)
     }
-  }, [categorySlug, inStockOnly, sortBy, products.length, loading, hasMore, onTotalChange])
+  }, [buildQuery, products.length, loading, hasMore, onTotalChange])
 
   useEffect(() => {
     const el = sentinelRef.current
     if (!el) return
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasMore && !loading) {
-          void loadMore()
-        }
+        if (entries[0].isIntersecting && hasMore && !loading) void loadMore()
       },
       { rootMargin: '300px' }
     )
@@ -114,88 +114,37 @@ export default function ProductGrid({
   }, [loadMore, hasMore, loading])
 
   return (
-    <div lang="tr">
-      <div
-        style={{
-          paddingBottom: '12px',
-          marginBottom: '16px',
-          borderBottom: '1px solid rgba(244,240,232,0.08)',
-        }}
-      >
-        <p
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '11px',
-            color: 'var(--color-cream-muted)',
-            margin: 0,
-          }}
-        >
-          {total} ürün gösteriliyor
-        </p>
-      </div>
+    <div lang="tr" className="ed-section-inner pb-space-xl">
+      {/* Sonuç sayacı — Stitch: ince, sessiz */}
+      <p className="mb-space-md font-editorial-caption text-editorial-caption uppercase tracking-[0.12em] text-on-surface-variant">
+        {total} ürün gösteriliyor
+      </p>
 
       {products.length === 0 && !loading ? (
-        <div
-          style={{
-            padding: '64px 24px',
-            textAlign: 'center',
-            color: 'var(--color-cream-faint)',
-          }}
-        >
-          <p
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '20px',
-              fontStyle: 'italic',
-              margin: '0 0 8px',
-            }}
-          >
+        <div className="border border-hairline-light bg-surface-container-lowest px-space-lg py-space-xl text-center">
+          <p className="font-headline-sm text-headline-sm font-light text-on-surface">
             Bu filtrelerle ürün bulunamadı.
           </p>
-          <p style={{ fontSize: '12px' }}>Filtreleri temizleyip tekrar deneyin.</p>
+          <p className="mt-space-sm font-body-sm text-body-sm text-on-surface-variant">
+            Filtreleri temizleyip tekrar deneyin.
+          </p>
         </div>
       ) : (
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
-            gap: '1px',
-            background: 'rgba(244,240,232,0.08)',
-            border: '1px solid rgba(244,240,232,0.08)',
-          }}
-        >
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              categoryOverride={product.category?.name || undefined}
-            />
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+          {products.map((product, i) => (
+            <ProductCard key={product.id} product={product} priority={i < 4} />
           ))}
         </div>
       )}
 
-      {hasMore && (
-        <div
-          ref={sentinelRef}
-          style={{
-            padding: '40px 0',
-            textAlign: 'center',
-          }}
-        >
-          <p
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '10px',
-              letterSpacing: '0.22em',
-              color: 'var(--color-cream-faint)',
-              textTransform: 'uppercase',
-              margin: 0,
-            }}
-          >
-            {loading ? '↓ Yükleniyor...' : '↓ Daha fazla'}
-          </p>
-        </div>
-      )}
+      {/* Sonsuz kaydırma sentinel'i */}
+      <div ref={sentinelRef} aria-hidden className="h-px w-full" />
+
+      {loading ? (
+        <p className="mt-space-lg text-center font-label-spec text-label-spec uppercase tracking-widest text-on-surface-variant">
+          Yükleniyor…
+        </p>
+      ) : null}
     </div>
   )
 }

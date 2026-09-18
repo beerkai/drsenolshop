@@ -39,7 +39,6 @@ export default function CategoryPageClient({
     return () => mq.removeEventListener('change', check)
   }, [])
 
-  const [filterOpen, setFilterOpen] = useState(false)
 
   const [filters, setFilters] = useState<FilterState>(() => ({
     inStockOnly: initialInStockOnly,
@@ -78,102 +77,60 @@ export default function CategoryPageClient({
   const mainCategories = categories.filter((c) => !c.parent_id)
 
   return (
-    <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-      {isMobile && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '14px 20px',
-            borderBottom: '1px solid rgba(244,240,232,0.08)',
-            background: 'var(--color-ink)',
-          }}
-        >
-          <button
-            type="button"
-            onClick={() => setFilterOpen(true)}
-            lang="tr"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              background: 'transparent',
-              border: '1px solid rgba(244,240,232,0.2)',
-              color: 'var(--color-cream)',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '10px',
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              padding: '10px 14px',
-              cursor: 'pointer',
-            }}
-          >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="4" y1="6" x2="20" y2="6" />
-              <line x1="4" y1="12" x2="14" y2="12" />
-              <line x1="4" y1="18" x2="10" y2="18" />
-            </svg>
-            Filtrele
-            {filters.inStockOnly && (
-              <>
-                <span style={{ color: 'var(--color-gold)' }}>·</span>
-                <span style={{ color: 'var(--color-gold)', fontWeight: 500 }}>1</span>
-              </>
-            )}
-          </button>
-          <SortDropdown value={sortBy} onChange={setSortBy} />
-        </div>
-      )}
+    <div className="w-full bg-surface">
+      {/*
+        Stitch koleksiyon: tam genişlik çip şeridi + sağda sıralama,
+        altında hairline; ardından tam genişlik lookbook ızgarası.
+        (Eski sol sidebar düzeni Editorial Minimal'de yok.)
+      */}
+      <div className="border-b border-hairline-light">
+        {/*
+          Çipler ve kontroller AYNI satırı paylaşmaz: kategori sayısı
+          arttığında şerit kontrollerin altına giriyordu. Çipler tam
+          genişlikte kayar, kontroller altında sağa hizalanır.
+        */}
+        <div className="ed-section-inner flex flex-col gap-space-sm py-space-sm">
+          <div className="min-w-0">
+            <CategoryFilters
+              categories={mainCategories}
+              activeCategorySlug={activeCategorySlug}
+              totalProducts={totalAllProducts}
+              filters={filters}
+              onFiltersChange={setFilters}
+              resultCount={resultCount}
+            />
+          </div>
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: isMobile ? 'column' : 'row',
-        }}
-      >
-        <CategoryFilters
-          categories={mainCategories}
-          activeCategorySlug={activeCategorySlug}
-          totalProducts={totalAllProducts}
-          filters={filters}
-          onFiltersChange={setFilters}
-          isMobile={isMobile}
-          isOpen={filterOpen}
-          onClose={() => setFilterOpen(false)}
-          resultCount={resultCount}
-        />
-
-        <div
-          style={{
-            flex: 1,
-            padding: isMobile ? '20px' : '28px 32px',
-            minHeight: '600px',
-          }}
-        >
-          {!isMobile && (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                marginBottom: '8px',
-              }}
+          {/* Kontroller: stok filtresi + sıralama (kategoriler navigasyondur, şeritte kalır) */}
+          <div className="flex shrink-0 items-center justify-end gap-space-md">
+            <button
+              type="button"
+              aria-pressed={filters.inStockOnly}
+              onClick={() => setFilters({ ...filters, inStockOnly: !filters.inStockOnly })}
+              className={`whitespace-nowrap px-3.5 py-1.5 font-nav-caps text-nav-caps uppercase tracking-[0.14em] transition-colors duration-200 ${
+                filters.inStockOnly
+                  ? 'bg-primary text-on-primary'
+                  : 'bg-surface-container-low text-on-surface-variant hover:text-on-surface'
+              }`}
             >
-              <SortDropdown value={sortBy} onChange={setSortBy} />
-            </div>
-          )}
-
-          <ProductGrid
-            key={pathname}
-            initialProducts={initialProducts}
-            initialTotal={initialTotal}
-            categorySlug={activeCategorySlug}
-            inStockOnly={filters.inStockOnly}
-            sortBy={sortBy}
-            isMobile={isMobile}
-            onTotalChange={handleTotalChange}
-          />
+              Stokta
+            </button>
+            <SortDropdown value={sortBy} onChange={setSortBy} />
+          </div>
         </div>
+      </div>
+
+      <div className="pt-space-lg">
+        <ProductGrid
+          key={pathname}
+          initialProducts={initialProducts}
+          initialTotal={initialTotal}
+          categorySlug={activeCategorySlug}
+          inStockOnly={filters.inStockOnly}
+          sortBy={sortBy}
+          isMobile={isMobile}
+          onTotalChange={handleTotalChange}
+        />
       </div>
     </div>
   )
