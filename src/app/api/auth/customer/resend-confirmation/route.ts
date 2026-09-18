@@ -7,7 +7,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { NextResponse } from 'next/server'
-import { getSupabaseServer } from '@/lib/supabase-server'
+import { requireSupabaseServer } from '@/lib/supabase-server'
 import { translateAuthError } from '@/lib/auth-errors'
 
 function getSiteOrigin(request: Request): string {
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: 'E-posta gerekli.' }, { status: 400 })
   }
 
-  const supabase = await getSupabaseServer()
+  const supabase = await requireSupabaseServer()
   const emailRedirectTo = `${getSiteOrigin(request)}/auth/callback?next=${encodeURIComponent('/hesabim')}`
 
   const { error } = await supabase.auth.resend({

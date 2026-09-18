@@ -11,6 +11,8 @@ import ProfileForm, { type ProfileInitial } from './ProfileForm'
 import DeleteAccountSection from './DeleteAccountSection'
 import ReorderButton from './ReorderButton'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Hesabım',
   description: 'Hesap bilgileriniz ve sipariş geçmişiniz.',
@@ -58,6 +60,8 @@ export default async function HesabimPage() {
 
   // RLS sayesinde sadece kendi siparişleri gelecek (email match)
   const supabase = await getSupabaseServer()
+  if (!supabase) redirect('/giris?next=/hesabim')
+
   const { data: orders } = await supabase
     .from('orders')
     .select('*')

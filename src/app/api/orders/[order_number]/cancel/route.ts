@@ -8,7 +8,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { NextResponse } from 'next/server'
-import { getSupabaseServer } from '@/lib/supabase-server'
+import { requireSupabaseServer } from '@/lib/supabase-server'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { sendOrderStatusUpdate } from '@/lib/email'
 import { sendTelegramMessage, isTelegramConfigured, escapeHtml } from '@/lib/telegram'
@@ -43,7 +43,7 @@ export async function POST(
   //   a) Logged-in user'ın email'i = sipariş email'i
   //   b) Logged-in user'ın id'si = order.user_id
   //   c) İstekte body.email gönderilmiş ve sipariş email'iyle eşleşiyor (misafir)
-  const supabase = await getSupabaseServer()
+  const supabase = await requireSupabaseServer()
   const { data: { user } } = await supabase.auth.getUser()
 
   const reqEmail = body.email?.trim().toLowerCase()

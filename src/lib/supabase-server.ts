@@ -5,14 +5,14 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
+import { isSupabaseConfigured } from './supabase'
 
-function requirePublicConfig() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
-  if (!url || !anonKey) {
-    throw new Error('NEXT_PUBLIC_SUPABASE_URL veya NEXT_PUBLIC_SUPABASE_ANON_KEY eksik')
-  }
+function requirePublicConfig(): { url: string; anonKey: string } | null {
+  if (!isSupabaseConfigured()) return null
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!.trim()
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!.trim()
   return { url, anonKey }
 }
 
@@ -20,8 +20,11 @@ function requirePublicConfig() {
  * Server Component / Route Handler için cookie-bound Supabase client.
  * Next.js 16'da cookies() async — bu yüzden helper async.
  */
-export async function getSupabaseServer() {
-  const { url, anonKey } = requirePublicConfig()
+/** Env yoksa null — build/preview sırasında auth sayfaları kırılmasın */
+export async function getSupabaseServer(): Promise<SupabaseClient | null> {
+  const config = requirePublicConfig()
+  if (!config) return null
+  const { url, anonKey } = config
   const cookieStore = await cookies()
 
   return createServerClient(url, anonKey, {
@@ -41,4 +44,13 @@ export async function getSupabaseServer() {
       },
     },
   })
+}
+
+/** API route'lar — env zorunlu */
+export async function requireSupabaseServer(): Promise<SupabaseClient> {
+  const client = await getSupabaseServer()
+  if (!client) {
+    throw new Error('NEXT_PUBLIC_SUPABASE_URL veya NEXT_PUBLIC_SUPABASE_ANON_KEY eksik')
+  }
+  return client
 }

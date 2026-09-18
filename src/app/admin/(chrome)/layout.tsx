@@ -5,6 +5,9 @@ import { Sidebar } from '@/components/admin/shell/Sidebar'
 import { CommandProvider } from '@/components/admin/command/CommandProvider'
 import { Toaster } from '@/components/admin/toast/Toaster'
 
+// Cookie auth — build sırasında statik üretim yapma (env/cookie yokken patlar)
+export const dynamic = 'force-dynamic'
+
 async function getPendingOrderCount(): Promise<number> {
   try {
     const supabase = getSupabaseAdmin()

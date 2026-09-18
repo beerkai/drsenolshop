@@ -6,7 +6,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { NextResponse } from 'next/server'
-import { getSupabaseServer } from '@/lib/supabase-server'
+import { requireSupabaseServer } from '@/lib/supabase-server'
 
 function getSiteOrigin(request: Request): string {
   const env = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '')
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: 'E-posta gerekli.' }, { status: 400 })
   }
 
-  const supabase = await getSupabaseServer()
+  const supabase = await requireSupabaseServer()
   // E-postadaki link önce /auth/callback'e gitmeli (code exchange ile cookie session kurulur),
   // sonra /sifre-yenile'ye yönlendirilir. Doğrudan /sifre-yenile'ye giderse session olmaz.
   const redirectTo = `${getSiteOrigin(request)}/auth/callback?next=${encodeURIComponent('/sifre-yenile')}`

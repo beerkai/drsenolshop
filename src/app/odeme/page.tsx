@@ -26,6 +26,8 @@ async function getCustomerPrefill(): Promise<CheckoutPrefill | null> {
   if (!me) return null
 
   const supabase = await getSupabaseServer()
+  if (!supabase) return null
+
   const { data: orders } = await supabase
     .from('orders')
     .select('customer_name, customer_phone, shipping_address')

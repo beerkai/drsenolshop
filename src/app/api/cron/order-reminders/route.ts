@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════
-// GET /api/cron/order-reminders — Vercel Cron (saatlik)
+// GET /api/cron/order-reminders — Vercel Cron (günlük; Hobby plan uyumu)
 // ─ status='pending' & payment_status='pending' siparişlerden hatırlatma
 //   gönderilmemiş olanlara e-posta atar.
 // ─ Cadans:

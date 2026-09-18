@@ -5,7 +5,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { NextResponse } from 'next/server'
-import { getSupabaseServer } from '@/lib/supabase-server'
+import { requireSupabaseServer } from '@/lib/supabase-server'
 
 export async function POST(request: Request) {
   let body: { email?: string; password?: string }
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: 'E-mail ve şifre gerekli.' }, { status: 400 })
   }
 
-  const supabase = await getSupabaseServer()
+  const supabase = await requireSupabaseServer()
 
   // 1) Supabase Auth ile giriş
   const { data: authData, error: authErr } = await supabase.auth.signInWithPassword({ email, password })
