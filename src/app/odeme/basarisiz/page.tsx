@@ -21,7 +21,7 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
       <Header />
       <main
         style={{
-          background: 'var(--color-ink)',
+          background: 'var(--color-surface)',
           minHeight: '70vh',
           display: 'flex',
           alignItems: 'center',
@@ -35,15 +35,15 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
               width: '72px',
               height: '72px',
               borderRadius: '50%',
-              background: 'var(--color-ink-3)',
-              border: '1px solid rgba(244,240,232,0.15)',
+              background: 'var(--color-surface-container)',
+              border: '1px solid var(--color-hairline-light)',
               margin: '0 auto 32px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke='var(--color-cream-muted)' strokeWidth="2" aria-hidden>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke='var(--color-on-surface-variant)' strokeWidth="2" aria-hidden>
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
@@ -51,10 +51,10 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
 
           <p
             style={{
-              fontFamily: 'var(--font-mono)',
+              fontFamily: 'var(--font-label-spec)',
               fontSize: 'clamp(10px, 2vw, 11px)',
               letterSpacing: '0.3em',
-              color: 'var(--color-cream-muted)',
+              color: 'var(--color-on-surface-variant)',
               textTransform: 'uppercase',
               margin: '0 0 16px',
             }}
@@ -64,10 +64,10 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
 
           <h1
             style={{
-              fontFamily: 'var(--font-display)',
+              fontFamily: 'var(--font-headline-lg)',
               fontSize: 'clamp(28px, 5vw, 44px)',
               fontWeight: 500,
-              color: 'var(--color-cream)',
+              color: 'var(--color-on-surface)',
               margin: '0 0 24px',
               lineHeight: 1.2,
             }}
@@ -79,7 +79,7 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
             style={{
               fontSize: 'clamp(14px, 2.5vw, 16px)',
               lineHeight: 1.7,
-              color: 'var(--color-cream-muted)',
+              color: 'var(--color-on-surface-variant)',
               margin: '0 0 32px',
             }}
           >
@@ -94,9 +94,9 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
                 style={{
                   display: 'inline-block',
                   padding: '16px 32px',
-                  background: 'var(--color-gold)',
-                  color: 'var(--color-ink)',
-                  fontFamily: 'var(--font-mono)',
+                  background: 'var(--color-charcoal-pure)',
+                  color: 'var(--color-surface-container-lowest)',
+                  fontFamily: 'var(--font-label-spec)',
                   fontSize: '11px',
                   letterSpacing: '0.3em',
                   textTransform: 'uppercase',
@@ -112,9 +112,9 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
                 style={{
                   display: 'inline-block',
                   padding: '16px 32px',
-                  background: 'var(--color-gold)',
-                  color: 'var(--color-ink)',
-                  fontFamily: 'var(--font-mono)',
+                  background: 'var(--color-charcoal-pure)',
+                  color: 'var(--color-surface-container-lowest)',
+                  fontFamily: 'var(--font-label-spec)',
                   fontSize: '11px',
                   letterSpacing: '0.3em',
                   textTransform: 'uppercase',
@@ -131,9 +131,9 @@ export default async function OdemeBasarisizPage({ searchParams }: { searchParam
                 display: 'inline-block',
                 padding: '16px 32px',
                 background: 'transparent',
-                color: 'var(--color-cream)',
-                border: '1px solid rgba(244,240,232,0.2)',
-                fontFamily: 'var(--font-mono)',
+                color: 'var(--color-on-surface)',
+                border: '1px solid var(--color-hairline-light)',
+                fontFamily: 'var(--font-label-spec)',
                 fontSize: '11px',
                 letterSpacing: '0.3em',
                 textTransform: 'uppercase',

@@ -107,7 +107,7 @@ export default function LoginForm({ next }: { next: string }) {
 
       {error && (
         <div role="alert" style={errorBoxStyle}>
-          <span aria-hidden style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', flexShrink: 0 }}>✕</span>
+          <span aria-hidden style={{ fontFamily: 'var(--font-label-spec)', fontSize: '11px', flexShrink: 0 }}>✕</span>
           <span style={{ flex: 1 }}>{error}</span>
         </div>
       )}
@@ -126,8 +126,8 @@ export default function LoginForm({ next }: { next: string }) {
 
       {resendSent && (
         <div role="status" style={infoBoxStyle}>
-          <span aria-hidden style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', flexShrink: 0, color: 'var(--color-gold)' }}>✓</span>
-          <span><strong style={{ color: 'var(--color-cream)' }}>{email}</strong> adresine yeni onay linki gönderildi. Gelen kutunuzu kontrol edin.</span>
+          <span aria-hidden style={{ fontFamily: 'var(--font-label-spec)', fontSize: '11px', flexShrink: 0, color: 'var(--color-honey-amber)' }}>✓</span>
+          <span><strong style={{ color: 'var(--color-on-surface)' }}>{email}</strong> adresine yeni onay linki gönderildi. Gelen kutunuzu kontrol edin.</span>
         </div>
       )}
 
@@ -142,7 +142,7 @@ export default function LoginForm({ next }: { next: string }) {
         }}
       >
         {loading ? 'Giriş yapılıyor…' : 'Giriş yap'}
-        {!loading && <span style={{ fontFamily: 'var(--font-mono)', opacity: 0.7 }}>→</span>}
+        {!loading && <span style={{ fontFamily: 'var(--font-label-spec)', opacity: 0.7 }}>→</span>}
       </button>
     </form>
   )
@@ -159,21 +159,21 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 const labelStyle: React.CSSProperties = {
   display: 'block',
-  fontFamily: 'var(--font-mono)',
+  fontFamily: 'var(--font-label-spec)',
   fontSize: '10px',
   letterSpacing: '0.22em',
   textTransform: 'uppercase',
-  color: 'var(--color-cream-muted)',
+  color: 'var(--color-on-surface-variant)',
   marginBottom: '8px',
 }
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '13px 14px',
-  backgroundColor: 'rgba(244,240,232,0.04)',
-  border: '1px solid rgba(244,240,232,0.15)',
-  color: 'var(--color-cream)',
-  fontFamily: 'var(--font-mono)',
+  backgroundColor: 'var(--color-hairline-light)',
+  border: '1px solid var(--color-hairline-light)',
+  color: 'var(--color-on-surface)',
+  fontFamily: 'var(--font-label-spec)',
   fontSize: '14px',
   letterSpacing: '0.02em',
   outline: 'none',
@@ -187,8 +187,8 @@ const togglePwStyle: React.CSSProperties = {
   transform: 'translateY(-50%)',
   background: 'transparent',
   border: 'none',
-  color: 'var(--color-cream-muted)',
-  fontFamily: 'var(--font-mono)',
+  color: 'var(--color-on-surface-variant)',
+  fontFamily: 'var(--font-label-spec)',
   fontSize: '10px',
   letterSpacing: '0.15em',
   textTransform: 'uppercase',
@@ -198,9 +198,9 @@ const togglePwStyle: React.CSSProperties = {
 
 const errorBoxStyle: React.CSSProperties = {
   padding: '12px 14px',
-  border: '1px solid var(--color-alert-soft)',
+  border: '1px solid var(--color-error)',
   backgroundColor: 'rgba(209,123,106,0.08)',
-  color: 'var(--color-alert-soft)',
+  color: 'var(--color-error)',
   fontSize: '13px',
   marginBottom: '18px',
   display: 'flex',
@@ -212,9 +212,9 @@ const altBtnStyle: React.CSSProperties = {
   width: '100%',
   padding: '14px',
   backgroundColor: 'transparent',
-  border: '1px solid var(--color-gold)',
-  color: 'var(--color-gold)',
-  fontFamily: 'var(--font-mono)',
+  border: '1px solid var(--color-honey-amber)',
+  color: 'var(--color-honey-amber)',
+  fontFamily: 'var(--font-label-spec)',
   fontSize: '12px',
   letterSpacing: '0.22em',
   textTransform: 'uppercase',
@@ -230,8 +230,8 @@ const altBtnStyle: React.CSSProperties = {
 
 const infoBoxStyle: React.CSSProperties = {
   padding: '12px 14px',
-  border: '1px solid var(--color-gold)',
-  backgroundColor: 'rgba(201,169,97,0.08)',
+  border: '1px solid var(--color-honey-amber)',
+  backgroundColor: 'var(--color-hairline-light)',
   color: '#E5DDC8',
   fontSize: '13px',
   lineHeight: 1.6,
@@ -244,10 +244,10 @@ const infoBoxStyle: React.CSSProperties = {
 const submitBtnStyle: React.CSSProperties = {
   width: '100%',
   padding: '15px',
-  backgroundColor: 'var(--color-gold)',
-  border: '1px solid var(--color-gold)',
-  color: 'var(--color-ink)',
-  fontFamily: 'var(--font-mono)',
+  backgroundColor: 'var(--color-charcoal-pure)',
+  border: '1px solid var(--color-honey-amber)',
+  color: 'var(--color-surface)',
+  fontFamily: 'var(--font-label-spec)',
   fontSize: '12px',
   letterSpacing: '0.28em',
   textTransform: 'uppercase',

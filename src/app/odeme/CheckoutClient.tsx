@@ -90,12 +90,14 @@ function buildInitial(prefill: CheckoutPrefill | null | undefined): FormState {
   }
 }
 
+// Editorial Minimal — form alanları (Stitch: kare, hairline, zeminsiz)
 const LABEL_STYLE: React.CSSProperties = {
   display: 'block',
-  fontFamily: 'var(--font-mono)',
-  fontSize: '10px',
-  letterSpacing: '0.22em',
-  color: 'var(--color-cream-faint)',
+  fontFamily: 'var(--font-editorial-caption)',
+  fontSize: '11px',
+  lineHeight: '16px',
+  letterSpacing: '0.12em',
+  color: 'var(--color-on-surface-variant)',
   textTransform: 'uppercase',
   marginBottom: '8px',
 }
@@ -103,11 +105,11 @@ const LABEL_STYLE: React.CSSProperties = {
 const INPUT_STYLE: React.CSSProperties = {
   width: '100%',
   padding: '14px 16px',
-  backgroundColor: 'rgba(244,240,232,0.04)',
-  border: '1px solid rgba(244,240,232,0.12)',
-  color: 'var(--color-cream)',
+  backgroundColor: 'var(--color-surface-container-lowest)',
+  border: '1px solid var(--color-hairline-light)',
+  color: 'var(--color-on-surface)',
   fontSize: '14px',
-  fontFamily: 'var(--font-sans)',
+  fontFamily: 'var(--font-body-md)',
   outline: 'none',
   transition: 'border-color 0.2s',
 }
@@ -274,17 +276,17 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
   // ─── Boş sepet
   if (!validating && items.length === 0) {
     return (
-      <div className="px-responsive" style={{ maxWidth: '720px', margin: '0 auto', padding: '96px 0', textAlign: 'center' }}>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 16px' }}>
+      <div className="px-margin" style={{ maxWidth: '720px', margin: '0 auto', padding: '96px 0', textAlign: 'center' }}>
+        <p style={{ fontFamily: 'var(--font-label-spec)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-honey-amber)', textTransform: 'uppercase', margin: '0 0 16px' }}>
           Ödeme
         </p>
-        <h1 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 500, margin: '0 0 24px' }}>
+        <h1 style={{ fontFamily: 'var(--font-headline-lg)', color: 'var(--color-on-surface)', fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 500, margin: '0 0 24px' }}>
           Sepetiniz boş.
         </h1>
-        <p style={{ color: 'var(--color-cream-muted)', fontSize: '14px', marginBottom: '32px' }}>
+        <p style={{ color: 'var(--color-on-surface-variant)', fontSize: '14px', marginBottom: '32px' }}>
           Önce sepetinize ürün ekleyin.
         </p>
-        <Link href="/koleksiyon" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '14px 28px', backgroundColor: 'var(--color-gold)', color: 'var(--color-ink)', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.25em', textTransform: 'uppercase', textDecoration: 'none' }}>
+        <Link href="/koleksiyon" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '14px 28px', backgroundColor: 'var(--color-charcoal-pure)', color: 'var(--color-surface-container-lowest)', fontFamily: 'var(--font-label-spec)', fontSize: '11px', letterSpacing: '0.25em', textTransform: 'uppercase', textDecoration: 'none' }}>
           Koleksiyona Git →
         </Link>
       </div>
@@ -294,8 +296,8 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
   // ─── Yükleniyor
   if (validating) {
     return (
-      <div className="px-responsive" style={{ maxWidth: '720px', margin: '0 auto', padding: '96px 0', textAlign: 'center' }}>
-        <p style={{ color: 'var(--color-cream-faint)', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+      <div className="px-margin" style={{ maxWidth: '720px', margin: '0 auto', padding: '96px 0', textAlign: 'center' }}>
+        <p style={{ color: 'var(--color-outline)', fontFamily: 'var(--font-label-spec)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
           Sepet doğrulanıyor…
         </p>
       </div>
@@ -305,14 +307,14 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
   // ─── Doğrulama hatası
   if (validationError || !validated) {
     return (
-      <div className="px-responsive" style={{ maxWidth: '720px', margin: '0 auto', padding: '96px 0', textAlign: 'center' }}>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-alert)', textTransform: 'uppercase', margin: '0 0 16px' }}>
+      <div className="px-margin" style={{ maxWidth: '720px', margin: '0 auto', padding: '96px 0', textAlign: 'center' }}>
+        <p style={{ fontFamily: 'var(--font-label-spec)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-error)', textTransform: 'uppercase', margin: '0 0 16px' }}>
           Hata
         </p>
-        <p style={{ color: 'var(--color-cream)', fontSize: '16px', marginBottom: '32px' }}>
+        <p style={{ color: 'var(--color-on-surface)', fontSize: '16px', marginBottom: '32px' }}>
           {validationError ?? 'Sepet doğrulanamadı.'}
         </p>
-        <Link href="/koleksiyon" style={{ color: 'var(--color-gold)', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', textDecoration: 'none' }}>
+        <Link href="/koleksiyon" style={{ color: 'var(--color-honey-amber)', fontFamily: 'var(--font-label-spec)', fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', textDecoration: 'none' }}>
           ← Alışverişe Dön
         </Link>
       </div>
@@ -320,7 +322,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
   }
 
   return (
-    <div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto', paddingTop: '40px', paddingBottom: '80px' }}>
+    <div className="px-margin" style={{ maxWidth: '1200px', margin: '0 auto', paddingTop: '40px', paddingBottom: '80px' }}>
       <style>{`
         .checkout-grid {
           display: grid;
@@ -331,9 +333,9 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
         .checkout-summary {
           position: sticky;
           top: 108px;
-          background-color: var(--color-ink-2);
+          background-color: var(--color-surface-container-low);
           padding: 28px;
-          border: 1px solid rgba(244,240,232,0.06);
+          border: 1px solid var(--color-hairline-light);
         }
         .form-row-2 {
           display: grid;
@@ -345,15 +347,15 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
           .checkout-summary { position: static; padding: 20px; }
           .form-row-2 { grid-template-columns: 1fr; }
         }
-        .ck-input:focus { border-color: var(--color-gold) !important; }
+        .ck-input:focus { border-color: var(--color-honey-amber) !important; }
       `}</style>
 
       {/* Header */}
       <div style={{ marginBottom: '40px' }}>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 14px' }}>
+        <p style={{ fontFamily: 'var(--font-label-spec)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-honey-amber)', textTransform: 'uppercase', margin: '0 0 14px' }}>
           Adım 1 / 1 · Ödeme
         </p>
-        <h1 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 500, lineHeight: 1.1, margin: 0 }}>
+        <h1 style={{ fontFamily: 'var(--font-headline-lg)', color: 'var(--color-on-surface)', fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 500, lineHeight: 1.1, margin: 0 }}>
           Sipariş bilgileri.
         </h1>
       </div>
@@ -366,8 +368,8 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
             style={{
               marginBottom: '24px',
               padding: '12px 16px',
-              border: '1px solid rgba(201,169,97,0.4)',
-              backgroundColor: 'rgba(201,169,97,0.06)',
+              border: '1px solid var(--color-hairline-light)',
+              backgroundColor: 'var(--color-hairline-light)',
               color: '#E5DDC8',
               fontSize: '13px',
               display: 'flex',
@@ -378,7 +380,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
             }}
           >
             <span>
-              <span style={{ color: 'var(--color-gold)', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', marginRight: '8px' }}>✓ Hesap</span>
+              <span style={{ color: 'var(--color-honey-amber)', fontFamily: 'var(--font-label-spec)', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', marginRight: '8px' }}>✓ Hesap</span>
               Önceki siparişinizdeki adres otomatik dolduruldu. Düzenleyebilirsiniz.
             </span>
           </div>
@@ -389,9 +391,9 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
           style={{
             marginBottom: '24px',
             padding: '12px 16px',
-            border: '1px solid rgba(244,240,232,0.1)',
-            backgroundColor: 'rgba(244,240,232,0.02)',
-            color: 'var(--color-cream-muted)',
+            border: '1px solid var(--color-hairline-light)',
+            backgroundColor: 'var(--color-hairline-light)',
+            color: 'var(--color-on-surface-variant)',
             fontSize: '13px',
             display: 'flex',
             alignItems: 'center',
@@ -404,11 +406,11 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
           <Link
             href="/giris?next=/odeme"
             style={{
-              fontFamily: 'var(--font-mono)',
+              fontFamily: 'var(--font-label-spec)',
               fontSize: '11px',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
-              color: 'var(--color-gold)',
+              color: 'var(--color-honey-amber)',
               textDecoration: 'none',
             }}
           >
@@ -422,7 +424,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
         <form onSubmit={handleSubmit} noValidate>
           {/* İletişim */}
           <section style={{ marginBottom: '40px' }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
+            <h2 style={{ fontFamily: 'var(--font-headline-lg)', color: 'var(--color-on-surface)', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
               İletişim
             </h2>
             <div style={{ marginBottom: '16px' }}>
@@ -443,7 +445,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
 
           {/* Teslimat Adresi */}
           <section style={{ marginBottom: '40px' }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
+            <h2 style={{ fontFamily: 'var(--font-headline-lg)', color: 'var(--color-on-surface)', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
               Teslimat Adresi
             </h2>
             <div style={{ marginBottom: '16px' }}>
@@ -472,15 +474,15 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
 
           {/* Notlar */}
           <section style={{ marginBottom: '40px' }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
-              Sipariş Notu <span style={{ color: 'var(--color-cream-faint)', fontFamily: 'var(--font-mono)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', marginLeft: '8px' }}>(ops.)</span>
+            <h2 style={{ fontFamily: 'var(--font-headline-lg)', color: 'var(--color-on-surface)', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
+              Sipariş Notu <span style={{ color: 'var(--color-outline)', fontFamily: 'var(--font-label-spec)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em', marginLeft: '8px' }}>(ops.)</span>
             </h2>
-            <textarea className="ck-input" rows={3} value={form.notes} onChange={(e) => updateField('notes', e.target.value)} style={{ ...INPUT_STYLE, resize: 'vertical', minHeight: '90px', fontFamily: 'var(--font-sans)' }} placeholder="Teslimat tercihi, fatura bilgisi vb." />
+            <textarea className="ck-input" rows={3} value={form.notes} onChange={(e) => updateField('notes', e.target.value)} style={{ ...INPUT_STYLE, resize: 'vertical', minHeight: '90px', fontFamily: 'var(--font-body-md)' }} placeholder="Teslimat tercihi, fatura bilgisi vb." />
           </section>
 
           {/* Ödeme yöntemi */}
           <section style={{ marginBottom: '40px' }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
+            <h2 style={{ fontFamily: 'var(--font-headline-lg)', color: 'var(--color-on-surface)', fontSize: '20px', fontWeight: 500, marginBottom: '20px' }}>
               Ödeme Yöntemi
             </h2>
 
@@ -504,20 +506,20 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
           </section>
 
           {/* Mesafeli satış sözleşmesi onayı (tüketici hakkı bildirimi) */}
-          <p style={{ fontSize: '12px', color: 'var(--color-cream-muted)', lineHeight: 1.7, margin: '0 0 20px', padding: '14px 16px', border: '1px solid rgba(244,240,232,0.08)', backgroundColor: 'rgba(244,240,232,0.02)' }}>
+          <p style={{ fontSize: '12px', color: 'var(--color-on-surface-variant)', lineHeight: 1.7, margin: '0 0 20px', padding: '14px 16px', border: '1px solid var(--color-hairline-light)', backgroundColor: 'var(--color-hairline-light)' }}>
             Siparişi tamamlayarak{' '}
-            <Link href="/on-bilgilendirme-formu" target="_blank" rel="noopener" style={{ color: 'var(--color-gold)', textDecoration: 'underline' }}>
+            <Link href="/on-bilgilendirme-formu" target="_blank" rel="noopener" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
               Ön Bilgilendirme Formu
             </Link>
             &apos;nu okuduğunuzu, ön bilgilerin tarafınıza iletildiğini ve{' '}
-            <Link href="/mesafeli-satis-sozlesmesi" target="_blank" rel="noopener" style={{ color: 'var(--color-gold)', textDecoration: 'underline' }}>
+            <Link href="/mesafeli-satis-sozlesmesi" target="_blank" rel="noopener" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
               Mesafeli Satış Sözleşmesi
             </Link>
             &apos;ni elektronik ortamda kabul ettiğinizi beyan etmiş olursunuz.
           </p>
 
           {submitError && (
-            <div style={{ padding: '14px 16px', border: '1px solid var(--color-alert)', backgroundColor: 'rgba(200,71,45,0.08)', color: 'var(--color-cream)', fontSize: '13px', marginBottom: '20px' }}>
+            <div style={{ padding: '14px 16px', border: '1px solid var(--color-error)', backgroundColor: 'rgba(200,71,45,0.08)', color: 'var(--color-on-surface)', fontSize: '13px', marginBottom: '20px' }}>
               {submitError}
             </div>
           )}
@@ -526,9 +528,9 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
             style={{
               width: '100%',
               padding: '20px',
-              backgroundColor: submitting ? 'var(--color-gold-deep)' : 'var(--color-gold)',
-              color: 'var(--color-ink)',
-              fontFamily: 'var(--font-mono)',
+              backgroundColor: submitting ? 'var(--color-honey-amber)' : 'var(--color-honey-amber)',
+              color: 'var(--color-surface)',
+              fontFamily: 'var(--font-label-spec)',
               fontSize: '12px',
               letterSpacing: '0.28em',
               textTransform: 'uppercase',
@@ -541,14 +543,14 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
 
         {/* SAĞ — Özet */}
         <aside className="checkout-summary">
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-gold)', textTransform: 'uppercase', margin: '0 0 20px' }}>
+          <p style={{ fontFamily: 'var(--font-label-spec)', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--color-honey-amber)', textTransform: 'uppercase', margin: '0 0 20px' }}>
             Sipariş Özeti
           </p>
 
           <div style={{ marginBottom: '24px' }}>
             {validated.lines.map((line) => (
-              <div key={`${line.productId}:${line.variantId ?? 'base'}`} style={{ display: 'flex', gap: '14px', paddingBottom: '16px', marginBottom: '16px', borderBottom: '1px solid rgba(244,240,232,0.06)' }}>
-                <div style={{ width: '60px', height: '75px', flexShrink: 0, backgroundColor: 'var(--color-ink)', position: 'relative' }}>
+              <div key={`${line.productId}:${line.variantId ?? 'base'}`} style={{ display: 'flex', gap: '14px', paddingBottom: '16px', marginBottom: '16px', borderBottom: '1px solid var(--color-hairline-light)' }}>
+                <div style={{ width: '60px', height: '75px', flexShrink: 0, backgroundColor: 'var(--color-surface)', position: 'relative' }}>
                   {line.image ? (
                     <Image src={line.image} alt={line.name} fill sizes="60px" style={{ objectFit: 'cover' }} />
                   ) : (
@@ -556,20 +558,20 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
                   )}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '15px', fontWeight: 500, lineHeight: 1.3, margin: '0 0 4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <p style={{ fontFamily: 'var(--font-headline-lg)', color: 'var(--color-on-surface)', fontSize: '15px', fontWeight: 500, lineHeight: 1.3, margin: '0 0 4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {line.name}
                   </p>
                   {line.variantLabel && (
-                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.18em', color: 'var(--color-cream-faint)', textTransform: 'uppercase', margin: '0 0 6px' }}>
+                    <p style={{ fontFamily: 'var(--font-label-spec)', fontSize: '9px', letterSpacing: '0.18em', color: 'var(--color-outline)', textTransform: 'uppercase', margin: '0 0 6px' }}>
                       {line.variantLabel}
                     </p>
                   )}
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-cream-muted)', margin: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-label-spec)', fontSize: '11px', color: 'var(--color-on-surface-variant)', margin: 0 }}>
                     {line.quantity} × {formatPrice(line.unitPrice)}
                   </p>
                 </div>
                 <div style={{ flexShrink: 0 }}>
-                  <p style={{ fontFamily: 'var(--font-display)', color: 'var(--color-cream)', fontSize: '15px', fontWeight: 500, margin: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-headline-lg)', color: 'var(--color-on-surface)', fontSize: '15px', fontWeight: 500, margin: 0 }}>
                     {formatPrice(line.unitPrice * line.quantity)}
                   </p>
                 </div>
@@ -577,16 +579,16 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
             ))}
           </div>
 
-          <div style={{ borderTop: '1px solid rgba(244,240,232,0.08)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-cream-muted)' }}>
+          <div style={{ borderTop: '1px solid var(--color-hairline-light)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-label-spec)', fontSize: '12px', color: 'var(--color-on-surface-variant)' }}>
               <span>Ara Toplam</span>
               <span>{formatPrice(validated.totals.subtotal)}</span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-cream-faint)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-label-spec)', fontSize: '11px', color: 'var(--color-outline)' }}>
               <span>· içerisinde KDV</span>
               <span>{formatPrice(validated.totals.taxAmount)}</span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-cream-muted)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-label-spec)', fontSize: '12px', color: 'var(--color-on-surface-variant)' }}>
               <span>Kargo</span>
               {validated.totals.shippingCost > 0 ? (
                 <span>{formatPrice(validated.totals.shippingCost)}</span>
@@ -595,15 +597,15 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
               )}
             </div>
             {validated.shipping && validated.shipping.flat_fee > 0 && validated.shipping.free_threshold > 0 && validated.totals.shippingCost > 0 && (
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.12em', color: 'var(--color-gold)', margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-label-spec)', fontSize: '10px', letterSpacing: '0.12em', color: 'var(--color-honey-amber)', margin: 0 }}>
                 · Ücretsiz kargoya {formatPrice(Math.max(0, validated.shipping.free_threshold - validated.totals.subtotal))} kaldı
               </p>
             )}
             {appliedCoupon && (
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-success-soft)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-label-spec)', fontSize: '12px', color: 'var(--color-success)' }}>
                 <span>
                   İndirim ·{' '}
-                  <span style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>{appliedCoupon.code}</span>
+                  <span style={{ fontFamily: 'var(--font-label-spec)', letterSpacing: '0.1em' }}>{appliedCoupon.code}</span>
                 </span>
                 <span>-{formatPrice(appliedCoupon.discount)}</span>
               </div>
@@ -611,25 +613,25 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
           </div>
 
           {/* Kupon alanı */}
-          <div style={{ borderTop: '1px solid rgba(244,240,232,0.08)', marginTop: '16px', paddingTop: '16px' }}>
+          <div style={{ borderTop: '1px solid var(--color-hairline-light)', marginTop: '16px', paddingTop: '16px' }}>
             {appliedCoupon ? (
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 12px', border: '1px solid rgba(122,173,139,0.4)', backgroundColor: 'rgba(122,173,139,0.06)' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#E5DDC8' }}>
-                  <span style={{ color: 'var(--color-success-soft)', marginRight: '6px' }}>✓</span>
-                  Kupon uygulandı: <strong style={{ color: 'var(--color-cream)', letterSpacing: '0.06em' }}>{appliedCoupon.code}</strong>
+                <div style={{ fontFamily: 'var(--font-label-spec)', fontSize: '11px', color: '#E5DDC8' }}>
+                  <span style={{ color: 'var(--color-success)', marginRight: '6px' }}>✓</span>
+                  Kupon uygulandı: <strong style={{ color: 'var(--color-on-surface)', letterSpacing: '0.06em' }}>{appliedCoupon.code}</strong>
                 </div>
                 <button
                   type="button"
                   onClick={removeCoupon}
                   aria-label="Kuponu kaldır"
-                  style={{ background: 'transparent', border: 'none', color: 'var(--color-cream-muted)', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', cursor: 'pointer', padding: '4px 6px' }}
+                  style={{ background: 'transparent', border: 'none', color: 'var(--color-on-surface-variant)', fontFamily: 'var(--font-label-spec)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', cursor: 'pointer', padding: '4px 6px' }}
                 >
                   Kaldır
                 </button>
               </div>
             ) : (
               <>
-                <label htmlFor="coupon-code" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--color-cream-faint)', marginBottom: '6px' }}>
+                <label htmlFor="coupon-code" style={{ display: 'block', fontFamily: 'var(--font-label-spec)', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--color-outline)', marginBottom: '6px' }}>
                   Kupon kodu (opsiyonel)
                 </label>
                 <div style={{ display: 'flex', gap: '8px' }}>
@@ -641,7 +643,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
                     onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
                     placeholder="KUPON"
                     autoCapitalize="characters"
-                    style={{ ...INPUT_STYLE, padding: '11px 12px', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}
+                    style={{ ...INPUT_STYLE, padding: '11px 12px', fontFamily: 'var(--font-label-spec)', letterSpacing: '0.1em' }}
                   />
                   <button
                     type="button"
@@ -650,9 +652,9 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
                     style={{
                       padding: '0 16px',
                       backgroundColor: 'transparent',
-                      border: '1px solid var(--color-gold)',
-                      color: 'var(--color-gold)',
-                      fontFamily: 'var(--font-mono)',
+                      border: '1px solid var(--color-honey-amber)',
+                      color: 'var(--color-honey-amber)',
+                      fontFamily: 'var(--font-label-spec)',
                       fontSize: '11px',
                       letterSpacing: '0.22em',
                       textTransform: 'uppercase',
@@ -665,7 +667,7 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
                   </button>
                 </div>
                 {couponError && (
-                  <p role="alert" style={{ marginTop: '8px', fontSize: '12px', color: 'var(--color-alert-soft)', fontFamily: 'var(--font-sans)' }}>
+                  <p role="alert" style={{ marginTop: '8px', fontSize: '12px', color: 'var(--color-error)', fontFamily: 'var(--font-body-md)' }}>
                     {couponError}
                   </p>
                 )}
@@ -673,9 +675,9 @@ export default function CheckoutClient({ prefill, paytrEnabled = false, bankTran
             )}
           </div>
 
-          <div style={{ borderTop: '1px solid rgba(244,240,232,0.12)', marginTop: '20px', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.22em', color: 'var(--color-cream)', textTransform: 'uppercase' }}>Toplam</span>
-            <span style={{ fontFamily: 'var(--font-display)', color: 'var(--color-gold)', fontSize: '28px', fontWeight: 500 }}>
+          <div style={{ borderTop: '1px solid var(--color-hairline-light)', marginTop: '20px', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+            <span style={{ fontFamily: 'var(--font-label-spec)', fontSize: '11px', letterSpacing: '0.22em', color: 'var(--color-on-surface)', textTransform: 'uppercase' }}>Toplam</span>
+            <span style={{ fontFamily: 'var(--font-headline-lg)', color: 'var(--color-honey-amber)', fontSize: '28px', fontWeight: 500 }}>
               {formatPrice(Math.max(0, validated.totals.total - (appliedCoupon?.discount ?? 0)))}
             </span>
           </div>
@@ -706,8 +708,8 @@ function PaymentOption({
         width: '100%',
         textAlign: 'left',
         padding: '20px',
-        border: `1px solid ${selected ? 'var(--color-gold)' : 'rgba(244,240,232,0.12)'}`,
-        backgroundColor: selected ? 'rgba(201,169,97,0.05)' : 'transparent',
+        border: `1px solid ${selected ? 'var(--color-honey-amber)' : 'var(--color-hairline-light)'}`,
+        backgroundColor: selected ? 'var(--color-hairline-light)' : 'transparent',
         marginBottom: '12px',
         cursor: 'pointer',
         transition: 'border-color 0.15s, background-color 0.15s',
@@ -719,16 +721,16 @@ function PaymentOption({
             width: '14px',
             height: '14px',
             borderRadius: '50%',
-            border: '1px solid var(--color-gold)',
-            backgroundColor: selected ? 'var(--color-gold)' : 'transparent',
+            border: '1px solid var(--color-honey-amber)',
+            backgroundColor: selected ? 'var(--color-honey-amber)' : 'transparent',
             flexShrink: 0,
           }}
         />
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.18em', color: 'var(--color-cream)', textTransform: 'uppercase', margin: 0 }}>
+        <p style={{ fontFamily: 'var(--font-label-spec)', fontSize: '12px', letterSpacing: '0.18em', color: 'var(--color-on-surface)', textTransform: 'uppercase', margin: 0 }}>
           {title}
         </p>
       </div>
-      <p style={{ color: 'var(--color-cream-muted)', fontSize: '13px', lineHeight: 1.6, margin: 0 }}>
+      <p style={{ color: 'var(--color-on-surface-variant)', fontSize: '13px', lineHeight: 1.6, margin: 0 }}>
         {desc}
       </p>
     </button>

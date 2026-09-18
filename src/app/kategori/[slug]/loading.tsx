@@ -6,12 +6,12 @@ export default function KategoriLoading() {
   return (
     <>
       <Header />
-      <main style={{ backgroundColor: 'var(--color-ink)', minHeight: '70vh' }}>
+      <main style={{ backgroundColor: 'var(--color-surface)', minHeight: '70vh' }}>
         {/* Kategori Hero */}
         <section style={{ paddingTop: 'clamp(48px, 8vw, 96px)', paddingBottom: 'clamp(40px, 6vw, 72px)' }}>
-          <div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+          <div className="px-margin" style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
             <SkeletonBox width={140} height={11} style={{ marginBottom: '20px' }} />
-            <SkeletonBox width={60} height={1} style={{ marginBottom: '32px', background: 'var(--color-gold)' }} />
+            <SkeletonBox width={60} height={1} style={{ marginBottom: '32px', background: 'var(--color-charcoal-pure)' }} />
             <SkeletonBox width="60%" height={56} style={{ maxWidth: 520, marginBottom: '20px' }} />
             <SkeletonBox width="45%" height={16} style={{ maxWidth: 420 }} />
           </div>
@@ -19,18 +19,18 @@ export default function KategoriLoading() {
 
         {/* Grid */}
         <section style={{ paddingBottom: '96px' }}>
-          <div className="px-responsive" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div className="px-margin" style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
                 gap: '1px',
-                background: 'rgba(244,240,232,0.06)',
-                border: '1px solid rgba(244,240,232,0.06)',
+                background: 'var(--color-hairline-light)',
+                border: '1px solid var(--color-hairline-light)',
               }}
             >
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} style={{ background: 'var(--color-ink)' }}>
+                <div key={i} style={{ background: 'var(--color-surface)' }}>
                   <SkeletonBox width="100%" height={320} />
                   <div style={{ padding: '18px 22px' }}>
                     <SkeletonBox width={80} height={10} style={{ marginBottom: '12px' }} />

@@ -6,9 +6,9 @@ export default function KoleksiyonLoading() {
   return (
     <>
       <Header />
-      <main style={{ backgroundColor: 'var(--color-ink)', minHeight: '70vh' }}>
+      <main style={{ backgroundColor: 'var(--color-surface)', minHeight: '70vh' }}>
         <div
-          className="px-responsive"
+          className="px-margin"
           style={{ maxWidth: '1440px', margin: '0 auto', paddingTop: '48px', paddingBottom: '64px' }}
         >
           {/* Başlık skeleton */}
@@ -38,12 +38,12 @@ export default function KoleksiyonLoading() {
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
               gap: '1px',
-              background: 'rgba(244,240,232,0.06)',
-              border: '1px solid rgba(244,240,232,0.06)',
+              background: 'var(--color-hairline-light)',
+              border: '1px solid var(--color-hairline-light)',
             }}
           >
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} style={{ background: 'var(--color-ink)', padding: '0' }}>
+              <div key={i} style={{ background: 'var(--color-surface)', padding: '0' }}>
                 <SkeletonBox width="100%" height={320} />
                 <div style={{ padding: '18px 22px' }}>
                   <SkeletonBox width={80} height={10} style={{ marginBottom: '12px' }} />
@@ -51,7 +51,7 @@ export default function KoleksiyonLoading() {
                   <SkeletonBox width="90%" height={14} style={{ marginBottom: '22px' }} />
                   <SkeletonBox width={100} height={22} />
                 </div>
-                <div style={{ borderTop: '1px solid rgba(244,240,232,0.08)', padding: '18px' }}>
+                <div style={{ borderTop: '1px solid var(--color-hairline-light)', padding: '18px' }}>
                   <SkeletonBox width="50%" height={11} />
                 </div>
               </div>

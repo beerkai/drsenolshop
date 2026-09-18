@@ -73,7 +73,7 @@ export default function CerezPolitikasiPage() {
       />
 
       <InfoBox title="Sorularınız için">
-        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-gold)' }}>{co.email}</a>
+        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>{co.email}</a>
       </InfoBox>
     </StaticPageLayout>
   )

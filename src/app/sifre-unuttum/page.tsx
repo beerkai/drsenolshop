@@ -14,16 +14,16 @@ export default function SifreUnuttumPage() {
   return (
     <>
       <Header />
-      <main style={{ background: 'var(--color-ink)', minHeight: '70vh' }}>
+      <main style={{ background: 'var(--color-surface)', minHeight: '70vh' }}>
         <AuthShell
           eyebrow="Hesap · Şifre"
-          title={<>Şifrenizi mi <span style={{ color: 'var(--color-gold)', fontStyle: 'italic', fontWeight: 300 }}>unuttunuz?</span></>}
+          title={<>Şifrenizi mi <span style={{ fontWeight: 300 }}>unuttunuz?</span></>}
           subtitle="E-posta adresinizi girin, sıfırlama linkini gönderelim."
         >
           <ResetForm />
 
-          <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid rgba(244,240,232,0.08)', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-            <a href="/giris" style={{ color: 'var(--color-gold)', textDecoration: 'none' }}>← Giriş sayfasına dön</a>
+          <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid var(--color-hairline-light)', textAlign: 'center', fontFamily: 'var(--font-label-spec)', fontSize: '11px', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+            <a href="/giris" className="ed-text-action" style={{ textDecoration: 'none' }}>← Giriş sayfasına dön</a>
           </div>
         </AuthShell>
       </main>

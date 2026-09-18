@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Cormorant_Garamond, DM_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
-import CookieConsent from '@/components/_deprecated/CookieConsent';
+import CookieConsent from '@/components/editorial/EditorialCookieConsent';
 import Analytics from '@/components/_deprecated/Analytics';
 import { organizationLd, websiteLd, toJsonLdScript } from '@/lib/jsonld';
 import { getSiteUrl } from '@/lib/site-url';
