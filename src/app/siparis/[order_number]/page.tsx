@@ -43,14 +43,17 @@ export default async function OrderPage({ params }: Props) {
   // eşleşiyor mu? Eşleşmezse kişisel verileri maskele (order_number enumerate
   // edilebildiği için yabancı sipariş numarasıyla erişen kişiye PII verme).
   const supabase = await getSupabaseServer()
-  const { data: { user } } = await supabase.auth.getUser()
-  const isOwner = Boolean(
-    user &&
-    (
-      (user.email && user.email.toLowerCase() === order.customer_email.toLowerCase()) ||
-      (order.user_id && user.id === order.user_id)
+  let isOwner = false
+  if (supabase) {
+    const { data: { user } } = await supabase.auth.getUser()
+    isOwner = Boolean(
+      user &&
+      (
+        (user.email && user.email.toLowerCase() === order.customer_email.toLowerCase()) ||
+        (order.user_id && user.id === order.user_id)
+      )
     )
-  )
+  }
 
   const ship = order.shipping_address as Record<string, string> | null
   const isBankTransfer = order.payment_method === 'bank_transfer'

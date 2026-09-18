@@ -20,6 +20,7 @@ export interface AdminContext {
 
 export async function getCurrentAdmin(): Promise<AdminContext | null> {
   const supabase = await getSupabaseServer()
+  if (!supabase) return null
   const { data: { user } } = await supabase.auth.getUser()
   if (!user || !user.email) return null
 

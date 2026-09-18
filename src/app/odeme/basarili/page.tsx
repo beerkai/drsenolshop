@@ -26,14 +26,16 @@ export default async function OdemeBasariliPage({ searchParams }: { searchParams
   let isOwner = false
   if (order) {
     const supabase = await getSupabaseServer()
-    const { data: { user } } = await supabase.auth.getUser()
-    isOwner = Boolean(
-      user &&
-      (
-        (user.email && user.email.toLowerCase() === order.customer_email.toLowerCase()) ||
-        (order.user_id && user.id === order.user_id)
+    if (supabase) {
+      const { data: { user } } = await supabase.auth.getUser()
+      isOwner = Boolean(
+        user &&
+        (
+          (user.email && user.email.toLowerCase() === order.customer_email.toLowerCase()) ||
+          (order.user_id && user.id === order.user_id)
+        )
       )
-    )
+    }
   }
   const displayEmail = order
     ? (isOwner ? order.customer_email : maskEmail(order.customer_email))

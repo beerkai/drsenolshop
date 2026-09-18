@@ -5,7 +5,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { NextResponse } from 'next/server'
-import { getSupabaseServer } from '@/lib/supabase-server'
+import { requireSupabaseServer } from '@/lib/supabase-server'
 
 export async function GET(request: Request) {
   const url = new URL(request.url)
@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL('/giris?error=callback', url))
   }
 
-  const supabase = await getSupabaseServer()
+  const supabase = await requireSupabaseServer()
   const { error } = await supabase.auth.exchangeCodeForSession(code)
   if (error) {
     return NextResponse.redirect(new URL('/giris?error=session', url))

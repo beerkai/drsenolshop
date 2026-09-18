@@ -5,7 +5,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { NextResponse } from 'next/server'
-import { getSupabaseServer } from '@/lib/supabase-server'
+import { requireSupabaseServer } from '@/lib/supabase-server'
 import { translateAuthError } from '@/lib/auth-errors'
 
 export async function POST(request: Request) {
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: 'Şifre en az 8 karakter olmalı.' }, { status: 400 })
   }
 
-  const supabase = await getSupabaseServer()
+  const supabase = await requireSupabaseServer()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
     return NextResponse.json({ ok: false, message: 'Oturum bulunamadı.' }, { status: 401 })

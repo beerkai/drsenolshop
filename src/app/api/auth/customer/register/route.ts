@@ -6,7 +6,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { NextResponse } from 'next/server'
-import { getSupabaseServer } from '@/lib/supabase-server'
+import { requireSupabaseServer } from '@/lib/supabase-server'
 import { translateAuthError } from '@/lib/auth-errors'
 
 function getSiteOrigin(request: Request): string {
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: 'Şifre en az 8 karakter olmalı.' }, { status: 400 })
   }
 
-  const supabase = await getSupabaseServer()
+  const supabase = await requireSupabaseServer()
   // E-posta doğrulama linkindeki redirect → /auth/callback?next=/hesabim
   // (SSR cookie tabanlı session yalnız code exchange ile kurulur)
   const emailRedirectTo = `${getSiteOrigin(request)}/auth/callback?next=${encodeURIComponent('/hesabim')}`
