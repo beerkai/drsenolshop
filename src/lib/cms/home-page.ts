@@ -97,7 +97,7 @@ export const editorialHomeContent: EditorialHomeContent = {
     header: {
       eyebrow: 'Küratör Seçkisi & Günlük Akış',
       title: 'Miras ve Hasat Günlüğü',
-      aside: 'Instagram Feed — @drsenolshop / Saitabat Serisi No. 41',
+      aside: 'Instagram Feed — @drsenol.shop / Saitabat Serisi No. 41',
     },
     items: [
       {
@@ -316,10 +316,10 @@ export const editorialHomeContent: EditorialHomeContent = {
   },
   instagram: {
     eyebrow: 'Görsel Akış',
-    title: '@drsenolshop Instagram Topluluğu',
+    title: '@drsenol.shop Instagram Topluluğu',
     followLink: {
-      label: "Instagram'da Takip Edin",
-      href: 'https://instagram.com/drsenolshop',
+      label: '@drsenol.shop',
+      href: 'https://instagram.com/drsenol.shop',
     },
     tiles: [
       {
@@ -395,31 +395,48 @@ export const editorialHomeContent: EditorialHomeContent = {
         labCode: 'Laboratuvar No: STB-1985-APIS',
       },
       {
-        title: 'Koleksiyonlar',
+        title: 'Koleksiyon & Marka',
         links: [
-          { label: 'Ham Yayla & Kestane Balları', href: '/koleksiyon' },
-          { label: 'Saf Arı Sütü & Propolis Eliksir', href: '/koleksiyon' },
-          { label: 'Goldylium Apiterapi Serumu', href: '/koleksiyon' },
-          { label: 'Sınırlı Hasat Seçkisi', href: '/koleksiyon' },
+          { label: 'Tüm Koleksiyon', href: '/koleksiyon' },
+          { label: 'Analiz Raporları', href: '/analiz-raporlari' },
+          { label: 'Hikâyemiz', href: '/hikaye' },
+          { label: 'Saitabat Köyü', href: '/saitabat-koyu' },
+          { label: 'Bilim Yaklaşımımız', href: '/bilim-yaklasimimiz' },
         ],
       },
       {
-        title: 'Müşteri Deneyimi',
+        title: 'Müşteri Hizmetleri',
         links: [
-          { label: 'Analiz ve Saflık Sertifikaları', href: '/analiz-raporlari' },
-          { label: 'Sipariş Takibi & Özel Kargo', href: '/siparis-takibi' },
-          { label: 'Kurumsal & Özel Seçki Hediyelik', href: '/iletisim' },
-          { label: 'İletişim & Saitabat Ziyaretleri', href: '/iletisim' },
+          { label: 'Sipariş & Kargo Takibi', href: '/siparis-takibi' },
+          { label: 'Gönderim Politikası', href: '/kargo-teslimat' },
+          { label: 'İade & Değişim', href: '/iade-degisim' },
+          { label: 'Sıkça Sorulanlar', href: '/sikca-sorulanlar' },
+          { label: 'İletişim', href: '/iletisim' },
         ],
       },
       {
         title: 'Editöryal Notlar',
-        body: 'Her mevsim döngüsünde yayımlanan flora kayıtları, hasat bültenleri ve sınırlı üretim duyuruları için abone olun.',
+        body: 'Hasat bültenleri ve sınırlı üretim duyuruları için abone olun. Genel sorularınız için hello@drsenol.shop adresine yazabilirsiniz.',
       },
     ],
     footerNewsletter: { placeholder: 'E-posta adresiniz', submitLabel: 'Gönder' },
-    copyright: '© 1985–2025 Dr. Şenol Apiterapi & Arıcılık. Saitabat, Bursa.',
-    instagramHandle: { label: '@drsenol.shop Instagram', href: 'https://instagram.com/drsenolshop' },
+    legalLinks: [
+      { label: 'KVKK Aydınlatma Metni', href: '/gizlilik-politikasi' },
+      { label: 'Gizlilik Politikası', href: '/gizlilik-politikasi' },
+      { label: 'Çerez Politikası', href: '/cerez-politikasi' },
+      { label: 'İade & Değişim', href: '/iade-degisim' },
+      { label: 'Kargo Takibi', href: '/siparis-takibi' },
+      { label: 'Gönderim Politikası', href: '/kargo-teslimat' },
+      { label: 'Mesafeli Satış Sözleşmesi', href: '/mesafeli-satis-sozlesmesi' },
+      { label: 'Ön Bilgilendirme Formu', href: '/on-bilgilendirme-formu' },
+    ],
+    contactEmails: [
+      { label: 'Genel', address: 'hello@drsenol.shop' },
+      { label: 'Destek', address: 'destek@drsenol.shop' },
+      { label: 'Sipariş', address: 'siparis@drsenol.shop' },
+    ],
+    copyright: '© 1985–2026 Dr. Şenol Apiterapi & Arıcılık. Saitabat, Bursa.',
+    instagramHandle: { label: '@drsenol.shop', href: 'https://instagram.com/drsenol.shop' },
     currency: { primary: 'TRY (₺)', secondary: 'EUR (€)' },
     tagline: 'Sessiz Lüks & Saf Doğa',
   },

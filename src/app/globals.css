@@ -93,8 +93,9 @@
   --spacing-space-lg: 1.5rem;
   --spacing-space-xl: 3rem;
 
-  /* Sabit header (duyuru şeridi + nav) — hero üst boşluğu */
+  /* Sabit header (duyuru şeridi + nav) — hero / spacer üst boşluğu */
   --editorial-header-stack: 7.5rem;
+  --editorial-header-stack-mobile: 6.125rem;
 
   /*
    * Tipografi — Stitch / saitabat_minimal_luxury/DESIGN.md (tek kaynak).
@@ -233,6 +234,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
   /* Yatay taşmayı kökten engelle (mobile menu açıkken siyah çubuk sorununa karşı) */
   overflow-x: hidden;
   width: 100%;
@@ -255,6 +257,26 @@ body {
   position: relative;
   width: 100%;
   max-width: 100%;
+}
+
+/* iOS: odaklanınca otomatik zoom — input font ≥ 16px */
+@media (pointer: coarse) {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']),
+  select,
+  textarea {
+    font-size: max(16px, 1em);
+  }
+}
+
+/* Header altı boşluk — fixed header yüksekliği ile eşleşir */
+.ed-header-spacer {
+  height: var(--editorial-header-stack-mobile);
+  flex-shrink: 0;
+}
+@media (min-width: 64rem) {
+  .ed-header-spacer {
+    height: var(--editorial-header-stack);
+  }
 }
 
 a {

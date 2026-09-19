@@ -45,7 +45,7 @@ export function organizationLd(): Record<string, unknown> {
       addressCountry: 'TR',
     },
     sameAs: [
-      'https://instagram.com/drsenolshop',
+      'https://instagram.com/drsenol.shop',
       'https://youtube.com/@drsenol',
     ],
   }

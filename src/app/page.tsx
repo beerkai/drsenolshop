@@ -21,7 +21,7 @@ export default async function HomePage() {
     <>
       <EditorialHeader content={cms.header} />
 
-      <main className="flex w-full flex-col bg-surface pb-28 pt-28 lg:pb-0">
+      <main className="flex w-full flex-col bg-surface pb-28 pt-[var(--editorial-header-stack-mobile)] lg:pb-0 lg:pt-[var(--editorial-header-stack)]">
         <Hero {...hero} />
         <HomeCurationStrip content={curationStrip} />
         <HomeHarvestMetrics cells={cms.harvestMetrics} />

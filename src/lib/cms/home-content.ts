@@ -79,7 +79,14 @@ function merge(stored: Partial<HomeContent> | null): HomeContent {
   return {
     hero: { ...defaultHomeContent.hero, ...(stored.hero ?? {}) },
     curationStrip: { ...defaultHomeContent.curationStrip, ...(stored.curationStrip ?? {}) },
-    editorial: { ...defaultHomeContent.editorial, ...(stored.editorial ?? {}) },
+    editorial: {
+      ...defaultHomeContent.editorial,
+      ...(stored.editorial ?? {}),
+      footer: {
+        ...defaultHomeContent.editorial.footer,
+        ...(stored.editorial?.footer ?? {}),
+      },
+    },
     productLabels: { ...defaultHomeContent.productLabels, ...(stored.productLabels ?? {}) },
   }
 }

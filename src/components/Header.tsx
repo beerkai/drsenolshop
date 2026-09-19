@@ -27,9 +27,7 @@ export default async function Header({ content, underlap = false }: Props) {
   return (
     <>
       <EditorialHeader content={resolved} />
-      {underlap ? null : (
-        <div aria-hidden className="h-[5.25rem] lg:h-[var(--editorial-header-stack)]" />
-      )}
+      {underlap ? null : <div aria-hidden className="ed-header-spacer" />}
     </>
   )
 }

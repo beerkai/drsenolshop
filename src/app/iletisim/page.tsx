@@ -42,21 +42,26 @@ export default function IletisimPage() {
 
         <InfoBox title="E-posta">
           Genel:{' '}
-          <a href="mailto:bilgi@drsenol.shop" style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }}>
-            bilgi@drsenol.shop
+          <a href="mailto:hello@drsenol.shop" style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }} lang="en">
+            hello@drsenol.shop
+          </a>
+          <br />
+          Destek:{' '}
+          <a
+            href="mailto:destek@drsenol.shop"
+            style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }}
+            lang="en"
+          >
+            destek@drsenol.shop
           </a>
           <br />
           Sipariş:{' '}
           <a
             href="mailto:siparis@drsenol.shop"
             style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }}
+            lang="en"
           >
             siparis@drsenol.shop
-          </a>
-          <br />
-          Basın:{' '}
-          <a href="mailto:basin@drsenol.shop" style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }}>
-            basin@drsenol.shop
           </a>
         </InfoBox>
 
@@ -79,12 +84,13 @@ export default function IletisimPage() {
       <Eyebrow>Sosyal Medya</Eyebrow>
       <P>
         <a
-          href="https://instagram.com/drsenolshop"
+          href="https://instagram.com/drsenol.shop"
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: 'var(--color-honey-amber)', textDecoration: 'none', marginRight: '24px' }}
+          lang="en"
         >
-          Instagram
+          @drsenol.shop
         </a>
         <a
           href="https://youtube.com/@drsenol"

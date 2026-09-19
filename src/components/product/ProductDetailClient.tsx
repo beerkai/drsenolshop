@@ -77,7 +77,56 @@ export default function ProductDetailClient({
   }
 
   return (
-    <div className="w-full bg-surface">
+    <div className="product-detail-root w-full bg-surface">
+      <style>{`
+          .product-detail-root .pdc-gallery-stack {
+            display: none;
+          }
+          .product-detail-root .pdc-gallery-scroll {
+            display: flex;
+            gap: var(--spacing-space-md);
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            margin-left: calc(-1 * var(--spacing-margin));
+            margin-right: calc(-1 * var(--spacing-margin));
+            padding-left: var(--spacing-margin);
+            padding-right: var(--spacing-margin);
+          }
+          .product-detail-root .pdc-gallery-scroll::-webkit-scrollbar {
+            display: none;
+          }
+          .product-detail-root .pdc-gallery-slide {
+            flex: 0 0 min(88vw, 420px);
+            scroll-snap-align: start;
+          }
+          .product-detail-root .pdc-sticky-mobile {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+            z-index: 45;
+            border-top: 1px solid var(--color-hairline-light);
+            background: color-mix(in srgb, var(--color-surface) 96%, transparent);
+            backdrop-filter: blur(12px);
+            padding: 12px var(--spacing-margin);
+          }
+          @media (min-width: 64rem) {
+            .product-detail-root .pdc-gallery-stack {
+              display: flex;
+              flex-direction: column;
+              gap: var(--spacing-space-lg);
+            }
+            .product-detail-root .pdc-gallery-scroll {
+              display: none;
+            }
+            .product-detail-root .pdc-sticky-mobile {
+              display: none;
+            }
+          }
+        `}</style>
+
       {/* ── Breadcrumb / durum şeridi ─────────────────────────── */}
       <div className="w-full border-b border-hairline-light bg-surface-container-low">
         <div className="ed-section-inner flex items-center justify-between gap-space-md py-space-sm font-editorial-caption text-editorial-caption uppercase tracking-[0.14em] text-on-surface-variant">
@@ -110,62 +159,85 @@ export default function ProductDetailClient({
       </div>
 
       {/* ── Ana tuval ─────────────────────────────────────────── */}
-      <div className="ed-section-inner py-space-lg lg:py-space-xl">
+      <div className="ed-section-inner py-space-lg pb-28 lg:py-space-xl lg:pb-space-xl">
         <div className="grid grid-cols-1 items-start gap-space-lg lg:grid-cols-12 lg:gap-space-xl">
-          {/* SOL: dikey editöryal görsel akışı */}
-          <div className="flex flex-col gap-space-lg lg:col-span-7">
+          {/* Görseller — mobilde yatay kaydırma, masaüstünde dikey akış */}
+          <div className="order-2 lg:order-1 lg:col-span-7">
             {images.length > 0 ? (
-              images.map((src, i) => (
-                <article
-                  key={src}
-                  className="flex flex-col overflow-hidden border border-hairline-light bg-surface-container-lowest"
-                >
-                  <div className="flex items-center justify-between gap-space-md p-space-md">
-                    <div className="flex items-center gap-space-sm">
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface-container font-label-spec text-[11px] font-bold text-charcoal-pure">
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                      <span className="flex flex-col">
-                        <span className="font-nav-caps text-nav-caps uppercase tracking-widest text-on-surface">
-                          Dr. Şenol Saitabat Atölyesi
-                        </span>
-                        <span className="font-label-spec text-[10px] text-on-surface-variant">
-                          {provenanceLine}
-                        </span>
-                      </span>
-                    </div>
-                  </div>
+              <>
+                <div className="pdc-gallery-scroll lg:hidden" aria-label="Ürün görselleri">
+                  {images.map((src, i) => (
+                    <article
+                      key={`scroll-${src}`}
+                      className="pdc-gallery-slide flex flex-col overflow-hidden border border-hairline-light bg-surface-container-lowest"
+                    >
+                      <div className="relative aspect-square w-full overflow-hidden bg-surface-container-low">
+                        <Image
+                          src={src}
+                          alt={`${product.name} — görsel ${i + 1}`}
+                          fill
+                          priority={i === 0}
+                          sizes="88vw"
+                          className="object-contain p-space-md"
+                        />
+                        {i === 0 && batchLabel ? (
+                          <span className="absolute bottom-3 left-3 bg-charcoal-pure/80 px-2 py-1 font-label-spec text-[10px] uppercase tracking-widest text-surface-container-lowest">
+                            {batchLabel}
+                          </span>
+                        ) : null}
+                      </div>
+                    </article>
+                  ))}
+                </div>
 
-                  {/*
-                    Katalog görselleri beyaz zeminli stüdyo çekimi (atmosferik
-                    lifestyle değil). object-cover 4:5'e kırpınca kavanoz
-                    kadrajdan taşıyor; contain + iç boşluk doğru sunum.
-                    Gerçek editöryal fotoğraflar geldiğinde cover'a dönülebilir.
-                  */}
-                  <div className="relative aspect-square w-full overflow-hidden bg-surface-container-low">
-                    <Image
-                      src={src}
-                      alt={`${product.name} — görsel ${i + 1}`}
-                      fill
-                      priority={i === 0}
-                      sizes="(max-width: 64rem) 100vw, 55vw"
-                      className="object-contain p-space-lg"
-                    />
-                    {i === 0 && batchLabel ? (
-                      <span className="absolute bottom-4 left-4 bg-charcoal-pure/80 px-3 py-1 font-label-spec text-label-spec uppercase tracking-widest text-surface-container-lowest">
-                        {batchLabel}
-                      </span>
-                    ) : null}
-                  </div>
-                </article>
-              ))
+                <div className="pdc-gallery-stack">
+                  {images.map((src, i) => (
+                    <article
+                      key={src}
+                      className="flex flex-col overflow-hidden border border-hairline-light bg-surface-container-lowest"
+                    >
+                      <div className="flex items-center justify-between gap-space-md p-space-md">
+                        <div className="flex items-center gap-space-sm">
+                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface-container font-label-spec text-[11px] font-bold text-charcoal-pure">
+                            {String(i + 1).padStart(2, '0')}
+                          </span>
+                          <span className="flex flex-col">
+                            <span className="font-nav-caps text-nav-caps uppercase tracking-widest text-on-surface">
+                              Dr. Şenol Saitabat Atölyesi
+                            </span>
+                            <span className="font-label-spec text-[10px] text-on-surface-variant">
+                              {provenanceLine}
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="relative aspect-square w-full overflow-hidden bg-surface-container-low">
+                        <Image
+                          src={src}
+                          alt={`${product.name} — görsel ${i + 1}`}
+                          fill
+                          priority={i === 0}
+                          sizes="(max-width: 64rem) 100vw, 55vw"
+                          className="object-contain p-space-lg"
+                        />
+                        {i === 0 && batchLabel ? (
+                          <span className="absolute bottom-4 left-4 bg-charcoal-pure/80 px-3 py-1 font-label-spec text-label-spec uppercase tracking-widest text-surface-container-lowest">
+                            {batchLabel}
+                          </span>
+                        ) : null}
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </>
             ) : (
               <div className="aspect-[4/5] w-full border border-hairline-light bg-surface-container-low" />
             )}
           </div>
 
-          {/* SAĞ: sticky satın alma paneli */}
-          <div className="flex flex-col gap-space-lg lg:col-span-5 lg:sticky lg:top-28">
+          {/* Satın alma paneli — mobilde görsellerden önce */}
+          <div className="order-1 flex flex-col gap-space-lg lg:order-2 lg:col-span-5 lg:sticky lg:top-[calc(var(--editorial-header-stack)+0.75rem)]">
             <div className="flex flex-col gap-space-md border border-hairline-light bg-surface-container-lowest p-space-lg lg:p-space-xl">
               <div className="flex items-center justify-between gap-space-sm">
                 <span className="ed-caption-truncate font-nav-caps text-nav-caps uppercase tracking-[0.2em] text-on-surface-variant">
@@ -300,6 +372,32 @@ export default function ProductDetailClient({
               ) : null}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Mobil: sayfa kaydırılırken sepete ekle — alt menünün üstünde */}
+      <div className="pdc-sticky-mobile lg:hidden">
+        <div className="mx-auto flex max-w-lg items-center gap-space-sm">
+          <div className="ed-min-w-0 flex-1">
+            <p className="ed-caption-truncate font-nav-caps text-[10px] uppercase tracking-widest text-on-surface-variant">
+              {product.name}
+            </p>
+            <p className="font-price-tag text-lg font-semibold text-honey-amber">
+              {currentPrice > 0 ? formatPrice(currentPrice) : '—'}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            disabled={!inStock}
+            className={`flex h-11 shrink-0 items-center justify-center px-5 font-nav-caps text-[11px] uppercase tracking-[0.12em] transition-colors ${
+              inStock
+                ? 'bg-charcoal-pure text-surface-container-lowest'
+                : 'cursor-not-allowed bg-surface-container text-on-surface-variant'
+            }`}
+          >
+            {!inStock ? labels.outOfStock : added ? labels.addedToCart : labels.addToCart}
+          </button>
         </div>
       </div>
     </div>

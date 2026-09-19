@@ -194,9 +194,17 @@ export interface EditorialFooterColumn {
   links?: EditorialLink[]
 }
 
+export interface EditorialFooterContactEmail {
+  label: string
+  address: string
+}
+
 export interface EditorialFooterContent {
   columns: EditorialFooterColumn[]
   footerNewsletter: { placeholder: string; submitLabel: string }
+  /** Alt şerit — KVKK, iade, çerez vb. */
+  legalLinks: EditorialLink[]
+  contactEmails: EditorialFooterContactEmail[]
   copyright: string
   instagramHandle: EditorialLink
   currency: { primary: string; secondary: string }
