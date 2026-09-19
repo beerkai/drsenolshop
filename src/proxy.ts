@@ -9,6 +9,7 @@
 
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { getSiteUrl } from '@/lib/site-url'
 
 /** ADMIN_HOSTS env'inden virgüllü liste — undefined ise kısıt yok (dev için) */
 function getAdminHosts(): Set<string> | null {
@@ -35,14 +36,31 @@ function isHostAllowedForAdmin(host: string, allowed: Set<string> | null): boole
   return allowed.has(host.toLowerCase())
 }
 
+/** lab.drsenol.shop gibi admin host'larda mağaza + genel API serve edilmez */
+function isAdminOnlyHostExempt(pathname: string): boolean {
+  if (isAdminPath(pathname)) return true
+  if (pathname.startsWith('/_next/')) return true
+  if (pathname === '/icon.svg' || pathname === '/favicon.ico') return true
+  if (pathname === '/admin-sw.js') return true
+  if (pathname === '/admin/manifest.webmanifest') return true
+  return false
+}
+
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
-  // ── 1) HOST İZOLASYONU ─────────────────────────────────────────
-  // /admin ve /api/admin/* yalnızca ADMIN_HOSTS'taki host'lardan
   const adminHosts = getAdminHosts()
   const host = (request.headers.get('host') ?? '').toLowerCase()
 
+  // ── 0) ADMIN-ONLY HOST → mağaza canonical site'a (drsenol.shop) ─
+  // ADMIN_HOSTS'ta tanımlı host'ta /admin dışı istekler vitrine gitmesin
+  if (adminHosts && isHostAllowedForAdmin(host, adminHosts) && !isAdminOnlyHostExempt(pathname)) {
+    const dest = new URL(pathname + request.nextUrl.search, `${getSiteUrl()}/`)
+    return NextResponse.redirect(dest, 308)
+  }
+
+  // ── 1) HOST İZOLASYONU ─────────────────────────────────────────
+  // /admin ve /api/admin/* yalnızca ADMIN_HOSTS'taki host'lardan
   if (isAdminPath(pathname) && !isHostAllowedForAdmin(host, adminHosts)) {
     // API çağrısı → 404 JSON (sızdırma yapma)
     if (pathname.startsWith('/api/')) {
