@@ -56,25 +56,6 @@ export default function EditorialFooter({ content, padForMobileNav = false }: Ed
                 {brandColumn.body}
               </p>
             ) : null}
-            {brandColumn?.labCode ? (
-              <span className="mb-space-md block font-label-spec text-label-spec uppercase text-hairline-subtle">
-                {brandColumn.labCode}
-              </span>
-            ) : null}
-            <ul className="space-y-space-xs">
-              {contactEmails.map((row) => (
-                <li key={row.address} className="font-body-sm text-body-sm text-on-surface-variant">
-                  <span className="text-on-surface">{row.label}: </span>
-                  <a
-                    href={mailto(row.address)}
-                    className="transition-colors hover:text-on-surface"
-                    lang="en"
-                  >
-                    {row.address}
-                  </a>
-                </li>
-              ))}
-            </ul>
             <p className="mt-space-md font-body-sm text-body-sm">
               <Link
                 href={instagramHref}
@@ -88,32 +69,51 @@ export default function EditorialFooter({ content, padForMobileNav = false }: Ed
             </p>
           </div>
 
-          {content.columns.slice(1, 3).map((col) => (
-            <div key={col.title} className="ed-min-w-0">
-              <span className="mb-space-md block font-nav-caps text-nav-caps uppercase tracking-[0.16em] text-on-surface">
-                {col.title}
-              </span>
-              {col.body ? (
-                <p className="mb-space-md font-body-sm text-body-sm leading-relaxed text-on-surface-variant">
-                  {col.body}
-                </p>
-              ) : null}
-              {col.links ? (
-                <ul className="space-y-space-sm">
-                  {col.links.map((link) => (
-                    <li key={link.href + link.label}>
-                      <Link
-                        href={link.href}
-                        className="font-body-sm text-body-sm text-on-surface-variant transition-colors hover:text-on-surface"
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </div>
-          ))}
+          {content.columns.slice(1, 3).map((col) => {
+            const isCustomerService = /müşteri/i.test(col.title)
+            return (
+              <div key={col.title} className="ed-min-w-0">
+                <span className="mb-space-md block font-nav-caps text-nav-caps uppercase tracking-[0.16em] text-on-surface">
+                  {col.title}
+                </span>
+                {col.body ? (
+                  <p className="mb-space-md font-body-sm text-body-sm leading-relaxed text-on-surface-variant">
+                    {col.body}
+                  </p>
+                ) : null}
+                {col.links ? (
+                  <ul className="space-y-space-sm">
+                    {col.links.map((link) => (
+                      <li key={link.href + link.label}>
+                        <Link
+                          href={link.href}
+                          className="font-body-sm text-body-sm text-on-surface-variant transition-colors hover:text-on-surface"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+                {isCustomerService ? (
+                  <ul className="mt-space-md space-y-space-xs border-t border-hairline-light pt-space-md">
+                    {contactEmails.map((row) => (
+                      <li key={row.address} className="font-body-sm text-body-sm text-on-surface-variant">
+                        <span className="text-on-surface">{row.label}: </span>
+                        <a
+                          href={mailto(row.address)}
+                          className="transition-colors hover:text-on-surface"
+                          lang="en"
+                        >
+                          {row.address}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
+            )
+          })}
 
           {notesColumn ? (
             <div>

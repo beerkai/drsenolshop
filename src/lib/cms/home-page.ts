@@ -392,7 +392,6 @@ export const editorialHomeContent: EditorialHomeContent = {
       {
         title: 'Saitabat Mirası & Laboratuvar',
         body: "Uludağ eteklerinde, Saitabat Köyü'nün endemik florasında 1985'ten bu yana süregelen butik arıcılık, analiz sertifikalı saf bal ve biyoteknolojik apiterapi formülleri.",
-        labCode: 'Laboratuvar No: STB-1985-APIS',
       },
       {
         title: 'Koleksiyon & Marka',
