@@ -3,44 +3,17 @@
 // Path: bucket "products/" SONRASI (ör. kekik-bali/850/x.webp)
 // ═══════════════════════════════════════════════════════════════
 
+import { legacyStitchGoogleUrl } from '@/lib/cms/editorial-google-images'
+
 const DEFAULT_CDN = 'https://cdn.drsenol.shop'
 
-/** Eski CMS: /design-preview/stitch-NN.jpg — repoda yok, CDN ürün görsellerine map */
-const LEGACY_STITCH_CDN_POOL = [
-  'kestane-bali/850/0.webp',
-  'kestane-bali/355/0.webp',
-  'kekik-bali/0.webp',
-  'sedir-bali/0.webp',
-  'cam-bali/0.webp',
-  'cicek-bali/0.webp',
-  'lavanta-bali/355/0.webp',
-  'polen/0.webp',
-  'ari-ekmegi/0.webp',
-  'kestane-bali/0.webp',
-  'kekik-bali/850/0.webp',
-  'sedir-bali/850/0.webp',
-  'cam-bali/850/0.webp',
-  'cicek-bali/850/0.webp',
-  'lavanta-bali/850/0.webp',
-  'polen/0.webp',
-  'ari-ekmegi/0.webp',
-  'kestane-bali/355/0.webp',
-  'kekik-bali/355/0.webp',
-  'sedir-bali/355/0.webp',
-  'cam-bali/355/0.webp',
-] as const
-
-export function getCdnBaseUrl(): string {
-  return (process.env.NEXT_PUBLIC_CDN_URL || DEFAULT_CDN).replace(/\/$/, '')
-}
-
-/** site_settings / eski CMS kayıtlarındaki stitch placeholder → CDN path */
+/** Eski CMS: /design-preview/stitch-NN.jpg → Stitch Google (aida-public) URL */
 export function resolveLegacyDesignPreviewSrc(src: string): string {
   const v = src.trim()
   if (!v.includes('/design-preview/stitch-')) return v
   const m = v.match(/stitch-(\d+)\.jpg/i)
   const n = m ? Math.max(1, parseInt(m[1], 10)) : 1
-  return LEGACY_STITCH_CDN_POOL[(n - 1) % LEGACY_STITCH_CDN_POOL.length] ?? 'kestane-bali/0.webp'
+  return legacyStitchGoogleUrl(n)
 }
 
 /**
@@ -49,7 +22,7 @@ export function resolveLegacyDesignPreviewSrc(src: string): string {
  * - `/…` (public/): site kökü — CDN'e çevrilmez
  * - `slug/n.webp`: CDN path
  */
-export function getImageUrl(value: string | null | undefined): string {
+function resolveImageUrlInternal(value: string | null | undefined): string {
   if (value == null) return ''
   let v = String(value).trim()
   if (!v) return ''
@@ -57,6 +30,19 @@ export function getImageUrl(value: string | null | undefined): string {
   if (v.startsWith('http://') || v.startsWith('https://')) return v
   if (v.startsWith('/')) return v
   return `${getCdnBaseUrl()}/${v.replace(/^\/+/, '')}`
+}
+
+export function getImageUrl(value: string | null | undefined): string {
+  return resolveImageUrlInternal(value)
+}
+
+/** Anasayfa / editoryal görselleri (stitch → Google; ayrı hook noktası) */
+export function getEditorialImageUrl(value: string | null | undefined): string {
+  return resolveImageUrlInternal(value)
+}
+
+export function getCdnBaseUrl(): string {
+  return (process.env.NEXT_PUBLIC_CDN_URL || DEFAULT_CDN).replace(/\/$/, '')
 }
 
 const SUPABASE_PRODUCTS_MARKER = '/storage/v1/object/public/products/'

@@ -6,6 +6,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { getEditorialImageUrl } from '@/lib/images'
 import type { HeroProps } from '@/types/hero'
 
 function cx(...parts: (string | false | undefined)[]) {
@@ -48,6 +49,8 @@ export default function Hero({
   const showProvenance =
     Boolean(provenance?.gpsLine?.trim()) || Boolean(provenance?.elevationLine?.trim())
   const mobileImage = imageMobile ?? image
+  const desktopSrc = getEditorialImageUrl(image.src)
+  const mobileSrc = getEditorialImageUrl(mobileImage.src)
 
   return (
     <section
@@ -64,7 +67,7 @@ export default function Hero({
       {/* Arka plan görseli */}
       <div className="absolute inset-0 z-0 overflow-hidden lg:opacity-80 lg:mix-blend-luminosity">
         <Image
-          src={mobileImage.src}
+          src={mobileSrc}
           alt={mobileImage.alt}
           fill
           priority
@@ -72,7 +75,7 @@ export default function Hero({
           className="object-cover object-center scale-[1.02] lg:hidden"
         />
         <Image
-          src={image.src}
+          src={desktopSrc}
           alt={image.alt}
           fill
           priority

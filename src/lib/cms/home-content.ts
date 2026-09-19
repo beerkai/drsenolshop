@@ -65,6 +65,99 @@ export const defaultProductLabels: ProductLabels = {
   emptyHint: 'Filtreleri temizleyip tekrar deneyin.',
 }
 
+/** Yanlışlıkla kaydedilmiş ürün CDN path'i (editoryal yer tutucu değil) */
+function isLikelyProductCdnEditorialSrc(src: string | undefined): boolean {
+  if (!src) return false
+  const v = src.trim()
+  if (v.startsWith('http://') || v.startsWith('https://')) return false
+  if (v.includes('/design-preview/stitch-')) return false
+  if (v.startsWith('/')) return false
+  return /^[a-z0-9-]+(\/[a-z0-9-]+)*\.webp$/i.test(v)
+}
+
+function pickEditorialImageSrc(stored: string | undefined, defaultSrc: string): string {
+  if (stored && !isLikelyProductCdnEditorialSrc(stored)) return stored
+  return defaultSrc
+}
+
+/** DB'deki hatalı ürün CDN görsellerini kod varsayılanına (stitch → Google) döndürür */
+function restoreEditorialImageDefaults(content: HomeContent): HomeContent {
+  const d = defaultHomeContent
+  const editorial = content.editorial
+  const defEd = d.editorial
+
+  const feedItems = editorial.feed.items.map((item) => {
+    const defItem = defEd.feed.items.find((x) => x.id === item.id)
+    if (!defItem || !('image' in item) || !('image' in defItem)) return item
+    return {
+      ...item,
+      image: {
+        ...item.image,
+        src: pickEditorialImageSrc(item.image.src, defItem.image.src),
+      },
+    }
+  })
+
+  const goldyProducts = editorial.goldylium.products.map((p) => {
+    const defP = defEd.goldylium.products.find((x) => x.id === p.id)
+    if (!defP) return p
+    return {
+      ...p,
+      image: {
+        ...p.image,
+        src: pickEditorialImageSrc(p.image.src, defP.image.src),
+      },
+    }
+  })
+
+  const igTiles = editorial.instagram.tiles.map((t) => {
+    const defT = defEd.instagram.tiles.find((x) => x.id === t.id)
+    if (!defT) return t
+    return {
+      ...t,
+      image: {
+        ...t.image,
+        src: pickEditorialImageSrc(t.image.src, defT.image.src),
+      },
+    }
+  })
+
+  return {
+    ...content,
+    hero: {
+      ...content.hero,
+      image: {
+        ...content.hero.image,
+        src: pickEditorialImageSrc(content.hero.image.src, d.hero.image.src),
+      },
+      ...(content.hero.imageMobile || d.hero.imageMobile
+        ? {
+            imageMobile: {
+              ...(content.hero.imageMobile ?? d.hero.imageMobile!),
+              src: pickEditorialImageSrc(
+                content.hero.imageMobile?.src,
+                d.hero.imageMobile?.src ?? d.hero.image.src,
+              ),
+            },
+          }
+        : {}),
+    },
+    editorial: {
+      ...editorial,
+      feed: { ...editorial.feed, items: feedItems },
+      journal: {
+        ...editorial.journal,
+        image: {
+          ...editorial.journal.image,
+          src: pickEditorialImageSrc(editorial.journal.image.src, defEd.journal.image.src),
+        },
+      },
+      goldylium: { ...editorial.goldylium, products: goldyProducts },
+      instagram: { ...editorial.instagram, tiles: igTiles },
+    },
+  }
+}
+
 /** Kod içindeki statik varsayılan — DB boşken kullanılır */
 export const defaultHomeContent: HomeContent = {
   hero: defaultHeroProps,
@@ -81,7 +174,7 @@ export const defaultHomeContent: HomeContent = {
  */
 function merge(stored: Partial<HomeContent> | null): HomeContent {
   if (!stored) return defaultHomeContent
-  return {
+  const merged: HomeContent = {
     hero: { ...defaultHomeContent.hero, ...(stored.hero ?? {}) },
     curationStrip: { ...defaultHomeContent.curationStrip, ...(stored.curationStrip ?? {}) },
     editorial: {
@@ -127,6 +220,7 @@ function merge(stored: Partial<HomeContent> | null): HomeContent {
     },
     productLabels: { ...defaultHomeContent.productLabels, ...(stored.productLabels ?? {}) },
   }
+  return restoreEditorialImageDefaults(merged)
 }
 
 /**
