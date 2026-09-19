@@ -11,17 +11,28 @@ import { toast } from '@/components/admin/toast/toast'
 
 export default function ProductImageManager({
   productId,
+  variantId,
   initialImages,
   onChange,
+  eyebrow,
+  showCoverBadge = true,
 }: {
   productId: string
+  /** Doluysa product_variants.images API'si kullanılır */
+  variantId?: string
   initialImages: string[]
   /** Sıra değiştiğinde üst forma bildir — kaydetme formun Kaydet'inde olur */
   onChange: (images: string[]) => void
+  eyebrow?: string
+  showCoverBadge?: boolean
 }) {
   const [images, setImages] = useState<string[]>(initialImages)
   const [uploading, setUploading] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const imagesApiUrl = variantId
+    ? `/api/admin/products/${productId}/variants/${variantId}/images`
+    : `/api/admin/products/${productId}/images`
 
   function apply(next: string[]) {
     setImages(next)
@@ -35,7 +46,7 @@ export default function ProductImageManager({
       const form = new FormData()
       for (const f of Array.from(files)) form.append('file', f)
 
-      const res = await fetch(`/api/admin/products/${productId}/images`, {
+      const res = await fetch(imagesApiUrl, {
         method: 'POST',
         body: form,
       })
@@ -55,7 +66,7 @@ export default function ProductImageManager({
   }
 
   async function remove(url: string) {
-    const res = await fetch(`/api/admin/products/${productId}/images`, {
+    const res = await fetch(imagesApiUrl, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url }),
@@ -81,7 +92,7 @@ export default function ProductImageManager({
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
         <p className="ad-eyebrow" style={{ margin: 0 }}>
-          Görseller ({images.length})
+          {eyebrow ?? 'Görseller'} ({images.length})
         </p>
         <button
           type="button"
@@ -119,7 +130,7 @@ export default function ProductImageManager({
                   style={{ objectFit: 'cover' }}
                   unoptimized
                 />
-                {i === 0 ? <span className="ad-image-cover">Kapak</span> : null}
+                {showCoverBadge && i === 0 ? <span className="ad-image-cover">Kapak</span> : null}
               </div>
               <figcaption className="ad-image-tools">
                 <button type="button" onClick={() => move(i, -1)} disabled={i === 0} title="Sola al">
@@ -143,7 +154,9 @@ export default function ProductImageManager({
       )}
 
       <p className="ad-mono" style={{ fontSize: 10, color: 'var(--ad-fg-faint)', marginTop: 10, letterSpacing: '0.05em' }}>
-        İlk görsel kapaktır. Sıra değişikliği formu kaydedince uygulanır; silme anında geçerlidir.
+        {variantId
+          ? 'Bu galeri yalnızca seçili varyantta gösterilir. Sıra değişikliği Kaydet ile uygulanır; yükleme ve silme anında kaydedilir.'
+          : 'İlk görsel kapaktır. Sıra değişikliği formu kaydedince uygulanır; silme anında geçerlidir.'}
       </p>
     </div>
   )

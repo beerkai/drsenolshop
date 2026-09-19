@@ -34,6 +34,9 @@ interface PatchBody {
   // Görseller ve sıra
   images?: string[]
   display_order?: number | null
+
+  /** Varyant id → sıralı görsel URL listesi (product_variants.images) */
+  variant_images?: Record<string, string[]>
 }
 
 /** Boş string'i null'a çevirir, aksi halde kırpar */
@@ -157,6 +160,25 @@ export async function PATCH(
     if (prodErr) {
       return NextResponse.json({ ok: false, message: 'Ürün güncellenemedi', details: prodErr.message }, { status: 500 })
     }
+  }
+
+  // Varyant galerileri (sıra)
+  if (body.variant_images && typeof body.variant_images === 'object') {
+    const tasks: Promise<unknown>[] = []
+    for (const [variantId, urls] of Object.entries(body.variant_images)) {
+      if (!Array.isArray(urls)) continue
+      const images = urls.map((u) => String(u).trim()).filter((u) => u.length > 0)
+      tasks.push(
+        (async () => {
+          await supabase
+            .from('product_variants')
+            .update({ images: images.length > 0 ? images : null })
+            .eq('id', variantId)
+            .eq('product_id', id)
+        })()
+      )
+    }
+    if (tasks.length > 0) await Promise.all(tasks)
   }
 
   // Varyant stokları

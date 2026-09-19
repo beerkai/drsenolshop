@@ -46,6 +46,14 @@ export default function ProductEditForm({
     return initial
   })
 
+  const [variantImages, setVariantImages] = useState<Record<string, string[]>>(() => {
+    const initial: Record<string, string[]> = {}
+    for (const v of product.variants ?? []) {
+      initial[v.id] = (v.images ?? []).map((u) => String(u).trim()).filter(Boolean)
+    }
+    return initial
+  })
+
   const [saving, setSaving] = useState(false)
 
   async function handleSave() {
@@ -75,6 +83,7 @@ export default function ProductEditForm({
           stock_quantity: stockQuantity === '' ? null : Number(stockQuantity),
           tax_rate: taxRate === '' ? 0 : Number(taxRate),
           variant_stocks: variantStocks,
+          variant_images: variantImages,
         }),
       })
       const data = await res.json()
@@ -171,9 +180,19 @@ export default function ProductEditForm({
         </div>
       </div>
 
-      {/* Görseller */}
+      {/* Görseller — varyant yoksa veya genel galeri */}
       <div className="ad-card" style={{ gridColumn: '1 / -1' }}>
-        <ProductImageManager productId={product.id} initialImages={images} onChange={setImages} />
+        <ProductImageManager
+          productId={product.id}
+          initialImages={images}
+          onChange={setImages}
+          eyebrow={hasVariants ? 'Genel görseller (fallback)' : 'Görseller'}
+        />
+        {hasVariants ? (
+          <p className="ad-mono" style={{ fontSize: 10, color: 'var(--ad-fg-faint)', marginTop: 12, letterSpacing: '0.05em' }}>
+            Varyantlı ürünlerde müşteri galerisi önce aşağıdaki varyant görsellerini kullanır; boşsa genel liste gösterilir.
+          </p>
+        ) : null}
       </div>
 
       {/* SEO */}
@@ -295,6 +314,31 @@ export default function ProductEditForm({
                 ))}
               </tbody>
             </table>
+          </div>
+
+          <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <p className="ad-eyebrow" style={{ margin: 0 }}>
+              Varyant görselleri
+            </p>
+            {(product.variants ?? []).map((v) => (
+              <div
+                key={v.id}
+                style={{
+                  padding: '16px',
+                  border: '1px solid var(--ad-line-faint)',
+                  backgroundColor: 'var(--ad-surface)',
+                }}
+              >
+                <ProductImageManager
+                  productId={product.id}
+                  variantId={v.id}
+                  initialImages={variantImages[v.id] ?? []}
+                  onChange={(next) => setVariantImages((prev) => ({ ...prev, [v.id]: next }))}
+                  eyebrow={`${getVariantLabel(v)} galerisi`}
+                  showCoverBadge={false}
+                />
+              </div>
+            ))}
           </div>
         </div>
       )}
