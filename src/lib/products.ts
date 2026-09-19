@@ -30,11 +30,17 @@ function numOrNull(value: unknown): number | null {
 function normalizeVariant(v: ProductVariant): ProductVariant {
   const dp = numOrNull(v.discount_price)
   const cp = numOrNull(v.compare_price)
+  const imagesRaw = (v as ProductVariant & { images?: string[] | null }).images
+  const images =
+    imagesRaw === null || imagesRaw === undefined
+      ? null
+      : imagesRaw.map((u) => String(u).trim()).filter(Boolean)
   return {
     ...v,
     price: coerceFiniteNumber(v.price, 0),
     discount_price: dp,
     compare_price: cp,
+    images: images && images.length > 0 ? images : null,
     stock:
       v.stock === null || v.stock === undefined
         ? null

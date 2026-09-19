@@ -133,6 +133,7 @@ CREATE TABLE IF NOT EXISTS public.product_variants (
   is_default BOOLEAN,
   is_active BOOLEAN DEFAULT true,
   display_order INTEGER,
+  images TEXT[],
 
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ

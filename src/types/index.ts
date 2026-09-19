@@ -64,6 +64,8 @@ export interface ProductVariant {
   is_default: boolean | null
   is_active: boolean | null
   display_order: number | null
+  /** Varyanta özel galeri; boşsa URL gramaj eşlemesi kullanılır */
+  images: string[] | null
 
   created_at: string
   updated_at: string | null
@@ -273,6 +275,89 @@ export function getProductImages(product: Product): string[] {
     }
   }
   return imgs
+}
+
+/** "1.500" → "1500", "850" → "850" */
+function normalizeVariantSizeToken(raw: string): string {
+  const t = raw.trim()
+  if (/^\d{1,2}\.\d{3}$/.test(t)) return t.replace('.', '')
+  if (t.includes(',')) return t.split(',')[0] ?? t
+  return t.replace(/\./g, '')
+}
+
+/** Gramaj / hacim eşleme anahtarları (850, 355, 30 …) */
+export function getVariantImageKeys(variant: ProductVariant): string[] {
+  const keys = new Set<string>()
+
+  const wg = variant.weight_grams
+  if (wg !== null && wg !== undefined) {
+    const n = Math.round(toFiniteNumber(wg, NaN))
+    if (Number.isFinite(n) && n > 0) keys.add(String(n))
+  }
+
+  const vol = variant.volume_ml
+  if (vol !== null && vol !== undefined) {
+    const n = Math.round(toFiniteNumber(vol, NaN))
+    if (Number.isFinite(n) && n > 0) keys.add(String(n))
+  }
+
+  const text = [variant.label, variant.variant_value, variant.sku].filter(Boolean).join(' ')
+  const re = /(\d{1,4}(?:[.,]\d{3})?)\s*(?:gr\.?|g|ml|lt|l)?/gi
+  for (const m of text.matchAll(re)) {
+    const token = normalizeVariantSizeToken(m[1] ?? '')
+    if (token.length > 0) keys.add(token)
+  }
+
+  return [...keys].sort((a, b) => b.length - a.length)
+}
+
+function imageUrlMatchesVariantKey(url: string, key: string): boolean {
+  if (!key) return false
+  const u = decodeURIComponent(url).toLowerCase()
+  const k = key.toLowerCase()
+
+  if (
+    u.includes(`/${k}/`) ||
+    u.includes(`/${k}-`) ||
+    u.includes(`/${k}_`) ||
+    u.includes(`-${k}-`) ||
+    u.includes(`-${k}.`) ||
+    u.includes(`_${k}_`) ||
+    u.includes(`${k}g/`) ||
+    u.includes(`${k}gr`) ||
+    u.includes(`${k}ml`)
+  ) {
+    return true
+  }
+
+  // Dosya adında 850 — 85 ile 850 karışmasın diye sınır kontrolü
+  const boundary = new RegExp(`(?:^|[^0-9])${k}(?:[^0-9]|$)`)
+  return boundary.test(u)
+}
+
+/**
+ * Seçili varyantın galerisi:
+ * 1) variant.images doluysa onlar
+ * 2) Ürün görsellerinde URL'de gramaj geçenler (ör. .../850/1.webp)
+ * 3) Eşleşme yoksa tüm ürün görselleri
+ */
+export function getProductImagesForVariant(
+  product: Product,
+  variant: ProductVariant | null
+): string[] {
+  const all = getProductImages(product)
+  if (!variant) return all
+
+  const variantImages = variant.images
+  if (variantImages && variantImages.length > 0) {
+    return variantImages.map((u) => String(u).trim()).filter(Boolean)
+  }
+
+  const keys = getVariantImageKeys(variant)
+  if (keys.length === 0 || all.length <= 1) return all
+
+  const matched = all.filter((url) => keys.some((key) => imageUrlMatchesVariantKey(url, key)))
+  return matched.length > 0 ? matched : all
 }
 
 /** Varyant etiketi: label → variant_value → varsayılan metin */

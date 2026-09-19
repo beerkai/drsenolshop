@@ -9,7 +9,7 @@
 // Sepet mantığı (dispatch payload) DEĞİŞMEDİ.
 // ═══════════════════════════════════════════════════════════════
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart-context'
@@ -19,7 +19,7 @@ import ProductPriceRow from '@/components/product/ProductPriceRow'
 import {
   findDefaultVariant,
   getProductImage,
-  getProductImages,
+  getProductImagesForVariant,
   getVariantLabel,
   getVariantPrice,
   getVariantStock,
@@ -47,6 +47,7 @@ export default function ProductDetailClient({
   const [added, setAdded] = useState(false)
   const [stickyBarVisible, setStickyBarVisible] = useState(false)
   const purchaseCtaRef = useRef<HTMLDivElement>(null)
+  const galleryScrollRef = useRef<HTMLDivElement>(null)
 
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? defaultVar ?? null
   const priceData = selectedVariant ? getVariantPrice(selectedVariant) : null
@@ -55,8 +56,15 @@ export default function ProductDetailClient({
   const stock = selectedVariant ? getVariantStock(selectedVariant) : (product.stock_quantity ?? 0)
   const inStock = stock > 0
 
-  const images = getProductImages(product)
+  const images = useMemo(
+    () => getProductImagesForVariant(product, selectedVariant),
+    [product, selectedVariant]
+  )
   const categoryName = product.category?.name ?? 'Koleksiyon'
+
+  useEffect(() => {
+    galleryScrollRef.current?.scrollTo({ left: 0, behavior: 'smooth' })
+  }, [selectedVariantId, images])
 
   // Mobil: satın alma bloğu ekrandan çıkınca alt sticky bar
   useEffect(() => {
@@ -214,7 +222,11 @@ export default function ProductDetailClient({
           <div className="lg:col-span-7">
             {images.length > 0 ? (
               <>
-                <div className="pdc-gallery-scroll lg:hidden" aria-label="Ürün görselleri">
+                <div
+                  ref={galleryScrollRef}
+                  className="pdc-gallery-scroll lg:hidden"
+                  aria-label="Ürün görselleri"
+                >
                   {images.map((src, i) => (
                     <article
                       key={`scroll-${src}`}
