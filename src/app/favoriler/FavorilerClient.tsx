@@ -5,7 +5,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useWishlist } from '@/lib/wishlist-context'
 import type { ProductWithRelations } from '@/types'
-import { formatPrice, getProductStartingPrice, isProductInStock } from '@/types'
+import { getImageUrl } from '@/lib/images'
+import { formatPrice, getProductImage, getProductStartingPrice, isProductInStock } from '@/types'
 
 export default function FavorilerClient() {
   const { items, dispatch } = useWishlist()
@@ -185,7 +186,11 @@ export default function FavorilerClient() {
                   key={item.productId}
                   slug={item.slug}
                   name={product?.name ?? item.name}
-                  image={product ? (product.image_url ?? product.images?.[0] ?? item.image) : item.image}
+                  image={
+                    product
+                      ? (getProductImage(product) ?? item.image)
+                      : item.image
+                  }
                   category={product?.category?.name ?? null}
                   priceText={priceData ? formatPrice(priceData.current) : null}
                   originalPriceText={priceData?.original ? formatPrice(priceData.original) : null}
@@ -269,7 +274,7 @@ function FavCard({
         <div style={{ position: 'relative', aspectRatio: '4 / 5', background: 'var(--color-surface-container-low)', overflow: 'hidden' }}>
           {image ? (
             <Image
-              src={image}
+              src={getImageUrl(image)}
               alt={name}
               fill
               sizes="(max-width: 400px) 100vw, (max-width: 1024px) 50vw, 380px"

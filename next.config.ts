@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'cdn.drsenol.shop',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'cdn.myikas.com',
         pathname: '/**',
       },

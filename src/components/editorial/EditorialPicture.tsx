@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { getImageUrl } from '@/lib/images'
 import type { EditorialImage } from '@/types/editorial-home'
 
 type Props = {
@@ -20,10 +21,11 @@ export default function EditorialPicture({
   width,
   height,
 }: Props) {
+  const src = getImageUrl(image.src)
   if (fill) {
     return (
       <Image
-        src={image.src}
+        src={src}
         alt={image.alt}
         fill
         priority={priority}
@@ -34,7 +36,7 @@ export default function EditorialPicture({
   }
   return (
     <Image
-      src={image.src}
+      src={src}
       alt={image.alt}
       width={width ?? 1200}
       height={height ?? 800}

@@ -8,6 +8,7 @@
 import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { toast } from '@/components/admin/toast/toast'
+import { getImageUrl } from '@/lib/images'
 
 export default function ProductImageManager({
   productId,
@@ -123,7 +124,7 @@ export default function ProductImageManager({
             <figure key={url} className="ad-image-tile">
               <div className="ad-image-tile-frame">
                 <Image
-                  src={url}
+                  src={getImageUrl(url)}
                   alt={`Görsel ${i + 1}`}
                   fill
                   sizes="180px"

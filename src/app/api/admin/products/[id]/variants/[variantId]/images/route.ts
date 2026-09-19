@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server'
 import { getCurrentAdmin } from '@/lib/admin-auth'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { variantImageStorageSegment } from '@/lib/variant-storage-path'
+import { resolveImageStoragePath } from '@/lib/images'
 
 const BUCKET = 'products'
 const MAX_BYTES = 8 * 1024 * 1024
@@ -92,8 +93,7 @@ export async function POST(request: Request, ctx: RouteCtx) {
       return NextResponse.json({ ok: false, message: `Yükleme başarısız: ${upErr.message}` }, { status: 500 })
     }
 
-    const { data: pub } = supabase.storage.from(BUCKET).getPublicUrl(path)
-    uploaded.push(pub.publicUrl)
+    uploaded.push(path)
   }
 
   const prev = ((variant.images as string[] | null) ?? []).map(String)
@@ -134,7 +134,9 @@ export async function DELETE(request: Request, ctx: RouteCtx) {
   }
 
   const { supabase, variant } = loaded
-  const nextImages = (((variant.images as string[] | null) ?? []) as string[]).filter((u) => u !== url)
+  const targetPath = resolveImageStoragePath(url)
+  const prevList = (((variant.images as string[] | null) ?? []) as string[])
+  const nextImages = prevList.filter((u) => resolveImageStoragePath(u) !== targetPath)
 
   const { error: saveErr } = await supabase
     .from('product_variants')
@@ -146,11 +148,8 @@ export async function DELETE(request: Request, ctx: RouteCtx) {
     return NextResponse.json({ ok: false, message: 'Silinemedi.', details: saveErr.message }, { status: 500 })
   }
 
-  const marker = `/storage/v1/object/public/${BUCKET}/`
-  const at = url.indexOf(marker)
-  if (at !== -1) {
-    const path = decodeURIComponent(url.slice(at + marker.length).split('?')[0])
-    const { error: rmErr } = await supabase.storage.from(BUCKET).remove([path])
+  if (targetPath && !targetPath.startsWith('http')) {
+    const { error: rmErr } = await supabase.storage.from(BUCKET).remove([targetPath])
     if (rmErr) console.error('[variants/images] storage silme hatası:', rmErr.message)
   }
 

@@ -2,7 +2,7 @@
 // POST /api/admin/products/[id]/images — görsel yükleme
 // ─ multipart/form-data, alan adı: "file" (çoklu olabilir)
 // ─ Supabase Storage `products` bucket'ına <slug>/<ts>-<n>.<ext>
-// ─ Yüklenen public URL'ler products.images sonuna eklenir
+// ─ DB'ye bucket sonrası path yazılır (ör. slug/123-1.webp)
 //
 // DELETE — gövde: { url } → hem listeden hem Storage'dan siler
 // ═══════════════════════════════════════════════════════════════
@@ -10,6 +10,7 @@
 import { NextResponse } from 'next/server'
 import { getCurrentAdmin } from '@/lib/admin-auth'
 import { getSupabaseAdmin } from '@/lib/supabase'
+import { resolveImageStoragePath } from '@/lib/images'
 
 const BUCKET = 'products'
 const MAX_BYTES = 8 * 1024 * 1024 // 8 MB
@@ -85,8 +86,7 @@ export async function POST(
       )
     }
 
-    const { data: pub } = supabase.storage.from(BUCKET).getPublicUrl(path)
-    uploaded.push(pub.publicUrl)
+    uploaded.push(path)
   }
 
   const nextImages = [...((product.images as string[] | null) ?? []), ...uploaded]
@@ -133,7 +133,9 @@ export async function DELETE(
 
   if (!product) return NextResponse.json({ ok: false, message: 'Ürün bulunamadı.' }, { status: 404 })
 
-  const nextImages = (((product.images as string[] | null) ?? []) as string[]).filter((u) => u !== url)
+  const targetPath = resolveImageStoragePath(url)
+  const prev = ((product.images as string[] | null) ?? []) as string[]
+  const nextImages = prev.filter((u) => resolveImageStoragePath(u) !== targetPath)
 
   const { error: saveErr } = await supabase
     .from('products')
@@ -144,12 +146,9 @@ export async function DELETE(
     return NextResponse.json({ ok: false, message: 'Silinemedi.', details: saveErr.message }, { status: 500 })
   }
 
-  // Dosya bu bucket'a aitse Storage'dan da kaldır (dış URL'lere dokunma)
-  const marker = `/storage/v1/object/public/${BUCKET}/`
-  const at = url.indexOf(marker)
-  if (at !== -1) {
-    const path = decodeURIComponent(url.slice(at + marker.length).split('?')[0])
-    const { error: rmErr } = await supabase.storage.from(BUCKET).remove([path])
+  // Storage'daki dosya (path veya legacy tam URL)
+  if (targetPath && !targetPath.startsWith('http')) {
+    const { error: rmErr } = await supabase.storage.from(BUCKET).remove([targetPath])
     if (rmErr) console.error('[products/images] storage silme hatası:', rmErr.message)
   }
 

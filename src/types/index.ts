@@ -3,6 +3,8 @@
 // Mevcut ikas legacy kolonlarını + yeni v0.2.0 kolonlarını destekler
 // ═══════════════════════════════════════════════════════════════
 
+import { getImageUrl } from '@/lib/images'
+
 // ───────────────────────────────────────────────────────────────
 // Sayı güvenliği (Supabase NUMERIC bazen string döner; çökmez)
 // ───────────────────────────────────────────────────────────────
@@ -250,31 +252,33 @@ export function getProductMetaDescription(product: Product): string {
   return desc.length > 160 ? desc.slice(0, 160) : desc
 }
 
-/** Ana görsel: image_url veya images[0] */
+/** Ana görsel: image_url veya images[0] → CDN URL */
 export function getProductImage(product: Product): string | null {
   if (product.image_url != null && String(product.image_url).trim() !== '') {
-    return String(product.image_url)
+    const u = getImageUrl(String(product.image_url))
+    return u || null
   }
   const imgs = product.images
   if (imgs != null && imgs.length > 0 && imgs[0] != null && String(imgs[0]).trim() !== '') {
-    return String(imgs[0])
+    const u = getImageUrl(String(imgs[0]))
+    return u || null
   }
   return null
 }
 
-/** Tüm görseller (image_url önde, tekrarlar elenir) */
+/** Tüm görseller (image_url önde, tekrarlar elenir) → CDN URL */
 export function getProductImages(product: Product): string[] {
-  const imgs: string[] = []
+  const raw: string[] = []
   const primary = product.image_url != null ? String(product.image_url).trim() : ''
-  if (primary !== '') imgs.push(primary)
+  if (primary !== '') raw.push(primary)
   const rest = product.images
   if (rest != null) {
     for (const url of rest) {
       const u = url != null ? String(url).trim() : ''
-      if (u !== '' && u !== primary) imgs.push(u)
+      if (u !== '' && u !== primary) raw.push(u)
     }
   }
-  return imgs
+  return raw.map((r) => getImageUrl(r)).filter(Boolean)
 }
 
 /** "1.500" → "1500", "850" → "850" */
@@ -350,7 +354,9 @@ export function getProductImagesForVariant(
 
   const variantImages = variant.images
   if (variantImages && variantImages.length > 0) {
-    return variantImages.map((u) => String(u).trim()).filter(Boolean)
+    return variantImages
+      .map((u) => getImageUrl(String(u).trim()))
+      .filter(Boolean)
   }
 
   const keys = getVariantImageKeys(variant)
