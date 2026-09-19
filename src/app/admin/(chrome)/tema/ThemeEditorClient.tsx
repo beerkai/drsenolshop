@@ -21,16 +21,45 @@ interface ProductOption {
   category: string
 }
 
-type SectionId = 'hero' | 'strip' | 'feed' | 'journal' | 'labels' | 'footer'
+type SectionId = 'hero' | 'strip' | 'curated' | 'feed' | 'journal' | 'labels' | 'footer'
 
 const SECTIONS: { id: SectionId; label: string; hint: string }[] = [
   { id: 'hero', label: 'Hero', hint: 'Anasayfa açılış bloğu' },
   { id: 'strip', label: 'Hasat Şeridi', hint: 'Hero altındaki bant' },
-  { id: 'feed', label: 'Ürün Akışı', hint: 'Öne çıkan ürünler ve başlık' },
+  { id: 'curated', label: 'Keşfet Vitrini', hint: 'En çok tercih edilenler & Signature' },
+  { id: 'feed', label: 'Eski Feed (opsiyonel)', hint: 'Mock editöryal akış — varsayılan kapalı' },
   { id: 'journal', label: 'Günlük', hint: 'Editöryal anlatı bölümü' },
   { id: 'labels', label: 'Katalog Etiketleri', hint: 'Kart, buton ve durum metinleri' },
   { id: 'footer', label: 'Alt Bilgi', hint: 'Telif ve künye' },
 ]
+
+function Toggle({
+  label,
+  checked,
+  onChange,
+  hint,
+}: {
+  label: string
+  checked: boolean
+  onChange: (v: boolean) => void
+  hint?: string
+}) {
+  return (
+    <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 16, cursor: 'pointer' }}>
+      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} style={{ marginTop: 3 }} />
+      <span>
+        <span className="ad-label" style={{ display: 'block' }}>
+          {label}
+        </span>
+        {hint ? (
+          <span className="ad-mono" style={{ fontSize: 10, color: 'var(--ad-fg-faint)' }}>
+            {hint}
+          </span>
+        ) : null}
+      </span>
+    </label>
+  )
+}
 
 /** Derin kopya — iç içe nesneleri mutasyondan korur */
 function clone<T>(v: T): T {
@@ -240,6 +269,195 @@ export default function ThemeEditorClient({
             </>
           ) : null}
 
+          {section === 'curated' ? (
+            <>
+              <Toggle
+                label="Eski mock ürün feed'ini göster"
+                checked={content.curated.legacyFeedEnabled}
+                onChange={(v) => update((d) => { d.curated.legacyFeedEnabled = v })}
+                hint="Kapalıyken yalnızca canlı katalog vitrinleri görünür (önerilen)."
+              />
+
+              <div className="ad-divider" style={{ margin: '20px 0' }} />
+              <p className="ad-label">En Çok Tercih Edilenler</p>
+              <Toggle
+                label="Bölümü göster"
+                checked={content.curated.mostPreferred.enabled}
+                onChange={(v) => update((d) => { d.curated.mostPreferred.enabled = v })}
+              />
+              <Field
+                label="Üst etiket"
+                value={content.curated.mostPreferred.eyebrow}
+                onChange={(v) => update((d) => { d.curated.mostPreferred.eyebrow = v })}
+              />
+              <Field
+                label="Başlık"
+                value={content.curated.mostPreferred.title}
+                onChange={(v) => update((d) => { d.curated.mostPreferred.title = v })}
+              />
+              <Field
+                label="Açıklama"
+                multiline
+                value={content.curated.mostPreferred.description}
+                onChange={(v) => update((d) => { d.curated.mostPreferred.description = v })}
+              />
+              <Field
+                label="Kategori slug (otomatik liste)"
+                value={content.curated.mostPreferred.categorySlug}
+                hint="Boş manuel liste yoksa bu kategoriden çekilir (ör. bal)"
+                onChange={(v) => update((d) => { d.curated.mostPreferred.categorySlug = v })}
+              />
+              <Field
+                label="Tümünü gör linki"
+                value={content.curated.mostPreferred.viewAllHref}
+                onChange={(v) => update((d) => { d.curated.mostPreferred.viewAllHref = v })}
+              />
+              <Field
+                label="Tümünü gör metni"
+                value={content.curated.mostPreferred.viewAllLabel}
+                onChange={(v) => update((d) => { d.curated.mostPreferred.viewAllLabel = v })}
+              />
+
+              <p className="ad-label" style={{ marginTop: 8 }}>
+                Manuel ürün seçimi ({content.curated.mostPreferred.productIds.length}/8)
+              </p>
+              <p style={{ fontSize: 12, color: 'var(--ad-fg-muted)', marginBottom: 8 }}>
+                Liste doluysa kategori yerine bu sıra kullanılır.
+              </p>
+              {content.curated.mostPreferred.productIds.map((id, i) => {
+                const p = products.find((x) => x.id === id)
+                return (
+                  <div key={id} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'center' }}>
+                    <span className="ad-mono" style={{ fontSize: 11, flex: 1 }}>
+                      {p?.name ?? id}
+                    </span>
+                    <button
+                      type="button"
+                      className="ad-btn ad-btn-secondary ad-btn-sm"
+                      onClick={() =>
+                        update((d) => {
+                          d.curated.mostPreferred.productIds.splice(i, 1)
+                        })
+                      }
+                    >
+                      Kaldır
+                    </button>
+                  </div>
+                )
+              })}
+              {content.curated.mostPreferred.productIds.length < 8 ? (
+                <select
+                  className="ad-select"
+                  defaultValue=""
+                  onChange={(e) => {
+                    const id = e.target.value
+                    if (!id) return
+                    update((d) => {
+                      if (!d.curated.mostPreferred.productIds.includes(id)) {
+                        d.curated.mostPreferred.productIds.push(id)
+                      }
+                    })
+                    e.target.value = ''
+                  }}
+                >
+                  <option value="">+ Ürün ekle…</option>
+                  {products.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}
+                    </option>
+                  ))}
+                </select>
+              ) : null}
+
+              <div className="ad-divider" style={{ margin: '24px 0' }} />
+              <p className="ad-label">Signature Series</p>
+              <Toggle
+                label="Bölümü göster"
+                checked={content.curated.signature.enabled}
+                onChange={(v) => update((d) => { d.curated.signature.enabled = v })}
+              />
+              <Toggle
+                label="Koyu kart stili (product-dark)"
+                checked={content.curated.signature.darkCards}
+                onChange={(v) => update((d) => { d.curated.signature.darkCards = v })}
+                hint="Açık/koyu grid görünümü."
+              />
+              <Field
+                label="Üst etiket"
+                value={content.curated.signature.eyebrow}
+                onChange={(v) => update((d) => { d.curated.signature.eyebrow = v })}
+              />
+              <Field
+                label="Başlık"
+                value={content.curated.signature.title}
+                onChange={(v) => update((d) => { d.curated.signature.title = v })}
+              />
+              <Field
+                label="Kategori slug"
+                value={content.curated.signature.categorySlug}
+                onChange={(v) => update((d) => { d.curated.signature.categorySlug = v })}
+              />
+              <Field
+                label="Tümünü gör linki"
+                value={content.curated.signature.viewAllHref}
+                onChange={(v) => update((d) => { d.curated.signature.viewAllHref = v })}
+              />
+              <Field
+                label="Tümünü gör metni"
+                value={content.curated.signature.viewAllLabel}
+                onChange={(v) => update((d) => { d.curated.signature.viewAllLabel = v })}
+              />
+
+              <p className="ad-label" style={{ marginTop: 8 }}>
+                Manuel ürün seçimi ({content.curated.signature.productIds.length}/8)
+              </p>
+              {content.curated.signature.productIds.map((id, i) => {
+                const p = products.find((x) => x.id === id)
+                return (
+                  <div key={id} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'center' }}>
+                    <span className="ad-mono" style={{ fontSize: 11, flex: 1 }}>
+                      {p?.name ?? id}
+                    </span>
+                    <button
+                      type="button"
+                      className="ad-btn ad-btn-secondary ad-btn-sm"
+                      onClick={() =>
+                        update((d) => {
+                          d.curated.signature.productIds.splice(i, 1)
+                        })
+                      }
+                    >
+                      Kaldır
+                    </button>
+                  </div>
+                )
+              })}
+              {content.curated.signature.productIds.length < 8 ? (
+                <select
+                  className="ad-select"
+                  defaultValue=""
+                  onChange={(e) => {
+                    const id = e.target.value
+                    if (!id) return
+                    update((d) => {
+                      if (!d.curated.signature.productIds.includes(id)) {
+                        d.curated.signature.productIds.push(id)
+                      }
+                    })
+                    e.target.value = ''
+                  }}
+                >
+                  <option value="">+ Ürün ekle…</option>
+                  {products.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}
+                    </option>
+                  ))}
+                </select>
+              ) : null}
+            </>
+          ) : null}
+
           {section === 'strip' ? (
             <>
               <Field
@@ -283,6 +501,12 @@ export default function ThemeEditorClient({
 
           {section === 'feed' ? (
             <>
+              <Toggle
+                label="Legacy feed'i anasayfada göster"
+                checked={content.curated.legacyFeedEnabled}
+                onChange={(v) => update((d) => { d.curated.legacyFeedEnabled = v })}
+                hint="Keşfet Vitrini sekmesindeki ana anahtar ile aynı."
+              />
               <Field
                 label="Bölüm üst etiketi"
                 value={content.editorial.feed.header.eyebrow}
@@ -568,6 +792,17 @@ export default function ThemeEditorClient({
                     </div>
                   </div>
                 ) : null}
+              </div>
+            ) : null}
+
+            {section === 'curated' ? (
+              <div>
+                <p className="tp-eyebrow-amber">{content.curated.mostPreferred.eyebrow}</p>
+                <h2 className="tp-title-light">{content.curated.mostPreferred.title}</h2>
+                <p className="tp-body-light">{content.curated.mostPreferred.description}</p>
+                <p className="tp-aside" lang="en">
+                  Signature · {content.curated.signature.darkCards ? 'dark cards' : 'light cards'}
+                </p>
               </div>
             ) : null}
 

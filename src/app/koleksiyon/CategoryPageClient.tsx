@@ -3,8 +3,10 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import CategoryFilters, { type FilterState } from '@/components/category/CategoryFilters'
+import CatalogFilterSortBar from '@/components/category/CatalogFilterSortBar'
+import CatalogFilterPanel from '@/components/category/CatalogFilterPanel'
 import ProductGrid from '@/components/category/ProductGrid'
-import SortDropdown, { type SortOption } from '@/components/category/SortDropdown'
+import type { SortOption } from '@/components/category/SortDropdown'
 import type { ProductWithRelations, Category } from '@/types'
 import type { GridSortOption } from '@/lib/catalog-sort'
 
@@ -102,21 +104,19 @@ export default function CategoryPageClient({
           </div>
 
           {/* Kontroller: stok filtresi + sıralama (kategoriler navigasyondur, şeritte kalır) */}
-          <div className="flex shrink-0 items-center justify-end gap-space-md">
-            <button
-              type="button"
-              aria-pressed={filters.inStockOnly}
-              onClick={() => setFilters({ ...filters, inStockOnly: !filters.inStockOnly })}
-              className={`whitespace-nowrap px-3.5 py-1.5 font-nav-caps text-nav-caps uppercase tracking-[0.14em] transition-colors duration-200 ${
-                filters.inStockOnly
-                  ? 'bg-primary text-on-primary'
-                  : 'bg-surface-container-low text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              Stokta
-            </button>
-            <SortDropdown value={sortBy} onChange={setSortBy} />
-          </div>
+          <CatalogFilterSortBar
+            filters={filters}
+            onFiltersChange={setFilters}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
+            filterPanel={
+              <CatalogFilterPanel
+                categories={mainCategories}
+                activeCategorySlug={activeCategorySlug}
+                totalProducts={totalAllProducts}
+              />
+            }
+          />
         </div>
       </div>
 

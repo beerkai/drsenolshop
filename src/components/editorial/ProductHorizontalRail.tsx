@@ -1,16 +1,19 @@
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { ProductWithRelations } from '@/types'
 import ProductCard from '@/components/ProductCard'
+import { trackEvent } from '@/lib/analytics-events'
 
 interface ProductHorizontalRailProps {
   products: ProductWithRelations[]
+  sectionKey?: string
 }
 
-export default function ProductHorizontalRail({ products }: ProductHorizontalRailProps) {
+export default function ProductHorizontalRail({ products, sectionKey = 'rail' }: ProductHorizontalRailProps) {
   const scrollerRef = useRef<HTMLDivElement>(null)
+  const scrollTracked = useRef(false)
 
   if (products.length === 0) return null
 
@@ -19,7 +22,22 @@ export default function ProductHorizontalRail({ products }: ProductHorizontalRai
     if (!el) return
     const step = Math.min(el.clientWidth * 0.85, 360)
     el.scrollBy({ left: dir * step, behavior: 'smooth' })
+    trackEvent('Home Rail Navigate', { section: sectionKey, direction: dir > 0 ? 'next' : 'prev' })
   }
+
+  useEffect(() => {
+    const el = scrollerRef.current
+    if (!el) return
+    const onScroll = () => {
+      if (scrollTracked.current) return
+      if (el.scrollLeft > 24) {
+        scrollTracked.current = true
+        trackEvent('Home Rail Scroll', { section: sectionKey })
+      }
+    }
+    el.addEventListener('scroll', onScroll, { passive: true })
+    return () => el.removeEventListener('scroll', onScroll)
+  }, [sectionKey])
 
   return (
     <div className="home-product-rail relative">

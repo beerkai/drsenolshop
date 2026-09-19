@@ -17,6 +17,8 @@ import {
   homeHeroProps as defaultHeroProps,
   homeCurationStrip as defaultCurationStrip,
 } from './home-page'
+import { defaultHomeCuratedSettings } from './home-curated-defaults'
+import type { HomeCuratedSettings } from '@/types/home-curated'
 
 export const HOME_CONTENT_KEY = 'home_content'
 
@@ -25,6 +27,8 @@ export interface HomeContent {
   hero: HeroProps
   curationStrip: typeof defaultCurationStrip
   editorial: EditorialHomeContent
+  /** Hero altı canlı ürün blokları (En çok tercih edilenler, Signature) */
+  curated: HomeCuratedSettings
   /** Ürün kartı / buton / etiket metinleri (katalog geneli) */
   productLabels: ProductLabels
 }
@@ -66,6 +70,7 @@ export const defaultHomeContent: HomeContent = {
   hero: defaultHeroProps,
   curationStrip: defaultCurationStrip,
   editorial: defaultEditorialContent,
+  curated: defaultHomeCuratedSettings,
   productLabels: defaultProductLabels,
 }
 
@@ -85,6 +90,18 @@ function merge(stored: Partial<HomeContent> | null): HomeContent {
       footer: {
         ...defaultHomeContent.editorial.footer,
         ...(stored.editorial?.footer ?? {}),
+      },
+    },
+    curated: {
+      ...defaultHomeContent.curated,
+      ...(stored.curated ?? {}),
+      mostPreferred: {
+        ...defaultHomeContent.curated.mostPreferred,
+        ...(stored.curated?.mostPreferred ?? {}),
+      },
+      signature: {
+        ...defaultHomeContent.curated.signature,
+        ...(stored.curated?.signature ?? {}),
       },
     },
     productLabels: { ...defaultHomeContent.productLabels, ...(stored.productLabels ?? {}) },

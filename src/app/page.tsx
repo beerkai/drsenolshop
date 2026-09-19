@@ -16,7 +16,7 @@ import { getHomeContent } from '@/lib/cms/home-content'
 export const revalidate = 0
 
 export default async function HomePage() {
-  const { hero, curationStrip, editorial: cms } = await getHomeContent()
+  const { hero, curationStrip, editorial: cms, curated } = await getHomeContent()
 
   return (
     <>
@@ -24,10 +24,12 @@ export default async function HomePage() {
 
       <main className="flex w-full flex-col bg-surface pb-28 pt-[var(--editorial-header-stack-mobile)] lg:pb-0 lg:pt-[var(--editorial-header-stack)]">
         <Hero {...hero} />
-        <HomeCuratedProducts />
+        <HomeCuratedProducts settings={curated} />
         <HomeCurationStrip content={curationStrip} />
         <HomeHarvestMetrics cells={cms.harvestMetrics} />
-        <EditorialFeedSection header={cms.feed.header} items={cms.feed.items} />
+        {curated.legacyFeedEnabled ? (
+          <EditorialFeedSection header={cms.feed.header} items={cms.feed.items} />
+        ) : null}
         <EditorialJournalSection content={cms.journal} />
         <GoldyliumSpotlightSection content={cms.goldylium} />
         <InstagramCommunitySection content={cms.instagram} />

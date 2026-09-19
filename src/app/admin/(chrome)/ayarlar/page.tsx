@@ -10,6 +10,7 @@ import ShippingForm from './ShippingForm'
 import TelegramTestPanel from './TelegramTestPanel'
 import BroadcastPanel from './BroadcastPanel'
 import AdminsPanel from './AdminsPanel'
+import ComparePriceBackfillButton from './ComparePriceBackfillButton'
 
 export default async function AdminSettingsPage() {
   const ctx = await requireAdmin()
@@ -68,6 +69,16 @@ export default async function AdminSettingsPage() {
           Sepet tutarına göre uygulanan sabit kargo + ücretsiz kargo eşiği. Checkout&apos;ta görünür.
         </p>
         <ShippingForm initial={shippingConfig} />
+      </div>
+
+      {/* Katalog compare fiyat backfill */}
+      <div className="ad-card" style={{ marginBottom: '20px' }}>
+        <p className="ad-eyebrow-muted" style={{ marginBottom: '6px' }}>Katalog · Liste Fiyatı</p>
+        <p style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: '0 0 16px' }}>
+          Kartlarda üstü çizili fiyat için boş <code>compare_price</code> alanlarını doldurur (migration 0019 ile
+          aynı mantık). Canlı DB&apos;de bir kez çalıştırmanız yeterli.
+        </p>
+        <ComparePriceBackfillButton />
       </div>
 
       {/* PayTR ödeme altyapısı */}
