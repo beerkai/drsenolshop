@@ -159,9 +159,95 @@ export default function ProductDetailClient({
             pointer-events: none;
             transition: transform 0.28s ease;
           }
-          .product-detail-root .pdc-sticky-mobile.is-visible {
+            .product-detail-root .pdc-sticky-mobile.is-visible {
             transform: translateY(0);
             pointer-events: auto;
+          }
+          .product-detail-root .pdc-purchase-row {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-space-sm);
+            padding-top: var(--spacing-space-sm);
+          }
+          @media (min-width: 40rem) {
+            .product-detail-root .pdc-purchase-row {
+              flex-direction: row;
+              align-items: stretch;
+            }
+          }
+          .product-detail-root .pdc-qty-row {
+            display: flex;
+            height: 3rem;
+            width: 100%;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--color-surface-container-low);
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+          }
+          @media (min-width: 40rem) {
+            .product-detail-root .pdc-qty-row {
+              width: 8rem;
+            }
+          }
+          .product-detail-root .pdc-add-to-cart-btn {
+            display: flex;
+            width: 100%;
+            min-height: 3.25rem;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-space-sm);
+            padding: 0.875rem 1.25rem;
+            font-family: var(--font-nav-caps);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            transition: background-color 0.2s ease, color 0.2s ease;
+          }
+          @media (min-width: 40rem) {
+            .product-detail-root .pdc-add-to-cart-btn {
+              flex: 1;
+              min-height: 3rem;
+            }
+          }
+          .product-detail-root .pdc-add-to-cart-btn.is-in-stock {
+            background: var(--color-charcoal-pure);
+            color: var(--color-surface-container-lowest);
+          }
+          .product-detail-root .pdc-add-to-cart-btn.is-in-stock:hover {
+            background: var(--color-primary-hover);
+          }
+          .product-detail-root .pdc-add-to-cart-btn.is-disabled {
+            cursor: not-allowed;
+            background: var(--color-surface-container);
+            color: var(--color-on-surface-variant);
+          }
+          .product-detail-root .pdc-sticky-add-btn {
+            display: flex;
+            min-height: 2.75rem;
+            min-width: 8.5rem;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+            padding: 0.625rem 1rem;
+            font-family: var(--font-nav-caps);
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: background-color 0.2s ease, color 0.2s ease;
+          }
+          .product-detail-root .pdc-sticky-add-btn.is-in-stock {
+            background: var(--color-charcoal-pure);
+            color: var(--color-surface-container-lowest);
+          }
+          .product-detail-root .pdc-sticky-add-btn.is-disabled {
+            cursor: not-allowed;
+            background: var(--color-surface-container);
+            color: var(--color-on-surface-variant);
           }
           @media (min-width: 64rem) {
             .product-detail-root .pdc-gallery-stack {
@@ -396,11 +482,8 @@ export default function ProductDetailClient({
                 </div>
               ) : null}
 
-              <div
-                ref={purchaseCtaRef}
-                className="flex flex-col gap-space-sm pt-space-sm sm:flex-row"
-              >
-                <div className="flex h-12 w-full items-center justify-between bg-surface-container-low px-3 sm:w-32">
+              <div ref={purchaseCtaRef} className="pdc-purchase-row">
+                <div className="pdc-qty-row">
                   <button
                     type="button"
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
@@ -424,11 +507,7 @@ export default function ProductDetailClient({
                   type="button"
                   onClick={handleAddToCart}
                   disabled={!inStock}
-                  className={`flex h-12 flex-1 items-center justify-center gap-space-sm font-nav-caps text-nav-caps uppercase tracking-[0.14em] transition-colors ${
-                    inStock
-                      ? 'bg-charcoal-pure text-surface-container-lowest hover:bg-primary-hover'
-                      : 'cursor-not-allowed bg-surface-container text-on-surface-variant'
-                  }`}
+                  className={`pdc-add-to-cart-btn ${inStock ? 'is-in-stock' : 'is-disabled'}`}
                 >
                   {!inStock ? labels.outOfStock : added ? labels.addedToCart : labels.addToCart}
                 </button>
@@ -492,11 +571,7 @@ export default function ProductDetailClient({
             type="button"
             onClick={handleAddToCart}
             disabled={!inStock}
-            className={`flex h-11 min-w-[7.5rem] shrink-0 items-center justify-center px-3 font-nav-caps text-[10px] uppercase tracking-[0.1em] transition-colors ${
-              inStock
-                ? 'bg-charcoal-pure text-surface-container-lowest'
-                : 'cursor-not-allowed bg-surface-container text-on-surface-variant'
-            }`}
+            className={`pdc-sticky-add-btn ${inStock ? 'is-in-stock' : 'is-disabled'}`}
           >
             {!inStock ? labels.outOfStock : added ? labels.addedToCart : labels.addToCart}
           </button>
