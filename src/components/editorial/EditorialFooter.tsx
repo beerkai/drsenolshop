@@ -19,7 +19,13 @@ const FALLBACK_EMAILS: EditorialFooterContent['contactEmails'] = [
   { label: 'Sipariş', address: 'siparis@drsenol.shop' },
 ]
 
-export default function EditorialFooter({ content }: { content: EditorialFooterContent }) {
+interface EditorialFooterProps {
+  content: EditorialFooterContent
+  /** Mobil alt menü varken alt satırların bar altında kalmaması için */
+  padForMobileNav?: boolean
+}
+
+export default function EditorialFooter({ content, padForMobileNav = false }: EditorialFooterProps) {
   const notesColumn = content.columns[3]
   const brandColumn = content.columns[0]
   const legalLinks = content.legalLinks?.length ? content.legalLinks : FALLBACK_LEGAL_LINKS
@@ -30,10 +36,15 @@ export default function EditorialFooter({ content }: { content: EditorialFooterC
   const instagramHref = content.instagramHandle.href.includes('drsenol.shop')
     ? content.instagramHandle.href
     : INSTAGRAM_URL
+  const currencyEnabled = content.currency?.enabled === true
+
+  const innerPadClass = padForMobileNav
+    ? 'pb-[calc(var(--editorial-mobile-nav-height)+env(safe-area-inset-bottom,0px)+1.25rem)] pt-space-xl lg:pb-space-lg'
+    : 'pb-space-lg pt-space-xl'
 
   return (
     <footer className="mt-space-xl w-full border-t border-hairline-light bg-surface-container-low">
-      <div className="ed-section-inner pb-space-lg pt-space-xl">
+      <div className={`ed-section-inner ${innerPadClass}`}>
         <div className="grid grid-cols-1 gap-space-xl border-b border-hairline-light pb-space-xl md:grid-cols-2 lg:grid-cols-4">
           <div className="ed-min-w-0">
             <span className="mb-space-md block font-nav-caps text-nav-caps uppercase tracking-[0.16em] text-on-surface">
@@ -138,7 +149,7 @@ export default function EditorialFooter({ content }: { content: EditorialFooterC
 
         <div className="flex flex-col items-center justify-between gap-space-md pt-space-lg md:flex-row">
           <div className="flex flex-wrap items-center justify-center gap-space-md md:justify-start">
-            <p className="font-editorial-caption text-editorial-caption text-on-surface-variant">
+            <p className="font-editorial-caption text-editorial-caption text-on-surface-variant" lang="en">
               {content.copyright}
             </p>
             <span className="font-editorial-caption text-editorial-caption text-outline-variant">|</span>
@@ -153,16 +164,23 @@ export default function EditorialFooter({ content }: { content: EditorialFooterC
             </Link>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-space-md">
-            <div className="flex items-center gap-space-xs font-label-spec text-label-spec text-on-surface-variant">
-              <button type="button" className="font-semibold text-on-surface underline decoration-1 underline-offset-4">
-                {content.currency.primary}
-              </button>
-              <span className="text-outline-variant">/</span>
-              <button type="button" className="transition-colors hover:text-on-surface">
-                {content.currency.secondary}
-              </button>
-            </div>
-            <span className="font-editorial-caption text-editorial-caption text-outline-variant">|</span>
+            {currencyEnabled ? (
+              <>
+                <div className="flex items-center gap-space-xs font-label-spec text-label-spec text-on-surface-variant">
+                  <button
+                    type="button"
+                    className="font-semibold text-on-surface underline decoration-1 underline-offset-4"
+                  >
+                    {content.currency.primary}
+                  </button>
+                  <span className="text-outline-variant">/</span>
+                  <button type="button" className="transition-colors hover:text-on-surface">
+                    {content.currency.secondary}
+                  </button>
+                </div>
+                <span className="font-editorial-caption text-editorial-caption text-outline-variant">|</span>
+              </>
+            ) : null}
             <p className="font-editorial-caption text-editorial-caption text-on-surface-variant">{content.tagline}</p>
           </div>
         </div>

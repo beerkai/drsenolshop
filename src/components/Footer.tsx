@@ -24,10 +24,16 @@ export default async function Footer({ content, mobileNav, hideMobileNav = false
 
   return (
     <>
-      <EditorialFooter content={content ?? cms!.footer} />
+      <EditorialFooter
+        content={content ?? cms!.footer}
+        padForMobileNav={!hideMobileNav}
+      />
       {hideMobileNav ? null : (
         <>
-          <div aria-hidden className="h-16 lg:hidden" />
+          <div
+            aria-hidden
+            className="h-[calc(var(--editorial-mobile-nav-height)+env(safe-area-inset-bottom,0px))] lg:hidden"
+          />
           <EditorialMobileNav items={mobileNav ?? cms!.mobileNav} />
         </>
       )}

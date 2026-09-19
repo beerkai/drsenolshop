@@ -90,6 +90,10 @@ function merge(stored: Partial<HomeContent> | null): HomeContent {
       footer: {
         ...defaultHomeContent.editorial.footer,
         ...(stored.editorial?.footer ?? {}),
+        currency: {
+          ...defaultHomeContent.editorial.footer.currency,
+          ...(stored.editorial?.footer?.currency ?? {}),
+        },
       },
     },
     curated: {

@@ -765,6 +765,26 @@ export default function ThemeEditorClient({
                 value={content.editorial.footer.instagramHandle.href}
                 onChange={(v) => update((d) => { d.editorial.footer.instagramHandle.href = v })}
               />
+              <Toggle
+                label="Para birimi seçici (TRY / EUR)"
+                checked={content.editorial.footer.currency.enabled}
+                onChange={(v) => update((d) => { d.editorial.footer.currency.enabled = v })}
+                hint="Kapalıyken footer alt satırında görünmez."
+              />
+              {content.editorial.footer.currency.enabled ? (
+                <>
+                  <Field
+                    label="Birincil para birimi metni"
+                    value={content.editorial.footer.currency.primary}
+                    onChange={(v) => update((d) => { d.editorial.footer.currency.primary = v })}
+                  />
+                  <Field
+                    label="İkincil para birimi metni"
+                    value={content.editorial.footer.currency.secondary}
+                    onChange={(v) => update((d) => { d.editorial.footer.currency.secondary = v })}
+                  />
+                </>
+              ) : null}
             </>
           ) : null}
         </div>

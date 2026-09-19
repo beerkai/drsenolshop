@@ -96,6 +96,7 @@
   /* Sabit header (duyuru şeridi + nav) — hero / spacer üst boşluğu */
   --editorial-header-stack: 7.5rem;
   --editorial-header-stack-mobile: 6.125rem;
+  --editorial-mobile-nav-height: 4rem;
 
   /*
    * Tipografi — Stitch / saitabat_minimal_luxury/DESIGN.md (tek kaynak).

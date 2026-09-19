@@ -207,7 +207,7 @@ export interface EditorialFooterContent {
   contactEmails: EditorialFooterContactEmail[]
   copyright: string
   instagramHandle: EditorialLink
-  currency: { primary: string; secondary: string }
+  currency: { enabled: boolean; primary: string; secondary: string }
   tagline: string
 }
 

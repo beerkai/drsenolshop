@@ -435,9 +435,9 @@ export const editorialHomeContent: EditorialHomeContent = {
       { label: 'Destek', address: 'destek@drsenol.shop' },
       { label: 'Sipariş', address: 'siparis@drsenol.shop' },
     ],
-    copyright: '© 1985–2026 Dr. Şenol Apiterapi & Arıcılık. Saitabat, Bursa.',
+    copyright: '© 1985–2026 Dr. Şenol Natural Honey. Saitabat, Bursa.',
     instagramHandle: { label: '@drsenol.shop', href: 'https://instagram.com/drsenol.shop' },
-    currency: { primary: 'TRY (₺)', secondary: 'EUR (€)' },
+    currency: { enabled: false, primary: 'TRY (₺)', secondary: 'EUR (€)' },
     tagline: 'Sessiz Lüks & Saf Doğa',
   },
 }
