@@ -9,7 +9,7 @@
 // Sepet mantığı (dispatch payload) DEĞİŞMEDİ.
 // ═══════════════════════════════════════════════════════════════
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart-context'
@@ -18,7 +18,6 @@ import type { ProductWithRelations } from '@/types'
 import ProductPriceRow from '@/components/product/ProductPriceRow'
 import {
   findDefaultVariant,
-  formatPrice,
   getProductImage,
   getProductImages,
   getVariantLabel,
@@ -46,6 +45,8 @@ export default function ProductDetailClient({
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(defaultVar?.id ?? null)
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState(false)
+  const [stickyBarVisible, setStickyBarVisible] = useState(false)
+  const purchaseCtaRef = useRef<HTMLDivElement>(null)
 
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? defaultVar ?? null
   const priceData = selectedVariant ? getVariantPrice(selectedVariant) : null
@@ -56,6 +57,39 @@ export default function ProductDetailClient({
 
   const images = getProductImages(product)
   const categoryName = product.category?.name ?? 'Koleksiyon'
+
+  // Mobil: satın alma bloğu ekrandan çıkınca alt sticky bar
+  useEffect(() => {
+    const el = purchaseCtaRef.current
+    if (!el) return
+
+    const desktop = window.matchMedia('(min-width: 64rem)')
+    const syncDesktop = () => {
+      if (desktop.matches) setStickyBarVisible(false)
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (desktop.matches) return
+        if (entry.isIntersecting) {
+          setStickyBarVisible(false)
+          return
+        }
+        // Yalnızca satın alma bloğu yukarı kaybolduysa (aşağı inildi) sticky aç
+        setStickyBarVisible(entry.boundingClientRect.top < 0)
+      },
+      { threshold: 0 }
+    )
+
+    observer.observe(el)
+    desktop.addEventListener('change', syncDesktop)
+    syncDesktop()
+
+    return () => {
+      observer.disconnect()
+      desktop.removeEventListener('change', syncDesktop)
+    }
+  }, [product.id])
 
   function handleAddToCart() {
     if (!inStock) return
@@ -102,9 +136,6 @@ export default function ProductDetailClient({
             flex: 0 0 min(88vw, 420px);
             scroll-snap-align: start;
           }
-          .product-detail-root .pdc-panel-cta {
-            display: none;
-          }
           .product-detail-root .pdc-sticky-mobile {
             position: fixed;
             left: 0;
@@ -116,6 +147,13 @@ export default function ProductDetailClient({
             backdrop-filter: blur(12px);
             padding: 10px var(--spacing-margin);
             box-shadow: 0 -8px 24px rgba(10, 9, 8, 0.06);
+            transform: translateY(110%);
+            pointer-events: none;
+            transition: transform 0.28s ease;
+          }
+          .product-detail-root .pdc-sticky-mobile.is-visible {
+            transform: translateY(0);
+            pointer-events: auto;
           }
           @media (min-width: 64rem) {
             .product-detail-root .pdc-gallery-stack {
@@ -128,9 +166,6 @@ export default function ProductDetailClient({
             }
             .product-detail-root .pdc-sticky-mobile {
               display: none;
-            }
-            .product-detail-root .pdc-panel-cta {
-              display: flex;
             }
           }
         `}</style>
@@ -167,10 +202,16 @@ export default function ProductDetailClient({
       </div>
 
       {/* ── Ana tuval ─────────────────────────────────────────── */}
-      <div className="ed-section-inner py-space-lg pb-[calc(var(--editorial-mobile-nav-height)+5rem+env(safe-area-inset-bottom,0px))] lg:py-space-xl lg:pb-space-xl">
-        <div className="grid grid-cols-1 items-start gap-space-lg lg:grid-cols-12 lg:gap-space-xl">
-          {/* Görseller — mobilde önce, yatay kaydırma; masaüstünde sol sütun */}
-          <div className="order-1 lg:col-span-7">
+      <div
+        className={`ed-section-inner py-space-lg lg:py-space-xl lg:pb-space-xl ${
+          stickyBarVisible
+            ? 'pb-[calc(var(--editorial-mobile-nav-height)+4.5rem+env(safe-area-inset-bottom,0px))]'
+            : 'pb-[calc(var(--editorial-mobile-nav-height)+1rem+env(safe-area-inset-bottom,0px))]'
+        }`}
+      >
+        {/* Mobilde flex kolon: galeri → fiyat paneli; lg grid */}
+        <div className="flex flex-col items-stretch gap-space-lg lg:grid lg:grid-cols-12 lg:gap-space-xl">
+          <div className="lg:col-span-7">
             {images.length > 0 ? (
               <>
                 <div className="pdc-gallery-scroll lg:hidden" aria-label="Ürün görselleri">
@@ -244,8 +285,7 @@ export default function ProductDetailClient({
             )}
           </div>
 
-          {/* Satın alma paneli — mobilde görsellerden sonra; CTA mobilde sticky bar */}
-          <div className="order-2 flex flex-col gap-space-lg lg:order-2 lg:col-span-5 lg:sticky lg:top-[calc(var(--editorial-header-stack)+0.75rem)]">
+          <div className="flex flex-col gap-space-lg lg:col-span-5 lg:sticky lg:top-[calc(var(--editorial-header-stack)+0.75rem)]">
             <div className="flex flex-col gap-space-md border border-hairline-light bg-surface-container-lowest p-space-lg lg:p-space-xl">
               <div className="flex items-center justify-between gap-space-sm">
                 <span className="ed-caption-truncate font-nav-caps text-nav-caps uppercase tracking-[0.2em] text-on-surface-variant">
@@ -344,8 +384,10 @@ export default function ProductDetailClient({
                 </div>
               ) : null}
 
-              {/* Adet + sepete ekle — mobilde sticky bar; masaüstünde burada */}
-              <div className="pdc-panel-cta flex-col gap-space-sm pt-space-sm sm:flex-row">
+              <div
+                ref={purchaseCtaRef}
+                className="flex flex-col gap-space-sm pt-space-sm sm:flex-row"
+              >
                 <div className="flex h-12 w-full items-center justify-between bg-surface-container-low px-3 sm:w-32">
                   <button
                     type="button"
@@ -391,7 +433,12 @@ export default function ProductDetailClient({
       </div>
 
       {/* Mobil: sayfa kaydırılırken sepete ekle — alt menünün üstünde */}
-      <div className="pdc-sticky-mobile lg:hidden" role="region" aria-label="Hızlı satın alma">
+      <div
+        className={`pdc-sticky-mobile lg:hidden ${stickyBarVisible ? 'is-visible' : ''}`}
+        role="region"
+        aria-label="Hızlı satın alma"
+        aria-hidden={!stickyBarVisible}
+      >
         <div className="mx-auto flex max-w-lg items-center gap-space-sm">
           <div className="flex h-10 w-[7.5rem] shrink-0 items-center justify-between bg-surface-container-low px-2">
             <button
