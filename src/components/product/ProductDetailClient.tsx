@@ -15,6 +15,7 @@ import Link from 'next/link'
 import { useCart } from '@/lib/cart-context'
 import { useProductLabels } from '@/lib/product-labels-context'
 import type { ProductWithRelations } from '@/types'
+import ProductPriceRow from '@/components/product/ProductPriceRow'
 import {
   findDefaultVariant,
   formatPrice,
@@ -101,16 +102,20 @@ export default function ProductDetailClient({
             flex: 0 0 min(88vw, 420px);
             scroll-snap-align: start;
           }
+          .product-detail-root .pdc-panel-cta {
+            display: none;
+          }
           .product-detail-root .pdc-sticky-mobile {
             position: fixed;
             left: 0;
             right: 0;
-            bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+            bottom: calc(var(--editorial-mobile-nav-height) + env(safe-area-inset-bottom, 0px));
             z-index: 45;
             border-top: 1px solid var(--color-hairline-light);
-            background: color-mix(in srgb, var(--color-surface) 96%, transparent);
+            background: color-mix(in srgb, var(--color-surface) 97%, transparent);
             backdrop-filter: blur(12px);
-            padding: 12px var(--spacing-margin);
+            padding: 10px var(--spacing-margin);
+            box-shadow: 0 -8px 24px rgba(10, 9, 8, 0.06);
           }
           @media (min-width: 64rem) {
             .product-detail-root .pdc-gallery-stack {
@@ -123,6 +128,9 @@ export default function ProductDetailClient({
             }
             .product-detail-root .pdc-sticky-mobile {
               display: none;
+            }
+            .product-detail-root .pdc-panel-cta {
+              display: flex;
             }
           }
         `}</style>
@@ -159,10 +167,10 @@ export default function ProductDetailClient({
       </div>
 
       {/* ── Ana tuval ─────────────────────────────────────────── */}
-      <div className="ed-section-inner py-space-lg pb-28 lg:py-space-xl lg:pb-space-xl">
+      <div className="ed-section-inner py-space-lg pb-[calc(var(--editorial-mobile-nav-height)+5rem+env(safe-area-inset-bottom,0px))] lg:py-space-xl lg:pb-space-xl">
         <div className="grid grid-cols-1 items-start gap-space-lg lg:grid-cols-12 lg:gap-space-xl">
-          {/* Görseller — mobilde yatay kaydırma, masaüstünde dikey akış */}
-          <div className="order-2 lg:order-1 lg:col-span-7">
+          {/* Görseller — mobilde önce, yatay kaydırma; masaüstünde sol sütun */}
+          <div className="order-1 lg:col-span-7">
             {images.length > 0 ? (
               <>
                 <div className="pdc-gallery-scroll lg:hidden" aria-label="Ürün görselleri">
@@ -236,8 +244,8 @@ export default function ProductDetailClient({
             )}
           </div>
 
-          {/* Satın alma paneli — mobilde görsellerden önce */}
-          <div className="order-1 flex flex-col gap-space-lg lg:order-2 lg:col-span-5 lg:sticky lg:top-[calc(var(--editorial-header-stack)+0.75rem)]">
+          {/* Satın alma paneli — mobilde görsellerden sonra; CTA mobilde sticky bar */}
+          <div className="order-2 flex flex-col gap-space-lg lg:order-2 lg:col-span-5 lg:sticky lg:top-[calc(var(--editorial-header-stack)+0.75rem)]">
             <div className="flex flex-col gap-space-md border border-hairline-light bg-surface-container-lowest p-space-lg lg:p-space-xl">
               <div className="flex items-center justify-between gap-space-sm">
                 <span className="ed-caption-truncate font-nav-caps text-nav-caps uppercase tracking-[0.2em] text-on-surface-variant">
@@ -262,15 +270,22 @@ export default function ProductDetailClient({
                 ) : null}
               </div>
 
-              <div className="flex flex-wrap items-baseline gap-space-sm pt-space-xs">
-                <span className="font-price-tag text-[28px] font-semibold leading-none text-honey-amber">
-                  {currentPrice > 0 ? formatPrice(currentPrice) : '—'}
-                </span>
-                {priceData?.original && priceData.original > priceData.current ? (
-                  <span className="font-price-tag text-price-tag text-on-surface-variant line-through">
-                    {formatPrice(priceData.original)}
-                  </span>
-                ) : null}
+              <div className="flex flex-wrap items-end gap-x-space-sm gap-y-1 pt-space-xs">
+                <ProductPriceRow
+                  price={
+                    currentPrice > 0
+                      ? {
+                          current: currentPrice,
+                          original:
+                            priceData?.original && priceData.original > priceData.current
+                              ? priceData.original
+                              : null,
+                          discount: priceData?.discount ?? 0,
+                        }
+                      : null
+                  }
+                  size="card"
+                />
                 <span className="font-editorial-caption text-editorial-caption uppercase text-on-surface-variant">
                   KDV Dahil
                 </span>
@@ -329,8 +344,8 @@ export default function ProductDetailClient({
                 </div>
               ) : null}
 
-              {/* Adet + sepete ekle */}
-              <div className="flex flex-col gap-space-sm pt-space-sm sm:flex-row">
+              {/* Adet + sepete ekle — mobilde sticky bar; masaüstünde burada */}
+              <div className="pdc-panel-cta flex-col gap-space-sm pt-space-sm sm:flex-row">
                 <div className="flex h-12 w-full items-center justify-between bg-surface-container-low px-3 sm:w-32">
                   <button
                     type="button"
@@ -376,21 +391,49 @@ export default function ProductDetailClient({
       </div>
 
       {/* Mobil: sayfa kaydırılırken sepete ekle — alt menünün üstünde */}
-      <div className="pdc-sticky-mobile lg:hidden">
+      <div className="pdc-sticky-mobile lg:hidden" role="region" aria-label="Hızlı satın alma">
         <div className="mx-auto flex max-w-lg items-center gap-space-sm">
+          <div className="flex h-10 w-[7.5rem] shrink-0 items-center justify-between bg-surface-container-low px-2">
+            <button
+              type="button"
+              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+              aria-label="Adedi azalt"
+              className="p-1 text-on-surface"
+            >
+              −
+            </button>
+            <span className="font-price-tag text-sm text-on-surface">{quantity}</span>
+            <button
+              type="button"
+              onClick={() => setQuantity((q) => Math.min(stock || 1, q + 1))}
+              aria-label="Adedi artır"
+              className="p-1 text-on-surface"
+            >
+              +
+            </button>
+          </div>
           <div className="ed-min-w-0 flex-1">
-            <p className="ed-caption-truncate font-nav-caps text-[10px] uppercase tracking-widest text-on-surface-variant">
-              {product.name}
-            </p>
-            <p className="font-price-tag text-lg font-semibold text-honey-amber">
-              {currentPrice > 0 ? formatPrice(currentPrice) : '—'}
-            </p>
+            <ProductPriceRow
+              price={
+                currentPrice > 0
+                  ? {
+                      current: currentPrice,
+                      original:
+                        priceData?.original && priceData.original > priceData.current
+                          ? priceData.original
+                          : null,
+                      discount: priceData?.discount ?? 0,
+                    }
+                  : null
+              }
+              size="inline"
+            />
           </div>
           <button
             type="button"
             onClick={handleAddToCart}
             disabled={!inStock}
-            className={`flex h-11 shrink-0 items-center justify-center px-5 font-nav-caps text-[11px] uppercase tracking-[0.12em] transition-colors ${
+            className={`flex h-11 min-w-[7.5rem] shrink-0 items-center justify-center px-3 font-nav-caps text-[10px] uppercase tracking-[0.1em] transition-colors ${
               inStock
                 ? 'bg-charcoal-pure text-surface-container-lowest'
                 : 'cursor-not-allowed bg-surface-container text-on-surface-variant'
