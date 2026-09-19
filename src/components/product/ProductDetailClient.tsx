@@ -399,6 +399,7 @@ export default function ProductDetailClient({
                   <div className="pdc-gallery-main">
                     {activeImageSrc ? (
                       <Image
+                        key={`${selectedVariantId ?? 'default'}-${safeImageIndex}-${activeImageSrc}`}
                         src={activeImageSrc}
                         alt={`${product.name} — görsel ${safeImageIndex + 1}`}
                         fill
@@ -471,7 +472,7 @@ export default function ProductDetailClient({
                 <div className="pdc-gallery-stack">
                   {images.map((src, i) => (
                     <article
-                      key={src}
+                      key={`${selectedVariantId ?? 'default'}-${i}-${src}`}
                       className="flex flex-col overflow-hidden border border-hairline-light bg-surface-container-lowest"
                     >
                       <div className="flex items-center justify-between gap-space-md p-space-md">
