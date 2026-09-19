@@ -351,12 +351,17 @@ async function run() {
   }
 
   // DB batch — yalnızca değişen entity'ler
+  // image_url: vitrin getProductImage() önce bu kolona bakar; images[0] ile aynı path tutulur
   for (const p of products) {
     const next = productImages.get(p.id)!
     const prev = p.images ?? []
     const changed = next.some((u, i) => u !== (prev[i] ?? ''))
     if (!changed) continue
-    const { error } = await supabase.from('products').update({ images: next }).eq('id', p.id)
+    const coverPath = next[0] ?? null
+    const { error } = await supabase
+      .from('products')
+      .update({ images: next, image_url: coverPath })
+      .eq('id', p.id)
     if (error) {
       failed.push({
         task: {
