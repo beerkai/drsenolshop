@@ -46,8 +46,9 @@ export default function ProductDetailClient({
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState(false)
   const [stickyBarVisible, setStickyBarVisible] = useState(false)
+  const [activeImageIndex, setActiveImageIndex] = useState(0)
   const purchaseCtaRef = useRef<HTMLDivElement>(null)
-  const galleryScrollRef = useRef<HTMLDivElement>(null)
+  const thumbStripRef = useRef<HTMLDivElement>(null)
 
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? defaultVar ?? null
   const priceData = selectedVariant ? getVariantPrice(selectedVariant) : null
@@ -63,8 +64,27 @@ export default function ProductDetailClient({
   const categoryName = product.category?.name ?? 'Koleksiyon'
 
   useEffect(() => {
-    galleryScrollRef.current?.scrollTo({ left: 0, behavior: 'smooth' })
+    setActiveImageIndex(0)
   }, [selectedVariantId, images])
+
+  useEffect(() => {
+    const strip = thumbStripRef.current
+    if (!strip) return
+    const active = strip.querySelector<HTMLElement>('[data-thumb-active="true"]')
+    active?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  }, [activeImageIndex])
+
+  const imageCount = images.length
+  const safeImageIndex = imageCount > 0 ? Math.min(activeImageIndex, imageCount - 1) : 0
+  const activeImageSrc = imageCount > 0 ? images[safeImageIndex] : null
+
+  function goPrevImage() {
+    setActiveImageIndex((i) => (i <= 0 ? imageCount - 1 : i - 1))
+  }
+
+  function goNextImage() {
+    setActiveImageIndex((i) => (i >= imageCount - 1 ? 0 : i + 1))
+  }
 
   // Mobil: satın alma bloğu ekrandan çıkınca alt sticky bar
   useEffect(() => {
@@ -125,24 +145,89 @@ export default function ProductDetailClient({
           .product-detail-root .pdc-gallery-stack {
             display: none;
           }
-          .product-detail-root .pdc-gallery-scroll {
+          .product-detail-root .pdc-gallery-mobile {
             display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: var(--spacing-space-md);
+            width: 100%;
+            max-width: min(100%, 28rem);
+            margin-left: auto;
+            margin-right: auto;
+          }
+          .product-detail-root .pdc-gallery-main {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            overflow: hidden;
+            border: 1px solid var(--color-hairline-light);
+            background: var(--color-surface-container-low);
+          }
+          .product-detail-root .pdc-gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            border: 1px solid var(--color-hairline-light);
+            background: color-mix(in srgb, var(--color-surface-container-lowest) 92%, transparent);
+            color: var(--color-on-surface);
+            font-size: 1.25rem;
+            line-height: 1;
+          }
+          .product-detail-root .pdc-gallery-nav--prev { left: 0.5rem; }
+          .product-detail-root .pdc-gallery-nav--next { right: 0.5rem; }
+          .product-detail-root .pdc-gallery-counter {
+            position: absolute;
+            top: 0.625rem;
+            right: 0.625rem;
+            z-index: 2;
+            padding: 0.25rem 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            background: color-mix(in srgb, var(--color-charcoal-pure) 75%, transparent);
+            color: var(--color-surface-container-lowest);
+          }
+          .product-detail-root .pdc-gallery-thumbs {
+            display: flex;
+            gap: 0.5rem;
+            width: 100%;
             overflow-x: auto;
+            padding: 0.25rem 0 0.5rem;
+            justify-content: center;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            margin-left: calc(-1 * var(--spacing-margin));
-            margin-right: calc(-1 * var(--spacing-margin));
-            padding-left: var(--spacing-margin);
-            padding-right: var(--spacing-margin);
+            scrollbar-width: thin;
           }
-          .product-detail-root .pdc-gallery-scroll::-webkit-scrollbar {
-            display: none;
+          .product-detail-root .pdc-gallery-thumbs::-webkit-scrollbar {
+            height: 4px;
           }
-          .product-detail-root .pdc-gallery-slide {
-            flex: 0 0 min(88vw, 420px);
-            scroll-snap-align: start;
+          .product-detail-root .pdc-gallery-thumb {
+            position: relative;
+            flex: 0 0 4rem;
+            cursor: pointer;
+            padding: 0;
+            width: 4rem;
+            height: 4rem;
+            scroll-snap-align: center;
+            overflow: hidden;
+            border: 2px solid transparent;
+            background: var(--color-surface-container-low);
+            transition: border-color 0.2s ease, opacity 0.2s ease;
+            opacity: 0.72;
+          }
+          .product-detail-root .pdc-gallery-thumb.is-active {
+            border-color: var(--color-honey-amber);
+            opacity: 1;
+          }
+          .product-detail-root .pdc-gallery-thumb:focus-visible {
+            outline: 2px solid var(--color-honey-amber);
+            outline-offset: 2px;
           }
           .product-detail-root .pdc-sticky-mobile {
             position: fixed;
@@ -255,7 +340,7 @@ export default function ProductDetailClient({
               flex-direction: column;
               gap: var(--spacing-space-lg);
             }
-            .product-detail-root .pdc-gallery-scroll {
+            .product-detail-root .pdc-gallery-mobile {
               display: none;
             }
             .product-detail-root .pdc-sticky-mobile {
@@ -308,33 +393,77 @@ export default function ProductDetailClient({
           <div className="lg:col-span-7">
             {images.length > 0 ? (
               <>
-                <div
-                  ref={galleryScrollRef}
-                  className="pdc-gallery-scroll lg:hidden"
-                  aria-label="Ürün görselleri"
-                >
-                  {images.map((src, i) => (
-                    <article
-                      key={`scroll-${src}`}
-                      className="pdc-gallery-slide flex flex-col overflow-hidden border border-hairline-light bg-surface-container-lowest"
+                <div className="pdc-gallery-mobile lg:hidden" aria-label="Ürün görselleri">
+                  <div className="pdc-gallery-main">
+                    {activeImageSrc ? (
+                      <Image
+                        src={activeImageSrc}
+                        alt={`${product.name} — görsel ${safeImageIndex + 1}`}
+                        fill
+                        priority={safeImageIndex === 0}
+                        sizes="(max-width: 64rem) 90vw, 420px"
+                        className="object-contain p-space-md"
+                      />
+                    ) : null}
+                    {imageCount > 1 ? (
+                      <>
+                        <span className="pdc-gallery-counter" aria-live="polite">
+                          {safeImageIndex + 1} / {imageCount}
+                        </span>
+                        <button
+                          type="button"
+                          className="pdc-gallery-nav pdc-gallery-nav--prev"
+                          onClick={goPrevImage}
+                          aria-label="Önceki görsel"
+                        >
+                          ‹
+                        </button>
+                        <button
+                          type="button"
+                          className="pdc-gallery-nav pdc-gallery-nav--next"
+                          onClick={goNextImage}
+                          aria-label="Sonraki görsel"
+                        >
+                          ›
+                        </button>
+                      </>
+                    ) : null}
+                    {safeImageIndex === 0 && batchLabel ? (
+                      <span className="absolute bottom-3 left-3 z-[2] bg-charcoal-pure/80 px-2 py-1 font-label-spec text-[10px] uppercase tracking-widest text-surface-container-lowest">
+                        {batchLabel}
+                      </span>
+                    ) : null}
+                  </div>
+
+                  {imageCount > 1 ? (
+                    <div
+                      ref={thumbStripRef}
+                      className="pdc-gallery-thumbs"
+                      role="tablist"
+                      aria-label="Görsel seçimi"
                     >
-                      <div className="relative aspect-square w-full overflow-hidden bg-surface-container-low">
-                        <Image
-                          src={src}
-                          alt={`${product.name} — görsel ${i + 1}`}
-                          fill
-                          priority={i === 0}
-                          sizes="88vw"
-                          className="object-contain p-space-md"
-                        />
-                        {i === 0 && batchLabel ? (
-                          <span className="absolute bottom-3 left-3 bg-charcoal-pure/80 px-2 py-1 font-label-spec text-[10px] uppercase tracking-widest text-surface-container-lowest">
-                            {batchLabel}
-                          </span>
-                        ) : null}
-                      </div>
-                    </article>
-                  ))}
+                      {images.map((src, i) => (
+                        <button
+                          key={`thumb-${src}-${i}`}
+                          type="button"
+                          role="tab"
+                          aria-selected={i === safeImageIndex}
+                          aria-label={`Görsel ${i + 1}`}
+                          data-thumb-active={i === safeImageIndex ? 'true' : 'false'}
+                          className={`pdc-gallery-thumb ${i === safeImageIndex ? 'is-active' : ''}`}
+                          onClick={() => setActiveImageIndex(i)}
+                        >
+                          <Image
+                            src={src}
+                            alt=""
+                            fill
+                            sizes="64px"
+                            className="object-contain p-1"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
 
                 <div className="pdc-gallery-stack">
