@@ -48,7 +48,7 @@ export function TopProductsList({ items, periodLabel = 'Son 30 gün' }: Props) {
                 <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '11px', color: 'var(--ad-fg-faint)', minWidth: '60px', textAlign: 'right' }}>
                   {p.units} adet
                 </span>
-                <span style={{ fontFamily: 'var(--font-cormorant), serif', fontSize: '17px', color: 'var(--ad-fg)', fontWeight: 500, minWidth: '90px', textAlign: 'right' }}>
+                <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '13px', color: 'var(--ad-fg)', fontWeight: 500, minWidth: '90px', textAlign: 'right' }}>
                   {formatPrice(p.revenue)}
                 </span>
               </Link>

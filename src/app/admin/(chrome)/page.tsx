@@ -56,7 +56,7 @@ export default async function AdminDashboardPage() {
           <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Pano</p>
           <h1 className="ad-display" style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: '0 0 10px' }}>
             {greeting()},{' '}
-            <span style={{ color: 'var(--ad-gold-deep)', fontStyle: 'italic', fontWeight: 400 }}>{name}.</span>
+            <span style={{ color: 'var(--ad-gold-deep)', fontWeight: 300 }}>{name}.</span>
           </h1>
           <p style={{ color: 'var(--ad-fg-muted)', fontSize: '14px', margin: 0 }}>
             Bugün <strong style={{ color: 'var(--ad-fg)', fontVariantNumeric: 'tabular-nums' }}>{stats.today.orders}</strong> sipariş ·
@@ -160,7 +160,7 @@ export default async function AdminDashboardPage() {
                   <span style={{ flex: 1, color: 'var(--ad-fg)', fontSize: '13px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {o.customer_name}
                   </span>
-                  <span style={{ fontFamily: 'var(--font-cormorant), serif', fontSize: '16px', fontWeight: 500, minWidth: '80px', textAlign: 'right' }}>
+                  <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '13px', fontWeight: 500, minWidth: '80px', textAlign: 'right' }}>
                     {formatPrice(o.total_amount)}
                   </span>
                 </Link>

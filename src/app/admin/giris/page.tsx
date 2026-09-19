@@ -37,7 +37,7 @@ export default async function AdminGirisPage({ searchParams }: { searchParams: S
                 alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: 'var(--ad-gold)',
-                color: '#15110D',
+                color: 'var(--ad-primary)',
                 fontFamily: 'var(--font-jetbrains), monospace',
                 fontSize: '11px',
                 fontWeight: 500,
@@ -48,7 +48,7 @@ export default async function AdminGirisPage({ searchParams }: { searchParams: S
               DRŞ
             </span>
             <div>
-              <p style={{ fontFamily: 'var(--font-cormorant), serif', fontSize: '18px', fontWeight: 500, color: 'var(--ad-fg)', margin: 0, lineHeight: 1 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '18px', fontWeight: 400, color: 'var(--ad-fg)', margin: 0, lineHeight: 1.2, letterSpacing: '-0.01em' }}>
                 Dr. Şenol
               </p>
               <p style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.25em', color: 'var(--ad-gold-deep)', textTransform: 'uppercase', margin: '4px 0 0' }} lang="en">
@@ -78,7 +78,7 @@ export default async function AdminGirisPage({ searchParams }: { searchParams: S
             <p style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--ad-gold-deep)', textTransform: 'uppercase', margin: '0 0 10px' }}>
               Oturum Aç
             </p>
-            <h1 style={{ fontFamily: 'var(--font-cormorant), serif', fontSize: '28px', fontWeight: 500, color: 'var(--ad-fg)', margin: 0, lineHeight: 1.2 }}>
+            <h1 style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '28px', fontWeight: 300, color: 'var(--ad-fg)', margin: 0, lineHeight: 1.25, letterSpacing: '-0.02em' }}>
               Yönetim paneline giriş.
             </h1>
             <p style={{ color: 'var(--ad-fg-muted)', fontSize: '13px', margin: '8px 0 0', lineHeight: 1.55 }}>

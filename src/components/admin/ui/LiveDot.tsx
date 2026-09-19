@@ -17,9 +17,9 @@ const STATE_LABEL: Record<State, string> = {
 }
 
 const STATE_COLOR: Record<State, string> = {
-  live: '#DC2626',
-  idle: '#4F7A2A',
-  offline: '#9B9285',
+  live: 'var(--ad-live)',
+  idle: 'var(--ad-success)',
+  offline: 'var(--ad-fg-faint)',
 }
 
 export function LiveDot({ state = 'idle', label }: Props) {

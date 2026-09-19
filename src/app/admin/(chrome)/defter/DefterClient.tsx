@@ -327,11 +327,11 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
               flex-wrap: wrap;
             }
             .defter-card .amount {
-              font-family: var(--font-cormorant), serif;
-              font-size: 22px;
+              font-family: var(--font-jetbrains), monospace;
+              font-size: 18px;
               font-weight: 500;
               color: var(--ad-fg);
-              line-height: 1;
+              line-height: 1.2;
             }
             .defter-card .employee {
               font-size: 12px;

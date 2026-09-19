@@ -111,15 +111,15 @@ export default function ReviewModerationList({ initial }: { initial: AdminReview
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '10px' }}>
                 <div style={{ minWidth: 0, flex: '1 1 240px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
-                    <span style={{ color: '#C9A961', fontSize: '14px', letterSpacing: '1px' }}>
-                      {'★'.repeat(r.rating)}<span style={{ color: '#3A3530' }}>{'★'.repeat(5 - r.rating)}</span>
+                    <span style={{ color: 'var(--ad-gold)', fontSize: '14px', letterSpacing: '1px' }}>
+                      {'★'.repeat(r.rating)}<span style={{ color: 'var(--ad-line-strong)' }}>{'★'.repeat(5 - r.rating)}</span>
                     </span>
                     {r.is_verified_purchase && (
-                      <span className="ad-mono" style={{ fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#7AAD8B', border: '1px solid rgba(122,173,139,0.4)', padding: '2px 6px' }}>
+                      <span className="ad-mono" style={{ fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ad-success)', border: '1px solid var(--ad-success)', padding: '2px 6px' }}>
                         ✓ Alışveriş
                       </span>
                     )}
-                    <span className={r.is_approved ? '' : ''} style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: r.is_approved ? '#7AAD8B' : '#C9A961' }}>
+                    <span className={r.is_approved ? '' : ''} style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: r.is_approved ? 'var(--ad-success)' : 'var(--ad-gold)' }}>
                       {r.is_approved ? 'Onaylı' : 'Bekliyor'}
                     </span>
                   </div>
@@ -141,7 +141,7 @@ export default function ReviewModerationList({ initial }: { initial: AdminReview
                   <p style={{ margin: '0 0 2px' }}>{r.customer_email}</p>
                   <p style={{ margin: '0 0 8px' }}>{formatDate(r.created_at)}</p>
                   {r.product_slug && (
-                    <a href={`/urun/${r.product_slug}`} target="_blank" rel="noopener" style={{ color: '#C9A961', textDecoration: 'none' }}>
+                    <a href={`/urun/${r.product_slug}`} target="_blank" rel="noopener" style={{ color: 'var(--ad-gold-deep)', textDecoration: 'none' }}>
                       {r.product_name ?? r.product_slug} ↗
                     </a>
                   )}
@@ -158,7 +158,7 @@ export default function ReviewModerationList({ initial }: { initial: AdminReview
                     Onayla
                   </button>
                 )}
-                <button type="button" onClick={() => deleteReview(r.id)} disabled={pending.has(r.id)} className="ad-btn" style={{ fontSize: '11px', borderColor: 'rgba(209,123,106,0.4)', color: '#D17B6A' }}>
+                <button type="button" onClick={() => deleteReview(r.id)} disabled={pending.has(r.id)} className="ad-btn" style={{ fontSize: '11px', borderColor: 'var(--ad-danger)', color: 'var(--ad-danger)' }}>
                   Sil
                 </button>
               </div>

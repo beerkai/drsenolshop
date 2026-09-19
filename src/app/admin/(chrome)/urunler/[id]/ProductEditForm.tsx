@@ -364,7 +364,7 @@ function ToggleRow({
             left: checked ? '18px' : '2px',
             width: '16px',
             height: '16px',
-            backgroundColor: checked ? '#15110D' : 'var(--ad-surface)',
+            backgroundColor: checked ? 'var(--ad-primary)' : 'var(--ad-surface)',
             transition: 'left 160ms, background-color 160ms',
             boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
           }}

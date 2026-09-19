@@ -80,7 +80,7 @@ export function MobileNav({ open, onClose, pendingOrders }: { open: boolean; onC
             <p style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.3em', color: 'var(--ad-gold-deep)', textTransform: 'uppercase', margin: 0 }} lang="en">
               Admin
             </p>
-            <p style={{ fontFamily: 'var(--font-cormorant), serif', color: 'var(--ad-fg)', fontSize: '20px', fontWeight: 500, lineHeight: 1, marginTop: '4px' }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans), sans-serif', color: 'var(--ad-fg)', fontSize: '20px', fontWeight: 300, lineHeight: 1.2, letterSpacing: '-0.01em', marginTop: '4px' }}>
               Dr. Şenol
             </p>
           </div>

@@ -60,7 +60,7 @@ export function UserMenu({ email, fullName, role }: Props) {
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: 'var(--ad-gold)',
-            color: '#15110D',
+            color: 'var(--ad-primary)',
             fontFamily: 'var(--font-jetbrains), monospace',
             fontSize: '10px',
             fontWeight: 500,

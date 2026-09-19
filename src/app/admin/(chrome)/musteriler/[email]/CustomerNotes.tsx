@@ -94,7 +94,7 @@ export default function CustomerNotes({ customerEmail, initial }: { customerEmai
                 <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', margin: 0, letterSpacing: '0.05em' }}>
                   {n.admin_email ?? '—'} · {formatDate(n.created_at)}
                 </p>
-                <button type="button" onClick={() => deleteNote(n.id)} disabled={pending.has(n.id)} className="ad-btn" style={{ fontSize: '10px', padding: '4px 10px', borderColor: 'rgba(209,123,106,0.4)', color: '#D17B6A' }}>
+                <button type="button" onClick={() => deleteNote(n.id)} disabled={pending.has(n.id)} className="ad-btn" style={{ fontSize: '10px', padding: '4px 10px', borderColor: 'var(--ad-danger)', color: 'var(--ad-danger)' }}>
                   Sil
                 </button>
               </div>

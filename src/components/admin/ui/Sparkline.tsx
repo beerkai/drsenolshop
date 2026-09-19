@@ -12,7 +12,7 @@ export function Sparkline({
   data,
   width = 80,
   height = 24,
-  color = '#C9A961',
+  color = 'var(--ad-gold)',
   fillColor,
   showDots = false,
 }: Props) {

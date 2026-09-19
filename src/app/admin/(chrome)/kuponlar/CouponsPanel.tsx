@@ -209,7 +209,7 @@ export default function CouponsPanel({ initial }: { initial: CouponRow[] }) {
                     <span className="ad-mono" style={{ fontSize: '14px', color: 'var(--ad-fg)', letterSpacing: '0.08em', fontWeight: 600 }}>
                       {c.code}
                     </span>
-                    <span className="ad-mono" style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: c.is_active ? '#7AAD8B' : '#D17B6A' }}>
+                    <span className="ad-mono" style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: c.is_active ? 'var(--ad-success)' : 'var(--ad-danger)' }}>
                       {c.is_active ? 'Aktif' : 'Pasif'}
                     </span>
                   </div>
@@ -224,7 +224,7 @@ export default function CouponsPanel({ initial }: { initial: CouponRow[] }) {
                   <button type="button" onClick={() => toggle(c)} disabled={pending.has(c.id)} className="ad-btn" style={{ fontSize: '11px' }}>
                     {c.is_active ? 'Pasifleştir' : 'Aktifleştir'}
                   </button>
-                  <button type="button" onClick={() => remove(c)} disabled={pending.has(c.id)} className="ad-btn" style={{ fontSize: '11px', borderColor: 'rgba(209,123,106,0.4)', color: '#D17B6A' }}>
+                  <button type="button" onClick={() => remove(c)} disabled={pending.has(c.id)} className="ad-btn" style={{ fontSize: '11px', borderColor: 'var(--ad-danger)', color: 'var(--ad-danger)' }}>
                     Sil
                   </button>
                 </div>

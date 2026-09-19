@@ -1,30 +1,35 @@
 /* ═══════════════════════════════════════════════════════════════
-   ADMIN PANEL — LIGHT TECH TEMA
+   ADMIN PANEL — EDITORIAL MINIMAL / STITCH
+   Ana siteyle aynı renk ve tipografi tokenlarını kullanır.
    Sadece /admin/* route'larında geçerli (admin/layout.tsx import eder)
    ═══════════════════════════════════════════════════════════════ */
 
 .admin-shell {
-  /* Zemin */
-  --ad-bg: #FAFAF7;
-  --ad-surface: #FFFFFF;
-  --ad-surface-2: #F4F0E8;
-  --ad-surface-3: #EBE5D8;
+  /* Ana site / Stitch yüzeyleri */
+  --ad-bg: var(--color-surface, #f9f9f7);
+  --ad-surface: var(--color-surface-container-lowest, #ffffff);
+  --ad-surface-2: var(--color-surface-container-low, #f4f4f2);
+  --ad-surface-3: var(--color-surface-container, #eeeeec);
+  --ad-surface-sunken: var(--color-surface-container, #eeeeec);
 
-  /* Çizgi */
-  --ad-line-faint: #EDE9DE;
-  --ad-line: #D4CFC0;
-  --ad-line-strong: #9B9285;
+  /* Ana site hairline sistemi */
+  --ad-line-faint: var(--color-hairline-light, #e8e8e4);
+  --ad-line: var(--color-outline-variant, #c4c7c7);
+  --ad-line-strong: var(--color-hairline-subtle, #8c8c8c);
 
-  /* Metin */
-  --ad-fg: #1A1714;
-  --ad-fg-muted: #6B6258;
-  --ad-fg-faint: #9B9285;
+  /* Ana site metin hiyerarşisi */
+  --ad-fg: var(--color-on-surface, #1a1c1b);
+  --ad-fg-muted: var(--color-on-surface-variant, #444748);
+  --ad-fg-faint: var(--color-outline, #747878);
 
-  /* Aksan (marka) */
-  --ad-gold: #C9A961;
-  --ad-gold-deep: #9C7C3C;
-  --ad-gold-faint: rgba(201, 169, 97, 0.08);
-  --ad-gold-line: rgba(201, 169, 97, 0.25);
+  /* Ana site honey amber aksanı */
+  --ad-gold: var(--color-honey-amber, #d9a342);
+  --ad-gold-deep: var(--color-secondary, #745b1b);
+  --ad-gold-faint: rgb(217 163 66 / 0.09);
+  --ad-gold-line: rgb(217 163 66 / 0.32);
+  --ad-primary: var(--color-primary, #141414);
+  --ad-primary-hover: var(--color-primary-hover, #2a2a28);
+  --ad-on-primary: var(--color-on-primary, #ffffff);
 
   /* Semantik */
   --ad-success: #4F7A2A;
@@ -45,6 +50,8 @@
   font-variant-numeric: tabular-nums;
   min-height: 100vh;
   font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
 }
 
 /* ═══ KEYFRAMES ═══ */
@@ -78,7 +85,9 @@
 }
 
 .ad-display {
-  font-family: var(--font-cormorant), serif;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-weight: 300 !important;
+  letter-spacing: -0.02em;
 }
 
 .ad-eyebrow {
@@ -128,7 +137,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.18em;
@@ -145,14 +154,14 @@
 }
 
 .ad-btn-primary {
-  background-color: var(--ad-gold);
-  color: #15110D;
-  border-color: var(--ad-gold);
+  background-color: var(--ad-primary);
+  color: var(--ad-on-primary);
+  border-color: var(--ad-primary);
 }
 .ad-btn-primary:hover:not(:disabled) {
-  background-color: var(--ad-gold-deep);
-  border-color: var(--ad-gold-deep);
-  color: #FFFFFF;
+  background-color: var(--ad-primary-hover);
+  border-color: var(--ad-primary-hover);
+  color: var(--ad-on-primary);
 }
 
 .ad-btn-secondary {
@@ -181,7 +190,7 @@
 }
 .ad-btn-danger:hover:not(:disabled) {
   background-color: var(--ad-danger);
-  color: #FFFFFF;
+  color: var(--ad-on-primary);
 }
 
 .ad-btn-sm {
@@ -230,7 +239,7 @@
   color: var(--ad-fg);
   font-family: var(--font-inter), sans-serif;
   font-size: 13px;
-  line-height: 1.4;
+  line-height: 1.55;
   outline: none;
   transition: border-color 120ms;
 }
@@ -416,8 +425,9 @@
   gap: 12px;
   padding: 9px 16px;
   margin: 1px 8px;
-  font-family: var(--font-inter), sans-serif;
-  font-size: 13px;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.02em;
   color: var(--ad-fg-muted);
   text-decoration: none;
   border-left: 2px solid transparent;
@@ -458,7 +468,7 @@
   font-family: var(--font-jetbrains), monospace;
   font-size: 9px;
   background-color: var(--ad-danger);
-  color: #FFFFFF;
+  color: var(--ad-on-primary);
   padding: 1px 5px;
   border-radius: 8px;
   min-width: 16px;
@@ -542,10 +552,11 @@
 }
 
 .ad-metric-value {
-  font-family: var(--font-cormorant), serif;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
   font-size: 32px;
-  font-weight: 500;
+  font-weight: 300;
   line-height: 1;
+  letter-spacing: -0.02em;
   color: var(--ad-fg);
   margin: 0;
   font-variant-numeric: tabular-nums;
@@ -597,8 +608,10 @@
 }
 .ad-empty-icon { color: var(--ad-fg-faint); margin-bottom: 12px; }
 .ad-empty-title {
-  font-family: var(--font-cormorant), serif;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
   font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   color: var(--ad-fg-muted);
   margin: 0 0 6px;
 }
@@ -934,7 +947,7 @@
   top: 0;
   padding: 2px 6px;
   background: var(--ad-gold);
-  color: #15110d;
+  color: var(--ad-primary);
   font-family: var(--font-jetbrains), monospace;
   font-size: 9px;
   letter-spacing: 0.14em;
