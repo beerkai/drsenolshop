@@ -14,6 +14,8 @@ interface SortDropdownProps {
   value: SortOption
   onChange: (value: SortOption) => void
   label?: string
+  /** Koleksiyon toolbar: tam genişlik, taşma yok */
+  layout?: 'inline' | 'toolbar'
 }
 
 const OPTIONS: { value: SortOption; label: string }[] = [
@@ -24,22 +26,39 @@ const OPTIONS: { value: SortOption; label: string }[] = [
   { value: 'name', label: 'İsim: A–Z' },
 ]
 
-export default function SortDropdown({ value, onChange, label = 'Sıralama:' }: SortDropdownProps) {
+export default function SortDropdown({
+  value,
+  onChange,
+  label = 'Sıralama:',
+  layout = 'inline',
+}: SortDropdownProps) {
+  const isToolbar = layout === 'toolbar'
+
   return (
-    <div className="flex items-center gap-1.5 text-on-surface">
+    <div
+      className={
+        isToolbar
+          ? 'flex w-full min-w-0 items-center justify-between gap-2 text-on-surface'
+          : 'flex items-center gap-1.5 text-on-surface'
+      }
+    >
       <label
         htmlFor="ed-sort-select"
-        className="font-editorial-caption text-editorial-caption uppercase tracking-[0.14em] text-on-surface-variant"
+        className="shrink-0 font-editorial-caption text-editorial-caption uppercase tracking-[0.14em] text-on-surface-variant"
       >
         {label}
       </label>
 
-      <div className="relative flex items-center">
+      <div className={`relative flex min-w-0 items-center ${isToolbar ? 'flex-1 justify-end' : ''}`}>
         <select
           id="ed-sort-select"
           value={value}
           onChange={(e) => onChange(e.target.value as SortOption)}
-          className="cursor-pointer appearance-none bg-transparent py-1 pr-5 font-nav-caps text-nav-caps uppercase tracking-[0.12em] text-on-surface focus:outline-none focus-visible:underline focus-visible:decoration-honey-amber focus-visible:underline-offset-4"
+          className={`cursor-pointer appearance-none bg-transparent py-1 pr-5 font-nav-caps uppercase tracking-[0.12em] text-on-surface focus:outline-none focus-visible:underline focus-visible:decoration-honey-amber focus-visible:underline-offset-4 ${
+            isToolbar
+              ? 'max-w-full min-w-0 flex-1 truncate text-right text-[11px] sm:text-nav-caps'
+              : 'text-nav-caps'
+          }`}
         >
           {OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>
