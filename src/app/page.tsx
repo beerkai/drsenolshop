@@ -1,4 +1,5 @@
 import Hero from '@/components/Hero'
+import HomeCuratedProducts from '@/components/editorial/HomeCuratedProducts'
 import EditorialHeader from '@/components/editorial/EditorialHeader'
 import EditorialMobileNav from '@/components/editorial/EditorialMobileNav'
 import HomeCurationStrip from '@/components/editorial/HomeCurationStrip'
@@ -23,6 +24,7 @@ export default async function HomePage() {
 
       <main className="flex w-full flex-col bg-surface pb-28 pt-[var(--editorial-header-stack-mobile)] lg:pb-0 lg:pt-[var(--editorial-header-stack)]">
         <Hero {...hero} />
+        <HomeCuratedProducts />
         <HomeCurationStrip content={curationStrip} />
         <HomeHarvestMetrics cells={cms.harvestMetrics} />
         <EditorialFeedSection header={cms.feed.header} items={cms.feed.items} />

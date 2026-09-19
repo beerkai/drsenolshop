@@ -14,12 +14,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { ProductWithRelations } from '@/types'
 import { useProductLabels } from '@/lib/product-labels-context'
-import {
-  formatPrice,
-  getProductImages,
-  getProductStartingPrice,
-  getVariantStock,
-} from '@/types'
+import ProductPriceRow from '@/components/product/ProductPriceRow'
+import { getProductImages, getProductStartingPrice, getVariantStock } from '@/types'
 
 interface ProductCardProps {
   product: ProductWithRelations
@@ -119,15 +115,7 @@ export default function ProductCard({
           </div>
 
           <div className="mt-2 flex items-baseline justify-between gap-space-sm pt-3">
-            {price ? (
-              <span className="font-price-tag text-price-tag font-medium text-honey-amber">
-                {formatPrice(price.current)}
-              </span>
-            ) : (
-              <span className="font-label-spec text-label-spec uppercase text-on-surface-variant">
-                {labels.variantPricePlaceholder}
-              </span>
-            )}
+            <ProductPriceRow price={price} placeholder={labels.variantPricePlaceholder} />
             {footnote ? (
               <span className="shrink-0 font-editorial-caption text-editorial-caption uppercase tracking-wider text-on-surface-variant">
                 {footnote}

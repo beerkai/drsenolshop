@@ -11,7 +11,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { ProductWithRelations } from '@/types'
-import { formatPrice, getProductImage, getProductStartingPrice } from '@/types'
+import ProductPriceRow from '@/components/product/ProductPriceRow'
+import { getProductImage, getProductStartingPrice } from '@/types'
 
 interface Props {
   open: boolean
@@ -188,11 +189,9 @@ export default function EditorialSearchOverlay({
                         </span>
                       </span>
 
-                      {price ? (
-                        <span className="shrink-0 font-price-tag text-price-tag font-medium text-honey-amber">
-                          {formatPrice(price.current)}
-                        </span>
-                      ) : null}
+                      <span className="shrink-0">
+                        <ProductPriceRow price={price} size="inline" />
+                      </span>
                     </Link>
                   </li>
                 )
