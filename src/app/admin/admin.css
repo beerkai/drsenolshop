@@ -5,31 +5,28 @@
    ═══════════════════════════════════════════════════════════════ */
 
 .admin-shell {
-  /* Editorial bone — mağaza ile aynı sıcak zemin */
-  --ad-bg: #F4F0E8;
+  /* Editorial — globals.css @theme ile hizalı (bone / ink / gold) */
+  --ad-bg: var(--color-bone, #F4F0E8);
   --ad-surface: #FFFFFF;
-  --ad-surface-2: var(--color-surface-container-low, #f4f4f2);
-  --ad-surface-3: var(--color-surface-container, #eeeeec);
-  --ad-surface-sunken: var(--color-surface-container, #eeeeec);
+  --ad-surface-2: var(--color-bone-2, #EBE5D8);
+  --ad-surface-3: var(--color-bone-3, #E0D8C7);
+  --ad-surface-sunken: var(--color-bone-2, #EBE5D8);
 
-  /* Ana site hairline sistemi */
-  --ad-line-faint: var(--color-hairline-light, #e8e8e4);
-  --ad-line: var(--color-outline-variant, #c4c7c7);
-  --ad-line-strong: var(--color-hairline-subtle, #8c8c8c);
+  --ad-line-faint: var(--color-bone-3, #E0D8C7);
+  --ad-line: #C9C0B0;
+  --ad-line-strong: var(--color-cream-muted, #B8B0A0);
 
-  /* Ana site metin hiyerarşisi */
-  --ad-fg: var(--color-on-surface, #1a1c1b);
-  --ad-fg-muted: var(--color-on-surface-variant, #444748);
-  --ad-fg-faint: var(--color-outline, #747878);
+  --ad-fg: var(--color-ink, #15110D);
+  --ad-fg-muted: #6B6258;
+  --ad-fg-faint: var(--color-cream-muted, #B8B0A0);
 
-  /* Ana site honey amber aksanı */
-  --ad-gold: var(--color-honey-amber, #d9a342);
-  --ad-gold-deep: var(--color-secondary, #745b1b);
-  --ad-gold-faint: rgb(217 163 66 / 0.09);
-  --ad-gold-line: rgb(217 163 66 / 0.32);
-  --ad-primary: var(--color-primary, #141414);
-  --ad-primary-hover: var(--color-primary-hover, #2a2a28);
-  --ad-on-primary: var(--color-on-primary, #ffffff);
+  --ad-gold: var(--color-gold, #C9A961);
+  --ad-gold-deep: var(--color-gold-deep, #9C7C3C);
+  --ad-gold-faint: rgb(201 169 97 / 0.12);
+  --ad-gold-line: rgb(201 169 97 / 0.35);
+  --ad-primary: var(--color-ink, #15110D);
+  --ad-primary-hover: var(--color-ink-2, #1C1814);
+  --ad-on-primary: #F4F0E8;
 
   /* Semantik */
   --ad-success: #4F7A2A;
@@ -93,9 +90,9 @@
 .ad-eyebrow {
   font-family: var(--font-jetbrains), monospace;
   font-size: 10px;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--ad-gold);
+  color: var(--ad-gold-deep);
   font-weight: 500;
 }
 
@@ -137,10 +134,10 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
-  font-size: 11px;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
   font-weight: 500;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   padding: 9px 16px;
   min-height: 36px;
@@ -486,6 +483,7 @@
   background-color: var(--ad-surface);
   border-bottom: 1px solid var(--ad-line-faint);
   height: 56px;
+  box-shadow: 0 1px 0 rgb(21 17 13 / 0.04);
 }
 
 .ad-topbar-inner {
@@ -679,7 +677,7 @@
     justify-content: space-between;
     padding: 6px 14px;
     border-bottom: 1px solid var(--ad-line-faint);
-    background: var(--ad-surface-2);
+    background: var(--ad-bg);
     min-height: 30px;
     gap: 10px;
     flex-wrap: wrap;
@@ -773,6 +771,28 @@
 
 /* ═══ MOBİL ALT TAB BAR (PWA) ═══ */
 
+.ad-theme-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.ad-theme-tabs::-webkit-scrollbar { display: none; }
+
+.ad-schema-banner {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--ad-gold-line);
+  background: var(--ad-gold-faint);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ad-fg-muted);
+}
+
 .ad-mobile-tabbar {
   display: none;
   position: fixed;
@@ -780,8 +800,8 @@
   right: 0;
   bottom: 0;
   z-index: 40;
-  background-color: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
+  background-color: rgb(244 240 232 / 0.94);
+  backdrop-filter: blur(14px);
   border-top: 1px solid var(--ad-line-faint);
   padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
   justify-content: space-around;

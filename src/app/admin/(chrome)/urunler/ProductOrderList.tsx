@@ -96,15 +96,20 @@ export default function ProductOrderList({
               Sırala
             </button>
           )
-        ) : (
-          <span className="ad-mono" style={{ fontSize: 10, color: 'var(--ad-warning)', letterSpacing: '0.08em' }}>
-            Sıralama için EKSIK_MIGRATIONS.sql çalıştırılmalı (display_order kolonu yok).
-          </span>
-        )}
+        ) : null}
       </div>
 
+      {!canReorder ? (
+        <div className="ad-schema-banner" role="status">
+          <strong style={{ color: 'var(--ad-fg)' }}>Katalog sıralaması kapalı.</strong>{' '}
+          Veritabanında <code>products.display_order</code> kolonu yok — Supabase&apos;de{' '}
+          <code>0018_admin_content.sql</code> (veya <code>EKSIK_MIGRATIONS.sql</code>) çalıştırın.
+          Ürünler ada göre listeleniyor.
+        </div>
+      ) : null}
+
       <div className="ad-table-wrap">
-        <table className="ad-table">
+        <table className="ad-table ad-table-mobile">
           <thead>
             <tr>
               {sorting ? <th style={{ width: 84 }}>Sıra</th> : null}
@@ -140,7 +145,7 @@ export default function ProductOrderList({
                       </div>
                     </td>
                   ) : null}
-                  <td>
+                  <td className="is-row-head" data-label="Ürün">
                     <p style={{ color: 'var(--ad-fg)', fontSize: '13px', margin: 0, fontWeight: 500 }}>{p.name}</p>
                     <p
                       className="ad-mono"
@@ -149,8 +154,8 @@ export default function ProductOrderList({
                       {p.slug}
                     </p>
                   </td>
-                  <td style={{ color: 'var(--ad-fg-muted)' }}>{p.category_name ?? '—'}</td>
-                  <td className="is-right">
+                  <td data-label="Kategori" style={{ color: 'var(--ad-fg-muted)' }}>{p.category_name ?? '—'}</td>
+                  <td className="is-right" data-label="Fiyat">
                     {p.base_price !== null && p.base_price > 0 ? (
                       <span className="ad-display" style={{ fontSize: '16px', fontWeight: 500 }}>
                         {formatPrice(p.base_price)}
@@ -166,11 +171,12 @@ export default function ProductOrderList({
                       <span style={{ color: 'var(--ad-fg-faint)' }}>—</span>
                     )}
                   </td>
-                  <td className="is-right ad-mono" style={{ fontSize: '12px', color: 'var(--ad-fg-muted)' }}>
+                  <td className="is-right ad-mono" data-label="KDV" style={{ fontSize: '12px', color: 'var(--ad-fg-muted)' }}>
                     %{p.tax_rate ?? 0}
                   </td>
                   <td
                     className="is-right ad-mono"
+                    data-label="Stok"
                     style={{
                       fontSize: '12px',
                       color: isOut ? 'var(--ad-danger)' : isLow ? 'var(--ad-warning)' : 'var(--ad-fg)',
@@ -184,7 +190,7 @@ export default function ProductOrderList({
                       (p.stock_quantity ?? 0)
                     )}
                   </td>
-                  <td>
+                  <td data-label="Durum">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
                       <Badge tone={p.is_active ? 'success' : 'neutral'}>{p.is_active ? 'Aktif' : 'Pasif'}</Badge>
                       {p.is_featured && (
@@ -194,7 +200,7 @@ export default function ProductOrderList({
                       )}
                     </div>
                   </td>
-                  <td className="is-right">
+                  <td className="is-right" data-label="">
                     <Link href={`/admin/urunler/${p.id}`} className="ad-btn ad-btn-secondary ad-btn-sm">
                       Düzenle <IconArrowRight size={11} />
                     </Link>

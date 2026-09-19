@@ -712,8 +712,12 @@ export async function listProducts(
   let data = first.data
   const error = first.error
   if (error) {
-    console.error('[listProducts] display_order okunamadı, ada göre listeleniyor:', error.message)
-    ordered = false
+    const missingColumn =
+      /display_order/i.test(error.message) ||
+      error.code === '42703' ||
+      error.code === 'PGRST204'
+    console.error('[listProducts] sorgu hatası, fallback:', error.message)
+    ordered = !missingColumn
     ;({ data } = await run(false))
   }
 

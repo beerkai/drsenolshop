@@ -2,7 +2,7 @@ import { requireAdmin } from '@/lib/admin-auth'
 import { listOrders } from '@/lib/admin-data'
 import { RecentOrdersTable } from '@/components/admin/dashboard/RecentOrdersTable'
 import Link from 'next/link'
-import SearchBar from './SearchBar'
+import OrdersSearchForm from './OrdersSearchForm'
 
 const STATUS_FILTERS = [
   { value: '',           label: 'Tümü' },
@@ -38,10 +38,10 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
         </h1>
       </div>
 
-      <SearchBar initial={search} />
+      <OrdersSearchForm initial={search} status={status} />
 
       {/* Filtre çubuğu */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '20px' }}>
+      <div className="ad-theme-tabs" style={{ marginBottom: '20px' }}>
         {STATUS_FILTERS.map((f) => {
           const isActive = (status ?? '') === f.value
           const params = new URLSearchParams()

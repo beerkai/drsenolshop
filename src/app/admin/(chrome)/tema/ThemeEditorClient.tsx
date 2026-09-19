@@ -154,12 +154,14 @@ export default function ThemeEditorClient({
   }
 
   // Akıştaki ürün kartları (öne çıkan ürün seçimi bunlar üzerinden)
+  const feedItems = content.editorial?.feed?.items ?? []
+
   const productCards = useMemo(
     () =>
-      content.editorial.feed.items
+      feedItems
         .map((item, index) => ({ item, index }))
         .filter(({ item }) => item.type === 'product' || item.type === 'product-dark'),
-    [content.editorial.feed.items]
+    [feedItems]
   )
 
   return (
@@ -204,7 +206,7 @@ export default function ThemeEditorClient({
       </div>
 
       {/* Bölüm sekmeleri */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 20 }}>
+      <div className="ad-theme-tabs">
         {SECTIONS.map((s) => (
           <button
             key={s.id}

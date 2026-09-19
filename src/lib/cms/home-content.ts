@@ -87,6 +87,23 @@ function merge(stored: Partial<HomeContent> | null): HomeContent {
     editorial: {
       ...defaultHomeContent.editorial,
       ...(stored.editorial ?? {}),
+      feed: {
+        ...defaultHomeContent.editorial.feed,
+        ...(stored.editorial?.feed ?? {}),
+        header: {
+          ...defaultHomeContent.editorial.feed.header,
+          ...(stored.editorial?.feed?.header ?? {}),
+        },
+        // Kısmi DB kaydı items'ı silmesin — tema editörü crash olmasın
+        items:
+          Array.isArray(stored.editorial?.feed?.items) && stored.editorial.feed.items.length > 0
+            ? stored.editorial.feed.items
+            : defaultHomeContent.editorial.feed.items,
+      },
+      journal: {
+        ...defaultHomeContent.editorial.journal,
+        ...(stored.editorial?.journal ?? {}),
+      },
       footer: {
         ...defaultHomeContent.editorial.footer,
         ...(stored.editorial?.footer ?? {}),
