@@ -1,0 +1,55 @@
+{
+  "name": "Dr. Şenol Admin",
+  "short_name": "DRŞ Admin",
+  "description": "Sipariş, defter, stok ve mağaza yönetimi — editorial admin panel.",
+  "start_url": "/admin",
+  "scope": "/admin",
+  "id": "/admin",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#F4F0E8",
+  "theme_color": "#F4F0E8",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Siparişler",
+      "short_name": "Sipariş",
+      "url": "/admin/siparisler",
+      "description": "Bekleyen ve tüm siparişler"
+    },
+    {
+      "name": "Defter",
+      "short_name": "Defter",
+      "url": "/admin/defter",
+      "description": "Günlük satış defteri"
+    },
+    {
+      "name": "Pano",
+      "short_name": "Pano",
+      "url": "/admin",
+      "description": "Dashboard özeti"
+    },
+    {
+      "name": "Stok",
+      "short_name": "Stok",
+      "url": "/admin/stok",
+      "description": "Düşük stok uyarıları"
+    }
+  ]
+}

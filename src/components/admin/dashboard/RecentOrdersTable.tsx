@@ -16,7 +16,7 @@ export function RecentOrdersTable({ orders, withHeader = true }: Props) {
 
   return (
     <div className="ad-table-wrap">
-      <table className="ad-table">
+      <table className="ad-table ad-table-mobile">
         {withHeader && (
           <thead>
             <tr>
@@ -32,7 +32,7 @@ export function RecentOrdersTable({ orders, withHeader = true }: Props) {
         <tbody>
           {orders.map((o) => (
             <tr key={o.id}>
-              <td>
+              <td className="is-row-head" data-label="Sipariş">
                 <Link
                   href={`/admin/siparisler/${o.order_number}`}
                   style={{
@@ -47,12 +47,12 @@ export function RecentOrdersTable({ orders, withHeader = true }: Props) {
                   {o.order_number}
                 </Link>
               </td>
-              <td>
+              <td data-label="Müşteri">
                 <p style={{ color: 'var(--ad-fg)', margin: 0, fontSize: '13px' }}>{o.customer_name}</p>
                 <p style={{ color: 'var(--ad-fg-faint)', margin: '2px 0 0', fontSize: '11px' }}>{o.customer_email}</p>
               </td>
-              <td><StatusBadge value={o.status} /></td>
-              <td>
+              <td data-label="Durum"><StatusBadge value={o.status} /></td>
+              <td data-label="Ödeme">
                 <p className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', margin: 0, textTransform: 'uppercase' }}>
                   {o.payment_method === 'bank_transfer' ? 'Havale' : o.payment_method}
                 </p>
@@ -60,10 +60,10 @@ export function RecentOrdersTable({ orders, withHeader = true }: Props) {
                   {o.payment_status}
                 </p>
               </td>
-              <td className="is-right">
+              <td className="is-right" data-label="Tutar">
                 <span className="ad-display" style={{ fontSize: '17px', fontWeight: 500 }}>{formatPrice(o.total_amount)}</span>
               </td>
-              <td className="is-right ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
+              <td className="is-right ad-mono" data-label="Tarih" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
                 {new Date(o.created_at).toLocaleString('tr-TR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
               </td>
             </tr>

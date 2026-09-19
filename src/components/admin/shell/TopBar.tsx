@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Breadcrumb, type Crumb } from './Breadcrumb'
 import { Clock } from './Clock'
@@ -29,6 +29,11 @@ const PATH_LABELS: Record<string, string> = {
   hafta: 'Haftalık',
   arsiv: 'Arşiv',
   ayarlar: 'Ayarlar',
+  epostalar: 'E-postalar',
+  tema: 'Tema',
+  kategoriler: 'Kategoriler',
+  yorumlar: 'Yorumlar',
+  kuponlar: 'Kuponlar',
   giris: 'Giriş',
 }
 
@@ -52,6 +57,12 @@ export function TopBar({ email, fullName, role, pendingOrders }: Props) {
   const crumbs = buildCrumbs(pathname)
   const { open: openCommandPalette } = useCommandPalette()
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+
+  useEffect(() => {
+    const open = () => setMobileNavOpen(true)
+    window.addEventListener('ad-open-mobile-nav', open)
+    return () => window.removeEventListener('ad-open-mobile-nav', open)
+  }, [])
 
   return (
     <>

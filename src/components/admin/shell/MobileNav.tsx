@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, type ReactNode } from 'react'
+import { ADMIN_NAV_PRIMARY, ADMIN_NAV_SECONDARY, isAdminNavActive } from '@/config/admin-nav'
 import {
   IconDashboard,
   IconOrders,
@@ -25,26 +26,53 @@ function IconLedger({ size = 16 }: { size?: number }) {
   )
 }
 
-interface NavItem {
-  href: string
-  label: string
-  icon: ReactNode
+function IconCategories({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="9" y1="12" x2="20" y2="12" />
+      <line x1="9" y1="18" x2="20" y2="18" />
+      <path d="M4 6v12" />
+      <line x1="4" y1="12" x2="6" y2="12" />
+      <line x1="4" y1="18" x2="6" y2="18" />
+    </svg>
+  )
 }
 
-const NAV_PRIMARY: NavItem[] = [
-  { href: '/admin',             label: 'Pano',        icon: <IconDashboard /> },
-  { href: '/admin/siparisler',  label: 'Siparişler',  icon: <IconOrders /> },
-  { href: '/admin/urunler',     label: 'Ürünler',     icon: <IconProducts /> },
-  { href: '/admin/musteriler',  label: 'Müşteriler',  icon: <IconCustomers /> },
-  { href: '/admin/analitik',    label: 'Analitik',    icon: <IconAnalytics /> },
-  { href: '/admin/stok',        label: 'Stok',        icon: <IconStock /> },
-  { href: '/admin/gunluk',      label: 'Günlük',      icon: <IconJournal /> },
-  { href: '/admin/defter',      label: 'Defter',      icon: <IconLedger /> },
-]
+function IconTheme({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 3a9 9 0 0 0 0 18 3 3 0 0 0 0-6 3 3 0 0 1 0-6 3 3 0 0 0 0-6z" />
+    </svg>
+  )
+}
 
-const NAV_SECONDARY: NavItem[] = [
-  { href: '/admin/ayarlar', label: 'Ayarlar', icon: <IconSettings /> },
-]
+function IconMail({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  )
+}
+
+const ICON_BY_HREF: Record<string, ReactNode> = {
+  '/admin': <IconDashboard />,
+  '/admin/siparisler': <IconOrders />,
+  '/admin/urunler': <IconProducts />,
+  '/admin/kategoriler': <IconCategories />,
+  '/admin/musteriler': <IconCustomers />,
+  '/admin/analitik': <IconAnalytics />,
+  '/admin/stok': <IconStock />,
+  '/admin/gunluk': <IconJournal />,
+  '/admin/defter': <IconLedger />,
+  '/admin/tema': <IconTheme />,
+  '/admin/epostalar': <IconMail />,
+  '/admin/yorumlar': <IconAnalytics />,
+  '/admin/kuponlar': <IconAnalytics />,
+  '/admin/ayarlar': <IconSettings />,
+}
 
 export function MobileNav({ open, onClose, pendingOrders }: { open: boolean; onClose: () => void; pendingOrders?: number }) {
   const pathname = usePathname()
@@ -56,7 +84,6 @@ export function MobileNav({ open, onClose, pendingOrders }: { open: boolean; onC
     return () => window.removeEventListener('keydown', onKey)
   }, [open, onClose])
 
-  // Body scroll lock
   useEffect(() => {
     if (!open) return
     const prev = document.body.style.overflow
@@ -66,11 +93,6 @@ export function MobileNav({ open, onClose, pendingOrders }: { open: boolean; onC
 
   if (!open) return null
 
-  function isActive(href: string): boolean {
-    if (href === '/admin') return pathname === '/admin'
-    return pathname.startsWith(href)
-  }
-
   return (
     <>
       <div className="ad-mobile-drawer-backdrop" onClick={onClose} aria-hidden />
@@ -78,10 +100,13 @@ export function MobileNav({ open, onClose, pendingOrders }: { open: boolean; onC
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--ad-line-faint)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
             <p style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.3em', color: 'var(--ad-gold-deep)', textTransform: 'uppercase', margin: 0 }} lang="en">
-              Admin
+              THE HONEY SCIENTIST
             </p>
-            <p style={{ fontFamily: 'var(--font-dm-sans), sans-serif', color: 'var(--ad-fg)', fontSize: '20px', fontWeight: 300, lineHeight: 1.2, letterSpacing: '-0.01em', marginTop: '4px' }}>
+            <p style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', color: 'var(--ad-fg)', fontSize: '22px', fontWeight: 500, lineHeight: 1.2, letterSpacing: '-0.01em', marginTop: '4px' }}>
               Dr. Şenol
+            </p>
+            <p className="ad-mono" style={{ fontSize: '9px', letterSpacing: '0.22em', color: 'var(--ad-fg-faint)', textTransform: 'uppercase', margin: '6px 0 0' }}>
+              Admin · Editorial
             </p>
           </div>
           <button type="button" onClick={onClose} aria-label="Menüyü kapat" className="ad-icon-btn">✕</button>
@@ -89,11 +114,13 @@ export function MobileNav({ open, onClose, pendingOrders }: { open: boolean; onC
 
         <div style={{ padding: '12px 0' }}>
           <SectionLabel>Yönetim</SectionLabel>
-          {NAV_PRIMARY.map((it) => (
+          {ADMIN_NAV_PRIMARY.map((it) => (
             <NavLinkRow
               key={it.href}
-              item={it}
-              active={isActive(it.href)}
+              href={it.href}
+              label={it.label}
+              icon={ICON_BY_HREF[it.href]}
+              active={isAdminNavActive(pathname, it)}
               badge={it.href === '/admin/siparisler' && pendingOrders ? pendingOrders : undefined}
               onClick={onClose}
             />
@@ -102,22 +129,29 @@ export function MobileNav({ open, onClose, pendingOrders }: { open: boolean; onC
 
         <div style={{ padding: '12px 0', borderTop: '1px solid var(--ad-line-faint)' }}>
           <SectionLabel>Sistem</SectionLabel>
-          {NAV_SECONDARY.map((it) => (
-            <NavLinkRow key={it.href} item={it} active={isActive(it.href)} onClick={onClose} />
+          {ADMIN_NAV_SECONDARY.map((it) => (
+            <NavLinkRow
+              key={it.href}
+              href={it.href}
+              label={it.label}
+              icon={ICON_BY_HREF[it.href]}
+              active={isAdminNavActive(pathname, it)}
+              onClick={onClose}
+            />
           ))}
         </div>
 
         <p
+          className="ad-mono"
           style={{
-            margin: '20px 24px 16px',
-            fontFamily: 'var(--font-jetbrains), monospace',
+            margin: '20px 24px calc(16px + env(safe-area-inset-bottom))',
             fontSize: '9px',
             letterSpacing: '0.22em',
             color: 'var(--ad-fg-faint)',
             textTransform: 'uppercase',
           }}
         >
-          Dr. Şenol · Admin v0.4
+          Saitabat · Bursa · DRSENOL.SHOP
         </p>
       </aside>
     </>
@@ -143,16 +177,30 @@ function SectionLabel({ children }: { children: ReactNode }) {
   )
 }
 
-function NavLinkRow({ item, active, badge, onClick }: { item: NavItem; active: boolean; badge?: number; onClick: () => void }) {
+function NavLinkRow({
+  href,
+  label,
+  icon,
+  active,
+  badge,
+  onClick,
+}: {
+  href: string
+  label: string
+  icon?: ReactNode
+  active: boolean
+  badge?: number
+  onClick: () => void
+}) {
   return (
     <Link
-      href={item.href}
+      href={href}
       onClick={onClick}
       className={['ad-nav-item', active && 'is-active'].filter(Boolean).join(' ')}
-      style={{ padding: '12px 20px', fontSize: '14px' }}
+      style={{ padding: '12px 20px', fontSize: '14px', minHeight: '44px' }}
     >
-      <span className="ad-nav-icon" aria-hidden>{item.icon}</span>
-      <span className="ad-nav-label">{item.label}</span>
+      <span className="ad-nav-icon" aria-hidden>{icon}</span>
+      <span className="ad-nav-label">{label}</span>
       {badge !== undefined && badge > 0 && (
         <span className="ad-nav-badge">{badge}</span>
       )}

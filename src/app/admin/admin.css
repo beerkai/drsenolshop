@@ -5,9 +5,9 @@
    ═══════════════════════════════════════════════════════════════ */
 
 .admin-shell {
-  /* Ana site / Stitch yüzeyleri */
-  --ad-bg: var(--color-surface, #f9f9f7);
-  --ad-surface: var(--color-surface-container-lowest, #ffffff);
+  /* Editorial bone — mağaza ile aynı sıcak zemin */
+  --ad-bg: #F4F0E8;
+  --ad-surface: #FFFFFF;
   --ad-surface-2: var(--color-surface-container-low, #f4f4f2);
   --ad-surface-3: var(--color-surface-container, #eeeeec);
   --ad-surface-sunken: var(--color-surface-container, #eeeeec);
@@ -85,8 +85,8 @@
 }
 
 .ad-display {
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
-  font-weight: 300 !important;
+  font-family: var(--font-cormorant), var(--font-dm-sans), Georgia, serif;
+  font-weight: 500 !important;
   letter-spacing: -0.02em;
 }
 
@@ -656,10 +656,14 @@
 }
 
 @media (max-width: 1024px) {
-  /* Sidebar gizli — hamburger ile drawer açılır */
+  /* Sidebar gizli — hamburger / alt tab bar */
   .ad-sidebar { display: none !important; }
-  .ad-shell-main { margin-left: 0 !important; }
+  .ad-shell-main {
+    margin-left: 0 !important;
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+  }
   .ad-mobile-menu-btn { display: inline-flex; }
+  .ad-mobile-tabbar { display: flex; }
 }
 
 @media (max-width: 880px) {
@@ -757,13 +761,143 @@
 }
 .ad-mobile-drawer {
   position: fixed; top: 0; left: 0; bottom: 0;
-  width: 280px;
-  max-width: 86vw;
+  width: min(300px, 88vw);
+  max-width: 88vw;
   background-color: var(--ad-surface);
   border-right: 1px solid var(--ad-line);
   z-index: 95;
   overflow-y: auto;
+  padding-top: env(safe-area-inset-top, 0px);
   animation: ad-drawer-slide 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ═══ MOBİL ALT TAB BAR (PWA) ═══ */
+
+.ad-mobile-tabbar {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--ad-line-faint);
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+  justify-content: space-around;
+  gap: 4px;
+}
+
+.ad-mobile-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 48px;
+  min-width: 0;
+  padding: 4px 2px;
+  border: none;
+  background: transparent;
+  color: var(--ad-fg-muted);
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ad-mobile-tab.is-active {
+  color: var(--ad-gold-deep);
+}
+
+.ad-mobile-tab-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ad-mobile-tab-badge {
+  position: absolute;
+  top: -4px;
+  right: -10px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--ad-danger);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 16px;
+  text-align: center;
+}
+
+/* ═══ PWA YÜKLE BANNER ═══ */
+
+.ad-pwa-install {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  z-index: 35;
+  pointer-events: none;
+}
+
+.ad-pwa-install-inner {
+  pointer-events: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--ad-surface);
+  border: 1px solid var(--ad-gold-line);
+  box-shadow: 0 12px 40px rgba(10, 9, 8, 0.12);
+}
+
+@media (min-width: 1025px) {
+  .ad-pwa-install {
+    left: auto;
+    right: 24px;
+    bottom: 24px;
+    max-width: 360px;
+  }
+}
+
+/* Komut paleti — mobil tam genişlik */
+@media (max-width: 640px) {
+  .ad-cmd-palette-modal {
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    max-height: 100dvh !important;
+    height: 100dvh;
+    border-left: none;
+    border-right: none;
+  }
+}
+
+.ad-topbar {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Dokunmatik hedefler */
+@media (max-width: 1024px) {
+  .ad-btn { min-height: 44px; }
+  .ad-mobile-menu-btn,
+  .ad-topbar-search-narrow,
+  .ad-icon-btn {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════

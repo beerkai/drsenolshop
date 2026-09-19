@@ -121,6 +121,7 @@ export function CommandPalette({ open, onClose, onHelpRequest }: Props) {
       <div
         role="dialog"
         aria-label="Komut paleti"
+        className="ad-cmd-palette-modal"
         style={{
           position: 'fixed',
           top: '12vh',

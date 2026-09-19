@@ -47,7 +47,7 @@ export default async function AdminCustomersPage({ searchParams }: { searchParam
         </div>
       ) : (
         <div className="ad-table-wrap">
-          <table className="ad-table">
+          <table className="ad-table ad-table-mobile">
             <thead>
               <tr>
                 <th>Müşteri</th>
@@ -61,7 +61,7 @@ export default async function AdminCustomersPage({ searchParams }: { searchParam
             <tbody>
               {customers.map((c) => (
                 <tr key={c.email}>
-                  <td>
+                  <td className="is-row-head" data-label="Müşteri">
                     <Link
                       href={`/admin/musteriler/${encodeURIComponent(c.email)}`}
                       style={{ color: 'var(--ad-fg)', fontSize: '13px', textDecoration: 'none', fontWeight: 500 }}
@@ -69,7 +69,7 @@ export default async function AdminCustomersPage({ searchParams }: { searchParam
                       {c.name}
                     </Link>
                   </td>
-                  <td>
+                  <td data-label="İletişim">
                     <p style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: 0 }}>{c.email}</p>
                     {c.phone && (
                       <p className="ad-mono" style={{ color: 'var(--ad-fg-faint)', fontSize: '11px', margin: '2px 0 0' }}>
@@ -77,18 +77,18 @@ export default async function AdminCustomersPage({ searchParams }: { searchParam
                       </p>
                     )}
                   </td>
-                  <td className="is-right ad-mono" style={{ fontSize: '13px' }}>
+                  <td className="is-right ad-mono" data-label="Sipariş" style={{ fontSize: '13px' }}>
                     {c.total_orders}
                   </td>
-                  <td className="is-right">
+                  <td className="is-right" data-label="Ciro">
                     <span className="ad-display" style={{ fontSize: '16px', fontWeight: 500 }}>
                       {formatPrice(c.total_revenue)}
                     </span>
                   </td>
-                  <td className="is-right ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
+                  <td className="is-right ad-mono" data-label="İlk" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
                     {new Date(c.first_order_at).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: '2-digit' })}
                   </td>
-                  <td className="is-right ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
+                  <td className="is-right ad-mono" data-label="Son" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
                     {new Date(c.last_order_at).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: '2-digit' })}
                   </td>
                 </tr>

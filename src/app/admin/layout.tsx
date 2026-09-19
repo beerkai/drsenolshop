@@ -1,9 +1,34 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './admin.css'
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
+  themeColor: '#F4F0E8',
+}
+
 export const metadata: Metadata = {
-  title: 'Admin',
+  title: {
+    default: 'Admin',
+    template: '%s · DRŞ Admin',
+  },
+  description: 'Dr. Şenol Shop yönetim paneli — sipariş, stok, defter.',
   robots: { index: false, follow: false },
+  manifest: '/admin/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    title: 'DRŞ Admin',
+    statusBarStyle: 'black-translucent',
+  },
+  icons: {
+    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+    apple: [{ url: '/icon.svg' }],
+  },
+  formatDetection: {
+    telephone: false,
+  },
 }
 
 /**

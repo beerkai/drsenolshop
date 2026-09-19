@@ -4,6 +4,8 @@ import { TopBar } from '@/components/admin/shell/TopBar'
 import { Sidebar } from '@/components/admin/shell/Sidebar'
 import { CommandProvider } from '@/components/admin/command/CommandProvider'
 import { Toaster } from '@/components/admin/toast/Toaster'
+import { AdminPwa } from '@/components/admin/shell/AdminPwa'
+import { MobileBottomNav } from '@/components/admin/shell/MobileBottomNav'
 
 // Cookie auth — build sırasında statik üretim yapma (env/cookie yokken patlar)
 export const dynamic = 'force-dynamic'
@@ -48,6 +50,8 @@ export default async function AdminChromeLayout({ children }: { children: React.
             {children}
           </main>
         </div>
+        <AdminPwa />
+        <MobileBottomNav pendingOrders={pendingCount} />
       </div>
     </CommandProvider>
   )
