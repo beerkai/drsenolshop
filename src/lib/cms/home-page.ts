@@ -5,11 +5,8 @@
 import type { HeroProps } from '@/types/hero'
 import type { EditorialHomeContent } from '@/types/editorial-home'
 
-const HERO_DESKTOP =
-  '/design-preview/stitch-01.jpg'
-
-const HERO_MOBILE =
-  '/design-preview/stitch-02.jpg'
+const HERO_DESKTOP = 'kestane-bali/850/0.webp'
+const HERO_MOBILE = 'kestane-bali/355/0.webp'
 
 export const homeHeroProps: HeroProps = {
   image: {
@@ -105,7 +102,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'p1',
         href: '/koleksiyon',
         image: {
-          src: '/design-preview/stitch-03.jpg',
+          src: 'kekik-bali/0.webp',
           alt: 'Karakovan çam balı amber kavanoz.',
         },
         badge: { text: 'Sınırlı Hasat', position: 'left', variant: 'dark' },
@@ -118,7 +115,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         type: 'atmosphere-square',
         id: 'a1',
         image: {
-          src: '/design-preview/stitch-04.jpg',
+          src: 'sedir-bali/0.webp',
           alt: 'Ham bal damlası keten dokuda makro.',
         },
         overlayKicker: 'Miras Fotoğrafı',
@@ -131,7 +128,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'p2',
         href: '/koleksiyon',
         image: {
-          src: '/design-preview/stitch-05.jpg',
+          src: 'cam-bali/0.webp',
           alt: 'Ihlamur ve kestane balı cam kavanoz.',
         },
         badge: { text: 'Ham & Filtresiz', position: 'right', variant: 'light' },
@@ -144,7 +141,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         type: 'editorial-square',
         id: 'e1',
         image: {
-          src: '/design-preview/stitch-06.jpg',
+          src: 'cicek-bali/0.webp',
           alt: 'Arı poleni ve propolis kase kompozisyonu.',
         },
         kicker: 'Apiterapi Konsantresi',
@@ -156,7 +153,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'pd1',
         href: '/koleksiyon',
         image: {
-          src: '/design-preview/stitch-07.jpg',
+          src: 'lavanta-bali/355/0.webp',
           alt: 'Goldylium lüks serum şişesi.',
         },
         badge: 'Goldylium Care',
@@ -171,7 +168,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'p3',
         href: '/koleksiyon',
         image: {
-          src: '/design-preview/stitch-08.jpg',
+          src: 'polen/0.webp',
           alt: 'Propolis ekstrakt damlalık şişe.',
         },
         category: 'Yüksek Biyoaktif',
@@ -192,7 +189,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         type: 'atmosphere-portrait',
         id: 'ap1',
         image: {
-          src: '/design-preview/stitch-09.jpg',
+          src: 'ari-ekmegi/0.webp',
           alt: 'Saitabat çam ormanlarında kovan kareleri.',
         },
         kicker: 'Flora Kaydı',
@@ -204,7 +201,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'p4',
         href: '/koleksiyon',
         image: {
-          src: '/design-preview/stitch-10.jpg',
+          src: 'kestane-bali/0.webp',
           alt: 'Çiçek ve lavanta balı kavanoz.',
         },
         category: 'Yaban Çiçekleri',
@@ -216,7 +213,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         type: 'square-caption',
         id: 'sc1',
         image: {
-          src: '/design-preview/stitch-11.jpg',
+          src: 'kekik-bali/850/0.webp',
           alt: 'Kristalize bal ve bal kaşığı.',
         },
         leftCaption: 'Doğal Kristalizasyon',
@@ -238,7 +235,7 @@ export const editorialHomeContent: EditorialHomeContent = {
   },
   journal: {
     image: {
-      src: '/design-preview/stitch-12.jpg',
+      src: 'sedir-bali/850/0.webp',
       alt: 'Saitabat’ta petek kontrolü; dağ silueti.',
     },
     certificate: {
@@ -269,7 +266,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'g1',
         href: '/koleksiyon',
         image: {
-          src: '/design-preview/stitch-13.jpg',
+          src: 'cam-bali/850/0.webp',
           alt: 'Goldylium arı sütü serumu.',
         },
         phaseBadge: 'FAZ I • YENİLENME',
@@ -283,7 +280,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'g2',
         href: '/koleksiyon',
         image: {
-          src: '/design-preview/stitch-14.jpg',
+          src: 'cicek-bali/850/0.webp',
           alt: 'Goldylium propolis gece balsamı.',
         },
         phaseBadge: 'FAZ II • ONARIM',
@@ -297,7 +294,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'g3',
         href: '/koleksiyon',
         image: {
-          src: '/design-preview/stitch-15.jpg',
+          src: 'lavanta-bali/850/0.webp',
           alt: 'Goldylium botanik tonik.',
         },
         phaseBadge: 'FAZ 0 • ARINMA',
@@ -326,7 +323,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'ig1',
         hoverLabel: 'Görüntüle',
         image: {
-          src: '/design-preview/stitch-16.jpg',
+          src: 'kestane-bali/355/0.webp',
           alt: 'Kahvaltı masasında bal kavanozu.',
         },
       },
@@ -334,7 +331,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'ig2',
         hoverLabel: 'Görüntüle',
         image: {
-          src: '/design-preview/stitch-17.jpg',
+          src: 'lavanta-bali/355/0.webp',
           alt: 'Dağ lavantasında arı makro.',
         },
       },
@@ -342,7 +339,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'ig3',
         hoverLabel: 'Görüntüle',
         image: {
-          src: '/design-preview/stitch-18.jpg',
+          src: 'kekik-bali/355/0.webp',
           alt: 'Bal kaşığı parşömen üzerinde.',
         },
       },
@@ -350,7 +347,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'ig4',
         hoverLabel: 'Görüntüle',
         image: {
-          src: '/design-preview/stitch-19.jpg',
+          src: 'sedir-bali/355/0.webp',
           alt: 'El yapımı hediye paketi.',
         },
       },
@@ -358,7 +355,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'ig5',
         hoverLabel: 'Görüntüle',
         image: {
-          src: '/design-preview/stitch-20.jpg',
+          src: 'cam-bali/355/0.webp',
           alt: 'Laboratuvar camı ve bal.',
         },
       },
@@ -366,7 +363,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         id: 'ig6',
         hoverLabel: 'Görüntüle',
         image: {
-          src: '/design-preview/stitch-21.jpg',
+          src: 'cicek-bali/355/0.webp',
           alt: 'Sisli Saitabat arılığı.',
         },
       },
