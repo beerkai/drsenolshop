@@ -75,8 +75,8 @@ export default async function AdminSettingsPage() {
       <div className="ad-card" style={{ marginBottom: '20px' }}>
         <p className="ad-eyebrow-muted" style={{ marginBottom: '6px' }}>Katalog · Liste Fiyatı</p>
         <p style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: '0 0 16px' }}>
-          Kartlarda üstü çizili fiyat için boş <code>compare_price</code> alanlarını doldurur (migration 0019 ile
-          aynı mantık). Canlı DB&apos;de bir kez çalıştırmanız yeterli.
+          Yalnızca <strong>indirimli varyantlarda</strong> liste fiyatını (<code>compare_price</code> = satış
+          fiyatı) günceller. Yapay %12 referans fiyat artık uygulanmaz.
         </p>
         <ComparePriceBackfillButton />
       </div>

@@ -16,6 +16,7 @@ import { useCart } from '@/lib/cart-context'
 import { useProductLabels } from '@/lib/product-labels-context'
 import type { ProductWithRelations } from '@/types'
 import ProductPriceRow from '@/components/product/ProductPriceRow'
+import { productHeroBlurb } from '@/lib/product-description'
 import {
   findDefaultVariant,
   getProductImage,
@@ -62,6 +63,7 @@ export default function ProductDetailClient({
     [product, selectedVariant]
   )
   const categoryName = product.category?.name ?? 'Koleksiyon'
+  const heroBlurb = productHeroBlurb(product)
 
   useEffect(() => {
     setActiveImageIndex(0)
@@ -530,9 +532,9 @@ export default function ProductDetailClient({
                 <h1 className="font-headline-lg text-headline-lg leading-tight text-charcoal-pure">
                   {product.name}
                 </h1>
-                {product.short_desc ? (
+                {heroBlurb ? (
                   <p className="font-body-md text-body-md text-on-surface-variant">
-                    {product.short_desc}
+                    {heroBlurb}
                   </p>
                 ) : null}
               </div>

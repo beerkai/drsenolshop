@@ -28,38 +28,5 @@ export async function POST() {
     }
   }
 
-  const { data: plain } = await supabase
-    .from('product_variants')
-    .select('id, price, discount_price, compare_price, is_active')
-    .is('compare_price', null)
-
-  for (const row of plain ?? []) {
-    if (row.discount_price !== null) continue
-    const price = Number(row.price)
-    if (price > 0 && row.is_active !== false) {
-      const { error } = await supabase
-        .from('product_variants')
-        .update({ compare_price: Math.round(price * 1.12 * 100) / 100 })
-        .eq('id', row.id)
-      if (!error) updated += 1
-    }
-  }
-
-  const { data: products } = await supabase
-    .from('products')
-    .select('id, base_price, compare_price, is_active')
-    .is('compare_price', null)
-
-  for (const p of products ?? []) {
-    const base = p.base_price !== null ? Number(p.base_price) : NaN
-    if (p.is_active && !Number.isNaN(base) && base > 0) {
-      const { error } = await supabase
-        .from('products')
-        .update({ compare_price: Math.round(base * 1.12 * 100) / 100 })
-        .eq('id', p.id)
-      if (!error) updated += 1
-    }
-  }
-
   return NextResponse.json({ ok: true, updated })
 }

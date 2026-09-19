@@ -379,8 +379,8 @@ export function getVariantStock(variant: ProductVariant): number {
 }
 
 /**
- * Varyant fiyat çözümlemesi: önce discount_price < price, yoksa compare_price > price.
- * NaN ve null güvenli; sıfıra bölme yok.
+ * Varyant fiyat çözümlemesi — yalnızca gerçek indirim (`discount_price < price`).
+ * compare_price (0019 backfill dahil) vitrinde indirim rozeti oluşturmaz.
  */
 export function getVariantPrice(variant: ProductVariant): {
   current: number
@@ -396,16 +396,6 @@ export function getVariantPrice(variant: ProductVariant): {
       current: dp,
       original: price,
       discount: Math.round(((price - dp) / price) * 100),
-    }
-  }
-
-  const cpRaw = variant.compare_price
-  const cp = cpRaw !== null && cpRaw !== undefined ? toFiniteNumber(cpRaw, NaN) : NaN
-  if (!Number.isNaN(cp) && cp > 0 && cp > price) {
-    return {
-      current: price,
-      original: cp,
-      discount: Math.round(((cp - price) / cp) * 100),
     }
   }
 
@@ -445,17 +435,10 @@ export function getProductStartingPrice(product: ProductWithRelations): {
     const base = toFiniteNumber(baseRaw, NaN)
     if (Number.isNaN(base)) return null
 
-    const cmpRaw = product.compare_price
-    const cmp =
-      cmpRaw !== null && cmpRaw !== undefined ? toFiniteNumber(cmpRaw, NaN) : NaN
-    const hasStrike =
-      !Number.isNaN(cmp) && cmp > 0 && cmp > base
-
     return {
       current: base,
-      original: hasStrike ? cmp : null,
-      discount:
-        hasStrike && cmp > 0 ? Math.round(((cmp - base) / cmp) * 100) : 0,
+      original: null,
+      discount: 0,
     }
   }
 

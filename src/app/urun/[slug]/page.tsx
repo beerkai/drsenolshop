@@ -11,26 +11,13 @@ import {
   getProductMetaDescription,
   getProductImage,
 } from '@/types'
+import { productDescriptionParagraphs } from '@/lib/product-description'
 import { productLd, breadcrumbLd, toJsonLdScript } from '@/lib/jsonld'
 import { getApprovedReviews, getReviewStats, getUserReview } from '@/lib/reviews'
 import { getCurrentCustomer } from '@/lib/customer-auth'
 import ProductReviews from '@/components/product/ProductReviews'
 
 type Props = { params: Promise<{ slug: string }> }
-
-function stripHtml(html: string): string {
-  return html
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/📌\s*/g, '')
-    .replace(/\s{2,}/g, ' ')
-    .trim()
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
@@ -50,6 +37,7 @@ export default async function UrunPage({ params }: Props) {
   if (!product) notFound()
 
   const description = getProductDescription(product)
+  const descriptionParagraphs = productDescriptionParagraphs(description)
 
   const [related, reviews, stats, me] = await Promise.all([
     product.category?.slug
@@ -93,7 +81,7 @@ export default async function UrunPage({ params }: Props) {
       <main className="min-h-screen w-full bg-surface">
         <ProductDetailClient product={product} />
 
-        {description && (
+        {descriptionParagraphs.length > 0 && (
           <section className="w-full border-t border-hairline-light bg-surface-container-low ed-section-y">
             <div className="ed-section-inner">
               <div className="mx-auto max-w-[760px]">
@@ -102,14 +90,9 @@ export default async function UrunPage({ params }: Props) {
                 </p>
 
                 <div className="ed-prose font-body-lg text-body-lg text-on-surface-variant">
-                  {stripHtml(description)
-                    .split(/\.\s+/)
-                    .filter((s) => s.trim().length > 10)
-                    .map((para, i) => (
-                      <p key={i}>
-                        {para.trim().endsWith('.') ? para.trim() : `${para.trim()}.`}
-                      </p>
-                    ))}
+                  {descriptionParagraphs.map((para, i) => (
+                    <p key={i}>{para}</p>
+                  ))}
                 </div>
 
                 {product.certifications && product.certifications.length > 0 && (
