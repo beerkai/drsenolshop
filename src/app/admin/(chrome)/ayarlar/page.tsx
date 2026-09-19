@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { requireAdmin } from '@/lib/admin-auth'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { getBankInfo, getShippingConfig } from '@/lib/site-settings'
@@ -125,7 +126,10 @@ export default async function AdminSettingsPage() {
         <p className="ad-eyebrow-muted" style={{ marginBottom: '6px' }}>E-posta Bildirimleri</p>
         <p style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: '0 0 16px' }}>
           Sipariş onayı + durum güncellemeleri için Resend kullanılır.
-          Şu durumlarda mail gider: yeni sipariş alındı, ödendi, hazırlanıyor, kargoda, teslim edildi, iptal edildi.
+          Şu durumlarda mail gider: yeni sipariş alındı, ödendi, hazırlanıyor, kargoda, teslim edildi, iptal edildi.{' '}
+          <Link href="/admin/epostalar" style={{ color: 'var(--ad-gold-deep)' }}>
+            E-posta şablon galerisi →
+          </Link>
         </p>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--ad-line-faint)' }}>
           <span className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Durum</span>

@@ -14,7 +14,9 @@ Versiyonlu yol haritası. Her versiyon kapanınca commit + tag.
 - `/koleksiyon` (filtreleme + sort + sonsuz scroll)
 - `/kategori/[slug]`
 - Ürün kartları + öne çıkanlar bölümü
-- Görsel migration (ikas CDN → Supabase Storage)
+- Görsel migration: ikas → Supabase Storage → **DB'de yalnızca relative path** (`slug/n.webp`, varyant `slug/850/n.webp`)
+- **CDN:** `cdn.drsenol.shop` Worker proxy + `getImageUrl()` · `NEXT_PUBLIC_CDN_URL` (Vercel)
+- `scripts/migrate-images.ts` canlı backfill tamamlandı (2026-09)
 - `sitemap.ts`, `robots.ts`
 - `short_desc` doldurma scripti
 
@@ -24,7 +26,7 @@ Versiyonlu yol haritası. Her versiyon kapanınca commit + tag.
 - Header'da sepet butonu + live count
 - Mobile responsive fixleri
 
-## 🔄 v0.4.0 — Sipariş & Admin & Bildirim (BUNU YAPIYORUZ)
+## ✅ v0.4.0 — Sipariş & Admin & Bildirim
 
 ### 4.1 — DB Şema (orders + order_items)
 - `supabase/migrations/0001_orders.sql`
@@ -44,7 +46,7 @@ Versiyonlu yol haritası. Her versiyon kapanınca commit + tag.
 
 ### 4.3 — Sipariş Onay `/siparis/[order_number]`
 - Order özet, banka bilgileri (havale ise), durum
-- E-posta yok (kullanıcı kararı)
+- ✅ Resend ile sipariş onayı + durum mailleri (havale/PayTR)
 
 ### 4.4 — Admin Panel `/admin`
 - Auth: Supabase Auth (email/password), `admin_users` whitelist
@@ -55,14 +57,15 @@ Versiyonlu yol haritası. Her versiyon kapanınca commit + tag.
 - Tasarım: Aynı tema (ink/bone/gold), data-dense layout
 
 ### 4.5 — Telegram Bot
-- Yeni sipariş geldiğinde bildirim (chat'e mesaj)
-- Komutlar:
-  - `/yeni` — bugünkü siparişler
-  - `/durum DS-2026-0001` — sipariş detayı
-  - `/stok kestane-bali` — ürün stoğu
-  - `/ozet` — günlük ciro + sipariş sayısı
-- Implementation: Telegram Bot API, webhook on Vercel
-- Env: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` (admin chat)
+- ✅ Yeni sipariş geldiğinde bildirim (chat'e mesaj)
+- ✅ Komutlar: `/yeni`, `/durum`, `/stok`, `/ozet`, `/defter`, `/satis` vb.
+- ✅ Webhook: `/api/telegram/webhook` + `TELEGRAM_WEBHOOK_SECRET`
+- Env: `.env.example` — `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, opsiyonel `TELEGRAM_ADMIN_IDS`
+
+### 4.6 — E-posta şablon galerisi
+- ✅ `/admin/epostalar` — tüm Resend + Supabase Auth şablonları, canlı HTML önizleme
+- ✅ `supabase/email-templates/` — Auth HTML (yeni editoryal tasarım)
+- Cron: `CRON_SECRET` + `vercel.json` → ödeme hatırlatması, düşük stok Telegram
 
 ---
 
@@ -103,6 +106,7 @@ Versiyonlu yol haritası. Her versiyon kapanınca commit + tag.
 
 ## Notlar
 
+- **CDN sonrası (temizlik):** Prod'da `NEXT_PUBLIC_CDN_URL` doğrulandıktan sonra `getImageUrl` http shim kaldırılabilir; `next.config` remotePatterns'ten ikas/supabase public URL'leri çıkarılabilir; Storage bucket private + Worker-only erişim.
 - Her release öncesi: `npx tsc --noEmit` + `npm run build` + manuel test.
 - Commit pattern: `feat(v0.X.0): kısa açıklama`.
 - `schema.sql` her DB değişikliğinde manuel güncellenir (snapshot).

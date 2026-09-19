@@ -248,7 +248,8 @@ export interface OrderConfirmationInput {
   siteUrl?: string
 }
 
-export async function sendOrderConfirmation(input: OrderConfirmationInput): Promise<EmailResult> {
+/** Önizleme ve gönderim için aynı HTML */
+export function buildOrderConfirmationHtml(input: OrderConfirmationInput): { html: string; subject: string; text: string } {
   const { order, items, bankInfo } = input
   const siteUrl = (input.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://drsenol.shop').replace(/\/$/, '')
   const orderUrl = `${siteUrl}/siparis/${order.order_number}`
@@ -292,9 +293,16 @@ export async function sendOrderConfirmation(input: OrderConfirmationInput): Prom
     `Takip: ${trackUrl}`,
   ].join('\n')
 
+  const subject = `Siparişiniz alındı — ${order.order_number}`
+  return { html, subject, text }
+}
+
+export async function sendOrderConfirmation(input: OrderConfirmationInput): Promise<EmailResult> {
+  const { order } = input
+  const { html, subject, text } = buildOrderConfirmationHtml(input)
   return sendEmail({
     to: order.customer_email,
-    subject: `Siparişiniz alındı — ${order.order_number}`,
+    subject,
     html,
     text,
   })
@@ -343,7 +351,7 @@ export interface PaymentReminderInput {
   siteUrl?: string
 }
 
-export async function sendPaymentReminder(input: PaymentReminderInput): Promise<EmailResult> {
+export function buildPaymentReminderHtml(input: PaymentReminderInput): { html: string; subject: string } {
   const { order, bankInfo, attempt } = input
   const siteUrl = (input.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://drsenol.shop').replace(/\/$/, '')
   const orderUrl = `${siteUrl}/siparis/${order.order_number}`
@@ -401,16 +409,23 @@ export async function sendPaymentReminder(input: PaymentReminderInput): Promise<
     cta: { label: ctaLabel, url: ctaUrl },
   })
 
+  const subject = `Ödeme hatırlatması — ${order.order_number}`
+  return { html, subject }
+}
+
+export async function sendPaymentReminder(input: PaymentReminderInput): Promise<EmailResult> {
+  const { order } = input
+  const { html, subject } = buildPaymentReminderHtml(input)
   return sendEmail({
     to: order.customer_email,
-    subject: `Ödeme hatırlatması — ${order.order_number}`,
+    subject,
     html,
   })
 }
 
-export async function sendOrderStatusUpdate(input: OrderStatusUpdateInput): Promise<EmailResult> {
+export function buildOrderStatusUpdateHtml(input: OrderStatusUpdateInput): { html: string; subject: string } | null {
   const copy = STATUS_COPY[input.newStatus]
-  if (!copy) return { ok: false, error: 'no_template' }
+  if (!copy) return null
 
   const siteUrl = (input.siteUrl ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://drsenol.shop').replace(/\/$/, '')
   const orderUrl = `${siteUrl}/siparis-takibi?order=${encodeURIComponent(input.order.order_number)}&email=${encodeURIComponent(input.order.customer_email)}`
@@ -438,9 +453,17 @@ export async function sendOrderStatusUpdate(input: OrderStatusUpdateInput): Prom
     cta: { label: copy.cta, url: orderUrl },
   })
 
+  const subject = `${copy.title} — ${input.order.order_number}`
+  return { html, subject }
+}
+
+export async function sendOrderStatusUpdate(input: OrderStatusUpdateInput): Promise<EmailResult> {
+  const built = buildOrderStatusUpdateHtml(input)
+  if (!built) return { ok: false, error: 'no_template' }
+
   return sendEmail({
     to: input.order.customer_email,
-    subject: `${copy.title} — ${input.order.order_number}`,
-    html,
+    subject: built.subject,
+    html: built.html,
   })
 }

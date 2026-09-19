@@ -253,7 +253,7 @@ async function run() {
   }
 
   const products = (productsRaw ?? []) as ProductRow[]
-  const variants = (variantsRaw ?? []) as VariantRow[]
+  const variants = (variantsRaw ?? []) as unknown as VariantRow[]
   const tasks = buildTasks(products, variants)
 
   const productTasks = tasks.filter((t) => t.kind === 'product')

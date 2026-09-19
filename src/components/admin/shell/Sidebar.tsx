@@ -71,8 +71,18 @@ function IconTheme({ size = 16 }: { size?: number }) {
   )
 }
 
+function IconMail({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  )
+}
+
 const NAV_SECONDARY: NavItem[] = [
   { href: '/admin/tema', label: 'Tema', icon: <IconTheme /> },
+  { href: '/admin/epostalar', label: 'E-postalar', icon: <IconMail /> },
   { href: '/admin/yorumlar', label: 'Yorumlar', icon: <IconAnalytics />, shortcut: '⌘9' },
   { href: '/admin/kuponlar', label: 'Kuponlar', icon: <IconAnalytics />, shortcut: '⌘0' },
   { href: '/admin/ayarlar', label: 'Ayarlar', icon: <IconSettings />, shortcut: '⌘,' },
