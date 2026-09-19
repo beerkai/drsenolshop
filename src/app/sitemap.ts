@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { getSupabase, isSupabaseConfigured } from '@/lib/supabase'
 import { getSiteUrl } from '@/lib/site-url'
+import { listMirasJournalPosts } from '@/lib/miras-journal'
 
 const BASE_URL = getSiteUrl()
 
@@ -12,6 +13,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/koleksiyon`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     // Marka sayfaları
     { url: `${BASE_URL}/hikaye`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+    ...listMirasJournalPosts().map((p) => ({
+      url: `${BASE_URL}/hikaye/${p.slug}`,
+      lastModified: new Date(p.publishedAt),
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+    })),
     { url: `${BASE_URL}/saitabat-koyu`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/bilim-yaklasimimiz`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/basinda-biz`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
@@ -22,6 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/iletisim`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
     // Yasal
     { url: `${BASE_URL}/gizlilik-politikasi`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${BASE_URL}/kvkk-aydinlatma`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${BASE_URL}/cerez-politikasi`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${BASE_URL}/uyelik-sozlesmesi`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${BASE_URL}/on-bilgilendirme-formu`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },

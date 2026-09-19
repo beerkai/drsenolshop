@@ -6,7 +6,8 @@ import { INSTAGRAM_HANDLE, INSTAGRAM_URL, mailto } from '@/lib/site-contact'
 import EditorialFooterNewsletter from './EditorialFooterNewsletter'
 
 const FALLBACK_LEGAL_LINKS: EditorialFooterContent['legalLinks'] = [
-  { label: 'KVKK Aydınlatma Metni', href: '/gizlilik-politikasi' },
+  { label: 'KVKK Aydınlatma Metni', href: '/kvkk-aydinlatma' },
+  { label: 'Gizlilik Politikası', href: '/gizlilik-politikasi' },
   { label: 'Çerez Politikası', href: '/cerez-politikasi' },
   { label: 'İade & Değişim', href: '/iade-degisim' },
   { label: 'Kargo Takibi', href: '/siparis-takibi' },

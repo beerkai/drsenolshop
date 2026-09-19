@@ -28,6 +28,6 @@ Aşağıdaki Supabase değişkenleri çalışır:
 
 ## Önemli
 
-- Reset Password ve Confirm Signup template'lerindeki `{{ .ConfirmationURL }}`, bizim register/reset endpoint'lerinde `emailRedirectTo` olarak gönderdiğimiz URL'yi içerir → `https://drsenolnaturalhoney.shop/auth/callback?next=...`
+- Reset Password ve Confirm Signup template'lerindeki `{{ .ConfirmationURL }}`, bizim register/reset endpoint'lerinde `emailRedirectTo` olarak gönderdiğimiz URL'yi içerir → `https://drsenol.shop/auth/callback?next=...`
 - Site URL ve Redirect URLs Supabase Dashboard'da doğru ayarlı olmalı (yoksa Supabase Site URL'e fallback eder)
 - Custom SMTP (Resend) bağlı — gönderici adresi orada belirlenir

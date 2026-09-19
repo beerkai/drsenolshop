@@ -1,6 +1,7 @@
 // ═══════════════════════════════════════════════════════════════
 // Site origin tek kaynak
-// ─ NEXT_PUBLIC_SITE_URL env'inden okur, yoksa drsenol.shop
+// ─ NEXT_PUBLIC_SITE_URL env'inden okur, yoksa https://drsenol.shop (canonical)
+// ─ Eski alan adları (ör. drsenolnaturalhoney.shop) kullanılmaz; Vercel redirect ile yönlendirilir
 // ─ Tüm metadataBase, sitemap, robots, JSON-LD, legal-info bunu kullanır
 // ─ Domain değişirse sadece env değiştir
 // ═══════════════════════════════════════════════════════════════

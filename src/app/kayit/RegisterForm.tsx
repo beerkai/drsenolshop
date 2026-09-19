@@ -159,7 +159,12 @@ export default function RegisterForm({ next }: { next: string }) {
         <Link href="/gizlilik-politikasi" target="_blank" rel="noopener" className="auth-link" style={{ color: 'var(--color-on-surface-variant)', textDecoration: 'underline' }}>
           Gizlilik Politikası
         </Link>
-        &apos;nı kabul etmiş olursunuz.
+        {' '}
+        ve{' '}
+        <Link href="/kvkk-aydinlatma" target="_blank" rel="noopener" className="auth-link" style={{ color: 'var(--color-on-surface-variant)', textDecoration: 'underline' }}>
+          KVKK Aydınlatma Metni
+        </Link>
+        &apos;ni kabul etmiş olursunuz.
       </p>
     </form>
   )

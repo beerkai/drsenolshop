@@ -421,7 +421,7 @@ export const editorialHomeContent: EditorialHomeContent = {
     ],
     footerNewsletter: { placeholder: 'E-posta adresiniz', submitLabel: 'Gönder' },
     legalLinks: [
-      { label: 'KVKK Aydınlatma Metni', href: '/gizlilik-politikasi' },
+      { label: 'KVKK Aydınlatma Metni', href: '/kvkk-aydinlatma' },
       { label: 'Gizlilik Politikası', href: '/gizlilik-politikasi' },
       { label: 'Çerez Politikası', href: '/cerez-politikasi' },
       { label: 'İade & Değişim', href: '/iade-degisim' },

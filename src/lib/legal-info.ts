@@ -33,7 +33,7 @@ export function getLegalCompany(): LegalCompanyInfo {
     mersis: val('NEXT_PUBLIC_MERSIS_NO', '[MERSIS no]'),
     address: val('NEXT_PUBLIC_COMPANY_ADDRESS', 'Saitabat Köyü, Kestel / Bursa'),
     city_country: val('NEXT_PUBLIC_COMPANY_CITY', 'Bursa, Türkiye'),
-    email: val('NEXT_PUBLIC_CONTACT_EMAIL', 'bilgi@drsenol.shop'),
+    email: val('NEXT_PUBLIC_CONTACT_EMAIL', 'hello@drsenol.shop'),
     phone: val('NEXT_PUBLIC_CONTACT_PHONE', '+90 224 123 45 67'),
     kep: val('NEXT_PUBLIC_KEP_ADDRESS', '[KEP adresi — varsa]'),
     website: val('NEXT_PUBLIC_SITE_URL', 'https://drsenol.shop'),

@@ -1,129 +1,91 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import StaticPageLayout from '@/components/StaticPageLayout'
 import LegalDraftNotice from '@/components/LegalDraftNotice'
-import { P, H2, Eyebrow, List, InfoBox } from '@/components/StaticContent'
+import { P, H2, Eyebrow, List } from '@/components/StaticContent'
 import { getLegalCompany, LEGAL_LAST_UPDATED } from '@/lib/legal-info'
+import { getSiteUrl } from '@/lib/site-url'
 
 export const metadata: Metadata = {
   title: 'Gizlilik Politikası · Dr. Şenol Shop',
   description:
-    'KVKK kapsamında kişisel verilerin işlenmesi, aktarımı ve haklarınız hakkında aydınlatma metni.',
+    'drsenol.shop üzerinde hangi bilgileri topladığımız, çerezler, analitik ve veri güvenliği hakkında özet gizlilik politikası.',
 }
 
 export default function GizlilikPolitikasiPage() {
   const co = getLegalCompany()
+  const siteUrl = getSiteUrl()
+
   return (
     <StaticPageLayout
       eyebrow="Yasal · Gizlilik"
       title="Gizlilik"
       titleAccent="politikası"
-      intro={`KVKK kapsamında kişisel verilerinizi nasıl topladığımız, kullandığımız ve koruduğumuz hakkında aydınlatma. Son güncelleme: ${LEGAL_LAST_UPDATED}.`}
+      intro={`${siteUrl} adresindeki deneyiminizde verilerinizi nasıl kullandığımıza dair özet. KVKK aydınlatma metni ayrı sayfada. Son güncelleme: ${LEGAL_LAST_UPDATED}.`}
       breadcrumbs={[{ label: 'Gizlilik Politikası' }]}
       topNotice={<LegalDraftNotice />}
     >
-      <Eyebrow>Veri Sorumlusu</Eyebrow>
-      <H2>Kim olduğumuz</H2>
+      <Eyebrow>Kapsam</Eyebrow>
+      <H2>Bu politika neyi kapsar</H2>
       <P>
-        6698 sayılı Kişisel Verilerin Korunması Kanunu (&ldquo;KVKK&rdquo;) uyarınca veri sorumlusu sıfatıyla{' '}
-        <strong style={{ color: 'var(--color-on-surface)' }}>{co.legal_name}</strong> (&ldquo;Şirket&rdquo; / &ldquo;{co.trade_name}&rdquo;) hareket etmektedir.
-        Aşağıda kişisel verilerinizin hangi amaçlarla işlendiği, kimlerle paylaşılabileceği ve KVKK kapsamındaki haklarınız açıklanmıştır.
+        Bu metin, {co.trade_name} e-ticaret sitesinde ( {siteUrl} ) gezinirken, hesap oluştururken ve sipariş verirken
+        toplanan bilgilerin genel çerçevesini açıklar. Türkiye&apos;deki yasal yükümlülüklerimiz için ayrıntılı{' '}
+        <Link href="/kvkk-aydinlatma" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+          KVKK Aydınlatma Metni
+        </Link>
+        &apos;ni okumanızı öneririz.
       </P>
 
-      <InfoBox title="Veri Sorumlusu">
-        <p style={{ margin: 0 }}>
-          {co.legal_name}<br />
-          {co.address}<br />
-          {co.city_country}<br />
-          E-posta: <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>{co.email}</a><br />
-          Telefon: {co.phone}<br />
-          KEP: {co.kep}<br />
-          MERSIS: {co.mersis}
-        </p>
-      </InfoBox>
-
-      <Eyebrow>İşlenen Veriler</Eyebrow>
-      <H2>Hangi verilerinizi topluyoruz</H2>
-      <P>
-        Sitemizi kullandığınızda, sipariş verdiğinizde veya hesap oluşturduğunuzda aşağıdaki veri kategorilerini işleyebiliriz:
-      </P>
+      <Eyebrow>Topladığımız bilgiler</Eyebrow>
+      <H2>Hangi veriler</H2>
       <List
         items={[
-          'Kimlik bilgileri: ad, soyad',
-          'İletişim bilgileri: e-posta adresi, telefon numarası, teslimat ve fatura adresi',
-          'Müşteri işlem bilgileri: sipariş geçmişi, fatura/irsaliye bilgileri, talep ve şikayet kayıtları',
-          'Hesap bilgileri: kullanıcı adı, şifrelenmiş parola, oturum çerezleri',
-          'İşlem güvenliği: IP adresi, log kayıtları, tarayıcı bilgisi',
-          'Pazarlama izinleri: bülten aboneliği, kampanya tercih bilgileri (yalnızca açık rıza ile)',
+          'Hesap: ad, e-posta, şifrelenmiş parola',
+          'Sipariş: teslimat adresi, telefon, sipariş kalemleri ve ödeme durumu',
+          'İletişim: bülten aboneliği (yalnızca onayınızla)',
+          'Teknik: tarayıcı türü, oturum çerezleri, güvenlik logları',
         ]}
       />
 
-      <Eyebrow>İşleme Amaçları</Eyebrow>
-      <H2>Verilerinizi neden işliyoruz</H2>
-      <List
-        items={[
-          'Sipariş oluşturma, ödeme alma, fatura düzenleme ve kargo süreçlerinin yürütülmesi',
-          'Müşteri ilişkileri yönetimi, talep ve şikayetlerin değerlendirilmesi',
-          'Hesap güvenliği, dolandırıcılığın önlenmesi ve hukuki yükümlülüklerin yerine getirilmesi',
-          'Vergi mevzuatı, e-ticaret ve tüketici hukuku gereği saklama yükümlülükleri',
-          'Açık rıza vermeniz halinde tanıtım, kampanya bildirimi ve pazarlama iletişimi',
-        ]}
-      />
-
-      <Eyebrow>Hukuki Sebep</Eyebrow>
-      <H2>Hangi temele dayanıyoruz</H2>
+      <Eyebrow>Çerezler & analitik</Eyebrow>
+      <H2>Çerezler ve ölçüm</H2>
       <P>
-        Kişisel verileriniz KVKK m.5/2 kapsamında <em>sözleşmenin kurulması veya ifası</em>, <em>hukuki yükümlülüğün
-        yerine getirilmesi</em>, <em>meşru menfaat</em> ve gerektiği hallerde <em>açık rıza</em> hukuki sebeplerine
-        dayanılarak işlenir.
+        Zorunlu çerezler oturum ve sepet işlevleri için kullanılır. Detaylar için{' '}
+        <Link href="/cerez-politikasi" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+          Çerez Politikası
+        </Link>
+        &apos;na bakın. Trafik ölçümü için çerez kullanmayan Plausible Analytics tercih edilebilir; etkinse site
+        trafiği anonim özetlenir.
       </P>
 
-      <Eyebrow>Veri Aktarımı</Eyebrow>
-      <H2>Kimlerle paylaşıyoruz</H2>
+      <Eyebrow>Güvenlik</Eyebrow>
+      <H2>Verilerinizi nasıl koruyoruz</H2>
       <P>
-        Verileriniz aşağıda sayılan üçüncü kişilerle, yalnızca hizmetin gerektirdiği ölçüde ve KVKK&apos;ya uygun
-        olarak paylaşılır:
-      </P>
-      <List
-        items={[
-          'Kargo şirketleri (teslimat için ad, adres, telefon)',
-          'Ödeme/sanal POS sağlayıcıları (kart bilgileriniz tarafımızda saklanmaz, doğrudan ödeme kuruluşuna iletilir)',
-          'E-posta gönderim altyapısı sağlayıcısı (sipariş bildirimi, parola sıfırlama)',
-          'Barındırma (hosting), veritabanı ve bulut sağlayıcıları',
-          'Yasal yükümlülük halinde yetkili kamu kurumları',
-        ]}
-      />
-
-      <Eyebrow>Saklama Süresi</Eyebrow>
-      <H2>Ne kadar süre saklıyoruz</H2>
-      <P>
-        Sipariş ve fatura kayıtları Vergi Usul Kanunu ile Türk Ticaret Kanunu uyarınca <strong style={{ color: 'var(--color-on-surface)' }}>10 yıl</strong>{' '}
-        saklanır. Hesap verileriniz, hesabınızı silmediğiniz sürece üyeliğiniz boyunca tutulur. Pazarlama izinleri
-        izninizi geri çekene kadar geçerlidir.
+        Ödeme kartı bilgileri tarafımızda saklanmaz; ödeme kuruluşuna iletilir. Veritabanı ve barındırma altyapısı
+        endüstri standartlarında erişim kontrolü ile korunur. Şüpheli işlem tespitinde hesap veya sipariş askıya
+        alınabilir.
       </P>
 
       <Eyebrow>Haklarınız</Eyebrow>
-      <H2>KVKK m.11 kapsamındaki haklarınız</H2>
-      <List
-        items={[
-          'Kişisel verilerinizin işlenip işlenmediğini öğrenme',
-          'İşlenmişse buna ilişkin bilgi talep etme',
-          'İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme',
-          'Yurt içinde / yurt dışında aktarıldığı üçüncü kişileri bilme',
-          'Eksik veya yanlış işlenmişse düzeltilmesini isteme',
-          'Silinmesini veya yok edilmesini isteme (kanuni saklama süreleri saklı kalmak kaydıyla)',
-          'Otomatik sistemlerle aleyhinize bir sonuç ortaya çıkmışsa buna itiraz etme',
-          'Kanuna aykırı işleme nedeniyle zarara uğradıysanız tazminat talep etme',
-        ]}
-      />
-
-      <Eyebrow>Başvuru</Eyebrow>
-      <H2>Bize nasıl ulaşırsınız</H2>
+      <H2>Erişim ve silme</H2>
       <P>
-        Yukarıdaki haklarınızı kullanmak için talebinizi <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>{co.email}</a>{' '}
-        e-posta adresimize veya yazılı olarak şirket adresimize iletebilirsiniz. Başvurunuz en geç 30 gün içinde yanıtlanır.
+        Hesabınız üzerinden sipariş geçmişinizi görüntüleyebilir; hesap silme talebinde bulunabilirsiniz. KVKK
+        kapsamındaki tüm haklar ve resmi başvuru yolu{' '}
+        <Link href="/kvkk-aydinlatma" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+          KVKK Aydınlatma Metni
+        </Link>
+        &apos;nde açıklanmıştır.
       </P>
 
-      <InfoBox title="Son Güncelleme">{LEGAL_LAST_UPDATED}</InfoBox>
+      <Eyebrow>İletişim</Eyebrow>
+      <H2>Gizlilik soruları</H2>
+      <P>
+        Gizlilik ile ilgili sorularınız için{' '}
+        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>
+          {co.email}
+        </a>{' '}
+        adresine yazabilirsiniz.
+      </P>
     </StaticPageLayout>
   )
 }

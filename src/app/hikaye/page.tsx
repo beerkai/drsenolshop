@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import StaticPageLayout from '@/components/StaticPageLayout'
+import MirasJournalSection from '@/components/miras/MirasJournalSection'
 import { P, H2, Eyebrow, Quote, InfoBox } from '@/components/StaticContent'
 
 export const metadata: Metadata = {
@@ -45,6 +46,8 @@ export default function HikayemizPage() {
       </InfoBox>
 
       <P>Bu metin yer tutucu. İçeriği daha sonra dolduracağız.</P>
+
+      <MirasJournalSection />
     </StaticPageLayout>
   )
 }
