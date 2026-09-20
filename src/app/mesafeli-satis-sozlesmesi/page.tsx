@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import StaticPageLayout from '@/components/StaticPageLayout'
-import LegalDraftNotice from '@/components/LegalDraftNotice'
-import { P, H2, Eyebrow, List, InfoBox } from '@/components/StaticContent'
+import LegalCompanyCard from '@/components/LegalCompanyCard'
+import { P, H2, Eyebrow, List } from '@/components/StaticContent'
 import { getLegalCompany, LEGAL_LAST_UPDATED } from '@/lib/legal-info'
 
 export const metadata: Metadata = {
@@ -19,22 +19,12 @@ export default function MesafeliSatisSozlesmesiPage() {
       titleAccent="sözleşmesi"
       intro={`Bu sayfa sözleşmenin genel hükümlerini içerir. Her sipariş için sipariş özetini içeren özelleştirilmiş bir nüsha e-posta ile gönderilir. Son güncelleme: ${LEGAL_LAST_UPDATED}.`}
       breadcrumbs={[{ label: 'Mesafeli Satış Sözleşmesi' }]}
-      topNotice={<LegalDraftNotice />}
     >
       <Eyebrow>Madde 1</Eyebrow>
       <H2>Taraflar</H2>
 
       <H2>1.1. Satıcı</H2>
-      <InfoBox title="Satıcı">
-        <p style={{ margin: 0 }}>
-          Unvan: {co.legal_name}<br />
-          Adres: {co.address}, {co.city_country}<br />
-          Telefon: {co.phone}<br />
-          E-posta: <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>{co.email}</a><br />
-          MERSIS No: {co.mersis}<br />
-          Vergi Dairesi / VKN: {co.tax_office} / {co.tax_number}
-        </p>
-      </InfoBox>
+      <LegalCompanyCard title="Satıcı" />
 
       <H2>1.2. Alıcı</H2>
       <P>
@@ -77,7 +67,7 @@ export default function MesafeliSatisSozlesmesiPage() {
         Alıcı, sözleşme konusu ürünü kendisine veya gösterdiği adresteki kişi/kuruluşa teslim tarihinden itibaren{' '}
         <strong style={{ color: 'var(--color-on-surface)' }}>14 (on dört) gün</strong> içerisinde, Satıcı&apos;ya bildirmek şartıyla hiçbir hukuki ve cezai
         sorumluluk üstlenmeksizin ve hiçbir gerekçe göstermeksizin sözleşmeden cayma hakkına sahiptir. Cayma hakkı bildirimi yazılı olarak{' '}
-        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>{co.email}</a> adresine yapılabilir.
+        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }} lang="en">{co.email}</a> adresine yapılabilir.
       </P>
       <P>
         Cayma hakkının kullanılması halinde Satıcı, cayma bildiriminin kendisine ulaştığı tarihten itibaren 14 gün içinde tüm ödemeleri,
@@ -90,7 +80,7 @@ export default function MesafeliSatisSozlesmesiPage() {
         items={[
           'Tüketicinin istekleri veya kişisel ihtiyaçları doğrultusunda hazırlanan mallar',
           'Çabuk bozulabilen veya son kullanma tarihi geçebilecek mallar',
-          'Tesliminden sonra ambalaj, bant, mühür, paket gibi koruyucu unsurları açılmış olan; sağlık veya hijyen açısından iadesi uygun olmayan ürünler (örn. açılmış bal kavanozu)',
+          'Tesliminden sonra ambalaj, bant, mühür, paket gibi koruyucu unsurları açılmış olan; sağlık veya hijyen açısından iadesi uygun olmayan ürünler (açılmış bal kavanozu, damlalık, bakım ürünü)',
           'Elektronik ortamda anında ifa edilen hizmetler veya tüketiciye anında teslim edilen gayri maddi mallar',
         ]}
       />

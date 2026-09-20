@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import StaticPageLayout from '@/components/StaticPageLayout'
 import MirasJournalSection from '@/components/miras/MirasJournalSection'
 import { P, H2, Eyebrow, Quote, InfoBox } from '@/components/StaticContent'
@@ -21,14 +22,15 @@ export default function HikayemizPage() {
       <Eyebrow>1985 — Başlangıç</Eyebrow>
       <H2>Uludağ&apos;ın eteklerinde bir köy</H2>
       <P>
-        Bu metin yer tutucu olarak buradadır. Saitabat Köyü, Uludağ&apos;ın kuzey eteğinde,
-        endemik bitki örtüsünün doruğa ulaştığı bir mikro-iklim. 1985&apos;ten bu yana Dr.
-        Şenol burada arıcılığı bir bilim olarak ele alıyor.
+        Saitabat, Uludağ&apos;ın 1.100 metre rakımlı flora kuşağında, kestane, ıhlamur ve çamın
+        aynı yamaçta buluştuğu bir mikro-iklim. 1985&apos;ten bu yana Dr. Şenol burada arıcılığı
+        bir zanaat ve bir bilim olarak ele alıyor: kovanı dinlemek, hasadı belgelemek, balı
+        ısıtmadan kavanoza almak.
       </P>
       <P>
-        Bu metin yer tutucu olarak buradadır. Dr. Şenol&apos;un babasından devraldığı bilgi,
-        üniversitedeki bilimsel eğitimle birleşince, sıradan bir arıcılıktan çok daha fazlası
-        ortaya çıktı.
+        Babasından devralınan köy bilgisi, üniversitedeki laboratuvar disipliniyle birleşince
+        ortaya çıkan şey sıradan bir üretim hattı değil. Her parti, kendi hasat kodunu taşır;
+        her kavanoz, o mevsimin polen kaydını içerir.
       </P>
 
       <Quote>Her damla balın arkasında bir bilim insanının imzası var.</Quote>
@@ -36,16 +38,43 @@ export default function HikayemizPage() {
       <Eyebrow>Bugün — Bilim ve Doğa</Eyebrow>
       <H2>Bilimin titizliği</H2>
       <P>
-        Bu metin yer tutucu olarak buradadır. Her hasat, akredite laboratuvarda fenolik madde,
-        prolin, diastaz ve HMF değerleri için analiz edilir. Etiketin altındaki QR kod,
-        ürününüze ait analiz raporuna açılır.
+        Pastörize etmiyoruz. Endüstriyel filtreyle poleni ayırmıyoruz. Bal, kovan sıcaklığına
+        yakın bir çizgide süzülür ve cam kavanoza alınır. Kristalleşme bir kusur değil; canlı
+        enzimin ve polen zenginliğinin doğal sonucudur.
+      </P>
+      <P>
+        Her hasat, bağımsız akredite laboratuvarda fenolik madde, prolin, diastaz, HMF, nem
+        ve şeker profili için analiz edilir. Hedefimiz yasal HMF üst sınırının (40 mg/kg) çok
+        altında, tipik olarak 10 mg/kg&apos;ın altında kalmaktır. Ürün etiketindeki QR kod, o
+        lota ait rapora açılır. Yöntem için{' '}
+        <Link href="/bilim-yaklasimimiz" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+          bilim yaklaşımımız
+        </Link>
+        ; belgeler için{' '}
+        <Link href="/analiz-raporlari" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+          analiz raporları
+        </Link>
+        {' '}sayfalarına bakabilirsiniz.
       </P>
 
       <InfoBox title="Rakamlarla Dr. Şenol">
-        40+ yıl deneyim · 1.247 aktif kovan · %100 doğal üretim · 3 kuşak miras
+        1985&apos;ten bu yana · 1.100 m rakım · HMF &lt; 10 mg/kg · Isıl işlemsiz ham bal
       </InfoBox>
 
-      <P>Bu metin yer tutucu. İçeriği daha sonra dolduracağız.</P>
+      <Eyebrow>Koleksiyon</Eyebrow>
+      <H2>Bal, apiterapi, bakım</H2>
+      <P>
+        Seçki, Saitabat&apos;ın mevsimlik hasatlarından gelir: karakovan çam, ham kestane ve
+        ıhlamur, yaban çiçeği ve lavanta. Aynı flora, propolis, polen ve arı sütü hatlarını;
+        Goldylium Apithérapie bakım koleksiyonunu da besler.
+      </P>
+      <P>
+        Coğrafyanın kendisi için{' '}
+        <Link href="/saitabat-koyu" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+          Saitabat Köyü
+        </Link>
+        {' '}sayfasına geçebilir; güncel seçki için koleksiyonu açabilirsiniz.
+      </P>
 
       <MirasJournalSection />
     </StaticPageLayout>

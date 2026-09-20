@@ -37,7 +37,7 @@ export function organizationLd(): Record<string, unknown> {
     url: SITE_URL,
     logo: `${SITE_URL}/icon.svg`,
     email: co.email,
-    telephone: co.phone,
+    ...(co.phone ? { telephone: co.phone } : {}),
     address: {
       '@type': 'PostalAddress',
       streetAddress: co.address,

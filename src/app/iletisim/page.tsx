@@ -1,19 +1,24 @@
 import type { Metadata } from 'next'
 import StaticPageLayout from '@/components/StaticPageLayout'
 import { P, Eyebrow, InfoBox } from '@/components/StaticContent'
+import { getLegalCompany, phoneDigits } from '@/lib/legal-info'
+import { INSTAGRAM_HANDLE, INSTAGRAM_URL, SITE_EMAILS, mailto } from '@/lib/site-contact'
 
 export const metadata: Metadata = {
   title: 'İletişim · Dr. Şenol Shop',
-  description: 'Bizimle iletişime geçin.',
+  description: 'Sipariş, destek ve genel sorular için Dr. Şenol Shop iletişim bilgileri.',
 }
 
 export default function IletisimPage() {
+  const co = getLegalCompany()
+  const digits = phoneDigits(co.phone)
+
   return (
     <StaticPageLayout
       eyebrow="Yardım · İletişim"
       title="Bize"
       titleAccent="ulaşın."
-      intro="Saitabat'tan size en kısa sürede dönüyoruz."
+      intro="Saitabat'tan, iş günlerinde en kısa sürede dönüyoruz."
       breadcrumbs={[{ label: 'İletişim' }]}
     >
       <Eyebrow>İletişim Bilgileri</Eyebrow>
@@ -27,70 +32,70 @@ export default function IletisimPage() {
         }}
       >
         <InfoBox title="Adres">
-          Saitabat Köyü, Yıldırım
-          <br />
-          Bursa, Türkiye
+          {co.address}
+          {co.city_country ? (
+            <>
+              <br />
+              {co.city_country}
+            </>
+          ) : null}
         </InfoBox>
 
-        <InfoBox title="Telefon">
-          <a href="tel:+902241234567" style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }}>
-            +90 224 123 45 67
-          </a>
-          <br />
-          <span style={{ fontSize: '12px', color: 'var(--color-outline)' }}>Hafta içi 09:00 - 18:00</span>
-        </InfoBox>
+        {co.phone && digits ? (
+          <InfoBox title="Telefon">
+            <a href={`tel:+${digits}`} style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }}>
+              {co.phone}
+            </a>
+            <br />
+            <span style={{ fontSize: '12px', color: 'var(--color-outline)' }}>Hafta içi 09:00 – 18:00</span>
+          </InfoBox>
+        ) : null}
 
         <InfoBox title="E-posta">
           Genel:{' '}
-          <a href="mailto:hello@drsenol.shop" style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }} lang="en">
-            hello@drsenol.shop
+          <a href={mailto(SITE_EMAILS.hello)} style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }} lang="en">
+            {SITE_EMAILS.hello}
           </a>
           <br />
           Destek:{' '}
-          <a
-            href="mailto:destek@drsenol.shop"
-            style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }}
-            lang="en"
-          >
-            destek@drsenol.shop
+          <a href={mailto(SITE_EMAILS.destek)} style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }} lang="en">
+            {SITE_EMAILS.destek}
           </a>
           <br />
           Sipariş:{' '}
-          <a
-            href="mailto:siparis@drsenol.shop"
-            style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }}
-            lang="en"
-          >
-            siparis@drsenol.shop
+          <a href={mailto(SITE_EMAILS.siparis)} style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }} lang="en">
+            {SITE_EMAILS.siparis}
           </a>
         </InfoBox>
 
-        <InfoBox title="WhatsApp">
-          <a
-            href="https://wa.me/902241234567"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }}
-          >
-            +90 224 123 45 67
-          </a>
-          <br />
-          <span style={{ fontSize: '12px', color: 'var(--color-outline)' }}>
-            Hızlı sipariş ve sorularınız için
-          </span>
-        </InfoBox>
+        {digits ? (
+          <InfoBox title="WhatsApp">
+            <a
+              href={`https://wa.me/${digits}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }}
+            >
+              {co.phone}
+            </a>
+            <br />
+            <span style={{ fontSize: '12px', color: 'var(--color-outline)' }}>
+              Sipariş ve kısa sorular için
+            </span>
+          </InfoBox>
+        ) : null}
       </div>
 
       <Eyebrow>Sosyal Medya</Eyebrow>
       <P>
         <a
-          href="https://instagram.com/drsenol.shop"
+          href={INSTAGRAM_URL}
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: 'var(--color-honey-amber)', textDecoration: 'none', marginRight: '24px' }}
           lang="en"
         >
-          @drsenol.shop
+          {INSTAGRAM_HANDLE}
         </a>
         <a
           href="https://youtube.com/@drsenol"

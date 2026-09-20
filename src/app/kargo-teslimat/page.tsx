@@ -1,50 +1,73 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import StaticPageLayout from '@/components/StaticPageLayout'
 import { P, H2, Eyebrow, List, InfoBox } from '@/components/StaticContent'
+import { getShippingConfig } from '@/lib/site-settings'
+import { shippingCopy, SHIPPING_CUTOFF, SHIPPING_WINDOW } from '@/lib/shipping-copy'
+import { SITE_EMAILS, mailto } from '@/lib/site-contact'
 
 export const metadata: Metadata = {
   title: 'Kargo & Teslimat · Dr. Şenol Shop',
-  description: 'Kargo ve teslimat koşullarımız.',
+  description: 'Kargo ücreti, teslimat süresi ve ambalaj koşullarımız.',
 }
 
-export default function KargoTeslimatPage() {
+export default async function KargoTeslimatPage() {
+  const copy = shippingCopy(await getShippingConfig())
+
   return (
     <StaticPageLayout
       eyebrow="Yardım · Kargo & Teslimat"
       title="Kovan kapınızda,"
       titleAccent="sağlam ve hızlı."
-      intro="Premium ürünlerimiz, özel ambalajla en taze haliyle size ulaşıyor."
+      intro="Cam kavanozlar ısı korumalı, kırılmaya karşı güçlendirilmiş ambalajla yola çıkar."
       breadcrumbs={[{ label: 'Kargo & Teslimat' }]}
     >
       <Eyebrow>Kargo Süresi</Eyebrow>
       <H2>Teslimat zamanı</H2>
       <P>
-        Bu metin yer tutucu olarak buradadır. Siparişiniz, hafta içi 14:00&apos;e kadar
-        verildiğinde aynı gün kargoya verilir. Türkiye&apos;nin her yerine 2-4 iş günü içinde
-        teslim edilir.
+        Ödemesi onaylanan siparişler, {SHIPPING_CUTOFF}&apos;e kadar aynı iş günü kargoya verilir.
+        Bu saatten sonra veya hafta sonu / resmi tatilde gelen siparişler bir sonraki iş günü
+        işleme alınır. Türkiye içi teslimat süresi tipik olarak {SHIPPING_WINDOW}&apos;dür; yasal
+        azami süre 30 gündür.
       </P>
 
       <Eyebrow>Kargo Ücretleri</Eyebrow>
-      <H2>Ücretsiz kargo</H2>
-      <P>Bu metin yer tutucu. 500 TL ve üzeri tüm siparişlerde kargo ücretsizdir.</P>
+      <H2>Gönderim bedeli</H2>
+      <P>{copy.intro}</P>
 
-      <List
-        items={[
-          '500 TL altı siparişler: 49,90 TL',
-          '500 TL üstü siparişler: Ücretsiz',
-          "Aynı gün kargo: Hafta içi 14:00'e kadar",
-          'Türkiye geneli teslimat: 2-4 iş günü',
-        ]}
-      />
+      <List items={copy.items} />
 
       <Eyebrow>Ambalaj</Eyebrow>
-      <H2>Premium ambalaj</H2>
+      <H2>Isı korumalı paket</H2>
       <P>
-        Bu metin yer tutucu. Tüm ürünlerimiz, kırılmaya karşı özel ambalajla, soğuk zincir
-        gerektirenler özel kutuda gönderilir.
+        Cam kavanozlar, kırılmaya karşı iç destekli kutuda ve sıcaklık dalgalanmasına karşı
+        yalıtımlı olarak paketlenir. Soğuk zincir gerektiren apiterapi ürünleri ayrı protokolle
+        gönderilir. Teslimatta ambalaj hasarlıysa kuryenin yanında tutanak tutturmanızı ve
+        fotoğrafla{' '}
+        <Link href="/iade-degisim" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+          iade & değişim
+        </Link>
+        {' '}sürecini başlatmanızı rica ederiz.
       </P>
 
-      <InfoBox title="Anlaşmalı Kargo">Yurtiçi Kargo, Aras Kargo, MNG Kargo</InfoBox>
+      <InfoBox title="Kargo ve takip">
+        {copy.courierLine ? (
+          <>
+            {copy.courierLine}
+            <br />
+          </>
+        ) : null}
+        Takip numarası, sipariş &quot;Kargoda&quot; olduğunda e-posta ile iletilir.{' '}
+        <Link href="/siparis-takibi" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+          Sipariş takibi
+        </Link>
+        {' '}sayfasından da durumu kontrol edebilirsiniz.
+        <br />
+        Destek:{' '}
+        <a href={mailto(SITE_EMAILS.destek)} style={{ color: 'var(--color-honey-amber)' }} lang="en">
+          {SITE_EMAILS.destek}
+        </a>
+      </InfoBox>
     </StaticPageLayout>
   )
 }

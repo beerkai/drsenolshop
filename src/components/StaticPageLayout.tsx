@@ -22,7 +22,7 @@ interface StaticPageLayoutProps {
   titleAccent?: string
   intro?: string
   breadcrumbs?: StaticBreadcrumbItem[]
-  /** Sayfa başlığının üstüne basılan opsiyonel bant (örn. taslak uyarısı) */
+  /** Sayfa başlığının üstüne basılan opsiyonel bant */
   topNotice?: ReactNode
   children: ReactNode
 }

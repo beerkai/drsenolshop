@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import StaticPageLayout from '@/components/StaticPageLayout'
-import LegalDraftNotice from '@/components/LegalDraftNotice'
-import { P, H2, Eyebrow, List, InfoBox } from '@/components/StaticContent'
+import LegalCompanyCard from '@/components/LegalCompanyCard'
+import { P, H2, Eyebrow, List } from '@/components/StaticContent'
 import { getLegalCompany, LEGAL_LAST_UPDATED } from '@/lib/legal-info'
 
 export const metadata: Metadata = {
@@ -18,7 +18,6 @@ export default function UyelikSozlesmesiPage() {
       titleAccent="sözleşmesi"
       intro={`Hesap oluşturarak kabul ettiğiniz kullanım koşulları. Son güncelleme: ${LEGAL_LAST_UPDATED}.`}
       breadcrumbs={[{ label: 'Üyelik Sözleşmesi' }]}
-      topNotice={<LegalDraftNotice />}
     >
       <Eyebrow>Taraflar</Eyebrow>
       <H2>Sözleşmenin tarafları</H2>
@@ -65,7 +64,8 @@ export default function UyelikSozlesmesiPage() {
       <Eyebrow>Fesih</Eyebrow>
       <H2>Üyeliğin sona ermesi</H2>
       <P>
-        Üye dilediği zaman <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>{co.email}</a> üzerinden hesabının silinmesini talep edebilir.
+        Üye dilediği zaman hesap sayfasından veya{' '}
+        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }} lang="en">{co.email}</a> üzerinden hesabının silinmesini talep edebilir.
         Şirket, sözleşme hükümlerine aykırılık halinde üyeliği önceden bildirim yaparak veya işin niteliği gereği bildirimsiz olarak
         askıya alma / sonlandırma hakkını saklı tutar.
       </P>
@@ -84,13 +84,7 @@ export default function UyelikSozlesmesiPage() {
         ve Tüketici Mahkemeleri; diğer uyuşmazlıklar için Bursa Mahkemeleri ve İcra Daireleri yetkilidir.
       </P>
 
-      <InfoBox title="İletişim">
-        <p style={{ margin: 0 }}>
-          {co.legal_name}<br />
-          {co.address}<br />
-          E-posta: <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>{co.email}</a>
-        </p>
-      </InfoBox>
+      <LegalCompanyCard title="İletişim" />
     </StaticPageLayout>
   )
 }

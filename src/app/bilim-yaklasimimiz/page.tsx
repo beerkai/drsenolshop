@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import StaticPageLayout from '@/components/StaticPageLayout'
-import { P, H2, Eyebrow, Quote, InfoBox } from '@/components/StaticContent'
+import { P, H2, Eyebrow, Quote, InfoBox, List } from '@/components/StaticContent'
 
 export const metadata: Metadata = {
   title: 'Bilim Yaklaşımımız · Dr. Şenol Shop',
-  description: 'Arıcılığı bir bilim olarak ele alıyoruz. Her aşama belgelenir.',
+  description: 'Arıcılığı bir bilim olarak ele alıyoruz. Her hasat belgelenir, her lot izlenir.',
 }
 
 export default function BilimYaklasimimizPage() {
@@ -13,29 +14,48 @@ export default function BilimYaklasimimizPage() {
       eyebrow="Marka · Bilim Yaklaşımımız"
       title="Doğanın titizliği,"
       titleAccent="bilimin gözüyle."
-      intro="Her kavanozun arkasında yıllarca süren bilimsel araştırma ve laboratuvar testleri var."
+      intro="Her kavanozun arkasında hasat kaydı, laboratuvar analizi ve lot takibi vardır."
       breadcrumbs={[{ label: 'Bilim Yaklaşımımız' }]}
     >
       <Eyebrow>Metodoloji</Eyebrow>
       <H2>Akredite laboratuvar testleri</H2>
       <P>
-        Bu metin yer tutucu olarak buradadır. Her hasat, akredite bağımsız laboratuvarda
-        fenolik madde, prolin, diastaz ve HMF değerleri için analiz edilir.
+        Hasat kapandıktan sonra her partiden numune alınır ve TÜRKAK akreditasyonuna sahip
+        bağımsız laboratuvarlara gönderilir. Rapor onaylanmadan o lot satışa çıkmaz. Isıl
+        işlem uygulanmaz; süzüm, enzimleri koruyacak sıcaklık bandında tutulur.
       </P>
 
       <H2>Test ettiğimiz değerler</H2>
-      <P>Bu metin yer tutucu. Detaylı bilgi sonradan gelecek.</P>
+      <P>
+        Analiz paneli, balın botanik kaynağını, tazeliğini ve ısıl geçmişini birlikte okur.
+        Aşağıdaki parametreler her partinin dosyasına işlenir:
+      </P>
+      <List
+        items={[
+          'HMF (hidroksimetilfurfural) — ısıl işlem veya uzun beklemenin izi; hedef < 10 mg/kg, yasal üst sınır 40 mg/kg',
+          'Prolin — balın olgunluğu ve doğal protein izi',
+          'Diastaz (amilaz) aktivitesi — canlı enzim; aşırı ısıda düşer',
+          'Fenolik madde — flora ve oksidatif profil',
+          'Nem — fermentasyon riskini kontrol eder',
+          'Şeker profili ve C4 — ilave şeker / şurup karışımının tespiti',
+          'Polen analizi — botanik kaynak (kestane, ıhlamur, çiçek vb.)',
+        ]}
+      />
 
       <InfoBox title="Test parametreleri">
-        Fenolik madde · Prolin · Diastaz · HMF (Hidroksimetilfurfural) · Nem · Şeker profili ·
-        Polen analizi
+        Fenolik madde · Prolin · Diastaz · HMF · Nem · Şeker profili · Polen analizi
       </InfoBox>
 
       <Eyebrow>Şeffaflık</Eyebrow>
       <H2>QR kod ile lot takibi</H2>
       <P>
-        Bu metin yer tutucu. Her ürünün etiketinde QR kod var. Tarayınca o lota ait analiz
-        raporuna ulaşırsınız. Tam şeffaflık.
+        Her ürün etiketinde lot / hasat kodu ve QR bulunur. Kodu okuttuğunuzda o partiye ait
+        analiz özetine ulaşırsınız. Raporun kopyasını e-posta ile de isteyebilirsiniz; yol
+        haritası{' '}
+        <Link href="/analiz-raporlari" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+          analiz raporları
+        </Link>
+        {' '}sayfasındadır.
       </P>
 
       <Quote>Şüpheye yer bırakmayan bilim.</Quote>

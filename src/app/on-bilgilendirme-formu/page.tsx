@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import StaticPageLayout from '@/components/StaticPageLayout'
-import LegalDraftNotice from '@/components/LegalDraftNotice'
-import { P, H2, Eyebrow, List, InfoBox } from '@/components/StaticContent'
+import LegalCompanyCard from '@/components/LegalCompanyCard'
+import { P, H2, Eyebrow, List } from '@/components/StaticContent'
 import { getLegalCompany, LEGAL_LAST_UPDATED } from '@/lib/legal-info'
+import { SHIPPING_WINDOW } from '@/lib/shipping-copy'
 
 export const metadata: Metadata = {
   title: 'Ön Bilgilendirme Formu · Dr. Şenol Shop',
@@ -19,20 +20,10 @@ export default function OnBilgilendirmePage() {
       titleAccent="formu"
       intro={`6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği uyarınca, sipariş tamamlanmadan önce sunulan zorunlu bilgilendirme. Son güncelleme: ${LEGAL_LAST_UPDATED}.`}
       breadcrumbs={[{ label: 'Ön Bilgilendirme Formu' }]}
-      topNotice={<LegalDraftNotice />}
     >
       <Eyebrow>Madde 1</Eyebrow>
       <H2>Satıcı bilgileri</H2>
-      <InfoBox title="Satıcı">
-        <p style={{ margin: 0 }}>
-          Unvan: {co.legal_name}<br />
-          Adres: {co.address}, {co.city_country}<br />
-          E-posta: <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>{co.email}</a><br />
-          Telefon: {co.phone}<br />
-          MERSIS No: {co.mersis}<br />
-          Vergi Dairesi / VKN: {co.tax_office} / {co.tax_number}
-        </p>
-      </InfoBox>
+      <LegalCompanyCard title="Satıcı" />
 
       <Eyebrow>Madde 2</Eyebrow>
       <H2>Sözleşme konusu ürün</H2>
@@ -62,7 +53,7 @@ export default function OnBilgilendirmePage() {
       <H2>Teslimat</H2>
       <P>
         Ürün, ödemenin alındığı tarihten itibaren en geç <strong style={{ color: 'var(--color-on-surface)' }}>30 gün</strong> içinde anlaşmalı kargo şirketi
-        aracılığıyla Alıcı&apos;ya teslim edilir. Tipik teslimat süresi 2-4 iş günüdür.
+        aracılığıyla Alıcı&apos;ya teslim edilir. Tipik teslimat süresi {SHIPPING_WINDOW}&apos;dür.
         Kargo ücreti, sipariş tutarına ve uygulanan kampanyalara göre değişebilir; ödeme sayfasında ayrıca gösterilir.
       </P>
 
@@ -72,7 +63,7 @@ export default function OnBilgilendirmePage() {
         Alıcı, sözleşme konusu ürünü teslim aldığı tarihten itibaren{' '}
         <strong style={{ color: 'var(--color-on-surface)' }}>14 (on dört) gün</strong> içinde hiçbir gerekçe göstermeksizin ve cezai şart ödemeksizin cayma
         hakkını kullanabilir. Cayma bildirimi yazılı olarak{' '}
-        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>{co.email}</a> adresine yapılır. Cayma hakkının kullanılmasından itibaren
+        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }} lang="en">{co.email}</a> adresine yapılır. Cayma hakkının kullanılmasından itibaren
         14 gün içinde ürün Satıcı&apos;ya iade edilir; iade kargo ücreti{' '}
         <strong style={{ color: 'var(--color-on-surface)' }}>anlaşmalı kargo ile yapıldığında Satıcı&apos;ya aittir</strong>, aksi halde Alıcı tarafından karşılanır.
       </P>
@@ -85,7 +76,7 @@ export default function OnBilgilendirmePage() {
         items={[
           'Tüketicinin istekleri doğrultusunda hazırlanan, kişiselleştirilmiş ürünler',
           'Çabuk bozulabilen veya son kullanma tarihi geçebilecek ürünler',
-          'Tesliminden sonra ambalaj, bant, mühür gibi koruyucu unsurları açılmış olan ve sağlık/hijyen açısından iadesi uygun olmayan ürünler (örn. açılmış bal kavanozu)',
+          'Tesliminden sonra ambalaj, bant, mühür gibi koruyucu unsurları açılmış olan ve sağlık/hijyen açısından iadesi uygun olmayan ürünler (açılmış bal kavanozu, damlalık, bakım ürünü)',
         ]}
       />
 
@@ -93,7 +84,8 @@ export default function OnBilgilendirmePage() {
       <H2>Şikayet ve uyuşmazlık çözüm yolları</H2>
       <P>
         Tüketici, talep ve şikayetlerini öncelikle{' '}
-        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>{co.email}</a> adresine veya {co.phone} numarasına iletebilir.
+        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }} lang="en">{co.email}</a>
+        {co.phone ? <> adresine veya {co.phone} numarasına</> : <> adresine</>} iletebilir.
         Uyuşmazlık halinde, T.C. Ticaret Bakanlığı tarafından belirlenen parasal sınırlar dahilinde tüketicinin yerleşim yerindeki veya
         tüketici işleminin yapıldığı yerdeki <strong style={{ color: 'var(--color-on-surface)' }}>Tüketici Hakem Heyetleri</strong> veya{' '}
         <strong style={{ color: 'var(--color-on-surface)' }}>Tüketici Mahkemeleri</strong> yetkilidir.

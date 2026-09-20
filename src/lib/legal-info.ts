@@ -1,9 +1,8 @@
 // ═══════════════════════════════════════════════════════════════
 // Tüzel kişi & iletişim bilgileri — yasal sayfalar için tek kaynak
 // ─ Env'den okunur (NEXT_PUBLIC_* prefix ile build-time inline)
-// ─ Yoksa development placeholder döner; yasal metinde "[doldurulacak]"
-//   olarak görünür
-// ─ Üretime alırken bu env'leri Vercel'de set et
+// ─ Eksik resmi kimlik alanları boş döner; sayfalar bunları basmaz
+// ─ Üretimde Vercel env: NEXT_PUBLIC_LEGAL_NAME, TAX_*, MERSIS, PHONE
 // ═══════════════════════════════════════════════════════════════
 
 export interface LegalCompanyInfo {
@@ -20,35 +19,38 @@ export interface LegalCompanyInfo {
   website: string
 }
 
-function val(envKey: string, fallback: string): string {
+function val(envKey: string, fallback = ''): string {
   return (process.env[envKey] || '').trim() || fallback
 }
 
 export function getLegalCompany(): LegalCompanyInfo {
   return {
-    legal_name: val('NEXT_PUBLIC_LEGAL_NAME', '[Şirket ticari unvanı doldurulacak]'),
+    legal_name: val('NEXT_PUBLIC_LEGAL_NAME', 'Dr. Şenol'),
     trade_name: val('NEXT_PUBLIC_BRAND_NAME', 'Dr. Şenol Shop'),
-    tax_office: val('NEXT_PUBLIC_TAX_OFFICE', '[Vergi dairesi]'),
-    tax_number: val('NEXT_PUBLIC_TAX_NUMBER', '[VKN]'),
-    mersis: val('NEXT_PUBLIC_MERSIS_NO', '[MERSIS no]'),
+    tax_office: val('NEXT_PUBLIC_TAX_OFFICE'),
+    tax_number: val('NEXT_PUBLIC_TAX_NUMBER'),
+    mersis: val('NEXT_PUBLIC_MERSIS_NO'),
     address: val('NEXT_PUBLIC_COMPANY_ADDRESS', 'Saitabat Köyü, Kestel / Bursa'),
     city_country: val('NEXT_PUBLIC_COMPANY_CITY', 'Bursa, Türkiye'),
     email: val('NEXT_PUBLIC_CONTACT_EMAIL', 'hello@drsenol.shop'),
-    phone: val('NEXT_PUBLIC_CONTACT_PHONE', '+90 224 123 45 67'),
-    kep: val('NEXT_PUBLIC_KEP_ADDRESS', '[KEP adresi — varsa]'),
+    phone: val('NEXT_PUBLIC_CONTACT_PHONE'),
+    kep: val('NEXT_PUBLIC_KEP_ADDRESS'),
     website: val('NEXT_PUBLIC_SITE_URL', 'https://drsenol.shop'),
   }
 }
 
+/** WhatsApp / tel: linkleri için yalnızca rakam */
+export function phoneDigits(phone: string): string {
+  return phone.replace(/\D/g, '')
+}
+
 // Yasal sayfa son güncelleme tarihi — değiştiğinde elle güncelle.
-export const LEGAL_LAST_UPDATED = '17 Mayıs 2026'
+export const LEGAL_LAST_UPDATED = '20 Eylül 2026'
 
 /**
- * Şirket bilgilerinden en az biri placeholder ([..]) ise true.
- * Yasal sayfalarda turuncu uyarı şeridi göstermek için kullanılır.
+ * Resmi unvan veya vergi kimliği env'de yoksa true.
+ * Admin / iç kontrol için; vitrin sayfalarında uyarı basılmaz.
  */
 export function isLegalInfoIncomplete(): boolean {
-  const co = getLegalCompany()
-  const fields = [co.legal_name, co.tax_office, co.tax_number, co.mersis]
-  return fields.some((v) => /^\[.*\]$/.test(v))
+  return !val('NEXT_PUBLIC_LEGAL_NAME') || !val('NEXT_PUBLIC_TAX_NUMBER')
 }

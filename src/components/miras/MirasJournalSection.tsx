@@ -78,7 +78,7 @@ export default function MirasJournalSection() {
           margin: 0,
         }}
       >
-        Hasat, analiz ve köy hikâyeleri — blog altyapısının ilk kayıtları. Yeni yazılar burada listelenecek.
+        Hasat defterinden laboratuvar notlarına: Saitabat&apos;ın mevsimlik kayıtları.
       </p>
 
       <div className="miras-journal-list">
@@ -147,7 +147,6 @@ export default function MirasJournalSection() {
                 textTransform: 'uppercase',
                 color: 'var(--color-on-surface)',
               }}
-              lang="en"
             >
               Devamını oku →
             </span>

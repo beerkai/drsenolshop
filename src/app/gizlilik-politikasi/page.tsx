@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import StaticPageLayout from '@/components/StaticPageLayout'
-import LegalDraftNotice from '@/components/LegalDraftNotice'
 import { P, H2, Eyebrow, List } from '@/components/StaticContent'
 import { getLegalCompany, LEGAL_LAST_UPDATED } from '@/lib/legal-info'
 import { getSiteUrl } from '@/lib/site-url'
@@ -9,7 +8,7 @@ import { getSiteUrl } from '@/lib/site-url'
 export const metadata: Metadata = {
   title: 'Gizlilik Politikası · Dr. Şenol Shop',
   description:
-    'drsenol.shop üzerinde hangi bilgileri topladığımız, çerezler, analitik ve veri güvenliği hakkında özet gizlilik politikası.',
+    'drsenol.shop üzerinde hangi bilgileri topladığımız, çerezler, analitik ve veri güvenliği hakkında gizlilik politikası.',
 }
 
 export default function GizlilikPolitikasiPage() {
@@ -23,7 +22,6 @@ export default function GizlilikPolitikasiPage() {
       titleAccent="politikası"
       intro={`${siteUrl} adresindeki deneyiminizde verilerinizi nasıl kullandığımıza dair özet. KVKK aydınlatma metni ayrı sayfada. Son güncelleme: ${LEGAL_LAST_UPDATED}.`}
       breadcrumbs={[{ label: 'Gizlilik Politikası' }]}
-      topNotice={<LegalDraftNotice />}
     >
       <Eyebrow>Kapsam</Eyebrow>
       <H2>Bu politika neyi kapsar</H2>
@@ -81,7 +79,7 @@ export default function GizlilikPolitikasiPage() {
       <H2>Gizlilik soruları</H2>
       <P>
         Gizlilik ile ilgili sorularınız için{' '}
-        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>
+        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }} lang="en">
           {co.email}
         </a>{' '}
         adresine yazabilirsiniz.

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import StaticPageLayout from '@/components/StaticPageLayout'
-import LegalDraftNotice from '@/components/LegalDraftNotice'
+import LegalCompanyCard from '@/components/LegalCompanyCard'
 import { P, H2, Eyebrow, List, InfoBox } from '@/components/StaticContent'
 import { getLegalCompany, LEGAL_LAST_UPDATED } from '@/lib/legal-info'
 
@@ -19,7 +19,6 @@ export default function KvkkAydinlatmaPage() {
       titleAccent="Korunması"
       intro={`6698 sayılı Kanun (KVKK) kapsamında veri sorumlusu olarak kişisel verilerinizi nasıl işlediğimizi açıklıyoruz. Son güncelleme: ${LEGAL_LAST_UPDATED}.`}
       breadcrumbs={[{ label: 'KVKK Aydınlatma Metni' }]}
-      topNotice={<LegalDraftNotice />}
     >
       <Eyebrow>Veri Sorumlusu</Eyebrow>
       <H2>Kim olduğumuz</H2>
@@ -29,26 +28,7 @@ export default function KvkkAydinlatmaPage() {
         Aşağıda kişisel verilerinizin hangi amaçlarla işlendiği, kimlerle paylaşılabileceği ve KVKK kapsamındaki haklarınız açıklanmıştır.
       </P>
 
-      <InfoBox title="Veri Sorumlusu">
-        <p style={{ margin: 0 }}>
-          {co.legal_name}
-          <br />
-          {co.address}
-          <br />
-          {co.city_country}
-          <br />
-          E-posta:{' '}
-          <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>
-            {co.email}
-          </a>
-          <br />
-          Telefon: {co.phone}
-          <br />
-          KEP: {co.kep}
-          <br />
-          MERSIS: {co.mersis}
-        </p>
-      </InfoBox>
+      <LegalCompanyCard title="Veri Sorumlusu" />
 
       <Eyebrow>İşlenen Veriler</Eyebrow>
       <H2>Hangi verilerinizi topluyoruz</H2>
@@ -129,7 +109,7 @@ export default function KvkkAydinlatmaPage() {
       <H2>Bize nasıl ulaşırsınız</H2>
       <P>
         Yukarıdaki haklarınızı kullanmak için talebinizi{' '}
-        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>
+        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }} lang="en">
           {co.email}
         </a>{' '}
         e-posta adresimize veya yazılı olarak şirket adresimize iletebilirsiniz. Başvurunuz en geç 30 gün içinde

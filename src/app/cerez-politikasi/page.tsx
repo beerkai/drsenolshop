@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import StaticPageLayout from '@/components/StaticPageLayout'
-import LegalDraftNotice from '@/components/LegalDraftNotice'
 import { P, H2, Eyebrow, List, InfoBox } from '@/components/StaticContent'
 import { LEGAL_LAST_UPDATED, getLegalCompany } from '@/lib/legal-info'
 
@@ -18,7 +17,6 @@ export default function CerezPolitikasiPage() {
       titleAccent="politikası"
       intro={`Sitemizde kullanılan çerez türleri, amaçları ve tercih yönetimi. Son güncelleme: ${LEGAL_LAST_UPDATED}.`}
       breadcrumbs={[{ label: 'Çerez Politikası' }]}
-      topNotice={<LegalDraftNotice />}
     >
       <Eyebrow>Çerez Nedir</Eyebrow>
       <H2>Tarayıcınıza yerleştirilen küçük dosyalar</H2>
@@ -36,15 +34,16 @@ export default function CerezPolitikasiPage() {
       </P>
       <List
         items={[
-          'Supabase auth çerezleri (oturum yönetimi)',
-          'Sepet içeriği (localStorage — çerez değil ama benzer amaç)',
-          'CSRF koruma ve güvenlik token&apos;ları',
+          'Oturum yönetimi (kimlik doğrulama çerezleri)',
+          'Sepet içeriği (tarayıcı deposu — çerez değil, benzer amaç)',
+          'Güvenlik ve sahteciliği önleme token&apos;ları',
         ]}
       />
 
       <H2>Performans / analitik çerezler</H2>
       <P>
         Sitenin nasıl kullanıldığını anlamamıza yardımcı olur. Yalnızca açık rızanız ile aktif edilir.
+        Çerez kullanmayan Plausible Analytics etkinse trafik anonim özetlenir.
       </P>
       <List
         items={[
@@ -55,7 +54,8 @@ export default function CerezPolitikasiPage() {
 
       <H2>Pazarlama çerezleri</H2>
       <P>
-        Şu anda üçüncü taraf pazarlama çerezi kullanmıyoruz. Bu durum değişirse politika güncellenecek ve sizden yeniden rıza istenecektir.
+        Şu anda üçüncü taraf reklam veya yeniden pazarlama çerezi kullanmıyoruz. Bu durum değişirse
+        politika güncellenir ve sizden yeniden rıza istenir.
       </P>
 
       <Eyebrow>Tercih Yönetimi</Eyebrow>
@@ -73,7 +73,7 @@ export default function CerezPolitikasiPage() {
       />
 
       <InfoBox title="Sorularınız için">
-        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }}>{co.email}</a>
+        <a href={`mailto:${co.email}`} style={{ color: 'var(--color-honey-amber)' }} lang="en">{co.email}</a>
       </InfoBox>
     </StaticPageLayout>
   )

@@ -19,13 +19,14 @@ export const MIRAS_JOURNAL_POSTS: MirasJournalPost[] = [
     slug: 'saitabat-2026-ilkbahar-hasadi',
     title: 'Saitabat 2026 ilkbahar hasadı',
     excerpt:
-      '1100 metre rakımda kekik ve endemik çiçek florasından süzülen ilk damlalar laboratuvara gönderildi.',
+      '1.100 metre rakımda kekik ve endemik çiçek florasından süzülen ilk damlalar laboratuvara gönderildi.',
     publishedAt: '2026-04-12',
     category: 'Hasat günlüğü',
     body: [
-      'Bu yazı miras sayfasındaki hasat günlüğünün ilk kaydıdır. İçerik ileride genişletilecektir.',
-      'Hasat ekibi, kovanlardan alınan peteklerin sıcaklık ve nem kontrolünden geçirildiğini, ardından soğuk süzüm hattına alındığını not etti.',
-      'Analiz sonuçları onaylandığında ürün sayfalarındaki QR kodları güncellenecektir.',
+      'Nisanın ikinci haftasında Saitabat yamaçlarında kekik ve erken çiçek kuşağı açıldı. Kovanlar, gece serinliği ve gündüz güneşinin net ayrıldığı 1.100 metre hattında; salgı henüz koyulaşmadan alındı.',
+      'Petekler önce sıcaklık ve nem kontrolünden geçti, ardından soğuk süzüm hattına alındı. Pastörizasyon yok: bal, kovan sıcaklığına yakın bir bantta cam kavanoza aktarıldı. Bu partinin hasat kodu 26-STB-ILK olarak kayda geçti.',
+      'Numuneler aynı gün bağımsız laboratuvara yola çıktı. Onay bekleyen panel HMF, prolin, diastaz, nem ve polen dağılımını kapsıyor. Rapor geldikten sonra etiket QR’ları bu lota bağlanır.',
+      'İlkbahar seçkisi sınırlıdır. Flora kapandığında o mevsimin kavanozu da kapanır; sonraki damla bir sonraki çiçeklenmeyi bekler.',
     ],
   },
   {
@@ -36,9 +37,10 @@ export const MIRAS_JOURNAL_POSTS: MirasJournalPost[] = [
     publishedAt: '2026-03-08',
     category: 'Bilim',
     body: [
-      'Dr. Şenol laboratuvarında her hasat partisi için minimum kalite eşikleri tanımlıdır.',
-      'Prolin ve diastaz aktivitesi balın tazeliğini; HMF ise ısıl işlem veya uzun beklemenin izlerini gösterir.',
-      'Bu seride ilerleyen yazılarda örnek rapor ekran görüntüleri paylaşılacaktır.',
+      'Dr. Şenol laboratuvarında her hasat partisi için aynı minimum kalite eşiği geçerlidir. Rapor onaylanmadan lot satışa çıkmaz. Bu kural, 1985’ten beri köyde tutulan defterin laboratuvar diline çevrilmiş halidir.',
+      'Prolin, balın olgunluğunu ve doğal protein izini gösterir. Düşük prolin, erken hasat veya sulandırma şüphesini açar. Diastaz (amilaz) ise canlı enzimdir; aşırı ısı veya uzun depolama aktiviteyi düşürür. Bu yüzden süzümü kovan sıcaklığına yakın tutar, balı pastörize etmeyiz.',
+      'HMF, ısıl işlem veya uzun beklemenin kimyasal izidir. Yasal üst sınır 40 mg/kg’dır; hedefimiz 10 mg/kg’ın altıdır. Yüksek HMF, market rafında ısınmış veya uzun bekletilmiş balın tipik işaretidir.',
+      'Bu üç değer, polen analizi ve şeker profiliyle birlikte okunur. Etiketteki QR, o partinin özetine açılır. Tam rapor kopyası için sipariş numarası ve lot koduyla hello@drsenol.shop adresine yazabilirsiniz.',
     ],
   },
 ]
