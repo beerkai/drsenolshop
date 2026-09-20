@@ -4,6 +4,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { getSupabase, isSupabaseConfigured } from './supabase'
+import { getGoldyliumCategoryIds, GOLDYLIUM_CATALOG_ROOT_SLUG } from '@/lib/goldylium-catalog'
 import type { Category, Product, ProductVariant, ProductWithRelations } from '@/types'
 
 /** Join sonrası ham satır tipi (PostgREST gömülü ilişkiler) */
@@ -116,6 +117,10 @@ export async function getFeaturedProducts(limit = 6): Promise<ProductWithRelatio
 
 export interface GetProductsOptions {
   categorySlug?: string
+  /** Üst kategori + altları (ör. kozmetik → tüm parfümler) */
+  categorySubtreeRootSlug?: string
+  /** Ana koleksiyon "Tümü" — bu ağacı hariç tut (arama ile birlikte kullanılmaz) */
+  excludeCategorySubtreeRootSlug?: string
   isActive?: boolean
   isFeatured?: boolean
   isNew?: boolean
@@ -140,6 +145,8 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Get
   const supabase = getSupabase()
   const {
     categorySlug,
+    categorySubtreeRootSlug,
+    excludeCategorySubtreeRootSlug,
     isActive = true,
     isFeatured,
     isNew,
@@ -151,9 +158,43 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Get
   } = options
 
   let categoryId: string | null = null
+  let categoryIdsIn: string[] | null = null
+  let categoryIdsExclude: string[] | null = null
+
   if (categorySlug) {
     const { data: cat } = await supabase.from('categories').select('id').eq('slug', categorySlug).maybeSingle()
     if (cat) categoryId = cat.id
+  } else if (categorySubtreeRootSlug) {
+    if (categorySubtreeRootSlug === GOLDYLIUM_CATALOG_ROOT_SLUG) {
+      const ids = await getGoldyliumCategoryIds()
+      categoryIdsIn = ids.length > 0 ? ids : null
+    } else {
+      const { getAllCategories } = await import('@/lib/categories')
+      const all = await getAllCategories()
+      const root = all.find((c) => c.slug === categorySubtreeRootSlug)
+      if (root) {
+        categoryIdsIn = [root.id, ...all.filter((c) => c.parent_id === root.id).map((c) => c.id)]
+      }
+    }
+  }
+
+  // Arama tüm katalogda kalsın — hariç tutma yalnızca genel liste için
+  if (!search && !categorySlug && !categorySubtreeRootSlug && excludeCategorySubtreeRootSlug) {
+    if (excludeCategorySubtreeRootSlug === GOLDYLIUM_CATALOG_ROOT_SLUG) {
+      const ids = await getGoldyliumCategoryIds()
+      categoryIdsExclude = ids.length > 0 ? ids : null
+    }
+  }
+
+  function applyCategoryFilters<T extends { eq: (col: string, val: string) => T; in: (col: string, vals: string[]) => T; not: (col: string, op: string, val: string) => T }>(
+    q: T
+  ): T {
+    if (categoryId) return q.eq('category_id', categoryId)
+    if (categoryIdsIn?.length) return q.in('category_id', categoryIdsIn)
+    if (categoryIdsExclude?.length) {
+      return q.not('category_id', 'in', `(${categoryIdsExclude.join(',')})`)
+    }
+    return q
   }
 
   function isInStock(p: {
@@ -176,7 +217,7 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Get
     if (isActive !== undefined) stockCountQuery = stockCountQuery.eq('is_active', isActive)
     if (isFeatured !== undefined) stockCountQuery = stockCountQuery.eq('is_featured', isFeatured)
     if (isNew !== undefined) stockCountQuery = stockCountQuery.eq('is_new', isNew)
-    if (categoryId) stockCountQuery = stockCountQuery.eq('category_id', categoryId)
+    stockCountQuery = applyCategoryFilters(stockCountQuery)
     if (search) stockCountQuery = stockCountQuery.ilike('name', `%${search}%`)
     const { data: allForCount } = await stockCountQuery
     total = (allForCount ?? []).filter(isInStock).length
@@ -185,7 +226,7 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Get
     if (isActive !== undefined) countQuery = countQuery.eq('is_active', isActive)
     if (isFeatured !== undefined) countQuery = countQuery.eq('is_featured', isFeatured)
     if (isNew !== undefined) countQuery = countQuery.eq('is_new', isNew)
-    if (categoryId) countQuery = countQuery.eq('category_id', categoryId)
+    countQuery = applyCategoryFilters(countQuery)
     if (search) countQuery = countQuery.ilike('name', `%${search}%`)
     const { count: totalCount } = await countQuery
     total = totalCount ?? 0
@@ -200,7 +241,7 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Get
   if (isActive !== undefined) query = query.eq('is_active', isActive)
   if (isFeatured !== undefined) query = query.eq('is_featured', isFeatured)
   if (isNew !== undefined) query = query.eq('is_new', isNew)
-  if (categoryId) query = query.eq('category_id', categoryId)
+  query = applyCategoryFilters(query)
   if (search) query = query.ilike('name', `%${search}%`)
 
   switch (orderBy) {

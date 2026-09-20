@@ -7,6 +7,7 @@ import HomeHarvestMetrics from '@/components/editorial/HomeHarvestMetrics'
 import EditorialFeedSection from '@/components/editorial/EditorialFeedSection'
 import EditorialJournalSection from '@/components/editorial/EditorialJournalSection'
 import GoldyliumSpotlightSection from '@/components/editorial/GoldyliumSpotlightSection'
+import HomeGoldyliumCatalogTeaser from '@/components/editorial/HomeGoldyliumCatalogTeaser'
 import InstagramCommunitySection from '@/components/editorial/InstagramCommunitySection'
 import HomeValuesTicker from '@/components/editorial/HomeValuesTicker'
 import { getHomeContent } from '@/lib/cms/home-content'
@@ -24,6 +25,7 @@ export default async function HomePage() {
       <main className="flex w-full flex-col bg-surface pt-[var(--editorial-header-stack-mobile)] lg:pt-[var(--editorial-header-stack)]">
         <Hero {...hero} />
         <HomeCuratedProducts settings={curated} />
+        <HomeGoldyliumCatalogTeaser />
         <HomeCurationStrip content={curationStrip} />
         <HomeHarvestMetrics cells={cms.harvestMetrics} />
         {curated.legacyFeedEnabled ? (
