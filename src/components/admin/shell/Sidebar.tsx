@@ -81,6 +81,8 @@ function IconMail({ size = 16 }: { size?: number }) {
 }
 
 const NAV_SECONDARY: NavItem[] = [
+  { href: '/admin/vitrin', label: 'Vitrin', icon: <IconProducts /> },
+  { href: '/admin/icerik', label: 'Metinler', icon: <IconJournal /> },
   { href: '/admin/tema', label: 'Tema', icon: <IconTheme /> },
   { href: '/admin/epostalar', label: 'E-postalar', icon: <IconMail /> },
   { href: '/admin/yorumlar', label: 'Yorumlar', icon: <IconAnalytics />, shortcut: '⌘9' },

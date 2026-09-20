@@ -211,7 +211,9 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Get
       query = query.order('name', { ascending: true })
       break
     case 'popular':
-      query = query.order('sale_count', { ascending: false, nullsFirst: false })
+      query = query
+        .order('featured_sort_order', { ascending: true, nullsFirst: false })
+        .order('sale_count', { ascending: false, nullsFirst: false })
       break
     case 'price_asc':
       query = query.order('base_price', { ascending: true, nullsFirst: false })
@@ -221,13 +223,44 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Get
       break
     case 'newest':
     default:
-      query = query.order('created_at', { ascending: false })
+      query = query
+        .order('harvest_sort_order', { ascending: true, nullsFirst: false })
+        .order('created_at', { ascending: false })
       break
   }
 
   query = query.range(offset, offset + limit - 1)
 
-  const { data, error } = await query
+  let { data, error } = await query
+
+  if (
+    error &&
+    (orderBy === 'newest' || orderBy === 'popular') &&
+    /harvest_sort_order|featured_sort_order|42703|PGRST204/i.test(error.message)
+  ) {
+    console.warn('[getProducts] Sıralama kolonu yok, varsayılan sıraya düşülüyor:', error.message)
+    let fallback = getSupabase()
+      .from('products')
+      .select(
+        `
+      *,
+      variants:product_variants(*),
+      category:categories(*)
+    `
+      )
+    if (isActive !== undefined) fallback = fallback.eq('is_active', isActive)
+    if (isFeatured !== undefined) fallback = fallback.eq('is_featured', isFeatured)
+    if (isNew !== undefined) fallback = fallback.eq('is_new', isNew)
+    if (categoryId) fallback = fallback.eq('category_id', categoryId)
+    if (search) fallback = fallback.ilike('name', `%${search}%`)
+    if (orderBy === 'popular') {
+      fallback = fallback.order('sale_count', { ascending: false, nullsFirst: false })
+    } else {
+      fallback = fallback.order('created_at', { ascending: false })
+    }
+    fallback = fallback.range(offset, offset + limit - 1)
+    ;({ data, error } = await fallback)
+  }
 
   if (error) {
     console.error('[getProducts] Hata:', error.message)

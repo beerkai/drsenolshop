@@ -674,6 +674,91 @@ export interface ListedProduct {
   display_order: number | null
 }
 
+export type VitrinSortMode = 'harvest' | 'featured' | 'catalog'
+
+export async function listProductsForVitrin(
+  mode: VitrinSortMode,
+  opts: { search?: string; limit?: number } = {}
+): Promise<{ products: ListedProduct[]; total: number; sortReady: boolean }> {
+  const { search, limit = 500 } = opts
+  const supabase = getSupabaseAdmin()
+
+  let countQuery = supabase.from('products').select('id', { count: 'exact', head: true })
+  if (search) countQuery = countQuery.ilike('name', `%${search}%`)
+  const { count } = await countQuery
+
+  const sortColumn =
+    mode === 'harvest' ? 'harvest_sort_order' : mode === 'featured' ? 'featured_sort_order' : 'display_order'
+
+  const SELECT = `
+      id, slug, name, base_price, stock_quantity, is_active, is_featured, tax_rate, display_order,
+      category:categories(name),
+      variants:product_variants(id)
+    `
+
+  let q = supabase.from('products').select(SELECT)
+  if (search) q = q.ilike('name', `%${search}%`)
+  q = q.order(sortColumn, { ascending: true, nullsFirst: false }).order('name')
+  const { data, error } = await q.limit(limit)
+
+  if (error) {
+    const missing =
+      /harvest_sort_order|featured_sort_order|display_order/i.test(error.message) ||
+      error.code === '42703' ||
+      error.code === 'PGRST204'
+    if (missing) {
+      const fallback = await supabase
+        .from('products')
+        .select(SELECT.replace(/display_order,?\s*/g, ''))
+        .order('name')
+        .limit(limit)
+      return mapListedProducts(fallback.data, count ?? 0, false)
+    }
+    console.error('[listProductsForVitrin] hata:', error.message)
+    return { products: [], total: 0, sortReady: false }
+  }
+
+  return mapListedProducts(data, count ?? 0, true)
+}
+
+function mapListedProducts(
+  data: unknown[] | null,
+  total: number,
+  sortReady: boolean
+): { products: ListedProduct[]; total: number; sortReady: boolean } {
+  if (!data) return { products: [], total: 0, sortReady: false }
+  const products: ListedProduct[] = (data as unknown[]).map((row) => {
+    const r = row as {
+      id: string
+      slug: string
+      name: string
+      base_price: number | string | null
+      stock_quantity: number | null
+      is_active: boolean | null
+      is_featured: boolean | null
+      tax_rate: number | string | null
+      display_order?: number | null
+      category: { name: string } | { name: string }[] | null
+      variants: unknown[] | null
+    }
+    const cat = Array.isArray(r.category) ? r.category[0] : r.category
+    return {
+      id: r.id,
+      slug: r.slug,
+      name: r.name,
+      category_name: cat?.name ?? null,
+      base_price: r.base_price !== null ? Number(r.base_price) : null,
+      stock_quantity: r.stock_quantity,
+      variants_count: Array.isArray(r.variants) ? r.variants.length : 0,
+      is_active: r.is_active !== false,
+      is_featured: r.is_featured === true,
+      tax_rate: r.tax_rate !== null ? Number(r.tax_rate) : null,
+      display_order: r.display_order ?? null,
+    }
+  })
+  return { products, total, sortReady }
+}
+
 export async function listProducts(
   opts: { search?: string; limit?: number; offset?: number; orderBy?: 'name' | 'display_order' } = {}
 ): Promise<{ products: ListedProduct[]; total: number; ordered: boolean }> {

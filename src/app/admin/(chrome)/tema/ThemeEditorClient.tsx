@@ -319,6 +319,25 @@ export default function ThemeEditorClient({
                 value={content.curated.mostPreferred.viewAllLabel}
                 onChange={(v) => update((d) => { d.curated.mostPreferred.viewAllLabel = v })}
               />
+              <label style={{ display: 'block', marginBottom: 16 }}>
+                <span className="ad-label">Otomatik liste sıralaması</span>
+                <select
+                  className="ad-select"
+                  value={content.curated.mostPreferred.orderBy}
+                  onChange={(e) =>
+                    update((d) => {
+                      d.curated.mostPreferred.orderBy = e.target.value as typeof d.curated.mostPreferred.orderBy
+                    })
+                  }
+                >
+                  <option value="popular">Öne çıkanlar / satış</option>
+                  <option value="newest">En yeni hasat</option>
+                  <option value="name">İsim (A–Z)</option>
+                </select>
+                <span className="ad-mono" style={{ display: 'block', marginTop: 4, fontSize: 10, color: 'var(--ad-fg-faint)' }}>
+                  Manuel ürün listesi boşken kategoriden bu sırayla çekilir.
+                </span>
+              </label>
 
               <p className="ad-label" style={{ marginTop: 8 }}>
                 Manuel ürün seçimi ({content.curated.mostPreferred.productIds.length}/8)
@@ -333,6 +352,32 @@ export default function ThemeEditorClient({
                     <span className="ad-mono" style={{ fontSize: 11, flex: 1 }}>
                       {p?.name ?? id}
                     </span>
+                    <button
+                      type="button"
+                      className="ad-btn ad-btn-secondary ad-btn-sm"
+                      disabled={i === 0}
+                      onClick={() =>
+                        update((d) => {
+                          const arr = d.curated.mostPreferred.productIds
+                          ;[arr[i - 1], arr[i]] = [arr[i], arr[i - 1]]
+                        })
+                      }
+                    >
+                      ↑
+                    </button>
+                    <button
+                      type="button"
+                      className="ad-btn ad-btn-secondary ad-btn-sm"
+                      disabled={i === content.curated.mostPreferred.productIds.length - 1}
+                      onClick={() =>
+                        update((d) => {
+                          const arr = d.curated.mostPreferred.productIds
+                          ;[arr[i], arr[i + 1]] = [arr[i + 1], arr[i]]
+                        })
+                      }
+                    >
+                      ↓
+                    </button>
                     <button
                       type="button"
                       className="ad-btn ad-btn-secondary ad-btn-sm"
@@ -409,6 +454,22 @@ export default function ThemeEditorClient({
                 value={content.curated.signature.viewAllLabel}
                 onChange={(v) => update((d) => { d.curated.signature.viewAllLabel = v })}
               />
+              <label style={{ display: 'block', marginBottom: 16 }}>
+                <span className="ad-label">Otomatik liste sıralaması</span>
+                <select
+                  className="ad-select"
+                  value={content.curated.signature.orderBy}
+                  onChange={(e) =>
+                    update((d) => {
+                      d.curated.signature.orderBy = e.target.value as typeof d.curated.signature.orderBy
+                    })
+                  }
+                >
+                  <option value="popular">Öne çıkanlar / satış</option>
+                  <option value="newest">En yeni hasat</option>
+                  <option value="name">İsim (A–Z)</option>
+                </select>
+              </label>
 
               <p className="ad-label" style={{ marginTop: 8 }}>
                 Manuel ürün seçimi ({content.curated.signature.productIds.length}/8)
@@ -420,6 +481,32 @@ export default function ThemeEditorClient({
                     <span className="ad-mono" style={{ fontSize: 11, flex: 1 }}>
                       {p?.name ?? id}
                     </span>
+                    <button
+                      type="button"
+                      className="ad-btn ad-btn-secondary ad-btn-sm"
+                      disabled={i === 0}
+                      onClick={() =>
+                        update((d) => {
+                          const arr = d.curated.signature.productIds
+                          ;[arr[i - 1], arr[i]] = [arr[i], arr[i - 1]]
+                        })
+                      }
+                    >
+                      ↑
+                    </button>
+                    <button
+                      type="button"
+                      className="ad-btn ad-btn-secondary ad-btn-sm"
+                      disabled={i === content.curated.signature.productIds.length - 1}
+                      onClick={() =>
+                        update((d) => {
+                          const arr = d.curated.signature.productIds
+                          ;[arr[i], arr[i + 1]] = [arr[i + 1], arr[i]]
+                        })
+                      }
+                    >
+                      ↓
+                    </button>
                     <button
                       type="button"
                       className="ad-btn ad-btn-secondary ad-btn-sm"
