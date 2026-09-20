@@ -6,13 +6,33 @@ export default async function AdminReviewsPage() {
   await requireAdmin()
 
   const supabase = getSupabaseAdmin()
-  const { data: rows } = await supabase
-    .from('product_reviews')
-    .select('id, product_id, customer_email, customer_name, rating, title, body, is_approved, is_verified_purchase, created_at, products(name, slug)')
-    .order('created_at', { ascending: false })
-    .limit(200)
+  const [{ data: rows }, { data: productRows }] = await Promise.all([
+    supabase
+      .from('product_reviews')
+      .select(
+        'id, product_id, user_id, customer_email, customer_name, rating, title, body, is_approved, is_verified_purchase, created_at, products(name, slug)'
+      )
+      .order('created_at', { ascending: false })
+      .limit(200),
+    supabase.from('products').select('id, name, slug').order('name').limit(500),
+  ])
 
-  const reviews: AdminReviewRow[] = ((rows ?? []) as Array<AdminReviewRow & { products?: { name: string; slug: string } | { name: string; slug: string }[] | null }>).map((r) => {
+  type ReviewDbRow = {
+    id: string
+    product_id: string
+    user_id: string | null
+    customer_email: string
+    customer_name: string | null
+    rating: number
+    title: string | null
+    body: string | null
+    is_approved: boolean
+    is_verified_purchase: boolean
+    created_at: string
+    products?: { name: string; slug: string } | { name: string; slug: string }[] | null
+  }
+
+  const reviews: AdminReviewRow[] = ((rows ?? []) as ReviewDbRow[]).map((r) => {
     const product = Array.isArray(r.products) ? r.products[0] : r.products
     return {
       id: r.id,
@@ -27,8 +47,15 @@ export default async function AdminReviewsPage() {
       created_at: r.created_at,
       product_name: product?.name ?? null,
       product_slug: product?.slug ?? null,
+      is_curated: r.user_id == null,
     }
   })
+
+  const products = (productRows ?? []).map((p) => ({
+    id: p.id as string,
+    name: p.name as string,
+    slug: p.slug as string,
+  }))
 
   const pendingCount = reviews.filter((r) => !r.is_approved).length
   const approvedCount = reviews.length - pendingCount
@@ -45,7 +72,7 @@ export default async function AdminReviewsPage() {
         </p>
       </div>
 
-      <ReviewModerationList initial={reviews} />
+      <ReviewModerationList initial={reviews} products={products} />
     </div>
   )
 }

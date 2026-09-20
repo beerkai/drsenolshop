@@ -3,6 +3,12 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from '@/components/admin/toast/toast'
+import AdminReviewComposer, {
+  ReviewFormFields,
+  reviewRowToFormState,
+  type AdminProductOption,
+  type ReviewFormState,
+} from './AdminReviewComposer'
 
 export interface AdminReviewRow {
   id: string
@@ -17,6 +23,7 @@ export interface AdminReviewRow {
   is_approved: boolean
   is_verified_purchase: boolean
   created_at: string
+  is_curated: boolean
 }
 
 type Filter = 'pending' | 'approved' | 'all'
@@ -29,10 +36,19 @@ function formatDate(iso: string): string {
   }
 }
 
-export default function ReviewModerationList({ initial }: { initial: AdminReviewRow[] }) {
+export default function ReviewModerationList({
+  initial,
+  products,
+}: {
+  initial: AdminReviewRow[]
+  products: AdminProductOption[]
+}) {
   const router = useRouter()
   const [filter, setFilter] = useState<Filter>('pending')
   const [pending, setPending] = useState<Set<string>>(new Set())
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editForm, setEditForm] = useState<ReviewFormState | null>(null)
+  const [savingEdit, setSavingEdit] = useState(false)
 
   const visible = initial.filter((r) =>
     filter === 'all' ? true : filter === 'pending' ? !r.is_approved : r.is_approved
@@ -61,6 +77,55 @@ export default function ReviewModerationList({ initial }: { initial: AdminReview
     }
   }
 
+  function startEdit(r: AdminReviewRow) {
+    setEditingId(r.id)
+    setEditForm(reviewRowToFormState(r))
+  }
+
+  function cancelEdit() {
+    setEditingId(null)
+    setEditForm(null)
+  }
+
+  async function saveEdit(id: string) {
+    if (!editForm || savingEdit) return
+    setSavingEdit(true)
+    try {
+      const payload: Record<string, unknown> = {
+        product_id: editForm.product_id,
+        customer_name: editForm.customer_name,
+        rating: Number(editForm.rating),
+        title: editForm.title.trim() || null,
+        body: editForm.body.trim() || null,
+        is_verified_purchase: editForm.is_verified_purchase,
+        is_approved: editForm.is_approved,
+      }
+      if (editForm.customer_email.trim()) {
+        payload.customer_email = editForm.customer_email.trim()
+      }
+      if (editForm.created_at) {
+        payload.created_at = new Date(editForm.created_at).toISOString()
+      }
+      const res = await fetch(`/api/admin/reviews/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const data = await res.json()
+      if (!res.ok || !data.ok) {
+        toast.error(data.message ?? 'Güncellenemedi.')
+      } else {
+        toast.success('Kaydedildi.')
+        cancelEdit()
+        router.refresh()
+      }
+    } catch {
+      toast.error('Ağ hatası.')
+    } finally {
+      setSavingEdit(false)
+    }
+  }
+
   async function deleteReview(id: string) {
     if (pending.has(id)) return
     if (!confirm('Bu yorumu kalıcı olarak silmek istediğinize emin misiniz?')) return
@@ -83,6 +148,8 @@ export default function ReviewModerationList({ initial }: { initial: AdminReview
 
   return (
     <>
+      <AdminReviewComposer products={products} />
+
       {/* Filtre */}
       <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
         {(['pending', 'approved', 'all'] as Filter[]).map((f) => (
@@ -122,6 +189,11 @@ export default function ReviewModerationList({ initial }: { initial: AdminReview
                     <span className={r.is_approved ? '' : ''} style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: r.is_approved ? 'var(--ad-success)' : 'var(--ad-gold)' }}>
                       {r.is_approved ? 'Onaylı' : 'Bekliyor'}
                     </span>
+                    {r.is_curated && (
+                      <span className="ad-mono" style={{ fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ad-fg-faint)', border: '1px solid var(--ad-line-strong)', padding: '2px 6px' }}>
+                        Vitrin yorumu
+                      </span>
+                    )}
                   </div>
                   {r.title && (
                     <p style={{ color: 'var(--ad-fg)', fontSize: '15px', fontWeight: 500, margin: '4px 0' }}>
@@ -148,7 +220,33 @@ export default function ReviewModerationList({ initial }: { initial: AdminReview
                 </div>
               </div>
 
+              {editingId === r.id && editForm ? (
+                <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--ad-line-faint)' }}>
+                  <ReviewFormFields
+                    products={products}
+                    form={editForm}
+                    setForm={(next) => {
+                      setEditForm((prev) => {
+                        if (!prev) return prev
+                        return typeof next === 'function' ? next(prev) : next
+                      })
+                    }}
+                  />
+                  <div style={{ display: 'flex', gap: '8px', marginTop: '12px', flexWrap: 'wrap' }}>
+                    <button type="button" className="ad-btn ad-btn-primary" style={{ fontSize: '11px' }} disabled={savingEdit} onClick={() => saveEdit(r.id)}>
+                      {savingEdit ? 'Kaydediliyor…' : 'Değişiklikleri kaydet'}
+                    </button>
+                    <button type="button" className="ad-btn" style={{ fontSize: '11px' }} disabled={savingEdit} onClick={cancelEdit}>
+                      İptal
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', paddingTop: '10px', borderTop: '1px solid var(--ad-line-faint)' }}>
+                <button type="button" onClick={() => (editingId === r.id ? cancelEdit() : startEdit(r))} disabled={pending.has(r.id)} className="ad-btn" style={{ fontSize: '11px' }}>
+                  {editingId === r.id ? 'Düzenlemeyi kapat' : 'Düzenle'}
+                </button>
                 {r.is_approved ? (
                   <button type="button" onClick={() => setApproved(r.id, false)} disabled={pending.has(r.id)} className="ad-btn" style={{ fontSize: '11px' }}>
                     Onayı kaldır
