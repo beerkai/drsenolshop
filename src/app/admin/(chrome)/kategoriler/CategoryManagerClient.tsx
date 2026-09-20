@@ -55,6 +55,8 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
   const [saving, setSaving] = useState(false)
   const [creating, setCreating] = useState(false)
   const [newName, setNewName] = useState('')
+  const [dragCatId, setDragCatId] = useState<string | null>(null)
+  const [reordering, setReordering] = useState(false)
 
   const selected = categories.find((c) => c.id === selectedId) ?? null
 
@@ -147,6 +149,49 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
     router.refresh()
   }
 
+  async function persistSiblingOrder(parentId: string | null, orderedIds: string[]) {
+    setReordering(true)
+    try {
+      const res = await fetch('/api/admin/categories/reorder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ parent_id: parentId, order: orderedIds }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok || !data.ok) {
+        toast.error(data.message ?? 'Sıra kaydedilemedi.')
+        return
+      }
+      toast.success('Kategori sırası güncellendi.')
+      router.refresh()
+    } catch {
+      toast.error('Ağ hatası.')
+    } finally {
+      setReordering(false)
+    }
+  }
+
+  function dropOnSibling(target: AdminCategory) {
+    if (!dragCatId || dragCatId === target.id) return
+    const dragged = categories.find((x) => x.id === dragCatId)
+    if (!dragged) return
+    if ((dragged.parent_id ?? null) !== (target.parent_id ?? null)) {
+      toast.error('Yalnızca aynı seviyedeki kategorileri sıralayabilirsiniz.')
+      return
+    }
+    const siblings = categories
+      .filter((x) => (x.parent_id ?? null) === (target.parent_id ?? null))
+      .sort((a, b) => (a.display_order ?? 999) - (b.display_order ?? 999))
+    const from = siblings.findIndex((x) => x.id === dragCatId)
+    const to = siblings.findIndex((x) => x.id === target.id)
+    if (from < 0 || to < 0) return
+    const next = [...siblings]
+    const [item] = next.splice(from, 1)
+    next.splice(to, 0, item)
+    void persistSiblingOrder(target.parent_id ?? null, next.map((x) => x.id))
+    setDragCatId(null)
+  }
+
   /** Aynı seviyedeki komşuyla display_order takası */
   async function swap(c: AdminCategory, delta: number) {
     const siblings = categories.filter((x) => (x.parent_id ?? null) === (c.parent_id ?? null))
@@ -180,7 +225,15 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
   function Row({ c, depth }: { c: AdminCategory; depth: number }) {
     const active = c.id === selectedId
     return (
-      <div className={active ? 'ad-cat-row is-active' : 'ad-cat-row'} style={{ paddingLeft: 12 + depth * 18 }}>
+      <div
+        className={active ? 'ad-cat-row is-active' : 'ad-cat-row'}
+        style={{ paddingLeft: 12 + depth * 18, opacity: reordering ? 0.7 : 1 }}
+        draggable
+        onDragStart={() => setDragCatId(c.id)}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={() => dropOnSibling(c)}
+        onDragEnd={() => setDragCatId(null)}
+      >
         <button type="button" className="ad-cat-name" onClick={() => select(c)}>
           <span>{c.name}</span>
           <span className="ad-cat-meta">
@@ -214,6 +267,10 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
       <div style={{ marginBottom: 24 }}>
         <p className="ad-eyebrow" style={{ marginBottom: 12 }}>
           Katalog
+        </p>
+        <p style={{ fontSize: 13, color: 'var(--ad-fg-muted)', marginBottom: 8 }}>
+          Alt kategori eklemek için düzenleme panelinden üst kategori seçin. Aynı seviyedeki satırları sürükleyerek
+          sıralayın.
         </p>
         <h1
           className="ad-display"

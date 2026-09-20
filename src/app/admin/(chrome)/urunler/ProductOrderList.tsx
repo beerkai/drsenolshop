@@ -46,7 +46,7 @@ export default function ProductOrderList({
       const res = await fetch('/api/admin/products/reorder', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ order: products.map((p) => p.id) }),
+        body: JSON.stringify({ order: products.map((p) => p.id), mode: 'catalog' }),
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok || !data.ok) {

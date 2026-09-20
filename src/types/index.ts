@@ -121,6 +121,10 @@ export interface Product {
   sale_count: number | null
   /** Katalog sıralaması — admin ürün yöneticisinden yönetilir (0018) */
   display_order: number | null
+  /** Koleksiyon: En Yeni Hasat sırası (0024) */
+  harvest_sort_order: number | null
+  /** Koleksiyon: Öne Çıkanlar sırası (0024) */
+  featured_sort_order: number | null
 
   created_at: string
   updated_at: string | null
