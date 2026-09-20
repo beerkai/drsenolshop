@@ -17,6 +17,8 @@ interface ProductGridProps {
   initialProducts: ProductWithRelations[]
   initialTotal: number
   categorySlug: string | null
+  categoryTreeRootSlug?: string | null
+  excludeGoldyliumFromCatalog?: boolean
   inStockOnly: boolean
   sortBy: SortOption
   isMobile?: boolean
@@ -29,6 +31,8 @@ export default function ProductGrid({
   initialProducts,
   initialTotal,
   categorySlug,
+  categoryTreeRootSlug = null,
+  excludeGoldyliumFromCatalog = false,
   inStockOnly,
   sortBy,
   onTotalChange,
@@ -45,12 +49,14 @@ export default function ProductGrid({
       `/api/products?` +
       new URLSearchParams({
         ...(categorySlug ? { category: categorySlug } : {}),
+        ...(categoryTreeRootSlug ? { categoryTree: categoryTreeRootSlug } : {}),
+        ...(excludeGoldyliumFromCatalog ? { excludeGoldylium: '1' } : {}),
         inStock: inStockOnly ? '1' : '0',
         sort: sortBy,
         limit: String(PAGE_SIZE),
         offset: String(offset),
       }),
-    [categorySlug, inStockOnly, sortBy]
+    [categorySlug, categoryTreeRootSlug, excludeGoldyliumFromCatalog, inStockOnly, sortBy]
   )
 
   // Filtre / sıralama değişince baştan yükle

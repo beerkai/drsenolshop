@@ -55,7 +55,7 @@ export const editorialHomeContent: EditorialHomeContent = {
     nav: [
       { id: 'koleksiyon', label: 'Koleksiyon', href: '/koleksiyon' },
       { id: 'miras', label: 'Arıcılık & Miras', href: '/hikaye' },
-      { id: 'goldylium', label: 'Goldylium Cosmetics', href: '/koleksiyon' },
+      { id: 'goldylium', label: 'Goldylium Cosmetics', href: '/goldylium' },
       { id: 'hikaye', label: 'Editöryal / Hikaye', href: '/hikaye' },
     ],
     searchLabel: 'Arama',
@@ -311,7 +311,7 @@ export const editorialHomeContent: EditorialHomeContent = {
     assurance: 'Laboratuvar Güvencesi: %100 Doğal Kökenli Biyoaktifler',
     collectionLink: {
       label: 'Goldylium Cosmetics Dünyasını İnceleyin',
-      href: '/koleksiyon',
+      href: '/goldylium',
     },
   },
   instagram: {
@@ -397,6 +397,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         title: 'Koleksiyon & Marka',
         links: [
           { label: 'Tüm Koleksiyon', href: '/koleksiyon' },
+          { label: 'Goldylium Parfüm', href: '/goldylium' },
           { label: 'Analiz Raporları', href: '/analiz-raporlari' },
           { label: 'Hikâyemiz', href: '/hikaye' },
           { label: 'Saitabat Köyü', href: '/saitabat-koyu' },

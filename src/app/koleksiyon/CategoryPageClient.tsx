@@ -18,6 +18,10 @@ interface CategoryPageClientProps {
   totalAllProducts: number
   initialInStockOnly: boolean
   initialSort: GridSortOption
+  /** Ana koleksiyon "Tümü" — Kozmetik/Goldylium hariç (arama etkilenmez) */
+  excludeGoldyliumFromCatalog?: boolean
+  /** Alt kategori ağacı kökü (ör. /goldylium) */
+  categoryTreeRootSlug?: string | null
 }
 
 export default function CategoryPageClient({
@@ -28,6 +32,8 @@ export default function CategoryPageClient({
   totalAllProducts,
   initialInStockOnly,
   initialSort,
+  excludeGoldyliumFromCatalog = false,
+  categoryTreeRootSlug = null,
 }: CategoryPageClientProps) {
   const router = useRouter()
   const pathname = usePathname()
@@ -126,6 +132,8 @@ export default function CategoryPageClient({
           initialProducts={initialProducts}
           initialTotal={initialTotal}
           categorySlug={activeCategorySlug}
+          categoryTreeRootSlug={categoryTreeRootSlug}
+          excludeGoldyliumFromCatalog={excludeGoldyliumFromCatalog}
           inStockOnly={filters.inStockOnly}
           sortBy={sortBy}
           isMobile={isMobile}
