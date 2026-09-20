@@ -131,7 +131,7 @@ export default function CategoryPageClient({
           key={pathname}
           initialProducts={initialProducts}
           initialTotal={initialTotal}
-          categorySlug={activeCategorySlug}
+          categorySlug={categoryTreeRootSlug ? null : activeCategorySlug}
           categoryTreeRootSlug={categoryTreeRootSlug}
           excludeGoldyliumFromCatalog={excludeGoldyliumFromCatalog}
           inStockOnly={filters.inStockOnly}
