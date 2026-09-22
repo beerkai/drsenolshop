@@ -72,6 +72,8 @@ function isLikelyProductCdnEditorialSrc(src: string | undefined): boolean {
   if (v.startsWith('http://') || v.startsWith('https://')) return false
   if (v.includes('/design-preview/stitch-')) return false
   if (v.startsWith('/')) return false
+  // Admin yüklemesi: products/editorial/… — ürün CDN path'i değil
+  if (v.startsWith('editorial/')) return false
   return /^[a-z0-9-]+(\/[a-z0-9-]+)*\.webp$/i.test(v)
 }
 

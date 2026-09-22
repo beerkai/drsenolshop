@@ -32,6 +32,7 @@ export const ADMIN_COMMANDS: AdminCommand[] = [
   { id: 'go:yorumlar',   label: 'Yorumlar',     section: 'Sayfalar', keywords: ['reviews', 'yorum', 'puan', 'rating'], shortcut: '⌘9', action: { type: 'navigate', href: '/admin/yorumlar' } },
   { id: 'go:kuponlar',   label: 'Kuponlar',     section: 'Sayfalar', keywords: ['coupons', 'kupon', 'indirim', 'promosyon'], shortcut: '⌘0', action: { type: 'navigate', href: '/admin/kuponlar' } },
   { id: 'go:analizler',  label: 'Analizler',    section: 'Sayfalar', keywords: ['analiz', 'rapor', 'pdf', 'laboratuvar'], action: { type: 'navigate', href: '/admin/analizler' } },
+  { id: 'go:gorseller',  label: 'Görseller',    section: 'Sayfalar', keywords: ['foto', 'fotoğraf', 'görsel', 'placeholder', 'hero', 'upload', 'yükle'], action: { type: 'navigate', href: '/admin/gorseller' } },
   { id: 'go:epostalar',  label: 'E-posta galerisi', section: 'Sayfalar', keywords: ['email', 'mail', 'şablon', 'template', 'resend'], action: { type: 'navigate', href: '/admin/epostalar' } },
   { id: 'go:seritler',   label: 'Şeritler',     section: 'Sayfalar', keywords: ['html', 'şerit', 'bar', 'banner', 'anasayfa'], action: { type: 'navigate', href: '/admin/seritler' } },
   { id: 'go:ayarlar',    label: 'Ayarlar',      section: 'Sayfalar', keywords: ['settings', 'config'],         shortcut: '⌘,', action: { type: 'navigate', href: '/admin/ayarlar' } },

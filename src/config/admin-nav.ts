@@ -24,6 +24,7 @@ export const ADMIN_NAV_PRIMARY: AdminNavItem[] = [
 export const ADMIN_NAV_SECONDARY: AdminNavItem[] = [
   { href: '/admin/analizler', label: 'Analizler' },
   { href: '/admin/tema', label: 'Tema' },
+  { href: '/admin/gorseller', label: 'Görseller' },
   { href: '/admin/seritler', label: 'Şeritler' },
   { href: '/admin/epostalar', label: 'E-postalar' },
   { href: '/admin/yorumlar', label: 'Yorumlar' },

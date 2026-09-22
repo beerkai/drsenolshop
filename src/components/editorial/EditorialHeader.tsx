@@ -8,6 +8,7 @@ import { Search, User, ShoppingBag } from 'lucide-react'
 import { useCart } from '@/lib/cart-context'
 import EditorialSearchOverlay from '@/components/editorial/EditorialSearchOverlay'
 import EditorialWordmark from '@/components/editorial/EditorialWordmark'
+import { getEditorialImageUrl } from '@/lib/images'
 import type { EditorialHeaderContent } from '@/types/editorial-home'
 
 export default function EditorialHeader({ content }: { content: EditorialHeaderContent }) {
@@ -46,7 +47,7 @@ export default function EditorialHeader({ content }: { content: EditorialHeaderC
           <Link href="/" className="shrink-0" aria-label="Dr. Şenol — anasayfa">
             {content.logo ? (
               <Image
-                src={content.logo.src}
+                src={getEditorialImageUrl(content.logo.src)}
                 alt={content.logo.alt}
                 width={160}
                 height={32}
