@@ -15,8 +15,6 @@ export default function ProductHorizontalRail({ products, sectionKey = 'rail' }:
   const scrollerRef = useRef<HTMLDivElement>(null)
   const scrollTracked = useRef(false)
 
-  if (products.length === 0) return null
-
   function scrollByDir(dir: -1 | 1) {
     const el = scrollerRef.current
     if (!el) return
@@ -38,6 +36,8 @@ export default function ProductHorizontalRail({ products, sectionKey = 'rail' }:
     el.addEventListener('scroll', onScroll, { passive: true })
     return () => el.removeEventListener('scroll', onScroll)
   }, [sectionKey])
+
+  if (products.length === 0) return null
 
   return (
     <div className="home-product-rail relative">

@@ -22,7 +22,7 @@ export default async function HomeGoldyliumCatalogTeaser() {
             <span className="block font-nav-caps text-nav-caps uppercase tracking-[0.16em] text-honey-amber" lang="en">
               Goldylium
             </span>
-            <h2 className="font-display text-display-md text-on-surface" lang="en">
+            <h2 className="font-headline-lg text-headline-lg font-light leading-[1.2] text-on-surface" lang="en">
               Parfüm seçkisi
             </h2>
             <p className="max-w-xl font-body-sm text-body-sm text-on-surface-variant">
