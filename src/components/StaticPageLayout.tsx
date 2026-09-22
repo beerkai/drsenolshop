@@ -24,6 +24,8 @@ interface StaticPageLayoutProps {
   breadcrumbs?: StaticBreadcrumbItem[]
   /** Sayfa başlığının üstüne basılan opsiyonel bant */
   topNotice?: ReactNode
+  /** Okuma kolonunun dışında, tam genişlikte alt bant */
+  below?: ReactNode
   children: ReactNode
 }
 
@@ -34,6 +36,7 @@ export default function StaticPageLayout({
   intro,
   breadcrumbs,
   topNotice,
+  below,
   children,
 }: StaticPageLayoutProps) {
   return (
@@ -105,6 +108,8 @@ export default function StaticPageLayout({
         <div className="ed-section-inner ed-section-y">
           <div className="mx-auto max-w-[760px]">{children}</div>
         </div>
+
+        {below}
       </main>
 
       <Footer />

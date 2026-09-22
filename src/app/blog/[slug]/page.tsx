@@ -3,8 +3,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import StaticPageLayout from '@/components/StaticPageLayout'
 import { P, Eyebrow } from '@/components/StaticContent'
-import { getMirasJournalPost, listMirasJournalPosts, MIRAS_JOURNAL_POSTS } from '@/lib/miras-journal'
-import { getSiteUrl } from '@/lib/site-url'
+import {
+  formatMirasJournalDate,
+  getMirasJournalPost,
+  MIRAS_JOURNAL_POSTS,
+} from '@/lib/miras-journal'
 
 type PageProps = { params: Promise<{ slug: string }> }
 
@@ -17,30 +20,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = getMirasJournalPost(slug)
   if (!post) return { title: 'Yazı bulunamadı' }
   return {
-    title: `${post.title} · Miras · Dr. Şenol Shop`,
+    title: `${post.title} · Blog · Dr. Şenol Shop`,
     description: post.excerpt,
   }
 }
 
-function formatDate(iso: string): string {
-  const d = new Date(`${iso}T12:00:00`)
-  return d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
-}
-
-export default async function MirasJournalPostPage({ params }: PageProps) {
+export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params
   const post = getMirasJournalPost(slug)
   if (!post) notFound()
-
-  const siteUrl = getSiteUrl()
 
   return (
     <StaticPageLayout
       eyebrow={post.category}
       title={post.title}
-      intro={`${formatDate(post.publishedAt)} · Hasat günlüğü`}
+      intro={`${formatMirasJournalDate(post.publishedAt)} · Hasat günlüğü`}
       breadcrumbs={[
-        { label: 'Hikâyemiz', href: '/hikaye' },
+        { label: 'Blog', href: '/blog' },
         { label: post.title },
       ]}
     >
@@ -48,15 +44,11 @@ export default async function MirasJournalPostPage({ params }: PageProps) {
         <P key={i}>{paragraph}</P>
       ))}
 
-      <Eyebrow>Miras</Eyebrow>
+      <Eyebrow>Blog</Eyebrow>
       <P>
-        <Link href="/hikaye" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
-          ← Tüm miras ve hasat günlüğü
+        <Link href="/blog" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+          ← Tüm yazılar
         </Link>
-        {' · '}
-        <a href={siteUrl} style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
-          {siteUrl.replace(/^https:\/\//, '')}
-        </a>
       </P>
     </StaticPageLayout>
   )

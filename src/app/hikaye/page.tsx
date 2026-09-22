@@ -18,6 +18,7 @@ export default function HikayemizPage() {
       titleAccent="kırk yıl."
       intro="Saitabat Köyü'nde 1985'te başlayan bir hikâye. Üç kuşak boyunca süren bir tutku."
       breadcrumbs={[{ label: 'Hikâyemiz' }]}
+      below={<MirasJournalSection />}
     >
       <Eyebrow>1985 — Başlangıç</Eyebrow>
       <H2>Uludağ&apos;ın eteklerinde bir köy</H2>
@@ -74,8 +75,6 @@ export default function HikayemizPage() {
         </Link>
         {' '}sayfasına geçebilir; güncel seçki için koleksiyonu açabilirsiniz.
       </P>
-
-      <MirasJournalSection />
     </StaticPageLayout>
   )
 }

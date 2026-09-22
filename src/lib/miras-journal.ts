@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════
-// Miras / Hikâye — statik hasat günlüğü (blog temeli, DB yok)
+// Miras — statik hasat günlüğü. Liste: /blog, yazı: /blog/[slug]
 // İleride MDX veya CMS ile genişletilebilir
 // ═══════════════════════════════════════════════════════════════
 
@@ -53,4 +53,9 @@ export function listMirasJournalPosts(): MirasJournalPost[] {
   return [...MIRAS_JOURNAL_POSTS].sort(
     (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   )
+}
+
+export function formatMirasJournalDate(iso: string): string {
+  const d = new Date(`${iso}T12:00:00`)
+  return d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
 }

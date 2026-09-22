@@ -13,8 +13,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/koleksiyon`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     // Marka sayfaları
     { url: `${BASE_URL}/hikaye`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 },
     ...listMirasJournalPosts().map((p) => ({
-      url: `${BASE_URL}/hikaye/${p.slug}`,
+      url: `${BASE_URL}/blog/${p.slug}`,
       lastModified: new Date(p.publishedAt),
       changeFrequency: 'monthly' as const,
       priority: 0.5,
