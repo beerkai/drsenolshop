@@ -65,6 +65,7 @@ export default async function GoldyliumPage(props: { searchParams: SP }) {
             initialInStockOnly={inStockOnly}
             initialSort={sortBy}
             categoryTreeRootSlug={GOLDYLIUM_CATALOG_ROOT_SLUG}
+            catalogScope="perfume"
           />
         </Suspense>
       </main>

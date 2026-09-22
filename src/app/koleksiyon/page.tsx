@@ -60,6 +60,7 @@ export default async function KoleksiyonPage(props: { searchParams: SP }) {
             initialInStockOnly={inStockOnly}
             initialSort={sortBy}
             excludeGoldyliumFromCatalog
+            catalogScope="honey"
           />
         </Suspense>
       </main>

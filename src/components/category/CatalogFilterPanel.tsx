@@ -10,12 +10,16 @@ interface CatalogFilterPanelProps {
   categories: CategoryWithCount[]
   activeCategorySlug: string | null
   totalProducts: number
+  allHref?: string
+  allSelected?: boolean
 }
 
 export default function CatalogFilterPanel({
   categories,
   activeCategorySlug,
   totalProducts,
+  allHref = '/koleksiyon',
+  allSelected = false,
 }: CatalogFilterPanelProps) {
   const chip =
     'inline-block whitespace-nowrap px-3 py-1 font-nav-caps text-[10px] uppercase tracking-[0.12em] transition-colors'
@@ -28,8 +32,8 @@ export default function CatalogFilterPanel({
         </p>
         <div className="flex flex-wrap gap-2">
           <Link
-            href="/koleksiyon"
-            className={`${chip} ${activeCategorySlug === null ? 'bg-primary text-on-primary' : 'bg-surface-container text-on-surface-variant hover:text-on-surface'}`}
+            href={allHref}
+            className={`${chip} ${activeCategorySlug === null || allSelected ? 'bg-primary text-on-primary' : 'bg-surface-container text-on-surface-variant hover:text-on-surface'}`}
           >
             Tümü ({totalProducts})
           </Link>

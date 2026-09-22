@@ -29,6 +29,10 @@ interface CategoryFiltersProps {
   onFiltersChange: (filters: FilterState) => void
   /** Sonuç sayısı — mobil panelde gösterilir */
   resultCount?: number
+  /** "Tümü" çipinin gideceği katalog kökü */
+  allHref?: string
+  /** Kök vitrin (ör. /goldylium) "Tümü" olarak seçili sayılır */
+  allSelected?: boolean
 }
 
 const CHIP_BASE =
@@ -42,6 +46,8 @@ export default function CategoryFilters({
   totalProducts,
   filters,
   onFiltersChange,
+  allHref = '/koleksiyon',
+  allSelected = false,
 }: CategoryFiltersProps) {
   /*
    * Stitch şerit yoğunluğu: yalnızca ana kategoriler (≈5 çip).
@@ -61,8 +67,8 @@ export default function CategoryFilters({
     <div className="min-w-0">
       <div className="scrollbar-none flex items-center gap-3 overflow-x-auto pb-2">
         <Link
-          href="/koleksiyon"
-          className={`${CHIP_BASE} ${activeCategorySlug === null ? CHIP_ON : CHIP_OFF}`}
+          href={allHref}
+          className={`${CHIP_BASE} ${activeCategorySlug === null || allSelected ? CHIP_ON : CHIP_OFF}`}
         >
           Tümü ({totalProducts})
         </Link>

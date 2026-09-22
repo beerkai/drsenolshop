@@ -7,6 +7,10 @@ import CategoryPageClient from '@/app/koleksiyon/CategoryPageClient'
 import { getProducts } from '@/lib/products'
 import { getCategoryBySlug, getCategoryWithProductCount } from '@/lib/categories'
 import { parseGridSort } from '@/lib/catalog-sort'
+import {
+  GOLDYLIUM_CATALOG_ROOT_SLUG,
+  isGoldyliumCatalogSlug,
+} from '@/lib/catalog-scope'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -42,16 +46,31 @@ export default async function CategoryPage({
   const sortBy = parseGridSort(sp.sort)
   const isEnglishCategory = !/[ğüşıöçĞÜŞİÖÇ]/.test(category.name)
 
-  const [{ products, total }, allCategories, allProductsResult] = await Promise.all([
+  const allCategories = await getCategoryWithProductCount()
+  const inPerfume = isGoldyliumCatalogSlug(allCategories, slug)
+  const isPerfumeRoot = slug === GOLDYLIUM_CATALOG_ROOT_SLUG
+
+  const [{ products, total }, catalogTotal] = await Promise.all([
     getProducts({
-      categorySlug: slug,
+      ...(isPerfumeRoot
+        ? { categorySubtreeRootSlug: GOLDYLIUM_CATALOG_ROOT_SLUG }
+        : { categorySlug: slug }),
       isActive: true,
       inStockOnly,
       limit: 12,
       orderBy: sortBy,
     }),
-    getCategoryWithProductCount(),
-    getProducts({ isActive: true, limit: 1 }),
+    inPerfume
+      ? getProducts({
+          categorySubtreeRootSlug: GOLDYLIUM_CATALOG_ROOT_SLUG,
+          isActive: true,
+          limit: 1,
+        })
+      : getProducts({
+          isActive: true,
+          limit: 1,
+          excludeCategorySubtreeRootSlug: GOLDYLIUM_CATALOG_ROOT_SLUG,
+        }),
   ])
 
   return (
@@ -70,9 +89,11 @@ export default async function CategoryPage({
             initialTotal={total}
             categories={allCategories}
             activeCategorySlug={slug}
-            totalAllProducts={allProductsResult.total}
+            totalAllProducts={catalogTotal.total}
             initialInStockOnly={inStockOnly}
             initialSort={sortBy}
+            catalogScope={inPerfume ? 'perfume' : 'honey'}
+            categoryTreeRootSlug={isPerfumeRoot ? GOLDYLIUM_CATALOG_ROOT_SLUG : null}
           />
         </Suspense>
       </main>

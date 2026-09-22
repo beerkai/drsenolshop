@@ -9,6 +9,13 @@ import ProductGrid from '@/components/category/ProductGrid'
 import type { SortOption } from '@/components/category/SortDropdown'
 import type { ProductWithRelations, Category } from '@/types'
 import type { GridSortOption } from '@/lib/catalog-sort'
+import {
+  GOLDYLIUM_CATALOG_ROOT_SLUG,
+  GOLDYLIUM_LANDING_PATH,
+  HONEY_CATALOG_PATH,
+  honeyFilterCategories,
+  perfumeFilterCategories,
+} from '@/lib/catalog-scope'
 
 interface CategoryPageClientProps {
   initialProducts: ProductWithRelations[]
@@ -22,6 +29,11 @@ interface CategoryPageClientProps {
   excludeGoldyliumFromCatalog?: boolean
   /** Alt kategori ağacı kökü (ör. /goldylium) */
   categoryTreeRootSlug?: string | null
+  /**
+   * honey: bal kategorileri, kozmetik çipi yok
+   * perfume: yalnızca parfüm / kozmetik alt kategorileri
+   */
+  catalogScope?: 'honey' | 'perfume'
 }
 
 export default function CategoryPageClient({
@@ -34,6 +46,7 @@ export default function CategoryPageClient({
   initialSort,
   excludeGoldyliumFromCatalog = false,
   categoryTreeRootSlug = null,
+  catalogScope,
 }: CategoryPageClientProps) {
   const router = useRouter()
   const pathname = usePathname()
@@ -82,7 +95,18 @@ export default function CategoryPageClient({
     setResultCount(n)
   }, [])
 
-  const mainCategories = categories.filter((c) => !c.parent_id)
+  const scope = catalogScope ?? (excludeGoldyliumFromCatalog ? 'honey' : undefined)
+  const filterCategories =
+    scope === 'perfume'
+      ? perfumeFilterCategories(categories)
+      : scope === 'honey'
+        ? honeyFilterCategories(categories)
+        : categories.filter((c) => !c.parent_id)
+
+  const allHref = scope === 'perfume' ? GOLDYLIUM_LANDING_PATH : HONEY_CATALOG_PATH
+  const allSelected =
+    scope === 'perfume' &&
+    (activeCategorySlug === null || activeCategorySlug === GOLDYLIUM_CATALOG_ROOT_SLUG)
 
   return (
     <div className="w-full bg-surface">
@@ -100,12 +124,14 @@ export default function CategoryPageClient({
         <div className="ed-section-inner flex flex-col gap-space-sm py-space-sm">
           <div className="min-w-0">
             <CategoryFilters
-              categories={mainCategories}
+              categories={filterCategories}
               activeCategorySlug={activeCategorySlug}
               totalProducts={totalAllProducts}
               filters={filters}
               onFiltersChange={setFilters}
               resultCount={resultCount}
+              allHref={allHref}
+              allSelected={allSelected}
             />
           </div>
 
@@ -117,9 +143,11 @@ export default function CategoryPageClient({
             onSortChange={setSortBy}
             filterPanel={
               <CatalogFilterPanel
-                categories={mainCategories}
+                categories={filterCategories}
                 activeCategorySlug={activeCategorySlug}
                 totalProducts={totalAllProducts}
+                allHref={allHref}
+                allSelected={allSelected}
               />
             }
           />

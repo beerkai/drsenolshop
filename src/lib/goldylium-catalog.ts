@@ -4,11 +4,9 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { getAllCategories } from '@/lib/categories'
+import { GOLDYLIUM_CATALOG_ROOT_SLUG } from '@/lib/catalog-scope'
 
-/** Marka adı Goldylium; vitrin kök kategorisi Kozmetik */
-export const GOLDYLIUM_CATALOG_ROOT_SLUG = 'kozmetik'
-
-export const GOLDYLIUM_LANDING_PATH = '/goldylium'
+export { GOLDYLIUM_CATALOG_ROOT_SLUG, GOLDYLIUM_LANDING_PATH } from '@/lib/catalog-scope'
 
 /** Üst kategori + tüm alt kategori id'leri */
 export async function getGoldyliumCategoryIds(): Promise<string[]> {
