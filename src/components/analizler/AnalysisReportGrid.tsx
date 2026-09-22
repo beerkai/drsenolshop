@@ -91,9 +91,15 @@ export default function AnalysisReportGrid({ slots }: { slots: AnalysisSlot[] })
               <h3 className="analiz-slot-title">{title}</h3>
               {slot.note.trim() ? <p className="analiz-slot-note">{slot.note}</p> : null}
             </div>
-            <p className="analiz-slot-meta" lang="en">
-              {url ? url.replace(/^https:\/\//, '') : 'PDF henüz yüklenmedi'}
-            </p>
+            {url ? (
+              <p className="analiz-slot-meta" lang="en">
+                {url.replace(/^https:\/\//, '')}
+              </p>
+            ) : (
+              <p className="analiz-slot-meta">
+                <span lang="en">PDF</span> henüz yüklenmedi
+              </p>
+            )}
           </>
         )
 
