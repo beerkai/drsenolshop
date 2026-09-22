@@ -63,7 +63,7 @@ export const defaultSiteCopy: SiteCopy = {
             id: 'lab',
             question: 'Analiz raporuna nasıl ulaşırım?',
             answer:
-              'Etiketteki QR kod, o lota ait analiz özetini açar. Tam rapor için sipariş numarası ve lot koduyla hello@drsenol.shop adresine yazabilirsiniz.',
+              'Yayımladığımız laboratuvar raporları analizler sayfasında PDF olarak yer alır.',
           },
         ],
       },
@@ -130,11 +130,18 @@ function mergeFaq(stored: Partial<FaqPageCopy> | undefined): FaqPageCopy {
               eyebrow: sec.eyebrow ?? defSec?.eyebrow ?? '',
               items:
                 Array.isArray(sec.items) && sec.items.length > 0
-                  ? sec.items.map((item, ii) => ({
-                      id: item.id ?? defSec?.items[ii]?.id ?? `item-${si}-${ii}`,
-                      question: item.question ?? defSec?.items[ii]?.question ?? '',
-                      answer: item.answer ?? defSec?.items[ii]?.answer ?? '',
-                    }))
+                  ? sec.items.map((item, ii) => {
+                      const id = item.id ?? defSec?.items[ii]?.id ?? `item-${si}-${ii}`
+                      const fallback = defSec?.items.find((row) => row.id === id)?.answer
+                        ?? defSec?.items[ii]?.answer
+                        ?? ''
+                      const storedAnswer = item.answer ?? fallback
+                      return {
+                        id,
+                        question: item.question ?? defSec?.items[ii]?.question ?? '',
+                        answer: id === 'lab' && /QR/i.test(storedAnswer) ? fallback : storedAnswer,
+                      }
+                    })
                   : (defSec?.items ?? []),
             }
           })

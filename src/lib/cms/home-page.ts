@@ -54,9 +54,10 @@ export const editorialHomeContent: EditorialHomeContent = {
     wordmark: { text: 'Dr. Şenol', year: '1985' },
     nav: [
       { id: 'koleksiyon', label: 'Koleksiyon', href: '/koleksiyon' },
-      { id: 'miras', label: 'Arıcılık & Miras', href: '/hikaye' },
-      { id: 'goldylium', label: 'Goldylium Cosmetics', href: '/goldylium' },
-      { id: 'hikaye', label: 'Editöryal / Hikaye', href: '/hikaye' },
+      { id: 'aricilik', label: 'Arıcılık & Hikaye', href: '/hikaye' },
+      { id: 'signature', label: 'Signature Series', href: '/kategori/signature', lang: 'en' },
+      { id: 'goldylium', label: 'Goldylium Cosmetics', href: '/goldylium', lang: 'en' },
+      { id: 'iletisim', label: 'İletişim', href: '/iletisim' },
     ],
     searchLabel: 'Arama',
     accountLabel: 'Hesabım',

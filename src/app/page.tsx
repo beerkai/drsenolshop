@@ -10,6 +10,7 @@ import HomeGoldyliumCatalogTeaser from '@/components/editorial/HomeGoldyliumCata
 import InstagramCommunitySection from '@/components/editorial/InstagramCommunitySection'
 import HomeValuesTicker from '@/components/editorial/HomeValuesTicker'
 import { getHomeContent } from '@/lib/cms/home-content'
+import { getInstagramFeedPosts } from '@/lib/instagram/feed'
 import { getHomeHtmlBlocks } from '@/lib/cms/home-html-blocks'
 
 // İçerik admin tema editöründen geldiği için her istekte tazelenir.
@@ -18,9 +19,10 @@ export const revalidate = 0
 // GoldyliumSpotlightSection (Apiterapi placeholder) anasayfada kapalı.
 
 export default async function HomePage() {
-  const [{ hero, editorial: cms, curated }, htmlBlocks] = await Promise.all([
+  const [{ hero, editorial: cms, curated }, htmlBlocks, instagramPosts] = await Promise.all([
     getHomeContent(),
     getHomeHtmlBlocks(),
+    getInstagramFeedPosts(),
   ])
 
   return (
@@ -37,7 +39,7 @@ export default async function HomePage() {
           <EditorialFeedSection header={cms.feed.header} items={cms.feed.items} />
         ) : null}
         <EditorialJournalSection content={cms.journal} />
-        <InstagramCommunitySection content={cms.instagram} />
+        <InstagramCommunitySection content={cms.instagram} posts={instagramPosts} />
         <HomeValuesTicker values={cms.values} />
       </main>
 

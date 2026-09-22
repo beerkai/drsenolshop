@@ -1,8 +1,16 @@
 import type { Metadata } from 'next'
 import StaticPageLayout from '@/components/StaticPageLayout'
 import { P, Eyebrow, InfoBox } from '@/components/StaticContent'
-import { getLegalCompany, phoneDigits } from '@/lib/legal-info'
-import { INSTAGRAM_HANDLE, INSTAGRAM_URL, SITE_EMAILS, mailto } from '@/lib/site-contact'
+import {
+  INSTAGRAM_HANDLE,
+  INSTAGRAM_URL,
+  SITE_ADDRESS_LINE,
+  SITE_ADDRESS_LOCALITY,
+  SITE_EMAILS,
+  SITE_WHATSAPP_DISPLAY,
+  SITE_WHATSAPP_URL,
+  mailto,
+} from '@/lib/site-contact'
 
 export const metadata: Metadata = {
   title: 'İletişim · Dr. Şenol Shop',
@@ -10,9 +18,6 @@ export const metadata: Metadata = {
 }
 
 export default function IletisimPage() {
-  const co = getLegalCompany()
-  const digits = phoneDigits(co.phone)
-
   return (
     <StaticPageLayout
       eyebrow="Yardım · İletişim"
@@ -32,24 +37,23 @@ export default function IletisimPage() {
         }}
       >
         <InfoBox title="Adres">
-          {co.address}
-          {co.city_country ? (
-            <>
-              <br />
-              {co.city_country}
-            </>
-          ) : null}
+          {SITE_ADDRESS_LINE}
+          <br />
+          {SITE_ADDRESS_LOCALITY}
         </InfoBox>
 
-        {co.phone && digits ? (
-          <InfoBox title="Telefon">
-            <a href={`tel:+${digits}`} style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }}>
-              {co.phone}
-            </a>
-            <br />
-            <span style={{ fontSize: '12px', color: 'var(--color-outline)' }}>Hafta içi 09:00 – 18:00</span>
-          </InfoBox>
-        ) : null}
+        <InfoBox title="Telefon">
+          <a
+            href={SITE_WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }}
+          >
+            {SITE_WHATSAPP_DISPLAY}
+          </a>
+          <br />
+          <span style={{ fontSize: '12px', color: 'var(--color-outline)' }}>WhatsApp ile yazın</span>
+        </InfoBox>
 
         <InfoBox title="E-posta">
           Genel:{' '}
@@ -68,22 +72,6 @@ export default function IletisimPage() {
           </a>
         </InfoBox>
 
-        {digits ? (
-          <InfoBox title="WhatsApp">
-            <a
-              href={`https://wa.me/${digits}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: 'var(--color-honey-amber)', textDecoration: 'none' }}
-            >
-              {co.phone}
-            </a>
-            <br />
-            <span style={{ fontSize: '12px', color: 'var(--color-outline)' }}>
-              Sipariş ve kısa sorular için
-            </span>
-          </InfoBox>
-        ) : null}
       </div>
 
       <Eyebrow>Sosyal Medya</Eyebrow>

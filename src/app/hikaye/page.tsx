@@ -45,16 +45,15 @@ export default function HikayemizPage() {
       <P>
         Her hasat, bağımsız akredite laboratuvarda fenolik madde, prolin, diastaz, HMF, nem
         ve şeker profili için analiz edilir. Hedefimiz yasal HMF üst sınırının (40 mg/kg) çok
-        altında, tipik olarak 10 mg/kg&apos;ın altında kalmaktır. Ürün etiketindeki QR kod, o
-        lota ait rapora açılır. Yöntem için{' '}
+        altında, tipik olarak 10 mg/kg&apos;ın altında kalmaktır. Yayımlanan belgeler{' '}
+        <Link href="/analizler" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+          analizler
+        </Link>
+        {' '}sayfasında, yöntem{' '}
         <Link href="/bilim-yaklasimimiz" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
           bilim yaklaşımımız
         </Link>
-        ; belgeler için{' '}
-        <Link href="/analizler" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
-          analiz raporları
-        </Link>
-        {' '}sayfalarına bakabilirsiniz.
+        {' '}sayfasındadır.
       </P>
 
       <InfoBox title="Rakamlarla Dr. Şenol">

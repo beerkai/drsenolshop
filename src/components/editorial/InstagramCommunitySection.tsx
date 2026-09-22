@@ -1,10 +1,28 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import type { InstagramCommunityContent } from '@/types/editorial-home'
+import type { InstagramFeedPost } from '@/lib/instagram/feed'
+import type { InstagramCommunityContent, InstagramTile } from '@/types/editorial-home'
 import EditorialNewsletterForm from './EditorialNewsletterForm'
 import EditorialPicture from './EditorialPicture'
 
-export default function InstagramCommunitySection({ content }: { content: InstagramCommunityContent }) {
+type TileView = InstagramTile & { live?: boolean }
+
+export default function InstagramCommunitySection({
+  content,
+  posts = [],
+}: {
+  content: InstagramCommunityContent
+  posts?: InstagramFeedPost[]
+}) {
+  const tiles: TileView[] = posts.length
+    ? posts.map((post) => ({
+        id: post.id,
+        href: post.href,
+        hoverLabel: 'Görüntüle',
+        live: true,
+        image: { src: post.imageUrl, alt: post.alt },
+      }))
+    : content.tiles
   return (
     <section className="w-full border-b border-hairline-light bg-surface ed-section-y">
       <div className="ed-section-inner">
@@ -29,18 +47,52 @@ export default function InstagramCommunitySection({ content }: { content: Instag
         </div>
 
         <div className="grid grid-cols-2 gap-gutter sm:grid-cols-3 lg:grid-cols-6">
-          {content.tiles.map((tile) => (
-            <div key={tile.id} className="group relative aspect-square overflow-hidden bg-surface-container">
-              <EditorialPicture
-                image={tile.image}
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-charcoal-pure/40 px-2 text-center text-surface-container-lowest opacity-0 transition-opacity group-hover:opacity-100">
-                <span className="font-label-spec text-[10px] uppercase tracking-widest">{tile.hoverLabel}</span>
-              </div>
-            </div>
-          ))}
+          {tiles.map((tile) => {
+            const frame = (
+              <>
+                {tile.live ? (
+                  <img
+                    src={tile.image.src}
+                    alt={tile.image.alt}
+                    loading="lazy"
+                    decoding="async"
+                    referrerPolicy="no-referrer"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <EditorialPicture
+                    image={tile.image}
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                  />
+                )}
+                <div className="absolute inset-0 flex items-center justify-center bg-charcoal-pure/40 px-2 text-center text-surface-container-lowest opacity-0 transition-opacity group-hover:opacity-100">
+                  <span className="font-label-spec text-[10px] uppercase tracking-widest">{tile.hoverLabel}</span>
+                </div>
+              </>
+            )
+
+            const className = 'group relative aspect-square overflow-hidden bg-surface-container'
+            if (!tile.href) {
+              return (
+                <div key={tile.id} className={className}>
+                  {frame}
+                </div>
+              )
+            }
+
+            return (
+              <a
+                key={tile.id}
+                href={tile.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={className}
+              >
+                {frame}
+              </a>
+            )
+          })}
         </div>
 
         <div className="mt-space-xl flex flex-col items-stretch justify-between gap-space-lg border border-hairline-light bg-surface-container-low p-space-lg lg:flex-row lg:items-center">

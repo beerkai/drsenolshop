@@ -14,6 +14,8 @@ export interface EditorialLink {
 
 export interface EditorialNavItem extends EditorialLink {
   id: string
+  /** İngilizce etiketler: CSS uppercase Türkçe i→İ yapmasın */
+  lang?: 'en' | 'tr'
 }
 
 export interface EditorialHeaderContent {

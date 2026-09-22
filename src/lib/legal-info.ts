@@ -5,6 +5,8 @@
 // ─ Üretimde Vercel env: NEXT_PUBLIC_LEGAL_NAME, TAX_*, MERSIS, PHONE
 // ═══════════════════════════════════════════════════════════════
 
+import { SITE_OPEN_ADDRESS, SITE_WHATSAPP_DISPLAY } from '@/lib/site-contact'
+
 export interface LegalCompanyInfo {
   legal_name: string         // Resmi ticari unvan
   trade_name: string         // Marka adı (Dr. Şenol Shop)
@@ -30,10 +32,10 @@ export function getLegalCompany(): LegalCompanyInfo {
     tax_office: val('NEXT_PUBLIC_TAX_OFFICE'),
     tax_number: val('NEXT_PUBLIC_TAX_NUMBER'),
     mersis: val('NEXT_PUBLIC_MERSIS_NO'),
-    address: val('NEXT_PUBLIC_COMPANY_ADDRESS', 'Saitabat Köyü, Kestel / Bursa'),
+    address: val('NEXT_PUBLIC_COMPANY_ADDRESS', SITE_OPEN_ADDRESS),
     city_country: val('NEXT_PUBLIC_COMPANY_CITY', 'Bursa, Türkiye'),
     email: val('NEXT_PUBLIC_CONTACT_EMAIL', 'hello@drsenol.shop'),
-    phone: val('NEXT_PUBLIC_CONTACT_PHONE'),
+    phone: val('NEXT_PUBLIC_CONTACT_PHONE', SITE_WHATSAPP_DISPLAY),
     kep: val('NEXT_PUBLIC_KEP_ADDRESS'),
     website: val('NEXT_PUBLIC_SITE_URL', 'https://drsenol.shop'),
   }

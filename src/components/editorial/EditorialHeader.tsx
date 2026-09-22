@@ -18,6 +18,15 @@ export default function EditorialHeader({ content }: { content: EditorialHeaderC
   return (
     <>
     <header className="fixed left-0 right-0 top-0 z-50 bg-surface/95 backdrop-blur-md">
+      <style>{`
+        .ed-main-nav a {
+          white-space: nowrap;
+          letter-spacing: 0.06em;
+        }
+        @media (min-width: 1280px) {
+          .ed-main-nav a { letter-spacing: 0.1em; }
+        }
+      `}</style>
       <div className="w-full border-b border-hairline-light bg-surface-container-low py-1.5">
         <div className="ed-section-inner text-center">
         <p className="font-editorial-caption text-editorial-caption uppercase tracking-[0.14em] text-on-surface-variant">
@@ -33,7 +42,7 @@ export default function EditorialHeader({ content }: { content: EditorialHeaderC
       </div>
 
       <div className="ed-section-inner flex h-14 items-center justify-between border-b border-hairline-light lg:h-20">
-        <div className="flex items-center gap-space-lg">
+        <div className="flex min-w-0 items-center gap-4 xl:gap-space-lg">
           <Link href="/" className="shrink-0" aria-label="Dr. Şenol — anasayfa">
             {content.logo ? (
               <Image
@@ -52,7 +61,7 @@ export default function EditorialHeader({ content }: { content: EditorialHeaderC
             )}
           </Link>
 
-          <nav className="hidden items-center gap-space-lg lg:flex" aria-label="Ana menü">
+          <nav className="ed-main-nav hidden min-w-0 items-center gap-2.5 lg:flex xl:gap-4 2xl:gap-space-lg" aria-label="Ana menü">
             {content.nav.map((item) => {
               const active = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
               return (
@@ -60,6 +69,7 @@ export default function EditorialHeader({ content }: { content: EditorialHeaderC
                   key={item.id}
                   href={item.href}
                   aria-current={active ? 'page' : undefined}
+                  lang={item.lang}
                   className={
                     active
                       ? 'font-nav-caps text-nav-caps uppercase text-primary underline decoration-honey-amber decoration-1 underline-offset-8 transition-colors'
@@ -73,7 +83,7 @@ export default function EditorialHeader({ content }: { content: EditorialHeaderC
           </nav>
         </div>
 
-        <div className="flex items-center gap-space-md lg:gap-space-lg">
+        <div className="flex shrink-0 items-center gap-3 xl:gap-space-lg">
           <button
             type="button"
             onClick={() => setSearchOpen(true)}
@@ -81,7 +91,7 @@ export default function EditorialHeader({ content }: { content: EditorialHeaderC
             aria-label={content.searchLabel}
           >
             <Search className="h-[18px] w-[18px]" strokeWidth={1.5} />
-            <span className="hidden font-nav-caps text-nav-caps uppercase sm:inline">{content.searchLabel}</span>
+            <span className="hidden font-nav-caps text-nav-caps uppercase xl:inline">{content.searchLabel}</span>
           </button>
 
           <Link
@@ -89,7 +99,7 @@ export default function EditorialHeader({ content }: { content: EditorialHeaderC
             className="flex items-center gap-space-xs text-on-surface-variant transition-colors hover:text-on-surface"
           >
             <User className="h-[18px] w-[18px]" strokeWidth={1.5} />
-            <span className="hidden font-nav-caps text-nav-caps uppercase sm:inline">{content.accountLabel}</span>
+            <span className="hidden font-nav-caps text-nav-caps uppercase xl:inline">{content.accountLabel}</span>
           </Link>
 
           <button

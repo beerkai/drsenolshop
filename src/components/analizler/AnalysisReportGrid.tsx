@@ -10,7 +10,7 @@ export default function AnalysisReportGrid({ slots }: { slots: AnalysisSlot[] })
   if (slots.length === 0) {
     return (
       <p style={{ margin: '8px 0 28px', color: 'var(--color-on-surface-variant)', fontFamily: 'var(--font-body-md)' }}>
-        Henüz yayımlanmış rapor slotu yok.
+        Yayımlanmış rapor henüz yok.
       </p>
     )
   }

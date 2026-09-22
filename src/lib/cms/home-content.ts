@@ -180,6 +180,12 @@ function merge(stored: Partial<HomeContent> | null): HomeContent {
     editorial: {
       ...defaultHomeContent.editorial,
       ...(stored.editorial ?? {}),
+      header: {
+        ...defaultHomeContent.editorial.header,
+        ...(stored.editorial?.header ?? {}),
+        // Menü kodda tanımlı; eski tema kaydı üst navı ezmesin
+        nav: defaultHomeContent.editorial.header.nav,
+      },
       feed: {
         ...defaultHomeContent.editorial.feed,
         ...(stored.editorial?.feed ?? {}),

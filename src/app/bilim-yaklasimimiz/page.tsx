@@ -47,15 +47,13 @@ export default function BilimYaklasimimizPage() {
       </InfoBox>
 
       <Eyebrow>Şeffaflık</Eyebrow>
-      <H2>QR kod ile lot takibi</H2>
+      <H2>Yayımlanan raporlar</H2>
       <P>
-        Her ürün etiketinde lot / hasat kodu ve QR bulunur. Kodu okuttuğunuzda o partiye ait
-        analiz özetine ulaşırsınız. Raporun kopyasını e-posta ile de isteyebilirsiniz; yol
-        haritası{' '}
+        Laboratuvar belgeleri{' '}
         <Link href="/analizler" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
-          analiz raporları
+          analizler
         </Link>
-        {' '}sayfasındadır.
+        {' '}sayfasında PDF olarak yer alır.
       </P>
 
       <Quote>Şüpheye yer bırakmayan bilim.</Quote>
