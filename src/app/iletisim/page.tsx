@@ -6,6 +6,7 @@ import {
   INSTAGRAM_URL,
   SITE_ADDRESS_LINE,
   SITE_ADDRESS_LOCALITY,
+  SITE_DIRECTIONS_URL,
   SITE_EMAILS,
   SITE_WHATSAPP_DISPLAY,
   SITE_WHATSAPP_URL,
@@ -40,6 +41,26 @@ export default function IletisimPage() {
           {SITE_ADDRESS_LINE}
           <br />
           {SITE_ADDRESS_LOCALITY}
+          <br />
+          <a
+            href={SITE_DIRECTIONS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-block',
+              marginTop: '14px',
+              padding: '8px 14px',
+              border: '1px solid var(--color-honey-amber)',
+              color: 'var(--color-honey-amber)',
+              textDecoration: 'none',
+              fontSize: '11px',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+            }}
+          >
+            <span lang="en">Google</span>
+            {' '}ile yol tarifi alın
+          </a>
         </InfoBox>
 
         <InfoBox title="Telefon">
