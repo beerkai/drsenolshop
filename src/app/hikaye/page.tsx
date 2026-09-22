@@ -51,7 +51,7 @@ export default function HikayemizPage() {
           bilim yaklaşımımız
         </Link>
         ; belgeler için{' '}
-        <Link href="/analiz-raporlari" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+        <Link href="/analizler" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
           analiz raporları
         </Link>
         {' '}sayfalarına bakabilirsiniz.

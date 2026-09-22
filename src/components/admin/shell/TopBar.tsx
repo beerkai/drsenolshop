@@ -31,6 +31,8 @@ const PATH_LABELS: Record<string, string> = {
   ayarlar: 'Ayarlar',
   epostalar: 'E-postalar',
   tema: 'Tema',
+  analizler: 'Analizler',
+  seritler: 'Şeritler',
   kategoriler: 'Kategoriler',
   yorumlar: 'Yorumlar',
   kuponlar: 'Kuponlar',

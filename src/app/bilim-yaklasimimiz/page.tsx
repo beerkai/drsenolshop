@@ -52,7 +52,7 @@ export default function BilimYaklasimimizPage() {
         Her ürün etiketinde lot / hasat kodu ve QR bulunur. Kodu okuttuğunuzda o partiye ait
         analiz özetine ulaşırsınız. Raporun kopyasını e-posta ile de isteyebilirsiniz; yol
         haritası{' '}
-        <Link href="/analiz-raporlari" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+        <Link href="/analizler" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
           analiz raporları
         </Link>
         {' '}sayfasındadır.

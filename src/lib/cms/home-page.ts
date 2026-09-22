@@ -256,7 +256,7 @@ export const editorialHomeContent: EditorialHomeContent = {
       { value: '1100m', label: 'Saitabat Rakımı', accent: true },
       { value: '40 Yıl', label: 'Arıcılık Hafızası' },
     ],
-    primaryCta: { label: 'Hasat Raporunu İncele', href: '/analiz-raporlari' },
+    primaryCta: { label: 'Hasat Raporunu İncele', href: '/analizler' },
     secondaryCta: { label: "Saitabat'a Yolculuk →", href: '/saitabat-koyu' },
   },
   goldylium: {
@@ -398,7 +398,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         links: [
           { label: 'Tüm Koleksiyon', href: '/koleksiyon' },
           { label: 'Goldylium Parfüm', href: '/goldylium' },
-          { label: 'Analiz Raporları', href: '/analiz-raporlari' },
+          { label: 'Analizler', href: '/analizler' },
           { label: 'Hikâyemiz', href: '/hikaye' },
           { label: 'Saitabat Köyü', href: '/saitabat-koyu' },
           { label: 'Bilim Yaklaşımımız', href: '/bilim-yaklasimimiz' },

@@ -21,11 +21,10 @@ interface ProductOption {
   category: string
 }
 
-type SectionId = 'hero' | 'strip' | 'curated' | 'feed' | 'journal' | 'labels' | 'footer'
+type SectionId = 'hero' | 'curated' | 'feed' | 'journal' | 'labels' | 'footer'
 
 const SECTIONS: { id: SectionId; label: string; hint: string }[] = [
   { id: 'hero', label: 'Hero', hint: 'Anasayfa açılış bloğu' },
-  { id: 'strip', label: 'Hasat Şeridi', hint: 'Hero altındaki bant' },
   { id: 'curated', label: 'Keşfet Vitrini', hint: 'En çok tercih edilenler & Signature' },
   { id: 'feed', label: 'Eski Feed (opsiyonel)', hint: 'Mock editöryal akış — varsayılan kapalı' },
   { id: 'journal', label: 'Günlük', hint: 'Editöryal anlatı bölümü' },
@@ -547,47 +546,6 @@ export default function ThemeEditorClient({
             </>
           ) : null}
 
-          {section === 'strip' ? (
-            <>
-              <Field
-                label="Şerit başlığı"
-                value={content.curationStrip.harvestTitle}
-                onChange={(v) => update((d) => { d.curationStrip.harvestTitle = v })}
-              />
-              <Field
-                label="Şerit açıklaması"
-                value={content.curationStrip.harvestDetail}
-                onChange={(v) => update((d) => { d.curationStrip.harvestDetail = v })}
-              />
-              <span className="ad-label">Vurgular</span>
-              {content.curationStrip.highlights.map((h, i) => (
-                <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-                  <input
-                    className="ad-input"
-                    value={h}
-                    onChange={(e) =>
-                      update((d) => { d.curationStrip.highlights[i] = e.target.value })
-                    }
-                  />
-                  <button
-                    type="button"
-                    className="ad-btn ad-btn-secondary ad-btn-sm"
-                    onClick={() => update((d) => { d.curationStrip.highlights.splice(i, 1) })}
-                  >
-                    Sil
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                className="ad-btn ad-btn-secondary ad-btn-sm"
-                onClick={() => update((d) => { d.curationStrip.highlights.push('Yeni vurgu') })}
-              >
-                + Vurgu ekle
-              </button>
-            </>
-          ) : null}
-
           {section === 'feed' ? (
             <>
               <Toggle
@@ -884,23 +842,12 @@ export default function ThemeEditorClient({
             Önizleme
           </p>
           <div className="theme-preview">
-            {section === 'hero' || section === 'strip' ? (
+            {section === 'hero' ? (
               <div className="theme-preview-dark">
                 <p className="tp-eyebrow">{content.hero.eyebrow}</p>
                 <h2 className="tp-title">{content.hero.title}</h2>
                 <p className="tp-body">{content.hero.subtitle}</p>
                 <p className="tp-cta">{content.hero.cta.label} →</p>
-                {section === 'strip' ? (
-                  <div className="tp-strip">
-                    <strong>{content.curationStrip.harvestTitle}</strong>{' '}
-                    {content.curationStrip.harvestDetail}
-                    <div className="tp-strip-tags">
-                      {content.curationStrip.highlights.map((h) => (
-                        <span key={h}>{h}</span>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
               </div>
             ) : null}
 

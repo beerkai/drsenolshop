@@ -47,7 +47,7 @@ export default function MirasJournalSection() {
       <p
         id="miras-journal-heading"
         style={{
-          fontFamily: 'var(--font-mono)',
+          fontFamily: 'var(--font-label-spec)',
           fontSize: '11px',
           letterSpacing: '0.14em',
           textTransform: 'uppercase',
@@ -59,7 +59,7 @@ export default function MirasJournalSection() {
       </p>
       <h2
         style={{
-          fontFamily: 'var(--font-display)',
+          fontFamily: 'var(--font-headline-md)',
           fontSize: 'clamp(28px, 5vw, 40px)',
           fontWeight: 400,
           margin: '12px 0 8px',
@@ -70,7 +70,7 @@ export default function MirasJournalSection() {
       </h2>
       <p
         style={{
-          fontFamily: 'var(--font-sans)',
+          fontFamily: 'var(--font-body-md)',
           fontSize: '15px',
           lineHeight: 1.65,
           color: 'var(--color-on-surface-variant)',
@@ -95,7 +95,7 @@ export default function MirasJournalSection() {
             >
               <span
                 style={{
-                  fontFamily: 'var(--font-mono)',
+                  fontFamily: 'var(--font-label-spec)',
                   fontSize: '10px',
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
@@ -107,7 +107,7 @@ export default function MirasJournalSection() {
               <time
                 dateTime={post.publishedAt}
                 style={{
-                  fontFamily: 'var(--font-mono)',
+                  fontFamily: 'var(--font-label-spec)',
                   fontSize: '11px',
                   color: 'var(--color-on-surface-variant)',
                 }}
@@ -117,7 +117,7 @@ export default function MirasJournalSection() {
             </div>
             <h3
               style={{
-                fontFamily: 'var(--font-display)',
+                fontFamily: 'var(--font-headline-sm)',
                 fontSize: 'clamp(22px, 4vw, 28px)',
                 fontWeight: 500,
                 margin: '0 0 8px',
@@ -128,7 +128,7 @@ export default function MirasJournalSection() {
             </h3>
             <p
               style={{
-                fontFamily: 'var(--font-sans)',
+                fontFamily: 'var(--font-body-md)',
                 fontSize: '14px',
                 lineHeight: 1.6,
                 margin: 0,
@@ -141,7 +141,7 @@ export default function MirasJournalSection() {
               style={{
                 display: 'inline-block',
                 marginTop: '12px',
-                fontFamily: 'var(--font-mono)',
+                fontFamily: 'var(--font-label-spec)',
                 fontSize: '11px',
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',

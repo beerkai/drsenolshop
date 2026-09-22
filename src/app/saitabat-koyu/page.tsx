@@ -67,7 +67,7 @@ export default function SaitabatKoyuPage() {
           koleksiyonda
         </Link>
         ; laboratuvar kaydını{' '}
-        <Link href="/analiz-raporlari" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
+        <Link href="/analizler" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
           analiz raporlarında
         </Link>
         {' '}inceleyebilirsiniz.

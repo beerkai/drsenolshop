@@ -21,7 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     { url: `${BASE_URL}/saitabat-koyu`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/bilim-yaklasimimiz`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${BASE_URL}/analiz-raporlari`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/analizler`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/basinda-biz`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
     // Yardım
     { url: `${BASE_URL}/kargo-teslimat`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },

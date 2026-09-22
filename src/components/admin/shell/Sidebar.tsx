@@ -71,6 +71,17 @@ function IconTheme({ size = 16 }: { size?: number }) {
   )
 }
 
+function IconReports({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="8" y1="13" x2="16" y2="13" />
+      <line x1="8" y1="17" x2="13" y2="17" />
+    </svg>
+  )
+}
+
 function IconMail({ size = 16 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
@@ -83,7 +94,9 @@ function IconMail({ size = 16 }: { size?: number }) {
 const NAV_SECONDARY: NavItem[] = [
   { href: '/admin/vitrin', label: 'Vitrin', icon: <IconProducts /> },
   { href: '/admin/icerik', label: 'Metinler', icon: <IconJournal /> },
+  { href: '/admin/analizler', label: 'Analizler', icon: <IconReports /> },
   { href: '/admin/tema', label: 'Tema', icon: <IconTheme /> },
+  { href: '/admin/seritler', label: 'Şeritler', icon: <IconTheme /> },
   { href: '/admin/epostalar', label: 'E-postalar', icon: <IconMail /> },
   { href: '/admin/yorumlar', label: 'Yorumlar', icon: <IconAnalytics />, shortcut: '⌘9' },
   { href: '/admin/kuponlar', label: 'Kuponlar', icon: <IconAnalytics />, shortcut: '⌘0' },

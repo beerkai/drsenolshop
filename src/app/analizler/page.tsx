@@ -1,23 +1,38 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import AnalysisReportGrid from '@/components/analizler/AnalysisReportGrid'
 import StaticPageLayout from '@/components/StaticPageLayout'
 import { P, H2, Eyebrow, InfoBox, List } from '@/components/StaticContent'
+import { getAnalysisReports } from '@/lib/analysis-reports'
 import { SITE_EMAILS, mailto } from '@/lib/site-contact'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
-  title: 'Analiz Raporları · Dr. Şenol Shop',
-  description: 'Her hasat partisinin akredite laboratuvar analizine nasıl ulaşacağınız.',
+  title: 'Analizler · Dr. Şenol Shop',
+  description: 'Hasat partilerinin akredite laboratuvar analiz raporları.',
 }
 
-export default function AnalizRaporlariPage() {
+export default async function AnalizlerPage() {
+  const slots = await getAnalysisReports()
+  const visible = slots.filter((slot) => slot.published)
+
   return (
     <StaticPageLayout
-      eyebrow="Marka · Analiz Raporları"
+      eyebrow="Marka · Analizler"
       title="Her lot için"
       titleAccent="şeffaf belge."
-      intro="Akredite laboratuvarlarda yapılan analizler, etiket QR'ı ve talep üzerine paylaşılır."
-      breadcrumbs={[{ label: 'Analiz Raporları' }]}
+      intro="Akredite laboratuvar raporları PDF olarak yayımlanır. Boş slotlar, belge yüklendiğinde açılır."
+      breadcrumbs={[{ label: 'Analizler' }]}
     >
+      <Eyebrow>Raporlar</Eyebrow>
+      <H2>Hasat analizleri</H2>
+      <P>
+        Yayımlanan her kart, ilgili partinin laboratuvar raporuna gider. Dosyalar{' '}
+        <span lang="en">cdn.drsenol.shop</span> üzerinden açılır.
+      </P>
+      <AnalysisReportGrid slots={visible} />
+
       <Eyebrow>Yöntem</Eyebrow>
       <H2>Nasıl test ediyoruz?</H2>
       <P>
