@@ -42,58 +42,82 @@ export default function CookieConsent() {
       <style>{`
         .cookie-banner {
           position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          z-index: 9999;
-          background-color: var(--color-surface-container-lowest);
-          -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
-          border-top: 1px solid var(--color-hairline-light);
-          padding: clamp(14px, 3vw, 20px) clamp(16px, 4vw, 32px);
-          box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.4);
+          z-index: 55;
+          right: 12px;
+          left: auto;
+          bottom: calc(var(--editorial-mobile-nav-height) + env(safe-area-inset-bottom, 0px) + 10px);
+          width: min(400px, calc(100vw - 24px));
+          background: var(--color-surface-container-lowest);
+          border: 1px solid var(--color-hairline-light);
+          border-radius: 2px;
+          box-shadow: 0 12px 32px rgba(20, 20, 20, 0.08);
+          padding: 14px 14px 12px;
         }
-        .cookie-row {
-          max-width: 1280px;
-          margin: 0 auto;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 16px;
+        .cookie-kicker {
+          margin: 0 0 6px;
+          font-family: var(--font-label-spec);
+          font-size: 10px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: var(--color-honey-amber);
+        }
+        .cookie-copy {
+          margin: 0;
+          font-family: var(--font-body-sm);
+          font-size: 13px;
+          line-height: 1.45;
+          color: var(--color-on-surface);
+        }
+        .cookie-copy a {
+          color: var(--color-on-surface);
+          text-underline-offset: 2px;
+        }
+        .cookie-copy a:hover { color: var(--color-honey-amber); }
+        .cookie-actions {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+          margin-top: 12px;
         }
         .cookie-btn {
-          flex: 0 0 auto;
-          min-height: 44px;
-          padding: 12px 22px;
-          font-family: var(--font-label-spec);
+          min-height: 36px;
+          padding: 8px 10px;
+          font-family: var(--font-nav-caps);
           font-size: 11px;
-          letter-spacing: 0.22em;
+          letter-spacing: 0.12em;
           text-transform: uppercase;
           cursor: pointer;
-          transition: background-color 0.15s, border-color 0.15s;
+          transition: background-color 0.15s, border-color 0.15s, color 0.15s;
         }
         .cookie-btn-primary {
-          background-color: var(--color-honey-amber);
-          border: 1px solid var(--color-honey-amber);
-          color: var(--color-surface);
-          font-weight: 500;
+          background: var(--color-primary);
+          border: 1px solid var(--color-primary);
+          color: var(--color-on-primary);
         }
-        .cookie-btn-primary:hover { background-color: #D4B879; border-color: #D4B879; }
+        .cookie-btn-primary:hover { background: var(--color-primary-hover); border-color: var(--color-primary-hover); }
         .cookie-btn-secondary {
-          background-color: transparent;
-          border: 1px solid rgba(244, 240, 232, 0.35);
-          color: #D4CFC2;
+          background: transparent;
+          border: 1px solid var(--color-outline-variant);
+          color: var(--color-on-surface);
         }
-        .cookie-btn-secondary:hover { border-color: #D4CFC2; }
+        .cookie-btn-secondary:hover { border-color: var(--color-on-surface); }
         .cookie-btn:focus-visible {
           outline: 2px solid var(--color-honey-amber);
           outline-offset: 2px;
         }
-        @media (max-width: 640px) {
-          .cookie-row { flex-direction: column; align-items: stretch; gap: 14px; }
-          .cookie-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-          .cookie-btn { width: 100%; padding: 12px 16px; }
+        @media (min-width: 1024px) {
+          .cookie-banner {
+            right: 28px;
+            bottom: 28px;
+            width: 360px;
+          }
+        }
+        @media (prefers-reduced-motion: no-preference) {
+          .cookie-banner { animation: cookie-in 0.22s ease; }
+        }
+        @keyframes cookie-in {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: none; }
         }
       `}</style>
 
@@ -103,41 +127,20 @@ export default function CookieConsent() {
         aria-live="polite"
         aria-label="Çerez tercihi"
       >
-        <div className="cookie-row">
-          <div style={{ flex: '1 1 380px', minWidth: 0 }}>
-            <p
-              style={{
-                fontFamily: 'var(--font-label-spec)',
-                fontSize: '10px',
-                letterSpacing: '0.28em',
-                textTransform: 'uppercase',
-                color: 'var(--color-honey-amber)',
-                margin: '0 0 6px',
-              }}
-            >
-              Çerez Tercihi
-            </p>
-            <p style={{ color: '#D4CFC2', fontSize: '13px', lineHeight: 1.6, margin: 0 }}>
-              Sitenin doğru çalışması için zorunlu çerezler kullanıyoruz. Detay:{' '}
-              <Link href="/cerez-politikasi" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
-                Çerez
-              </Link>
-              {' / '}
-              <Link href="/gizlilik-politikasi" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
-                Gizlilik
-              </Link>
-              .
-            </p>
-          </div>
-
-          <div className="cookie-actions" style={{ display: 'flex', gap: '10px' }}>
-            <button type="button" onClick={reject} className="cookie-btn cookie-btn-secondary">
-              Reddet
-            </button>
-            <button type="button" onClick={accept} className="cookie-btn cookie-btn-primary">
-              Kabul Et
-            </button>
-          </div>
+        <p className="cookie-kicker">Çerez tercihi</p>
+        <p className="cookie-copy">
+          Sitenin çalışması için zorunlu çerezler kullanıyoruz.{' '}
+          <Link href="/cerez-politikasi">Çerez politikası</Link>
+          {' · '}
+          <Link href="/gizlilik-politikasi">Gizlilik</Link>
+        </p>
+        <div className="cookie-actions">
+          <button type="button" onClick={reject} className="cookie-btn cookie-btn-secondary">
+            Reddet
+          </button>
+          <button type="button" onClick={accept} className="cookie-btn cookie-btn-primary">
+            Kabul et
+          </button>
         </div>
       </div>
     </>
