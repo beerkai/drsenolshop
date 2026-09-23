@@ -54,10 +54,13 @@ export default function InstagramCommunitySection({
                   <img
                     src={tile.image.src}
                     alt={tile.image.alt}
+                    width={640}
+                    height={640}
                     loading="lazy"
                     decoding="async"
                     referrerPolicy="no-referrer"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                    className="transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (
                   <EditorialPicture
