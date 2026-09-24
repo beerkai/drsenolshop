@@ -2,7 +2,7 @@
 
 // ═══════════════════════════════════════════════════════════════
 // Ürün detay — Editorial Minimal (Stitch "Karakovan Çam Balı Detay")
-// ─ Sol: dikey akan editöryal görsel akışı (Instagram post ritmi)
+// ─ Sol: galeri slaytı (ana görsel, oklar, küçük resimler) — mobil ve masaüstü
 // ─ Sağ: sticky satın alma paneli — künye, fiyat, varyant, adet, CTA
 // ─ Sıfır köşe yuvarlaklığı, sıfır gölge, hairline ayraçlar
 //
@@ -144,10 +144,7 @@ export default function ProductDetailClient({
   return (
     <div className="product-detail-root w-full bg-surface">
       <style>{`
-          .product-detail-root .pdc-gallery-stack {
-            display: none;
-          }
-          .product-detail-root .pdc-gallery-mobile {
+          .product-detail-root .pdc-gallery {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -337,13 +334,9 @@ export default function ProductDetailClient({
             color: var(--color-on-surface-variant);
           }
           @media (min-width: 64rem) {
-            .product-detail-root .pdc-gallery-stack {
-              display: flex;
-              flex-direction: column;
-              gap: var(--spacing-space-lg);
-            }
-            .product-detail-root .pdc-gallery-mobile {
-              display: none;
+            .product-detail-root .pdc-gallery {
+              max-width: none;
+              align-items: stretch;
             }
             .product-detail-root .pdc-sticky-mobile {
               display: none;
@@ -395,7 +388,7 @@ export default function ProductDetailClient({
           <div className="lg:col-span-7">
             {images.length > 0 ? (
               <>
-                <div className="pdc-gallery-mobile lg:hidden" aria-label="Ürün görselleri">
+                <div className="pdc-gallery" aria-label="Ürün görselleri">
                   <div className="pdc-gallery-main">
                     {activeImageSrc ? (
                       <Image
@@ -404,7 +397,7 @@ export default function ProductDetailClient({
                         alt={`${product.name} — görsel ${safeImageIndex + 1}`}
                         fill
                         priority={safeImageIndex === 0}
-                        sizes="(max-width: 64rem) 90vw, 420px"
+                        sizes="(max-width: 64rem) 90vw, 55vw"
                         className="object-contain p-space-md"
                       />
                     ) : null}
@@ -467,47 +460,6 @@ export default function ProductDetailClient({
                       ))}
                     </div>
                   ) : null}
-                </div>
-
-                <div className="pdc-gallery-stack">
-                  {images.map((src, i) => (
-                    <article
-                      key={`${selectedVariantId ?? 'default'}-${i}-${src}`}
-                      className="flex flex-col overflow-hidden border border-hairline-light bg-surface-container-lowest"
-                    >
-                      <div className="flex items-center justify-between gap-space-md p-space-md">
-                        <div className="flex items-center gap-space-sm">
-                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface-container font-label-spec text-[11px] font-bold text-charcoal-pure">
-                            {String(i + 1).padStart(2, '0')}
-                          </span>
-                          <span className="flex flex-col">
-                            <span className="font-nav-caps text-nav-caps uppercase tracking-widest text-on-surface">
-                              Dr. Şenol Saitabat Atölyesi
-                            </span>
-                            <span className="font-label-spec text-[10px] text-on-surface-variant">
-                              {provenanceLine}
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="relative aspect-square w-full overflow-hidden bg-surface-container-low">
-                        <Image
-                          src={src}
-                          alt={`${product.name} — görsel ${i + 1}`}
-                          fill
-                          priority={i === 0}
-                          sizes="(max-width: 64rem) 100vw, 55vw"
-                          className="object-contain p-space-lg"
-                        />
-                        {i === 0 && batchLabel ? (
-                          <span className="absolute bottom-4 left-4 bg-charcoal-pure/80 px-3 py-1 font-label-spec text-label-spec uppercase tracking-widest text-surface-container-lowest">
-                            {batchLabel}
-                          </span>
-                        ) : null}
-                      </div>
-                    </article>
-                  ))}
                 </div>
               </>
             ) : (
