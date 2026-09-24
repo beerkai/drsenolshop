@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
+import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
   async redirects() {
@@ -34,9 +35,11 @@ const nextConfig: NextConfig = {
   },
 };
 
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
+
 // Sentry wrapper — env yoksa zaten init etmiyor (no-op).
 // SENTRY_AUTH_TOKEN tanımlı değilse source-map upload skip edilir.
-export default withSentryConfig(nextConfig, {
+export default withSentryConfig(withNextIntl(nextConfig), {
   silent: true,
   org: process.env.SENTRY_ORG,
   project: process.env.SENTRY_PROJECT,

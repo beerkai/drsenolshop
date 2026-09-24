@@ -19,6 +19,11 @@ import {
 } from './home-page'
 import { defaultHomeCuratedSettings } from './home-curated-defaults'
 import type { HomeCuratedSettings } from '@/types/home-curated'
+import { getLocale } from '@/lib/i18n/locale'
+import { enHeaderContent, enFooterContent, enMobileNav, enProductLabels } from './home-content.en'
+import { defaultProductLabels, type ProductLabels } from './product-labels'
+
+export { defaultProductLabels, type ProductLabels } from './product-labels'
 
 export const HOME_CONTENT_KEY = 'home_content'
 
@@ -31,38 +36,6 @@ export interface HomeContent {
   curated: HomeCuratedSettings
   /** Ürün kartı / buton / etiket metinleri (katalog geneli) */
   productLabels: ProductLabels
-}
-
-export interface ProductLabels {
-  /** Ürün detay birincil buton */
-  addToCart: string
-  addedToCart: string
-  /** Kart ve detayda stok dışı rozeti */
-  outOfStock: string
-  /** Fiyat yalnızca varyanttan geliyorsa kartta gösterilen metin */
-  variantPricePlaceholder: string
-  /** Varyant seçim başlığı ve sağdaki not */
-  variantHeading: string
-  variantNote: string
-  /** Varyant düğmesi durumları */
-  variantSelected: string
-  variantAvailable: string
-  /** Koleksiyon sayfası boş durum */
-  emptyTitle: string
-  emptyHint: string
-}
-
-export const defaultProductLabels: ProductLabels = {
-  addToCart: 'Sepete Ekle',
-  addedToCart: 'Sepete Eklendi ✓',
-  outOfStock: 'Tükendi',
-  variantPricePlaceholder: 'Varyantta',
-  variantHeading: 'Gramaj / Boyut',
-  variantNote: 'Sınırlı Dolum',
-  variantSelected: 'Seçili',
-  variantAvailable: 'Mevcut',
-  emptyTitle: 'Bu filtrelerle ürün bulunamadı.',
-  emptyHint: 'Filtreleri temizleyip tekrar deneyin.',
 }
 
 /** Yanlışlıkla kaydedilmiş ürün CDN path'i (editoryal yer tutucu değil) */
@@ -232,13 +205,37 @@ function merge(stored: Partial<HomeContent> | null): HomeContent {
 }
 
 /**
+ * locale='en' olduğunda header/footer/mobileNav/productLabels'ı statik
+ * EN içerikle değiştirir. Admin tema editörü TR-only olduğu için DB
+ * override'ları bu alanlara asla karışmaz. Kapsam dışı bölümler
+ * (hero, feed, journal, goldylium, instagram, values, harvestMetrics,
+ * curated, curationStrip) bilinçli olarak TR kalır — bkz. ROADMAP.md v0.8.
+ */
+function applyEnglishOverrides(content: HomeContent): HomeContent {
+  return {
+    ...content,
+    editorial: {
+      ...content.editorial,
+      header: enHeaderContent,
+      footer: enFooterContent,
+      mobileNav: enMobileNav,
+    },
+    productLabels: enProductLabels,
+  }
+}
+
+/**
  * Anasayfa içeriğini getirir (DB → yoksa statik varsayılan).
  * React cache() ile istek başına tek okuma — layout, Header ve Footer
  * aynı render'da çağırdığında Supabase'e tek gidiş olur.
  */
 export const getHomeContent = cache(async function getHomeContent(): Promise<HomeContent> {
-  const stored = await getSiteSetting<Partial<HomeContent>>(HOME_CONTENT_KEY)
-  return merge(stored)
+  const [stored, locale] = await Promise.all([
+    getSiteSetting<Partial<HomeContent>>(HOME_CONTENT_KEY),
+    getLocale(),
+  ])
+  const merged = merge(stored)
+  return locale === 'en' ? applyEnglishOverrides(merged) : merged
 })
 
 /** Yalnızca ürün etiketlerini getirir (katalog sayfaları için hafif okuma) */

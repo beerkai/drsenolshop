@@ -5,11 +5,47 @@
 //   subdomain'lerden erişilebilir. Diğer host'lardan → ana sayfaya
 //   redirect (HTML) veya 404 JSON (API).
 // ─ /admin/giris hariç tüm /admin/* için auth + admin_users whitelist.
+// ─ i18n: /en/* isteklerini prefix'siz path'e rewrite edip
+//   `x-locale: en` header'ı ekler (src/lib/i18n/locale.ts okur).
+//   TR prefix'siz kalır (varsayılan). /admin ve /api locale'den
+//   muaf — admin panel her zaman TR.
 // ═══════════════════════════════════════════════════════════════
 
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { getSiteUrl } from '@/lib/site-url'
+import type { Locale } from '@/lib/i18n/types'
+
+interface LocaleResolution {
+  locale: Locale
+  /** /en prefix'i strip edilmiş, gerçekte render edilecek path */
+  effectivePathname: string
+}
+
+/**
+ * /en veya /en/* → locale 'en' + prefix'siz path. Admin ve API path'leri
+ * KESİNLİKLE rewrite edilmez — aksi halde /en/admin/... gibi bir istek
+ * host-izolasyon kontrolünü (aşağıdaki adım 0/1, orijinal `pathname`
+ * üzerinden çalışır) atlayıp gerçek /admin/... rotasına sızabilir.
+ */
+function resolveLocale(pathname: string): LocaleResolution {
+  const stripped = pathname === '/en' ? '/' : pathname.startsWith('/en/') ? pathname.slice('/en'.length) : null
+  if (stripped === null) return { locale: 'tr', effectivePathname: pathname }
+  if (isAdminPath(stripped) || stripped.startsWith('/api/')) return { locale: 'tr', effectivePathname: pathname }
+  return { locale: 'en', effectivePathname: stripped }
+}
+
+/** Locale header'ını taşıyan response — gerekiyorsa prefix'siz path'e rewrite eder */
+function localeResponse(request: NextRequest, resolution: LocaleResolution): NextResponse {
+  const headers = new Headers(request.headers)
+  headers.set('x-locale', resolution.locale)
+  if (resolution.effectivePathname !== request.nextUrl.pathname) {
+    const url = request.nextUrl.clone()
+    url.pathname = resolution.effectivePathname
+    return NextResponse.rewrite(url, { request: { headers } })
+  }
+  return NextResponse.next({ request: { headers } })
+}
 
 /** ADMIN_HOSTS env'inden virgüllü liste — undefined ise kısıt yok (dev için) */
 function getAdminHosts(): Set<string> | null {
@@ -73,12 +109,15 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(home)
   }
 
-  // ── 2) SUPABASE SESSION REFRESH ────────────────────────────────
+  // ── 2) i18n: /en/* PREFİX ÇÖZÜMLEME ────────────────────────────
+  const localeResolution = resolveLocale(pathname)
+
+  // ── 3) SUPABASE SESSION REFRESH ────────────────────────────────
   const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
-  if (!supaUrl || !anonKey) return NextResponse.next()
+  if (!supaUrl || !anonKey) return localeResponse(request, localeResolution)
 
-  let response = NextResponse.next({ request })
+  let response = localeResponse(request, localeResolution)
 
   const supabase = createServerClient(supaUrl, anonKey, {
     cookies: {
@@ -87,7 +126,7 @@ export async function proxy(request: NextRequest) {
       },
       setAll(cookiesToSet) {
         cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
-        response = NextResponse.next({ request })
+        response = localeResponse(request, localeResolution)
         cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options))
       },
     },
@@ -95,7 +134,7 @@ export async function proxy(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  // ── 3) ADMIN AUTH KORUMASI ─────────────────────────────────────
+  // ── 4) ADMIN AUTH KORUMASI ─────────────────────────────────────
   if (pathname.startsWith('/admin') && pathname !== '/admin/giris') {
     if (!user) {
       const loginUrl = request.nextUrl.clone()
@@ -118,7 +157,7 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // ── 4) GİRİŞ SAYFASINDA YETKİLİ KULLANICI → PANO ────────────────
+  // ── 5) GİRİŞ SAYFASINDA YETKİLİ KULLANICI → PANO ────────────────
   if (pathname === '/admin/giris' && user) {
     const { data: admin } = await supabase
       .from('admin_users')

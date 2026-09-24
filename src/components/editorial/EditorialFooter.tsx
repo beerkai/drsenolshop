@@ -4,6 +4,7 @@ import Link from 'next/link'
 import type { EditorialFooterContent } from '@/types/editorial-home'
 import { INSTAGRAM_HANDLE, INSTAGRAM_URL, mailto } from '@/lib/site-contact'
 import EditorialFooterNewsletter from './EditorialFooterNewsletter'
+import EditorialFooterLanguageSwitch from './EditorialFooterLanguageSwitch'
 
 const FALLBACK_LEGAL_LINKS: EditorialFooterContent['legalLinks'] = [
   { label: 'KVKK Aydınlatma Metni', href: '/kvkk-aydinlatma' },
@@ -165,6 +166,8 @@ export default function EditorialFooter({ content, padForMobileNav = false }: Ed
             </Link>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-space-md">
+            <EditorialFooterLanguageSwitch />
+            <span className="font-editorial-caption text-editorial-caption text-outline-variant">|</span>
             {currencyEnabled ? (
               <>
                 <div className="flex items-center gap-space-xs font-label-spec text-label-spec text-on-surface-variant">

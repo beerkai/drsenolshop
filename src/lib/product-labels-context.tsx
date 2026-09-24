@@ -10,7 +10,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { createContext, useContext } from 'react'
-import { defaultProductLabels, type ProductLabels } from '@/lib/cms/home-content'
+import { defaultProductLabels, type ProductLabels } from '@/lib/cms/product-labels'
 
 const ProductLabelsContext = createContext<ProductLabels>(defaultProductLabels)
 

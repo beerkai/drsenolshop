@@ -7,6 +7,7 @@ import CookieConsent from '@/components/editorial/EditorialCookieConsent';
 import Analytics from '@/components/Analytics';
 import { organizationLd, websiteLd, toJsonLdScript } from '@/lib/jsonld';
 import { getSiteUrl } from '@/lib/site-url';
+import { getLocale } from '@/lib/i18n/locale';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -70,11 +71,11 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   // Katalog etiketleri tema editöründen gelir; istek başına tek okuma (cache)
-  const { productLabels } = await getHomeContent();
+  const [{ productLabels }, locale] = await Promise.all([getHomeContent(), getLocale()]);
 
   return (
     <html
-      lang="tr"
+      lang={locale}
       className={`${inter.variable} ${cormorant.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
     >
       <body>
