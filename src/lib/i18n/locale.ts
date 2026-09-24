@@ -1,18 +1,18 @@
 // ═══════════════════════════════════════════════════════════════
-// Aktif locale okuma — proxy.ts /en/* isteklerinde `x-locale: en`
-// header'ı set eder (prefix'i strip edip rewrite ederken). Bu
-// dosya o header'ı Server Component / next-intl config içinden
-// okumak için tek kaynak.
+// Aktif locale okuma — next-intl'in kendi getLocale()'ine delege
+// eder. [locale] route segmenti altında next-intl bunu params'tan
+// çözer (setRequestLocale); admin/API gibi segment dışı rotalarda
+// routing.defaultLocale'e (tr) düşer. @/lib/cms/home-content ve
+// layout.tsx bu path'i import ettiği için burada tutuluyor.
 // ═══════════════════════════════════════════════════════════════
 
-import { headers } from 'next/headers'
+import { getLocale as getNextIntlLocale } from 'next-intl/server'
 import { DEFAULT_LOCALE, type Locale } from './types'
 
 export type { Locale } from './types'
 export { DEFAULT_LOCALE, LOCALES } from './types'
 
 export async function getLocale(): Promise<Locale> {
-  const h = await headers()
-  const value = h.get('x-locale')
-  return value === 'en' ? 'en' : DEFAULT_LOCALE
+  const locale = await getNextIntlLocale()
+  return locale === 'en' ? 'en' : DEFAULT_LOCALE
 }
