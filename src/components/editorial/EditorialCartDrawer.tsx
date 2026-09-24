@@ -12,7 +12,7 @@
 import { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useCart } from '@/lib/cart-context'
+import { MAX_CUSTOMER_ORDER_QTY, useCart } from '@/lib/cart-context'
 import { formatPrice } from '@/types'
 
 export default function EditorialCartDrawer() {
@@ -138,10 +138,11 @@ export default function EditorialCartDrawer() {
                         <button
                           type="button"
                           aria-label="Adedi artır"
+                          disabled={item.quantity >= (item.maxQuantity ?? MAX_CUSTOMER_ORDER_QTY)}
                           onClick={() =>
                             dispatch({ type: 'SET_QTY', id: item.id, quantity: item.quantity + 1 })
                           }
-                          className="px-1 text-on-surface transition-colors hover:text-honey-amber"
+                          className="px-1 text-on-surface transition-colors hover:text-honey-amber disabled:cursor-not-allowed disabled:opacity-40"
                         >
                           +
                         </button>

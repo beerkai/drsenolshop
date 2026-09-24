@@ -12,7 +12,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useCart } from '@/lib/cart-context'
+import { customerOrderCap, useCart } from '@/lib/cart-context'
 import { useProductLabels } from '@/lib/product-labels-context'
 import type { ProductWithRelations } from '@/types'
 import ProductPriceRow from '@/components/product/ProductPriceRow'
@@ -57,6 +57,7 @@ export default function ProductDetailClient({
   const currentPrice = priceData?.current ?? (basePrice > 0 ? basePrice : 0)
   const stock = selectedVariant ? getVariantStock(selectedVariant) : (product.stock_quantity ?? 0)
   const inStock = stock > 0
+  const maxQty = inStock ? customerOrderCap(stock) : 1
 
   const images = useMemo(
     () => getProductImagesForVariant(product, selectedVariant),
@@ -68,6 +69,10 @@ export default function ProductDetailClient({
   useEffect(() => {
     setActiveImageIndex(0)
   }, [selectedVariantId, images])
+
+  useEffect(() => {
+    setQuantity((q) => Math.min(Math.max(1, q), Math.max(1, maxQty)))
+  }, [maxQty])
 
   useEffect(() => {
     const strip = thumbStripRef.current
@@ -125,7 +130,7 @@ export default function ProductDetailClient({
     if (!inStock) return
     dispatch({
       type: 'ADD',
-      quantity,
+      quantity: Math.min(quantity, maxQty),
       item: {
         productId: product.id,
         variantId: selectedVariant?.id ?? null,
@@ -134,6 +139,7 @@ export default function ProductDetailClient({
         image: getProductImage(product),
         price: currentPrice,
         variantLabel: selectedVariant ? getVariantLabel(selectedVariant) : null,
+        maxQuantity: maxQty,
       },
     })
     setAdded(true)
@@ -365,13 +371,6 @@ export default function ProductDetailClient({
             ) : null}
             <span className="ed-caption-truncate font-medium text-on-surface">{product.name}</span>
           </nav>
-
-          {inStock ? (
-            <span className="hidden shrink-0 items-center gap-space-sm md:flex">
-              <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-honey-amber" />
-              Stokta • {stock} adet kaldı
-            </span>
-          ) : null}
         </div>
       </div>
 
@@ -579,9 +578,10 @@ export default function ProductDetailClient({
                   <span className="font-price-tag text-price-tag text-on-surface">{quantity}</span>
                   <button
                     type="button"
-                    onClick={() => setQuantity((q) => Math.min(stock || 1, q + 1))}
+                    onClick={() => setQuantity((q) => Math.min(maxQty, q + 1))}
+                    disabled={!inStock || quantity >= maxQty}
                     aria-label="Adedi artır"
-                    className="p-1 text-on-surface transition-colors hover:text-honey-amber"
+                    className="p-1 text-on-surface transition-colors hover:text-honey-amber disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     +
                   </button>
@@ -596,12 +596,6 @@ export default function ProductDetailClient({
                   {!inStock ? labels.outOfStock : added ? labels.addedToCart : labels.addToCart}
                 </button>
               </div>
-
-              {inStock && stock <= 5 ? (
-                <p className="font-label-spec text-label-spec uppercase tracking-wider text-honey-amber">
-                  Son {stock} adet
-                </p>
-              ) : null}
             </div>
           </div>
         </div>
@@ -627,9 +621,10 @@ export default function ProductDetailClient({
             <span className="font-price-tag text-sm text-on-surface">{quantity}</span>
             <button
               type="button"
-              onClick={() => setQuantity((q) => Math.min(stock || 1, q + 1))}
+              onClick={() => setQuantity((q) => Math.min(maxQty, q + 1))}
+              disabled={!inStock || quantity >= maxQty}
               aria-label="Adedi artır"
-              className="p-1 text-on-surface"
+              className="p-1 text-on-surface disabled:cursor-not-allowed disabled:opacity-40"
             >
               +
             </button>

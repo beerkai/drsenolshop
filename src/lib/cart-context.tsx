@@ -2,6 +2,9 @@
 
 import { createContext, useContext, useReducer, useEffect, useState } from 'react'
 import type { Dispatch } from 'react'
+import { MAX_CUSTOMER_ORDER_QTY } from '@/lib/order-qty'
+
+export { MAX_CUSTOMER_ORDER_QTY, customerOrderCap } from '@/lib/order-qty'
 
 export interface CartItem {
   id: string
@@ -13,6 +16,8 @@ export interface CartItem {
   price: number
   variantLabel: string | null
   quantity: number
+  /** Bu kalem için izin verilen üst adet. Eski sepetlerde yoksa 150 kabul edilir. */
+  maxQuantity?: number
 }
 
 type CartAction =
@@ -32,18 +37,26 @@ function cartReducer(items: CartItem[], action: CartAction): CartItem[] {
       return action.items
     case 'ADD': {
       const id = makeId(action.item.productId, action.item.variantId)
-      const qty = action.quantity ?? 1
+      const cap = action.item.maxQuantity ?? MAX_CUSTOMER_ORDER_QTY
+      const qty = Math.min(Math.max(1, action.quantity ?? 1), cap)
       const existing = items.find(i => i.id === id)
       if (existing) {
-        return items.map(i => i.id === id ? { ...i, quantity: i.quantity + qty } : i)
+        const lineCap = Math.min(existing.maxQuantity ?? MAX_CUSTOMER_ORDER_QTY, cap)
+        return items.map(i => i.id === id
+          ? { ...i, ...action.item, id, maxQuantity: lineCap, quantity: Math.min(i.quantity + qty, lineCap) }
+          : i)
       }
-      return [...items, { ...action.item, id, quantity: qty }]
+      return [...items, { ...action.item, id, maxQuantity: cap, quantity: qty }]
     }
     case 'REMOVE':
       return items.filter(i => i.id !== action.id)
     case 'SET_QTY':
       if (action.quantity <= 0) return items.filter(i => i.id !== action.id)
-      return items.map(i => i.id === action.id ? { ...i, quantity: action.quantity } : i)
+      return items.map(i => {
+        if (i.id !== action.id) return i
+        const cap = i.maxQuantity ?? MAX_CUSTOMER_ORDER_QTY
+        return { ...i, quantity: Math.min(action.quantity, cap) }
+      })
     case 'CLEAR':
       return []
     default:

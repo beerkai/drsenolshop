@@ -11,6 +11,7 @@ import { calculateTotals } from './cart-totals'
 import { getProductsByIds } from './products'
 import { getShippingConfig, calculateShipping, getBankInfo } from './site-settings'
 import { validateCoupon, incrementCouponUsage } from './coupons'
+import { MAX_CUSTOMER_ORDER_QTY } from './order-qty'
 import {
   findDefaultVariant,
   getVariantPrice,
@@ -110,11 +111,18 @@ export async function validateCartItems(
       stock = product.stock_quantity ?? 0
     }
 
+    if (item.quantity > MAX_CUSTOMER_ORDER_QTY && stock > MAX_CUSTOMER_ORDER_QTY) {
+      return {
+        ok: false,
+        code: 'OUT_OF_STOCK',
+        message: `${product.name}${variantLabel ? ' / ' + variantLabel : ''} için en fazla ${MAX_CUSTOMER_ORDER_QTY} adet sipariş verebilirsiniz.`,
+      }
+    }
     if (stock < item.quantity) {
       return {
         ok: false,
         code: 'OUT_OF_STOCK',
-        message: `Yetersiz stok: ${product.name}${variantLabel ? ' / ' + variantLabel : ''} (mevcut: ${stock}, istenen: ${item.quantity})`,
+        message: `Yetersiz stok: ${product.name}${variantLabel ? ' / ' + variantLabel : ''}`,
       }
     }
 
