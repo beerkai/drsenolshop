@@ -5,7 +5,7 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import type { ProductWithRelations } from '@/types'
 import { useProductLabels } from '@/lib/product-labels-context'
 import ProductPriceRow from '@/components/product/ProductPriceRow'

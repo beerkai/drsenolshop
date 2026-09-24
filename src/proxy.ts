@@ -5,47 +5,19 @@
 //   subdomain'lerden erişilebilir. Diğer host'lardan → ana sayfaya
 //   redirect (HTML) veya 404 JSON (API).
 // ─ /admin/giris hariç tüm /admin/* için auth + admin_users whitelist.
-// ─ i18n: /en/* isteklerini prefix'siz path'e rewrite edip
-//   `x-locale: en` header'ı ekler (src/lib/i18n/locale.ts okur).
-//   TR prefix'siz kalır (varsayılan). /admin ve /api locale'den
-//   muaf — admin panel her zaman TR.
+// ─ i18n: /admin ve /api dışındaki tüm path'ler next-intl middleware'i
+//   üzerinden geçer — TR prefix'siz (/koleksiyon → içeride /tr/koleksiyon'a
+//   rewrite), EN /en/* prefix'li. Admin/API next-intl'e hiç girmez, her
+//   zaman TR (ayrı root layout, bkz. src/app/admin/layout.tsx).
 // ═══════════════════════════════════════════════════════════════
 
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import createIntlMiddleware from 'next-intl/middleware'
 import { getSiteUrl } from '@/lib/site-url'
-import type { Locale } from '@/lib/i18n/types'
+import { routing } from '@/i18n/routing'
 
-interface LocaleResolution {
-  locale: Locale
-  /** /en prefix'i strip edilmiş, gerçekte render edilecek path */
-  effectivePathname: string
-}
-
-/**
- * /en veya /en/* → locale 'en' + prefix'siz path. Admin ve API path'leri
- * KESİNLİKLE rewrite edilmez — aksi halde /en/admin/... gibi bir istek
- * host-izolasyon kontrolünü (aşağıdaki adım 0/1, orijinal `pathname`
- * üzerinden çalışır) atlayıp gerçek /admin/... rotasına sızabilir.
- */
-function resolveLocale(pathname: string): LocaleResolution {
-  const stripped = pathname === '/en' ? '/' : pathname.startsWith('/en/') ? pathname.slice('/en'.length) : null
-  if (stripped === null) return { locale: 'tr', effectivePathname: pathname }
-  if (isAdminPath(stripped) || stripped.startsWith('/api/')) return { locale: 'tr', effectivePathname: pathname }
-  return { locale: 'en', effectivePathname: stripped }
-}
-
-/** Locale header'ını taşıyan response — gerekiyorsa prefix'siz path'e rewrite eder */
-function localeResponse(request: NextRequest, resolution: LocaleResolution): NextResponse {
-  const headers = new Headers(request.headers)
-  headers.set('x-locale', resolution.locale)
-  if (resolution.effectivePathname !== request.nextUrl.pathname) {
-    const url = request.nextUrl.clone()
-    url.pathname = resolution.effectivePathname
-    return NextResponse.rewrite(url, { request: { headers } })
-  }
-  return NextResponse.next({ request: { headers } })
-}
+const intlMiddleware = createIntlMiddleware(routing)
 
 /** ADMIN_HOSTS env'inden virgüllü liste — undefined ise kısıt yok (dev için) */
 function getAdminHosts(): Set<string> | null {
@@ -109,69 +81,77 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(home)
   }
 
-  // ── 2) i18n: /en/* PREFİX ÇÖZÜMLEME ────────────────────────────
-  const localeResolution = resolveLocale(pathname)
+  const isAdminOrApi = isAdminPath(pathname) || pathname.startsWith('/api/')
 
-  // ── 3) SUPABASE SESSION REFRESH ────────────────────────────────
+  // ── 2) SUPABASE SESSION REFRESH ────────────────────────────────
+  // Cookie yazımları `request`e uygulanır; nihai response'a (i18n
+  // rewrite/redirect kararından SONRA) tek seferde taşınır — next-intl'in
+  // rewrite hedefini bir NextResponse.next({request}) ile ezmemek için.
   const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
-  if (!supaUrl || !anonKey) return localeResponse(request, localeResolution)
 
-  let response = localeResponse(request, localeResolution)
+  let pendingCookies: { name: string; value: string; options?: Parameters<NextResponse['cookies']['set']>[2] }[] = []
+  let user: { email?: string | null } | null = null
 
-  const supabase = createServerClient(supaUrl, anonKey, {
-    cookies: {
-      getAll() {
-        return request.cookies.getAll()
+  if (supaUrl && anonKey) {
+    const supabase = createServerClient(supaUrl, anonKey, {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
+          pendingCookies = cookiesToSet
+        },
       },
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
-        response = localeResponse(request, localeResolution)
-        cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options))
-      },
-    },
-  })
+    })
 
-  const { data: { user } } = await supabase.auth.getUser()
+    const { data } = await supabase.auth.getUser()
+    user = data.user
 
-  // ── 4) ADMIN AUTH KORUMASI ─────────────────────────────────────
-  if (pathname.startsWith('/admin') && pathname !== '/admin/giris') {
-    if (!user) {
-      const loginUrl = request.nextUrl.clone()
-      loginUrl.pathname = '/admin/giris'
-      loginUrl.searchParams.set('next', pathname)
-      return NextResponse.redirect(loginUrl)
+    // ── 3) ADMIN AUTH KORUMASI ─────────────────────────────────────
+    if (pathname.startsWith('/admin') && pathname !== '/admin/giris') {
+      if (!user) {
+        const loginUrl = request.nextUrl.clone()
+        loginUrl.pathname = '/admin/giris'
+        loginUrl.searchParams.set('next', pathname)
+        return NextResponse.redirect(loginUrl)
+      }
+
+      const { data: admin } = await supabase
+        .from('admin_users')
+        .select('id, is_active, role')
+        .eq('email', user.email ?? '')
+        .maybeSingle()
+
+      if (!admin || admin.is_active === false) {
+        const loginUrl = request.nextUrl.clone()
+        loginUrl.pathname = '/admin/giris'
+        loginUrl.searchParams.set('error', 'yetki_yok')
+        return NextResponse.redirect(loginUrl)
+      }
     }
 
-    const { data: admin } = await supabase
-      .from('admin_users')
-      .select('id, is_active, role')
-      .eq('email', user.email ?? '')
-      .maybeSingle()
-
-    if (!admin || admin.is_active === false) {
-      const loginUrl = request.nextUrl.clone()
-      loginUrl.pathname = '/admin/giris'
-      loginUrl.searchParams.set('error', 'yetki_yok')
-      return NextResponse.redirect(loginUrl)
+    // ── 4) GİRİŞ SAYFASINDA YETKİLİ KULLANICI → PANO ────────────────
+    if (pathname === '/admin/giris' && user) {
+      const { data: admin } = await supabase
+        .from('admin_users')
+        .select('id')
+        .eq('email', user.email ?? '')
+        .maybeSingle()
+      if (admin) {
+        const dashUrl = request.nextUrl.clone()
+        dashUrl.pathname = '/admin'
+        dashUrl.search = ''
+        return NextResponse.redirect(dashUrl)
+      }
     }
   }
 
-  // ── 5) GİRİŞ SAYFASINDA YETKİLİ KULLANICI → PANO ────────────────
-  if (pathname === '/admin/giris' && user) {
-    const { data: admin } = await supabase
-      .from('admin_users')
-      .select('id')
-      .eq('email', user.email ?? '')
-      .maybeSingle()
-    if (admin) {
-      const dashUrl = request.nextUrl.clone()
-      dashUrl.pathname = '/admin'
-      dashUrl.search = ''
-      return NextResponse.redirect(dashUrl)
-    }
-  }
+  // ── 5) i18n ROUTING (yalnızca admin/API dışı) ──────────────────
+  const response = isAdminOrApi ? NextResponse.next({ request }) : intlMiddleware(request)
 
+  pendingCookies.forEach(({ name, value, options }) => response.cookies.set(name, value, options))
   return response
 }
 

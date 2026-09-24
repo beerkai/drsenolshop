@@ -5,7 +5,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { getEditorialImageUrl } from '@/lib/images'
 import type { HeroProps } from '@/types/hero'
 

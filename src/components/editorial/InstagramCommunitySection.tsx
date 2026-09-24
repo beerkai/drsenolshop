@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { ArrowUpRight } from 'lucide-react'
 import type { InstagramFeedPost } from '@/lib/instagram/feed'
 import type { InstagramCommunityContent, InstagramTile } from '@/types/editorial-home'

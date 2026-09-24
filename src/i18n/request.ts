@@ -1,15 +1,17 @@
 // ═══════════════════════════════════════════════════════════════
-// next-intl request config — routing YOK, locale proxy.ts'te
-// belirlenip `x-locale` header'ı ile taşınıyor (getLocale() aynı
-// header'ı okur). URL yapısı (TR prefix'siz, /en/*) proxy.ts'in
-// rewrite mantığıyla yönetiliyor.
+// next-intl request config — locale, [locale] route segmentinden
+// next-intl'in kendi middleware/routing mekanizmasıyla gelir
+// (params.locale → setRequestLocale). Admin/API gibi [locale] dışı
+// rotalarda requestLocale boş kalır → routing.defaultLocale (tr).
 // ═══════════════════════════════════════════════════════════════
 
+import { hasLocale } from 'next-intl'
 import { getRequestConfig } from 'next-intl/server'
-import { getLocale } from '@/lib/i18n/locale'
+import { routing } from './routing'
 
-export default getRequestConfig(async () => {
-  const locale = await getLocale()
+export default getRequestConfig(async ({ requestLocale }) => {
+  const requested = await requestLocale
+  const locale = hasLocale(routing.locales, requested) ? requested : routing.defaultLocale
 
   return {
     locale,

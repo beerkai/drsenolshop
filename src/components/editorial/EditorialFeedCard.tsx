@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { ArrowRight, Plus, Quote } from 'lucide-react'
 import type { EditorialFeedItem } from '@/types/editorial-home'
 import EditorialPicture from './EditorialPicture'

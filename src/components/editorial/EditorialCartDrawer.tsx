@@ -11,7 +11,7 @@
 
 import { useEffect } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { MAX_CUSTOMER_ORDER_QTY, useCart } from '@/lib/cart-context'
 import { formatPrice } from '@/types'
 

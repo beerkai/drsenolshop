@@ -11,7 +11,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { customerOrderCap, useCart } from '@/lib/cart-context'
 import { useProductLabels } from '@/lib/product-labels-context'
 import type { ProductWithRelations } from '@/types'
