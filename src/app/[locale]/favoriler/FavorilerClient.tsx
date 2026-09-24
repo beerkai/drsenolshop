@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import Image from 'next/image'
 import { useWishlist } from '@/lib/wishlist-context'
 import type { ProductWithRelations } from '@/types'

@@ -9,7 +9,7 @@
 // Referans: dr._enol_koleksiyon_hasatlar/code.html "Filter Pills"
 // ═══════════════════════════════════════════════════════════════
 
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import type { Category } from '@/types'
 
 export interface FilterState {

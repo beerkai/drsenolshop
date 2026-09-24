@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import StaticPageLayout from '@/components/StaticPageLayout'
 import MirasJournalSection from '@/components/miras/MirasJournalSection'
 import { P, H2, Eyebrow, Quote, InfoBox } from '@/components/StaticContent'

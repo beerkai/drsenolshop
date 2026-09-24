@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import StaticPageLayout from '@/components/StaticPageLayout'
 import { formatMirasJournalDate, listMirasJournalPosts } from '@/lib/miras-journal'
 

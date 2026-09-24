@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { getProducts } from '@/lib/products'
 import { GOLDYLIUM_CATALOG_ROOT_SLUG, GOLDYLIUM_LANDING_PATH } from '@/lib/goldylium-catalog'
 import ProductHorizontalRail from './ProductHorizontalRail'

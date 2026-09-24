@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import StaticPageLayout from '@/components/StaticPageLayout'
 import { P, H2, Eyebrow, Quote, InfoBox, List } from '@/components/StaticContent'
 

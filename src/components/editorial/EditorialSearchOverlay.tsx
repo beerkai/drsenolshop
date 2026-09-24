@@ -9,7 +9,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import type { ProductWithRelations } from '@/types'
 import ProductPriceRow from '@/components/product/ProductPriceRow'
 import { getProductImage, getProductStartingPrice } from '@/types'

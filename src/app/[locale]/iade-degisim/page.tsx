@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import StaticPageLayout from '@/components/StaticPageLayout'
 import { P, H2, Eyebrow, List, InfoBox } from '@/components/StaticContent'
 import { getLegalCompany } from '@/lib/legal-info'
