@@ -7,10 +7,17 @@
 // ─ Idempotent: aynı merchant_oid için tekrar gelirse no-op
 // ═══════════════════════════════════════════════════════════════
 
+import { after } from 'next/server'
 import { verifyPaytrCallback, isPaytrConfigured } from '@/lib/paytr'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { sendOrderConfirmation } from '@/lib/email'
-import { sendTelegramMessage, isTelegramConfigured, escapeHtml } from '@/lib/telegram'
+import {
+  broadcastTelegramMessage,
+  isTelegramConfigured,
+  escapeHtml,
+  orderActionKeyboard,
+  paymentMethodLabel,
+} from '@/lib/telegram'
 import { decrementOrderStock, consumeCouponForOrder } from '@/lib/stock'
 import { formatPrice } from '@/types'
 import type { Order, OrderItem } from '@/types'
@@ -120,12 +127,17 @@ export async function handlePaytrCallback(request: Request): Promise<Response> {
     await consumeCouponForOrder(next.id)
 
     if (isTelegramConfigured()) {
-      sendTelegramMessage(
-        `<b>💳 PayTR · Ödeme alındı</b>\n` +
-        `Sipariş: <code>${escapeHtml(next.order_number)}</code>\n` +
-        `Tutar: <b>${escapeHtml(formatPrice(next.total_amount))}</b>\n` +
-        `Müşteri: ${escapeHtml(next.customer_name)} · ${escapeHtml(next.customer_email)}`
-      ).catch(() => {})
+      const paid = next
+      after(() => {
+        broadcastTelegramMessage(
+          `<b>PayTR · Ödeme alındı</b>\n` +
+          `Sipariş: <code>${escapeHtml(paid.order_number)}</code>\n` +
+          `Tutar: <b>${escapeHtml(formatPrice(paid.total_amount))}</b>\n` +
+          `Müşteri: ${escapeHtml(paid.customer_name)}\n` +
+          `Ödeme: ${escapeHtml(paymentMethodLabel(paid.payment_method))}`,
+          { replyMarkup: { inline_keyboard: orderActionKeyboard(paid) } }
+        ).catch((err) => console.error('[paytr/callback] telegram:', err))
+      })
     }
 
     // Sipariş onay maili — PayTR için /api/orders'ta atlanmıştı, burada
@@ -158,6 +170,18 @@ export async function handlePaytrCallback(request: Request): Promise<Response> {
       })
       .eq('id', order.id)
     console.warn('[paytr/callback] payment failed', { merchantOid, code: failReasonCode, msg: failReasonMsg })
+    if (isTelegramConfigured()) {
+      const failedOrder = order
+      const reason = [failReasonCode, failReasonMsg].filter(Boolean).join(' ')
+      after(() => {
+        broadcastTelegramMessage(
+          `<b>PayTR · Ödeme başarısız</b>\n` +
+          `Sipariş: <code>${escapeHtml(failedOrder.order_number)}</code>\n` +
+          `Müşteri: ${escapeHtml(failedOrder.customer_name)}\n` +
+          (reason ? `Sebep: ${escapeHtml(reason)}` : '')
+        ).catch((err) => console.error('[paytr/callback] telegram fail:', err))
+      })
+    }
   }
 
   return plain('OK', 200)

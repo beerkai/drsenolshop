@@ -116,7 +116,8 @@ export default async function AdminSettingsPage() {
       <div className="ad-card" style={{ marginBottom: '20px' }}>
         <p className="ad-eyebrow-muted" style={{ marginBottom: '6px' }}>Telegram Bot</p>
         <p style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: '0 0 16px' }}>
-          Yeni sipariş geldiğinde bildirim gönderir. /yeni /durum /stok /defter /satis vs. komutlarına yanıt verir.
+          Yeni sipariş, ödeme ve stok geçişi bildirir. Defter kaydı adım adım alınır.
+          Havale onayı ve kargo takip numarası bottan kapanır. Bülten ve hesap silme bu kanala düşmez.
         </p>
         <TelegramTestPanel configured={telegramConfigured} />
       </div>

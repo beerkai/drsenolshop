@@ -7,11 +7,11 @@
 // ─ Paid/preparing/shipped → admin manuel iptal etmeli (refund konusu)
 // ═══════════════════════════════════════════════════════════════
 
-import { NextResponse } from 'next/server'
+import { NextResponse, after } from 'next/server'
 import { requireSupabaseServer } from '@/lib/supabase-server'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { sendOrderStatusUpdate } from '@/lib/email'
-import { sendTelegramMessage, isTelegramConfigured, escapeHtml } from '@/lib/telegram'
+import { broadcastTelegramMessage, isTelegramConfigured, escapeHtml, orderAdminUrl } from '@/lib/telegram'
 import { restoreOrderStock } from '@/lib/stock'
 import { formatPrice, type Order, type OrderItem } from '@/types'
 
@@ -105,13 +105,16 @@ export async function POST(
 
   // Bildirimler (fire-and-forget)
   if (isTelegramConfigured()) {
-    sendTelegramMessage(
-      `<b>❌ Sipariş iptal edildi</b>\n` +
-      `Sipariş: <code>${escapeHtml(next.order_number)}</code>\n` +
-      `Tutar: ${escapeHtml(formatPrice(next.total_amount))}\n` +
-      `Müşteri: ${escapeHtml(next.customer_name)} · ${escapeHtml(next.customer_email)}\n` +
-      `<i>Müşteri tarafından iptal</i>`
-    ).catch(() => {})
+    const cancelled = next
+    after(() => {
+      broadcastTelegramMessage(
+        `<b>Sipariş iptal edildi</b>\n` +
+        `Sipariş: <code>${escapeHtml(cancelled.order_number)}</code>\n` +
+        `Tutar: ${escapeHtml(formatPrice(cancelled.total_amount))}\n` +
+        `Müşteri: ${escapeHtml(cancelled.customer_name)}\n` +
+        `<a href="${orderAdminUrl(cancelled.order_number)}">Panelde aç</a>`
+      ).catch((err) => console.error('[orders/cancel] telegram:', err))
+    })
   }
 
   ;(async () => {

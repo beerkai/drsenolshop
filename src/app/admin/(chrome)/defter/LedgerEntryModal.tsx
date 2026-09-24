@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { toast } from '@/components/admin/toast/toast'
 import type { Employee, LedgerEntry } from '@/lib/ledger'
-import { normalizePlate, isValidPlate } from '@/lib/ledger'
+import { normalizePlate, isValidPlate, guideCommissionRate } from '@/lib/ledger'
 
 interface Props {
   date: string
@@ -37,20 +37,23 @@ const DEFAULT_FORM: FormState = {
   notes: '',
 }
 
-/** Komisyon string'ini float olarak yarısı satışın mı? — auto kontrolü */
-function isHalfOf(commission: string, sale: string): boolean {
+/** Komisyon, seçili çalışanın oranıyla örtüşüyor mu? Oran yoksa %50. */
+function isRateOf(commission: string, sale: string, rate: number): boolean {
   const c = Number(commission)
   const s = Number(sale)
   if (!Number.isFinite(c) || !Number.isFinite(s) || s === 0) return false
-  return Math.abs(c - s / 2) < 0.005
+  return Math.abs(c - s * rate) < 0.05
 }
 
-function formatHalf(sale: string): string {
+function formatCommission(sale: string, rate: number): string {
   const s = Number(sale)
   if (!Number.isFinite(s) || s <= 0) return ''
-  const half = s / 2
-  // Tam sayıysa ondalık koyma
-  return Number.isInteger(half) ? String(half) : half.toFixed(2)
+  const amount = Math.round(s * rate * 100) / 100
+  return Number.isInteger(amount) ? String(amount) : amount.toFixed(2)
+}
+
+function rateOf(employees: Employee[], employeeId: string): number {
+  return guideCommissionRate(employees.find((e) => e.id === employeeId))
 }
 
 export default function LedgerEntryModal({ date, employees, initial, onClose, onSaved }: Props) {
@@ -73,7 +76,9 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
   // Komisyon "auto" mu? — true ise sale_amount değiştikçe komisyon güncellenir.
   // Toggle ilk açıldığında auto'ya geçer. Kullanıcı manuel değiştirirse auto kapanır.
   const [commissionAuto, setCommissionAuto] = useState(
-    initial ? initial.has_guide && initial.guide_commission != null && isHalfOf(String(initial.guide_commission), String(initial.sale_amount)) : true
+    initial
+      ? initial.has_guide && initial.guide_commission != null && isRateOf(String(initial.guide_commission), String(initial.sale_amount), rateOf(employees, initial.employee_id ?? ''))
+      : true
   )
 
   const [saving, setSaving] = useState(false)
@@ -110,7 +115,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
     setForm((prev) => {
       const next = { ...prev, sale_amount: v }
       if (prev.has_guide && commissionAuto) {
-        next.guide_commission = formatHalf(v)
+        next.guide_commission = formatCommission(v, rateOf(employees, prev.employee_id))
       }
       return next
     })
@@ -123,7 +128,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
       setForm((prev) => ({
         ...prev,
         has_guide: true,
-        guide_commission: formatHalf(prev.sale_amount),
+        guide_commission: formatCommission(prev.sale_amount, rateOf(employees, prev.employee_id)),
       }))
     } else {
       setForm((prev) => ({
@@ -145,7 +150,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
   /** Auto modu manuel tekrar aç (komisyon = sale / 2) */
   function resetCommissionAuto() {
     setCommissionAuto(true)
-    setForm((prev) => ({ ...prev, guide_commission: formatHalf(prev.sale_amount) }))
+    setForm((prev) => ({ ...prev, guide_commission: formatCommission(prev.sale_amount, rateOf(employees, prev.employee_id)) }))
   }
 
   function handlePlateChange(raw: string) {
@@ -391,7 +396,16 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
                 <select
                   id="employee"
                   value={form.employee_id}
-                  onChange={(e) => update('employee_id', e.target.value)}
+                  onChange={(e) => {
+                    const employeeId = e.target.value
+                    setForm((prev) => {
+                      const next = { ...prev, employee_id: employeeId }
+                      if (prev.has_guide && commissionAuto) {
+                        next.guide_commission = formatCommission(prev.sale_amount, rateOf(employees, employeeId))
+                      }
+                      return next
+                    })
+                  }}
                   className="ad-select"
                 >
                   <option value="">— Seçiniz —</option>
@@ -464,7 +478,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
           <div style={{ marginBottom: '14px', padding: '14px', border: '1px solid var(--ad-line-faint)', backgroundColor: 'var(--ad-surface-2)' }}>
             <ToggleRow
               label="Rehberle geldi"
-              hint="Komisyon otomatik satışın yarısı olur"
+              hint="Komisyon, seçili çalışanın rehber oranıdır"
               checked={form.has_guide}
               onChange={handleHasGuideToggle}
             />
@@ -498,7 +512,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
                   className="ad-input ad-mono"
                 />
                 <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
-                  Satışın yarısı otomatik gelir; istersen düzenleyebilirsin (örn. 2500 satışta default 1250 yazılır).
+                  Seçili çalışanın rehber oranı otomatik gelir; istersen düzenleyebilirsin. Oran tanımlı değilse %50 kullanılır.
                 </p>
               </div>
             )}

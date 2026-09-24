@@ -6,9 +6,8 @@
 
 import { getSupabaseAdmin } from './supabase'
 import { formatPrice } from '@/types'
-import { escapeHtml, sendTelegramMessage } from './telegram'
+import { escapeHtml, orderStatusLabel, paymentMethodLabel, paymentStatusLabel, sendTelegramMessage, answerCallbackQuery } from './telegram'
 import {
-  createLedgerEntry,
   getLedgerSummary,
   getPlateHistory,
   listEmployees,
@@ -16,7 +15,10 @@ import {
   normalizePlate,
   isValidPlate,
 } from './ledger'
-import { todayKeyTR, mondayOf, shiftDateKey } from './datetime'
+import { formatTimeTR, istanbulDayStartIso, mondayOf, shiftDateKey, todayKeyTR } from './datetime'
+import { canWrite, claimTelegramUpdate, getLatestSession, isAuthorizedChat } from './telegram-state'
+import { continueSaleWizard, handleSaleCallback, saveSaleFromArgs } from './telegram-sale'
+import { continueShipPrompt, handleOpsCallback } from './telegram-actions'
 
 interface TelegramUser {
   id: number
@@ -39,44 +41,42 @@ export interface TelegramUpdate {
     date: number
     text?: string
   }
-}
-
-/** Yetkili chat ID listesi — env'den okur */
-function getAuthorizedChatIds(): Set<string> {
-  const ids = new Set<string>()
-  const primary = process.env.TELEGRAM_CHAT_ID?.trim()
-  if (primary) ids.add(primary)
-  const extra = process.env.TELEGRAM_ADMIN_IDS?.trim()
-  if (extra) {
-    extra.split(',').forEach((s) => {
-      const v = s.trim()
-      if (v) ids.add(v)
-    })
+  callback_query?: {
+    id: string
+    from: TelegramUser
+    data?: string
+    message?: {
+      message_id: number
+      chat: TelegramChat
+    }
   }
-  return ids
-}
-
-function isAuthorized(chatId: number): boolean {
-  return getAuthorizedChatIds().has(String(chatId))
 }
 
 /** Update'i işle, gerekirse yanıt at */
 export async function handleTelegramUpdate(update: TelegramUpdate): Promise<void> {
+  const claimed = await claimTelegramUpdate(update.update_id)
+  if (!claimed) return
+
+  if (update.callback_query) {
+    await handleCallback(update)
+    return
+  }
+
   const msg = update.message
   if (!msg || !msg.text) return
 
   const chatId = msg.chat.id
-  if (!isAuthorized(chatId)) {
+  if (!isAuthorizedChat(chatId)) {
     const name = msg.from?.first_name ?? 'arkadaş'
     await sendTelegramMessage(
       [
         `⛔ <b>Yetkin yok ${escapeHtml(name)}.</b>`,
         '',
-        `<b>Senin chat ID'n:</b>`,
-        `<code>${chatId}</code>`,
+        `<b>Senin chat ID'n:</b> <code>${chatId}</code>`,
+        msg.from?.id != null ? `<b>Kullanıcı ID'n:</b> <code>${msg.from.id}</code>` : '',
         '',
-        `Yetki almak için yöneticiye bu ID'yi gönder. Yönetici Vercel'da`,
-        `<code>TELEGRAM_ADMIN_IDS</code> env'ine ekleyecek.`,
+        `Yetki almak için yöneticiye bu ID'leri gönder.`,
+        `Sohbet: <code>TELEGRAM_ADMIN_IDS</code> · Yazma: <code>TELEGRAM_WRITER_IDS</code>`,
       ].join('\n'),
       { chatId: String(chatId) }
     )
@@ -84,6 +84,29 @@ export async function handleTelegramUpdate(update: TelegramUpdate): Promise<void
   }
 
   const text = msg.text.trim()
+  const userId = String(msg.from?.id ?? chatId)
+  const fromLabel = msg.from?.username ? `@${msg.from.username}` : msg.from?.first_name ?? 'telegram'
+
+  if (!text.startsWith('/')) {
+    const session = await getLatestSession(String(chatId), userId)
+    if (session?.kind === 'ship' && session.payload && typeof session.payload === 'object' && 'orderId' in session.payload) {
+      if (!canWrite({ chatId, chatType: msg.chat.type, userId: msg.from?.id })) {
+        await denyWrite(chatId, msg.from?.id)
+        return
+      }
+      await continueShipPrompt(chatId, userId, text, String((session.payload as { orderId: string }).orderId))
+      return
+    }
+    if (session?.kind === 'sale') {
+      if (!canWrite({ chatId, chatType: msg.chat.type, userId: msg.from?.id })) {
+        await denyWrite(chatId, msg.from?.id)
+        return
+      }
+      const consumed = await continueSaleWizard(chatId, userId, text)
+      if (consumed) return
+    }
+  }
+
   // Komutu ayrıştır: "/yeni" veya "/durum DS-2026-0001"
   const [cmdRaw, ...args] = text.split(/\s+/)
   // /command@botname formatını da destekle
@@ -118,10 +141,12 @@ export async function handleTelegramUpdate(update: TelegramUpdate): Promise<void
         await handleDefterHafta(chatId)
         break
       case '/satis':
-        await handleSatis(chatId, args, false, msg?.from)
-        break
       case '/rsatis':
-        await handleSatis(chatId, args, true, msg?.from)
+        if (!canWrite({ chatId, chatType: msg.chat.type, userId: msg.from?.id })) {
+          await denyWrite(chatId, msg.from?.id)
+          break
+        }
+        await saveSaleFromArgs(chatId, userId, args, cmd === '/rsatis', fromLabel)
         break
       case '/araba':
       case '/plaka':
@@ -162,10 +187,9 @@ async function handleHelp(chatId: number) {
     '<u>DEFTER (saha satışları)</u>',
     '<b>/defter</b> veya <b>/bugun</b>   Bugünkü defter kayıtları',
     '<b>/hafta</b>                       Bu hafta özeti',
-    '<b>/satis</b> &lt;plaka&gt; &lt;tutar&gt; &lt;kart|nakit&gt; [çalışan]',
-    '              → Defter\'e kayıt ekle',
-    '<b>/rsatis</b> &lt;plaka&gt; &lt;tutar&gt; &lt;kart|nakit&gt; [çalışan]',
-    '              → Rehberli kayıt (yarı komisyon)',
+    '<b>/satis</b>          Adım adım kayıt (veya tek satır)',
+    '<b>/rsatis</b>         Rehberli kayıt, komisyon çalışanın oranı',
+    'Tek satır: <code>/satis PLAKA TUTAR kart|nakit çalışan</code>',
     '<b>/araba PLAKA</b>    Plakanın ziyaret geçmişi',
     '<b>/calisanlar</b>     Aktif çalışan listesi',
     '<b>/yardim</b>         Bu mesaj',
@@ -174,15 +198,49 @@ async function handleHelp(chatId: number) {
 }
 
 // ─── /yeni ──────────────────────────────────────────────────
+async function denyWrite(chatId: number, userId?: number) {
+  await sendTelegramMessage(
+    [
+      '<b>Bu işlem için yazma yetkin yok.</b>',
+      'Grupta satış, ödeme onayı ve kargo yalnızca <code>TELEGRAM_WRITER_IDS</code> listesindeki kişilerde.',
+      userId != null ? `Kullanıcı ID: <code>${userId}</code>` : '',
+    ].filter(Boolean).join('\n'),
+    { chatId: String(chatId) }
+  )
+}
+
+async function handleCallback(update: TelegramUpdate) {
+  const cb = update.callback_query
+  if (!cb?.message) return
+  const chatId = cb.message.chat.id
+  if (!isAuthorizedChat(chatId)) {
+    await answerCallbackQuery(cb.id, 'Yetkin yok')
+    return
+  }
+  if (!canWrite({ chatId, chatType: cb.message.chat.type, userId: cb.from.id })) {
+    await answerCallbackQuery(cb.id, 'Yazma yetkin yok')
+    await denyWrite(chatId, cb.from.id)
+    return
+  }
+  const data = cb.data ?? ''
+  const userId = String(cb.from.id)
+  const fromLabel = cb.from.username ? `@${cb.from.username}` : cb.from.first_name ?? 'telegram'
+  const sale = await handleSaleCallback(data, chatId, userId, fromLabel)
+  if (sale) {
+    await answerCallbackQuery(cb.id)
+    return
+  }
+  const ops = await handleOpsCallback(data, chatId, userId, cb.id)
+  if (!ops) await answerCallbackQuery(cb.id, 'Bilinmeyen işlem')
+}
+
 async function handleYeni(chatId: number) {
   const supabase = getSupabaseAdmin()
-  const todayStart = new Date()
-  todayStart.setHours(0, 0, 0, 0)
 
   const { data: orders } = await supabase
     .from('orders')
     .select('order_number, customer_name, total_amount, status, created_at')
-    .gte('created_at', todayStart.toISOString())
+    .gte('created_at', istanbulDayStartIso())
     .order('created_at', { ascending: false })
     .limit(5)
 
@@ -193,9 +251,9 @@ async function handleYeni(chatId: number) {
 
   const lines = ['<b>📋 Bugünün son siparişleri</b>', '']
   for (const o of orders) {
-    const time = new Date(o.created_at).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })
+    const time = formatTimeTR(o.created_at)
     lines.push(`<b>${escapeHtml(o.order_number)}</b> · ${time}`)
-    lines.push(`${escapeHtml(o.customer_name)} — ${formatPrice(Number(o.total_amount))} · <i>${escapeHtml(o.status)}</i>`)
+    lines.push(`${escapeHtml(o.customer_name)} — ${formatPrice(Number(o.total_amount))} · <i>${escapeHtml(orderStatusLabel(o.status))}</i>`)
     lines.push('')
   }
   await sendTelegramMessage(lines.join('\n'), { chatId: String(chatId) })
@@ -227,7 +285,7 @@ async function handleDurum(chatId: number, orderNumber?: string) {
 
   const lines: string[] = []
   lines.push(`<b>📦 ${escapeHtml(order.order_number)}</b>`)
-  lines.push(`Durum: <i>${escapeHtml(order.status)}</i> · Ödeme: <i>${escapeHtml(order.payment_status)}</i>`)
+  lines.push(`Durum: <i>${escapeHtml(orderStatusLabel(order.status))}</i> · Ödeme: <i>${escapeHtml(paymentStatusLabel(order.payment_status))}</i> · ${escapeHtml(paymentMethodLabel(order.payment_method))}`)
   lines.push('')
   lines.push(`<b>Müşteri:</b> ${escapeHtml(order.customer_name)}`)
   lines.push(`<b>E-mail:</b> ${escapeHtml(order.customer_email)}`)
@@ -255,15 +313,21 @@ async function handleStok(chatId: number, query?: string) {
   }
 
   const supabase = getSupabaseAdmin()
-  // Slug tam eşleşme ya da isim ilike
-  const { data: products } = await supabase
-    .from('products')
-    .select(`
+  const q = query.trim().replace(/[%_\\,]/g, '')
+  const select = `
       slug, name, stock_quantity,
       variants:product_variants(label, variant_value, stock_quantity, is_active)
-    `)
-    .or(`slug.eq.${query.trim()},name.ilike.%${query.trim()}%`)
-    .limit(5)
+    `
+  const [{ data: bySlug }, { data: byName }] = await Promise.all([
+    supabase.from('products').select(select).eq('slug', q).limit(5),
+    supabase.from('products').select(select).ilike('name', `%${q}%`).limit(5),
+  ])
+  const seen = new Set<string>()
+  const products = [...(bySlug ?? []), ...(byName ?? [])].filter((p) => {
+    if (seen.has(p.slug)) return false
+    seen.add(p.slug)
+    return true
+  }).slice(0, 5)
 
   if (!products || products.length === 0) {
     await sendTelegramMessage(`Ürün bulunamadı: <code>${escapeHtml(query)}</code>`, { chatId: String(chatId) })
@@ -295,13 +359,11 @@ async function handleStok(chatId: number, query?: string) {
 // ─── /ozet ─────────────────────────────────────────────────────
 async function handleOzet(chatId: number) {
   const supabase = getSupabaseAdmin()
-  const todayStart = new Date()
-  todayStart.setHours(0, 0, 0, 0)
 
   const { data: orders } = await supabase
     .from('orders')
     .select('total_amount, status, payment_status')
-    .gte('created_at', todayStart.toISOString())
+    .gte('created_at', istanbulDayStartIso())
 
   const total = orders?.length ?? 0
   const cancelled = (orders ?? []).filter((o) => o.status === 'cancelled' || o.status === 'refunded').length
@@ -435,103 +497,6 @@ async function handleDefterHafta(chatId: number) {
   await sendTelegramMessage(lines.join('\n'), { chatId: String(chatId) })
 }
 
-// ─── /satis , /rsatis ─────────────────────────────────────────
-async function handleSatis(
-  chatId: number,
-  args: string[],
-  withGuide: boolean,
-  from: { username?: string; first_name?: string } | undefined
-) {
-  if (args.length < 3) {
-    const lines = [
-      `<b>Kullanım:</b>`,
-      `<code>/${withGuide ? 'rsatis' : 'satis'} &lt;plaka&gt; &lt;tutar&gt; &lt;kart|nakit&gt; [çalışan]</code>`,
-      '',
-      `<b>Örnek:</b>`,
-      `<code>/satis 34BRK1234 2500 nakit Şenol</code>`,
-    ]
-    if (withGuide) lines.push(`<i>/rsatis = rehberli, komisyon otomatik tutarın yarısı</i>`)
-    await sendTelegramMessage(lines.join('\n'), { chatId: String(chatId) })
-    return
-  }
-
-  const plateRaw = args[0]
-  const tutarStr = args[1]
-  const odeme = args[2].toLowerCase()
-  const calisanAdi = args.slice(3).join(' ').trim()
-
-  const plate = normalizePlate(plateRaw)
-  if (!plate || !isValidPlate(plate)) {
-    await sendTelegramMessage(
-      `❌ Geçersiz plaka: <code>${escapeHtml(plateRaw)}</code>\nÖrn: 34BRK1234 veya MERCAN-KADIR`,
-      { chatId: String(chatId) }
-    )
-    return
-  }
-
-  const sale = Number(tutarStr.replace(',', '.'))
-  if (!Number.isFinite(sale) || sale <= 0) {
-    await sendTelegramMessage(`❌ Geçersiz tutar: <code>${escapeHtml(tutarStr)}</code>`, { chatId: String(chatId) })
-    return
-  }
-
-  if (odeme !== 'kart' && odeme !== 'nakit' && odeme !== 'card' && odeme !== 'cash') {
-    await sendTelegramMessage(`❌ Ödeme yöntemi <code>kart</code> veya <code>nakit</code> olmalı.`, { chatId: String(chatId) })
-    return
-  }
-  const payment_method: 'card' | 'cash' = (odeme === 'kart' || odeme === 'card') ? 'card' : 'cash'
-
-  let employeeId: string | null = null
-  let employeeName: string | null = null
-  if (calisanAdi) {
-    const emps = await listEmployees({ activeOnly: true })
-    const lower = calisanAdi.toLocaleLowerCase('tr-TR')
-    const match = emps.find((e) => e.name.toLocaleLowerCase('tr-TR').startsWith(lower))
-      ?? emps.find((e) => e.name.toLocaleLowerCase('tr-TR').includes(lower))
-    if (!match) {
-      await sendTelegramMessage(
-        `❌ Çalışan bulunamadı: <b>${escapeHtml(calisanAdi)}</b>\n/calisanlar ile aktif listeyi gör.`,
-        { chatId: String(chatId) }
-      )
-      return
-    }
-    employeeId = match.id
-    employeeName = match.name
-  }
-
-  const tgUser = from?.username ? `@${from.username}` : from?.first_name ?? 'telegram'
-
-  const result = await createLedgerEntry(
-    {
-      plate,
-      sale_amount: sale,
-      payment_method,
-      employee_id: employeeId,
-      has_guide: withGuide,
-      guide_commission: withGuide ? sale / 2 : null,
-      customer_paid: true,
-      guide_paid: false,
-      notes: null,
-    },
-    `tg:${tgUser}`
-  )
-
-  if (!result.ok) {
-    await sendTelegramMessage(`❌ Kayıt başarısız: ${escapeHtml(result.message)}`, { chatId: String(chatId) })
-    return
-  }
-
-  const lines: string[] = []
-  lines.push(`✅ <b>Defter kaydı eklendi</b>`)
-  lines.push(`<b>Plaka:</b> <code>${escapeHtml(plate)}</code>`)
-  lines.push(`<b>Tutar:</b> ${formatPrice(sale)} (${payment_method === 'card' ? 'Kart' : 'Nakit'})`)
-  if (employeeName) lines.push(`<b>Çalışan:</b> ${escapeHtml(employeeName)}`)
-  if (withGuide) lines.push(`<b>Rehber komisyonu:</b> ${formatPrice(sale / 2)} <i>(otomatik)</i>`)
-  lines.push('')
-  lines.push(`<i>Ekleyen: ${escapeHtml(tgUser)}</i>`)
-
-  await sendTelegramMessage(lines.join('\n'), { chatId: String(chatId) })
-}
 
 // ─── /araba PLAKA ─────────────────────────────────────────────
 async function handleAraba(chatId: number, plateRaw: string | undefined) {

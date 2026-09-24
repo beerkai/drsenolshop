@@ -3,10 +3,11 @@
 // ─ Onay bekler (is_approved=false), admin onaylar
 // ═══════════════════════════════════════════════════════════════
 
-import { NextResponse } from 'next/server'
+import { NextResponse, after } from 'next/server'
 import { getCurrentCustomer } from '@/lib/customer-auth'
 import { createReview } from '@/lib/reviews'
-import { sendTelegramMessage, isTelegramConfigured, escapeHtml } from '@/lib/telegram'
+import { broadcastTelegramMessage, isTelegramConfigured } from '@/lib/telegram'
+import { reviewNotice } from '@/lib/telegram-actions'
 
 export async function POST(request: Request) {
   const me = await getCurrentCustomer()
@@ -44,13 +45,17 @@ export async function POST(request: Request) {
 
   // Admin'e Telegram bildirimi — moderasyon için
   if (isTelegramConfigured()) {
-    sendTelegramMessage(
-      `<b>⭐ Yeni yorum (moderasyon bekliyor)</b>\n` +
-      `Puan: ${'★'.repeat(result.review.rating)}${'☆'.repeat(5 - result.review.rating)}\n` +
-      `Müşteri: ${escapeHtml(result.review.customer_name ?? '')}\n` +
-      `Başlık: ${escapeHtml(result.review.title ?? '—')}\n` +
-      `/admin/yorumlar`
-    ).catch(() => {})
+    const notice = reviewNotice({
+      id: result.review.id,
+      rating: result.review.rating,
+      customerName: result.review.customer_name ?? '',
+      title: result.review.title,
+    })
+    after(() => {
+      broadcastTelegramMessage(notice.text, { replyMarkup: notice.keyboard }).catch((err) => {
+        console.error('[api/reviews] telegram:', err)
+      })
+    })
   }
 
   return NextResponse.json({ ok: true, review: result.review })

@@ -11,7 +11,6 @@ import { NextResponse } from 'next/server'
 import { requireSupabaseServer } from '@/lib/supabase-server'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { translateAuthError } from '@/lib/auth-errors'
-import { sendTelegramMessage, isTelegramConfigured, escapeHtml } from '@/lib/telegram'
 
 export async function POST(request: Request) {
   let body: { password?: string; confirm?: string }
@@ -79,7 +78,7 @@ export async function POST(request: Request) {
     .eq('email', email)
 
   // 5) Siparişleri anonimleştir (KVKK + VUK uyumlu)
-  const { data: affected, error: rpcErr } = await admin.rpc('anonymize_orders_for_user', {
+  const { error: rpcErr } = await admin.rpc('anonymize_orders_for_user', {
     p_user_id: user.id,
     p_email: email,
   })
@@ -101,13 +100,6 @@ export async function POST(request: Request) {
 
   // 7) Oturumu kapat
   await supabase.auth.signOut()
-
-  // 8) Telegram bildirimi (fire-and-forget)
-  if (isTelegramConfigured()) {
-    sendTelegramMessage(
-      `<b>🗑 Hesap silindi</b>\n<code>${escapeHtml(email)}</code>\nAnonimleştirilen sipariş: ${affected ?? 0}`
-    ).catch(() => {})
-  }
 
   return NextResponse.json({ ok: true })
 }

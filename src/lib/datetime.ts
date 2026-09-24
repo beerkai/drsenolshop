@@ -27,6 +27,21 @@ export function todayKeyTR(): string {
   return DATE_FMT.format(new Date())
 }
 
+/** İstanbul gününün başlangıcı — timestamptz sorguları için */
+export function istanbulDayStartIso(dateKey = todayKeyTR()): string {
+  return `${dateKey}T00:00:00+03:00`
+}
+
+/** Saat, Europe/Istanbul */
+export function formatTimeTR(d: Date | string): string {
+  const dd = typeof d === 'string' ? new Date(d) : d
+  return new Intl.DateTimeFormat('tr-TR', {
+    timeZone: TR_TZ,
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(dd)
+}
+
 /** Türkiye saatiyle verilen Date'i YYYY-MM-DD'ye çevirir */
 export function dateKeyTR(d: Date | string): string {
   const dd = typeof d === 'string' ? new Date(d) : d

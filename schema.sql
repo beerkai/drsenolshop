@@ -239,6 +239,7 @@ CREATE TABLE IF NOT EXISTS public.employees (
   role TEXT DEFAULT 'satış',
   is_active BOOLEAN DEFAULT true,
   display_order INTEGER,
+  guide_commission_rate NUMERIC(5,4) NOT NULL DEFAULT 0.5,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ
 );
@@ -264,6 +265,28 @@ CREATE TABLE IF NOT EXISTS public.ledger_entries (
   -- 0007: gevşetilmiş plaka formatı
   CONSTRAINT ledger_entries_plate_format_check
     CHECK (plate ~ '^([0-9]{2}[A-Z]{1,3}[0-9]{1,4}|[A-Z][A-Z0-9]*(-[A-Z0-9]+)*)$')
+);
+
+-- ─── telegram oturumu (0026) ─────────────────────────────────────
+CREATE TABLE IF NOT EXISTS public.telegram_processed_updates (
+  update_id BIGINT PRIMARY KEY,
+  processed_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS public.telegram_sessions (
+  chat_id TEXT NOT NULL,
+  user_id TEXT NOT NULL,
+  kind TEXT NOT NULL CHECK (kind IN ('sale', 'ship')),
+  payload JSONB NOT NULL DEFAULT '{}'::jsonb,
+  expires_at TIMESTAMPTZ NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (chat_id, user_id, kind)
+);
+
+CREATE TABLE IF NOT EXISTS public.stock_alert_state (
+  variant_id UUID PRIMARY KEY,
+  last_stock INTEGER NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 -- ─── site_settings (0006) ────────────────────────────────────────
@@ -597,6 +620,9 @@ ALTER TABLE public.newsletter_subscribers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.product_reviews ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.coupons ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.customer_notes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.stock_alert_state ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.telegram_sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.telegram_processed_updates ENABLE ROW LEVEL SECURITY;
 
 -- Public okuma
 DROP POLICY IF EXISTS "categories_public_read" ON public.categories;

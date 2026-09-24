@@ -13,8 +13,16 @@ export interface Employee {
   role: string | null
   is_active: boolean
   display_order: number | null
+  guide_commission_rate?: number | string | null
   created_at: string
   updated_at: string | null
+}
+
+/** Rehber payı 0–1. Kayıt yoksa veya kolon dolu değilse %50. */
+export function guideCommissionRate(emp: { guide_commission_rate?: number | string | null } | null | undefined): number {
+  const n = Number(emp?.guide_commission_rate)
+  if (!Number.isFinite(n) || n < 0 || n > 1) return 0.5
+  return n
 }
 
 export interface LedgerEntry {

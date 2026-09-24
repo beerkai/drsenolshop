@@ -2,7 +2,7 @@
 // POST /api/orders — yeni sipariş oluşturma
 // ═══════════════════════════════════════════════════════════════
 
-import { NextResponse } from 'next/server'
+import { NextResponse, after } from 'next/server'
 import { createOrder, type CreateOrderInput } from '@/lib/orders'
 import { notifyNewOrder } from '@/lib/telegram'
 import { sendOrderConfirmation } from '@/lib/email'
@@ -53,8 +53,10 @@ export async function POST(request: Request) {
   }
 
   // Telegram + e-mail bildirimleri — sipariş başarısını etkilemez
-  notifyNewOrder(result.order, result.items).catch((err) => {
-    console.error('[api/orders] Telegram bildirimi atılamadı:', err)
+  after(() => {
+    notifyNewOrder(result.order, result.items).catch((err) => {
+      console.error('[api/orders] Telegram bildirimi atılamadı:', err)
+    })
   })
 
   // PayTR siparişlerinde sipariş onay mailini ÖDEME tamamlandığında atıyoruz

@@ -4,7 +4,6 @@
 
 import { NextResponse } from 'next/server'
 import { subscribeNewsletter } from '@/lib/newsletter'
-import { isTelegramConfigured, sendTelegramMessage, escapeHtml } from '@/lib/telegram'
 
 function getClientIp(req: Request): string | null {
   const xf = req.headers.get('x-forwarded-for')
@@ -29,13 +28,6 @@ export async function POST(request: Request) {
   if (!result.ok) {
     const status = result.code === 'INVALID' ? 400 : result.code === 'NO_CONFIG' ? 503 : 500
     return NextResponse.json({ ok: false, message: result.message }, { status })
-  }
-
-  // Yeni abone: Telegram'a bilgi ver (fire-and-forget)
-  if (!result.already && isTelegramConfigured()) {
-    sendTelegramMessage(
-      `<b>📬 Yeni bülten abonesi</b>\n<code>${escapeHtml((body.email ?? '').toLowerCase())}</code>`
-    ).catch(() => {})
   }
 
   return NextResponse.json({ ok: true, already: result.already })

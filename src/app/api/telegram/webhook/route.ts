@@ -15,11 +15,13 @@ export const maxDuration = 30
 export async function POST(request: Request) {
   // İsteğe bağlı: Telegram secret_token header'ı
   const expectedSecret = process.env.TELEGRAM_WEBHOOK_SECRET?.trim()
-  if (expectedSecret) {
-    const got = request.headers.get('x-telegram-bot-api-secret-token')
-    if (got !== expectedSecret) {
-      return NextResponse.json({ ok: false }, { status: 401 })
-    }
+  if (!expectedSecret) {
+    console.error('[telegram/webhook] TELEGRAM_WEBHOOK_SECRET eksik, update reddedildi')
+    return NextResponse.json({ ok: false }, { status: 503 })
+  }
+  const got = request.headers.get('x-telegram-bot-api-secret-token')
+  if (got !== expectedSecret) {
+    return NextResponse.json({ ok: false }, { status: 401 })
   }
 
   let update: TelegramUpdate
@@ -47,6 +49,6 @@ export async function POST(request: Request) {
 export async function GET() {
   return NextResponse.json({
     ok: true,
-    configured: Boolean(process.env.TELEGRAM_BOT_TOKEN?.trim()),
+    configured: Boolean(process.env.TELEGRAM_BOT_TOKEN?.trim() && process.env.TELEGRAM_WEBHOOK_SECRET?.trim()),
   })
 }
