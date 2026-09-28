@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { redirect } from 'next/navigation'
+import { getLocale } from 'next-intl/server'
+import { Link, redirect } from '@/i18n/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import AuthShell from '@/components/auth/AuthShell'
@@ -20,7 +21,7 @@ export default async function GirisPage({ searchParams }: { searchParams: SP }) 
 
   // Zaten giriş yapmışsa direkt yönlendir
   const me = await getCurrentCustomer()
-  if (me) redirect(next)
+  if (me) redirect({ href: next, locale: await getLocale() })
 
   return (
     <>
@@ -51,12 +52,12 @@ export default async function GirisPage({ searchParams }: { searchParams: SP }) 
           <LoginForm next={next} />
 
           <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid var(--color-hairline-light)', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', fontFamily: 'var(--font-label-spec)', fontSize: '11px', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-            <a href="/sifre-unuttum" style={{ color: 'var(--color-on-surface-variant)', textDecoration: 'none' }}>
+            <Link href="/sifre-unuttum" style={{ color: 'var(--color-on-surface-variant)', textDecoration: 'none' }}>
               Şifremi unuttum
-            </a>
-            <a href={`/kayit${next !== '/hesabim' ? `?next=${encodeURIComponent(next)}` : ''}`} className="ed-text-action" style={{ textDecoration: 'none' }}>
+            </Link>
+            <Link href={`/kayit${next !== '/hesabim' ? `?next=${encodeURIComponent(next)}` : ''}`} className="ed-text-action" style={{ textDecoration: 'none' }}>
               Hesap oluştur →
-            </a>
+            </Link>
           </div>
         </AuthShell>
       </main>

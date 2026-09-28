@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { Link } from '@/i18n/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { getOrderByNumber } from '@/lib/orders'
@@ -70,7 +71,7 @@ function AlreadyPaidNotice({ orderNumber }: { orderNumber: string }) {
       </p>
       <p style={{ margin: 0, lineHeight: 1.7 }}>
         Bu siparişin ödemesi tamamlanmış. Sipariş detayı için{' '}
-        <a href={`/siparis/${orderNumber}`} style={{ color: 'var(--color-honey-amber)' }}>buraya tıklayın</a>.
+        <Link href={`/siparis/${orderNumber}`} style={{ color: 'var(--color-honey-amber)' }}>buraya tıklayın</Link>.
       </p>
     </div>
   )

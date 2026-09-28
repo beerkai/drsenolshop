@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Link } from '@/i18n/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import AuthShell from '@/components/auth/AuthShell'
@@ -23,7 +24,7 @@ export default function SifreUnuttumPage() {
           <ResetForm />
 
           <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid var(--color-hairline-light)', textAlign: 'center', fontFamily: 'var(--font-label-spec)', fontSize: '11px', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-            <a href="/giris" className="ed-text-action" style={{ textDecoration: 'none' }}>← Giriş sayfasına dön</a>
+            <Link href="/giris" className="ed-text-action" style={{ textDecoration: 'none' }}>← Giriş sayfasına dön</Link>
           </div>
         </AuthShell>
       </main>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { redirect } from 'next/navigation'
+import { getLocale } from 'next-intl/server'
+import { redirect } from '@/i18n/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import AuthShell from '@/components/auth/AuthShell'
@@ -15,7 +16,10 @@ export const metadata: Metadata = {
 export default async function SifreYenilePage() {
   // Sıfırlama linkinden geliyorsa session olur — yoksa giriş'e dön.
   const me = await getCurrentCustomer()
-  if (!me) redirect('/sifre-unuttum')
+  if (!me) {
+    redirect({ href: '/sifre-unuttum', locale: await getLocale() })
+    return null
+  }
 
   return (
     <>

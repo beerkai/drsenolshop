@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { redirect } from 'next/navigation'
+import { getLocale } from 'next-intl/server'
+import { Link, redirect } from '@/i18n/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import AuthShell from '@/components/auth/AuthShell'
@@ -19,7 +20,7 @@ export default async function KayitPage({ searchParams }: { searchParams: SP }) 
   const next = sp.next || '/hesabim'
 
   const me = await getCurrentCustomer()
-  if (me) redirect(next)
+  if (me) redirect({ href: next, locale: await getLocale() })
 
   return (
     <>
@@ -34,9 +35,9 @@ export default async function KayitPage({ searchParams }: { searchParams: SP }) 
 
           <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid var(--color-hairline-light)', textAlign: 'center', fontFamily: 'var(--font-label-spec)', fontSize: '11px', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
             <span style={{ color: 'var(--color-outline)' }}>Zaten hesabınız var mı?{' '}</span>
-            <a href={`/giris${next !== '/hesabim' ? `?next=${encodeURIComponent(next)}` : ''}`} className="ed-text-action" style={{ textDecoration: 'none' }}>
+            <Link href={`/giris${next !== '/hesabim' ? `?next=${encodeURIComponent(next)}` : ''}`} className="ed-text-action" style={{ textDecoration: 'none' }}>
               Giriş yap →
-            </a>
+            </Link>
           </div>
         </AuthShell>
       </main>

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import { Link } from '@/i18n/navigation'
-import { redirect } from 'next/navigation'
+import { getLocale } from 'next-intl/server'
+import { Link, redirect } from '@/i18n/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { getCurrentCustomer } from '@/lib/customer-auth'
@@ -55,12 +55,19 @@ function formatDate(iso: string): string {
 }
 
 export default async function HesabimPage() {
+  const locale = await getLocale()
   const me = await getCurrentCustomer()
-  if (!me) redirect('/giris?next=/hesabim')
+  if (!me) {
+    redirect({ href: '/giris?next=/hesabim', locale })
+    return null
+  }
 
   // RLS sayesinde sadece kendi siparişleri gelecek (email match)
   const supabase = await getSupabaseServer()
-  if (!supabase) redirect('/giris?next=/hesabim')
+  if (!supabase) {
+    redirect({ href: '/giris?next=/hesabim', locale })
+    return null
+  }
 
   const { data: orders } = await supabase
     .from('orders')

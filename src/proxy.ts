@@ -39,6 +39,18 @@ function isAdminPath(pathname: string): boolean {
     pathname.startsWith('/api/admin/')
 }
 
+/**
+ * app/ true root'ta yaşayan, [locale] dışı özel dosyalar — next-intl
+ * middleware'ine hiç girmemeli, aksi halde /tr/sitemap.xml gibi olmayan
+ * bir path'e rewrite edilip 404'e düşerler (sitemap.xml, robots.txt gibi
+ * uzantılar proxy matcher'ının resim-uzantısı muafiyetine girmiyor).
+ */
+function isLocaleExemptRootFile(pathname: string): boolean {
+  return pathname === '/sitemap.xml' ||
+    pathname === '/robots.txt' ||
+    pathname === '/admin-sw.js'
+}
+
 function isHostAllowedForAdmin(host: string, allowed: Set<string> | null): boolean {
   if (!allowed) return true // env yoksa kısıt yok
   return allowed.has(host.toLowerCase())
@@ -81,7 +93,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(home)
   }
 
-  const isAdminOrApi = isAdminPath(pathname) || pathname.startsWith('/api/')
+  const skipsLocaleRouting = isAdminPath(pathname) || pathname.startsWith('/api/') || isLocaleExemptRootFile(pathname)
 
   // ── 2) SUPABASE SESSION REFRESH ────────────────────────────────
   // Cookie yazımları `request`e uygulanır; nihai response'a (i18n
@@ -110,7 +122,10 @@ export async function proxy(request: NextRequest) {
     user = data.user
 
     // ── 3) ADMIN AUTH KORUMASI ─────────────────────────────────────
-    if (pathname.startsWith('/admin') && pathname !== '/admin/giris') {
+    // isAdminPath (tam '/admin' veya '/admin/...') kullan — gevşek
+    // startsWith('/admin') /admin-sw.js gibi dosyaları da yakalayıp
+    // service worker kaydını 307'ye düşürüyordu.
+    if (isAdminPath(pathname) && pathname !== '/admin/giris') {
       if (!user) {
         const loginUrl = request.nextUrl.clone()
         loginUrl.pathname = '/admin/giris'
@@ -149,7 +164,7 @@ export async function proxy(request: NextRequest) {
   }
 
   // ── 5) i18n ROUTING (yalnızca admin/API dışı) ──────────────────
-  const response = isAdminOrApi ? NextResponse.next({ request }) : intlMiddleware(request)
+  const response = skipsLocaleRouting ? NextResponse.next({ request }) : intlMiddleware(request)
 
   pendingCookies.forEach(({ name, value, options }) => response.cookies.set(name, value, options))
   return response
