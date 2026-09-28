@@ -1,24 +1,18 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import type { Locale } from '@/lib/i18n/types'
-
-/** Mevcut path'i hedef locale'e çevirir (/en prefix ekler/çıkarır) */
-function localeHref(pathname: string, target: Locale): string {
-  const isEn = pathname === '/en' || pathname.startsWith('/en/')
-  const bare = isEn ? (pathname === '/en' ? '/' : pathname.slice('/en'.length)) : pathname
-  return target === 'tr' ? bare : bare === '/' ? '/en' : `/en${bare}`
-}
+import { useLocale } from 'next-intl'
+import { Link, usePathname } from '@/i18n/navigation'
 
 export default function EditorialFooterLanguageSwitch() {
+  const locale = useLocale()
   const pathname = usePathname()
-  const isEn = pathname === '/en' || pathname.startsWith('/en/')
+  const isEn = locale === 'en'
 
   return (
     <div className="flex items-center gap-space-xs font-label-spec text-label-spec text-on-surface-variant">
       <Link
-        href={localeHref(pathname, 'tr')}
+        href={pathname}
+        locale="tr"
         lang="tr"
         aria-current={!isEn ? 'true' : undefined}
         className={
@@ -31,7 +25,8 @@ export default function EditorialFooterLanguageSwitch() {
       </Link>
       <span className="text-outline-variant">/</span>
       <Link
-        href={localeHref(pathname, 'en')}
+        href={pathname}
+        locale="en"
         lang="en"
         aria-current={isEn ? 'true' : undefined}
         className={
