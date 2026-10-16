@@ -11,6 +11,7 @@
     "migrate:images": "tsx scripts/migrate-images.ts",
     "test:images": "tsx scripts/test-images.ts",
     "generate:short-descs": "tsx scripts/generate-short-descs.ts",
+    "prices:oct2026": "tsx scripts/oct-2026-price-list.ts",
     "generate:icons": "node scripts/generate-web-icons.mjs"
   },
   "dependencies": {
