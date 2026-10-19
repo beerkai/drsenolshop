@@ -6,6 +6,7 @@ import { applyOrderSchema } from '../../../../../scripts/apply-order-schema'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+export const maxDuration = 60
 
 export async function GET() {
   const report = await applyOrderSchema()
