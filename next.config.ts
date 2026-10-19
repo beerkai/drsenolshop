@@ -3,6 +3,13 @@ import { withSentryConfig } from "@sentry/nextjs";
 import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ['pg'],
+  outputFileTracingIncludes: {
+    '/api/health/orders-schema': [
+      './supabase/migrations/0016_paytr_order_metadata.sql',
+      './supabase/migrations/0017_stock_movement.sql',
+    ],
+  },
   async redirects() {
     return [
       { source: '/analiz-raporlari', destination: '/analizler', permanent: true },

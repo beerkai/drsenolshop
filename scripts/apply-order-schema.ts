@@ -98,10 +98,9 @@ async function writeReport(value: Record<string, unknown>): Promise<void> {
   if (error) console.error('[schema] rapor yazılamadı:', safe(error.message))
 }
 
-async function main(): Promise<void> {
+export async function applyOrderSchema(): Promise<Record<string, unknown>> {
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()) {
-    console.log('[schema] SUPABASE_SERVICE_ROLE_KEY yok — atlandı.')
-    return
+    return { ok: false, method: 'none', error: 'SUPABASE_SERVICE_ROLE_KEY yok' }
   }
 
   const sql = sqlText()
@@ -137,20 +136,25 @@ async function main(): Promise<void> {
   const envNames = Object.keys(process.env).filter((key) =>
     /postgres|database_url|supabase|direct_url/i.test(key),
   )
-  await writeReport({
+  const report = {
     ok,
     method,
     error: applyError,
     columns,
     env_names: envNames,
     at: new Date().toISOString(),
-  })
+  }
+  await writeReport(report)
   console.log(`[schema] ok=${ok} method=${method} columns=${JSON.stringify(columns)}`)
+  return report
 }
 
-main().catch(async (err) => {
-  const message = safe(err)
-  console.error('[schema] beklenmeyen hata:', message)
-  await writeReport({ ok: false, method: 'crash', error: message, at: new Date().toISOString() }).catch(() => {})
-  process.exit(0)
-})
+const isCli = process.argv[1]?.includes('apply-order-schema')
+if (isCli) {
+  applyOrderSchema().catch(async (err) => {
+    const message = safe(err)
+    console.error('[schema] beklenmeyen hata:', message)
+    await writeReport({ ok: false, method: 'crash', error: message, at: new Date().toISOString() }).catch(() => {})
+    process.exit(0)
+  })
+}
