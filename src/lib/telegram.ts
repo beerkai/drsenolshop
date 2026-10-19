@@ -9,7 +9,7 @@ import type { Order, OrderItem } from '@/types'
 import { formatPrice } from '@/types'
 
 import type { OrderStatus, PaymentMethod } from '@/types'
-import { getSiteUrl } from '@/lib/site-url'
+import { getAdminUrl } from '@/lib/site-url'
 
 interface TelegramSendResult {
   ok: boolean
@@ -170,7 +170,7 @@ export function paymentStatusLabel(status: string | null | undefined): string {
 }
 
 export function orderAdminUrl(orderNumber: string): string {
-  return `${getSiteUrl()}/admin/siparisler/${encodeURIComponent(orderNumber)}`
+  return `${getAdminUrl()}/admin/siparisler/${encodeURIComponent(orderNumber)}`
 }
 
 /** Sipariş mesajının altına kapanabilir iş butonları */

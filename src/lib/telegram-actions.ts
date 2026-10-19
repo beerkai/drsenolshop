@@ -16,7 +16,7 @@ import {
   sendTelegramMessage,
 } from './telegram'
 import { clearSession, setSession } from './telegram-state'
-import { getSiteUrl } from './site-url'
+import { getAdminUrl } from './site-url'
 
 const UUID = /^[0-9a-f-]{36}$/i
 const SHIP_TTL_MS = 10 * 60 * 1000
@@ -173,7 +173,7 @@ export function reviewNotice(input: { id: string; rating: number; customerName: 
           { text: 'Onayla', callback_data: `rev:ok:${input.id}` },
           { text: 'Reddet', callback_data: `rev:no:${input.id}` },
         ],
-        [{ text: 'Panelde aç', url: `${getSiteUrl()}/admin/yorumlar` }],
+        [{ text: 'Panelde aç', url: `${getAdminUrl()}/admin/yorumlar` }],
       ],
     },
   }

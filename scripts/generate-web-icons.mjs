@@ -49,8 +49,38 @@ async function main() {
   await fs.writeFile(path.join(ROOT, 'src/app/apple-icon.png'), apple180)
   await fs.writeFile(path.join(ROOT, 'public/favicon-32.png'), favicon32)
   await writeSvgFromPng(icon512, path.join(ROOT, 'public/icon.svg'))
+  await fs.writeFile(path.join(ROOT, 'src/app/favicon.ico'), await icoFromPngs([
+    { size: 16, buf: await pngBuffer(16, { creamFrame: true }) },
+    { size: 32, buf: await pngBuffer(32, { creamFrame: true }) },
+    { size: 48, buf: await pngBuffer(48, { creamFrame: true }) },
+  ]))
 
-  console.log('[generate-web-icons] Tamam: app/icon.png, app/apple-icon.png, public/icon.svg, public/favicon-32.png')
+  console.log('[generate-web-icons] Tamam: app/favicon.ico, app/icon.png, app/apple-icon.png, public/icon.svg, public/favicon-32.png')
+}
+
+function icoFromPngs(pngs) {
+  const count = pngs.length
+  const header = Buffer.alloc(6)
+  header.writeUInt16LE(0, 0)
+  header.writeUInt16LE(1, 2)
+  header.writeUInt16LE(count, 4)
+  const entries = Buffer.alloc(16 * count)
+  let offset = 6 + 16 * count
+  for (let i = 0; i < pngs.length; i++) {
+    const png = pngs[i]
+    const at = 16 * i
+    const dim = png.size >= 256 ? 0 : png.size
+    entries.writeUInt8(dim, at)
+    entries.writeUInt8(dim, at + 1)
+    entries.writeUInt8(0, at + 2)
+    entries.writeUInt8(0, at + 3)
+    entries.writeUInt16LE(1, at + 4)
+    entries.writeUInt16LE(32, at + 6)
+    entries.writeUInt32LE(png.buf.length, at + 8)
+    entries.writeUInt32LE(offset, at + 12)
+    offset += png.buf.length
+  }
+  return Buffer.concat([header, entries, ...pngs.map((png) => png.buf)])
 }
 
 main().catch((err) => {

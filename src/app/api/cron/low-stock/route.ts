@@ -7,7 +7,7 @@
 import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { isTelegramConfigured, broadcastTelegramMessage, escapeHtml } from '@/lib/telegram'
-import { getSiteUrl } from '@/lib/site-url'
+import { getAdminUrl } from '@/lib/site-url'
 
 const CRITICAL_THRESHOLD = 2
 
@@ -105,7 +105,7 @@ export async function GET(request: Request) {
     }),
   ]
   if (alerts.length > 25) lines.push('', `<i>…ve ${alerts.length - 25} kayıt daha.</i>`)
-  lines.push('', `<a href="${getSiteUrl()}/admin/stok">Stok paneli</a>`)
+  lines.push('', `<a href="${getAdminUrl()}/admin/stok">Stok paneli</a>`)
 
   await broadcastTelegramMessage(lines.join('\n'))
   return NextResponse.json({ ok: true, alerted: true, count: alerts.length })
