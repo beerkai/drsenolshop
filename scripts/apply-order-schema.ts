@@ -25,7 +25,7 @@ function safe(err: unknown): string {
 }
 
 function sqlText(): string {
-  const root = resolve(__dirname, '..')
+  const root = process.cwd()
   const paytr = readFileSync(resolve(root, 'supabase/migrations/0016_paytr_order_metadata.sql'), 'utf8')
   const stock = readFileSync(resolve(root, 'supabase/migrations/0017_stock_movement.sql'), 'utf8')
   return `${paytr}\n${stock}\nNOTIFY pgrst, 'reload schema';\n`
@@ -148,7 +148,9 @@ async function main(): Promise<void> {
   console.log(`[schema] ok=${ok} method=${method} columns=${JSON.stringify(columns)}`)
 }
 
-main().catch((err) => {
-  console.error('[schema] beklenmeyen hata:', safe(err))
+main().catch(async (err) => {
+  const message = safe(err)
+  console.error('[schema] beklenmeyen hata:', message)
+  await writeReport({ ok: false, method: 'crash', error: message, at: new Date().toISOString() }).catch(() => {})
   process.exit(0)
 })
