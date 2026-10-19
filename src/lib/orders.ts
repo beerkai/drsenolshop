@@ -11,6 +11,7 @@ import { calculateTotals } from './cart-totals'
 import { getProductsByIds } from './products'
 import { getShippingConfig, calculateShipping, getBankInfo } from './site-settings'
 import { validateCoupon, incrementCouponUsage } from './coupons'
+import { retryWithoutMissingColumns } from './order-schema-fallback'
 import { MAX_CUSTOMER_ORDER_QTY } from './order-qty'
 import {
   findDefaultVariant,
@@ -204,31 +205,47 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
   // alanı kullanır; bir kez set edildikten sonra ikinci artırım yapılmaz).
   const consumeCouponNow = appliedCouponCode !== null && paymentMethod !== 'paytr'
 
-  const { data: orderRow, error: orderErr } = await supabase
-    .from('orders')
-    .insert({
-      // order_number trigger ile otomatik
-      status: 'pending',
-      customer_email: input.customer_email.trim(),
-      customer_phone: input.customer_phone?.trim() || null,
-      customer_name: input.customer_name.trim(),
-      shipping_address: input.shipping_address,
-      billing_address: input.billing_address ?? null,
-      shipping_method: 'standard',
-      shipping_cost: totals.shippingCost,
-      subtotal: totals.subtotal,
-      tax_amount: totals.taxAmount,
-      discount_amount: totals.discountAmount,
-      total_amount: totals.total,
-      payment_method: paymentMethod,
-      payment_status: 'pending',
-      notes: input.notes?.trim() || null,
-      user_id: input.user_id ?? null,
-      coupon_code: appliedCouponCode,
-      coupon_consumed_at: consumeCouponNow ? new Date().toISOString() : null,
-    })
-    .select()
-    .single()
+  const orderInsert: Record<string, unknown> = {
+    // order_number trigger ile otomatik
+    status: 'pending',
+    customer_email: input.customer_email.trim(),
+    customer_phone: input.customer_phone?.trim() || null,
+    customer_name: input.customer_name.trim(),
+    shipping_address: input.shipping_address,
+    billing_address: input.billing_address ?? null,
+    shipping_method: 'standard',
+    shipping_cost: totals.shippingCost,
+    subtotal: totals.subtotal,
+    tax_amount: totals.taxAmount,
+    discount_amount: totals.discountAmount,
+    total_amount: totals.total,
+    payment_method: paymentMethod,
+    payment_status: 'pending',
+    notes: input.notes?.trim() || null,
+    user_id: input.user_id ?? null,
+  }
+  // Kupon yokken bu kolonları gönderme. Canlı şemada 0017 uygulanmadıysa
+  // null bile "Could not find the 'coupon_code' column" ile tüm siparişi düşürür.
+  if (appliedCouponCode) {
+    orderInsert.coupon_code = appliedCouponCode
+    orderInsert.coupon_consumed_at = consumeCouponNow ? new Date().toISOString() : null
+  }
+
+  const inserted = await retryWithoutMissingColumns<Order>(orderInsert, async (payload) => {
+    const res = await supabase.from('orders').insert(payload).select().single()
+    return { data: (res.data as Order | null) ?? null, error: res.error }
+  })
+  if (inserted.dropped.length > 0) {
+    console.error('[createOrder] şemada olmayan kolonlar atlandı:', inserted.dropped.join(', '))
+  }
+  const orderRow = inserted.data
+  const orderErr = inserted.error
+
+  if (orderRow && appliedCouponCode && inserted.dropped.includes('coupon_code')) {
+    const row = orderRow as { id: string; notes?: string | null }
+    const notes = [row.notes, `Kupon: ${appliedCouponCode}`].filter(Boolean).join(' · ')
+    await supabase.from('orders').update({ notes }).eq('id', row.id)
+  }
 
   if (orderErr || !orderRow) {
     return {

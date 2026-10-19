@@ -19,6 +19,7 @@ import {
   paymentMethodLabel,
 } from '@/lib/telegram'
 import { decrementOrderStock, consumeCouponForOrder } from '@/lib/stock'
+import { retryWithoutMissingColumns } from '@/lib/order-schema-fallback'
 import { formatPrice } from '@/types'
 import type { Order, OrderItem } from '@/types'
 
@@ -107,20 +108,25 @@ export async function handlePaytrCallback(request: Request): Promise<Response> {
       currency: form.currency,
     }
 
-    const { data: updated } = await supabase
-      .from('orders')
-      .update({
+    const saved = await retryWithoutMissingColumns(
+      {
         payment_status: 'captured',
         status: 'paid',
         payment_ref: merchantOid,
         paid_at: new Date().toISOString(),
         paytr_response: paytrMeta,
-      })
-      .eq('id', order.id)
-      .select()
-      .maybeSingle()
+      },
+      (payload) => supabase.from('orders').update(payload).eq('id', order.id).select().maybeSingle(),
+    )
+    if (saved.dropped.length > 0) {
+      console.error('[paytr/callback] şemada olmayan kolonlar atlandı:', saved.dropped.join(', '))
+    }
+    if (saved.error || !saved.data) {
+      console.error('[paytr/callback] ödeme kaydı yazılamadı:', saved.error?.message)
+      return plain('ERR', 500)
+    }
 
-    const next = (updated as Order | null) ?? order
+    const next = saved.data as Order
 
     // Stok düşümü ve kupon konsumpsiyonu (her ikisi de idempotent)
     await decrementOrderStock(next, items)
@@ -157,9 +163,8 @@ export async function handlePaytrCallback(request: Request): Promise<Response> {
       }
     })()
   } else {
-    await supabase
-      .from('orders')
-      .update({
+    const failed = await retryWithoutMissingColumns(
+      {
         payment_status: 'failed',
         paytr_response: {
           failed_reason_code: failReasonCode,
@@ -167,8 +172,12 @@ export async function handlePaytrCallback(request: Request): Promise<Response> {
           total_amount: totalAmount,
         },
         notes: [order.notes, `PayTR fail: ${failReasonCode} ${failReasonMsg}`].filter(Boolean).join(' · '),
-      })
-      .eq('id', order.id)
+      },
+      (payload) => supabase.from('orders').update(payload).eq('id', order.id).select('id').maybeSingle(),
+    )
+    if (failed.error) {
+      console.error('[paytr/callback] başarısız ödeme kaydı yazılamadı:', failed.error.message)
+    }
     console.warn('[paytr/callback] payment failed', { merchantOid, code: failReasonCode, msg: failReasonMsg })
     if (isTelegramConfigured()) {
       const failedOrder = order

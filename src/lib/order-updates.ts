@@ -9,6 +9,7 @@ import { after } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { sendOrderStatusUpdate } from '@/lib/email'
 import { decrementOrderStock, restoreOrderStock, consumeCouponForOrder } from '@/lib/stock'
+import { retryWithoutMissingColumns } from '@/lib/order-schema-fallback'
 import type { Order, OrderItem, OrderStatus } from '@/types'
 
 export type PaymentStatusEnum = 'pending' | 'authorized' | 'captured' | 'failed' | 'refunded'
@@ -66,12 +67,14 @@ export async function applyOrderPatch(orderId: string, body: OrderPatch): Promis
     .eq('order_id', orderId)
     .order('created_at', { ascending: true })
 
-  const { data, error } = await supabase
-    .from('orders')
-    .update(updates)
-    .eq('id', orderId)
-    .select()
-    .maybeSingle()
+  const saved = await retryWithoutMissingColumns(updates, (payload) =>
+    supabase.from('orders').update(payload).eq('id', orderId).select().maybeSingle(),
+  )
+  if (saved.dropped.length > 0) {
+    console.error('[applyOrderPatch] şemada olmayan kolonlar atlandı:', saved.dropped.join(', '))
+  }
+  const data = saved.data
+  const error = saved.error
 
   if (error || !data) {
     console.error('[applyOrderPatch] hata:', error?.message)

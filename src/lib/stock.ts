@@ -11,6 +11,7 @@
 
 import { getSupabaseAdmin } from './supabase'
 import { incrementCouponUsage } from './coupons'
+import { missingColumnFromPostgrest } from './order-schema-fallback'
 import type { Order, OrderItem } from '@/types'
 
 const LOG_PREFIX = '[stock]'
@@ -21,7 +22,7 @@ const LOG_PREFIX = '[stock]'
  * stock_decremented_at NULL ise NOW() yap; aksi halde no-op.
  * @returns Bu çağrı stamp'i set ettiyse true.
  */
-async function tryClaimDecrement(orderId: string): Promise<boolean> {
+async function tryClaimDecrement(orderId: string): Promise<'ok' | 'noop' | 'missing_column'> {
   const supabase = getSupabaseAdmin()
   const { data, error } = await supabase
     .from('orders')
@@ -32,10 +33,14 @@ async function tryClaimDecrement(orderId: string): Promise<boolean> {
     .maybeSingle()
 
   if (error) {
+    if (missingColumnFromPostgrest(error.message) === 'stock_decremented_at') {
+      console.error(`${LOG_PREFIX} stock_decremented_at kolonu yok, damgasız düşüm yapılacak`)
+      return 'missing_column'
+    }
     console.error(`${LOG_PREFIX} claim decrement hata:`, error.message)
-    return false
+    return 'noop'
   }
-  return Boolean(data)
+  return data ? 'ok' : 'noop'
 }
 
 /**
@@ -107,7 +112,7 @@ export async function decrementOrderStock(
   if (order.stock_decremented_at) return { applied: false }
 
   const claimed = await tryClaimDecrement(order.id)
-  if (!claimed) return { applied: false }
+  if (claimed === 'noop') return { applied: false }
 
   await applyDelta(items, 'decrement')
   return { applied: true }
