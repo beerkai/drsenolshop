@@ -44,6 +44,7 @@ async function runWithPg(url: string, sql: string): Promise<void> {
   const client = new Client({
     connectionString: url,
     ssl: { rejectUnauthorized: false },
+    connectionTimeoutMillis: 8000,
   })
   await client.connect()
   try {
@@ -117,24 +118,30 @@ export async function applyOrderSchema(): Promise<Record<string, unknown>> {
       method = 'supabase-api'
       await runWithHttp(sql, token)
     } else {
-      // Veritabanı parolası env'de yok. Servis anahtarı bazı projelerde
-      // pooler parolası değildir; yine de eu-central-1 oturumunda bir kez dene.
+      // DATABASE_URL yok. Projeyi barındıran pooler bölgesini bul.
+      // "tenant not found" yanlış bölge demektir; başka hata varsa dur.
       const key = process.env.SUPABASE_SERVICE_ROLE_KEY.trim()
       const user = `postgres.${PROJECT_REF}`
-      const poolerUrls = [5432, 6543].map(
-        (port) =>
-          `postgresql://${user}:${encodeURIComponent(key)}@aws-0-eu-central-1.pooler.supabase.com:${port}/postgres`,
-      )
+      const regions = [
+        'eu-central-1', 'eu-central-2', 'eu-west-1', 'eu-west-2', 'eu-west-3', 'eu-north-1',
+        'us-east-1', 'us-east-2', 'us-west-1', 'us-west-2',
+        'ap-southeast-1', 'ap-southeast-2', 'ap-northeast-1', 'ap-northeast-2', 'ap-south-1',
+        'sa-east-1', 'ca-central-1',
+      ]
       let pooled = false
       const poolErrors: string[] = []
-      for (const url of poolerUrls) {
+      for (const region of regions) {
+        const url = `postgresql://${user}:${encodeURIComponent(key)}@aws-0-${region}.pooler.supabase.com:5432/postgres`
         try {
-          method = 'pooler'
+          method = `pooler:${region}`
           await runWithPg(url, sql)
           pooled = true
           break
         } catch (err) {
-          poolErrors.push(safe(err))
+          const message = safe(err)
+          if (/not found/i.test(message)) continue
+          poolErrors.push(`${region} ${message}`)
+          break
         }
       }
       if (!pooled) {
@@ -142,7 +149,7 @@ export async function applyOrderSchema(): Promise<Record<string, unknown>> {
         try {
           await runWithHttp(sql, key)
         } catch (err) {
-          throw new Error(`${poolErrors.join(' | ')} | ${safe(err)}`)
+          throw new Error(`${poolErrors.join(' | ') || 'pooler bölgesi yok'} | ${safe(err)}`)
         }
       }
     }
