@@ -13,6 +13,7 @@ import { useEffect } from 'react'
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import { MAX_CUSTOMER_ORDER_QTY, useCart } from '@/lib/cart-context'
+import { SHIPPING_FLAT_FEE, SHIPPING_FREE_THRESHOLD } from '@/lib/shipping-policy'
 import { formatPrice } from '@/types'
 
 export default function EditorialCartDrawer() {
@@ -181,7 +182,7 @@ export default function EditorialCartDrawer() {
             </div>
 
             <p className="mb-space-md font-editorial-caption text-editorial-caption text-on-surface-variant">
-              Kargo ve indirimler ödeme adımında hesaplanır.
+              {formatPrice(SHIPPING_FREE_THRESHOLD)} ve üzeri siparişlerde kargo ücretsizdir. Altında kargo {formatPrice(SHIPPING_FLAT_FEE)}.
             </p>
 
             <Link

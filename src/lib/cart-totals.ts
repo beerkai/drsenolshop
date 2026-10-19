@@ -19,7 +19,7 @@ export interface CheckoutLine {
 export interface CartTotals {
   subtotal: number       // KDV dahil ürün toplamı
   taxAmount: number      // ürünlerin içindeki toplam KDV
-  shippingCost: number   // şimdilik her zaman 0
+  shippingCost: number   // site_settings.shipping_config; eşik altı 250 TL
   discountAmount: number // ileride kupon için
   total: number          // ödenecek tutar
 }

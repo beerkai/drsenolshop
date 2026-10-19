@@ -4,6 +4,7 @@
 
 import type { HeroProps } from '@/types/hero'
 import type { EditorialHomeContent } from '@/types/editorial-home'
+import { HEADER_ANNOUNCEMENT_TR } from '@/lib/shipping-policy'
 
 const HERO_DESKTOP =
   '/design-preview/stitch-01.jpg'
@@ -47,8 +48,7 @@ export const homeCurationStrip = {
 
 export const editorialHomeContent: EditorialHomeContent = {
   header: {
-    announcement: "1985'ten beri Saitabat'ın flora zenginliğinden sofranıza",
-    announcementAccent: 'Ücretsiz Özel Teslimat',
+    announcement: HEADER_ANNOUNCEMENT_TR,
     // logo: gerçek logo görseli yüklendiğinde doldurulur (admin panel).
     // Boşken tipografik wordmark (DM Sans) kullanılır — Stitch wordmark.
     wordmark: { text: 'Dr. Şenol', year: '1985' },

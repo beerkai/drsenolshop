@@ -15,10 +15,10 @@ import type {
   EditorialMobileNavItem,
 } from '@/types/editorial-home'
 import type { ProductLabels } from './product-labels'
+import { HEADER_ANNOUNCEMENT_EN } from '@/lib/shipping-policy'
 
 export const enHeaderContent: EditorialHeaderContent = {
-  announcement: "Since 1985, from Saitabat's floral richness to your table",
-  announcementAccent: 'Free Special Delivery',
+  announcement: HEADER_ANNOUNCEMENT_EN,
   wordmark: { text: 'Dr. Şenol', year: '1985' },
   nav: [
     { id: 'koleksiyon', label: 'Collection', href: '/en/koleksiyon' },

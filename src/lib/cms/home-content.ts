@@ -22,6 +22,11 @@ import type { HomeCuratedSettings } from '@/types/home-curated'
 import { getLocale } from '@/lib/i18n/locale'
 import { enHeaderContent, enFooterContent, enMobileNav, enProductLabels } from './home-content.en'
 import { defaultProductLabels, type ProductLabels } from './product-labels'
+import {
+  HEADER_ANNOUNCEMENT_TR,
+  LEGACY_HEADER_ACCENT,
+  LEGACY_HEADER_ANNOUNCEMENT,
+} from '@/lib/shipping-policy'
 
 export { defaultProductLabels, type ProductLabels } from './product-labels'
 
@@ -143,6 +148,32 @@ export const defaultHomeContent: HomeContent = {
 }
 
 /**
+ * Eski şerit (“1985'ten beri…” + “Ücretsiz Özel Teslimat”) kargo
+ * kuralıyla çelişiyor. O kayıt duruyorsa kodun duyurusu geçer.
+ * Başka bir duyuru yazıldıysa ona dokunulmaz.
+ */
+function resolveHeaderAnnouncement(
+  stored: { announcement?: string; announcementAccent?: string } | undefined,
+): { announcement: string; announcementAccent?: string } {
+  const fallback = HEADER_ANNOUNCEMENT_TR
+  const storedAnnouncement = stored?.announcement?.trim()
+  const announcement =
+    !storedAnnouncement || storedAnnouncement === LEGACY_HEADER_ANNOUNCEMENT
+      ? fallback
+      : storedAnnouncement
+
+  const storedAccent = stored?.announcementAccent?.trim()
+  const dropAccent =
+    announcement === fallback ||
+    !storedAccent ||
+    storedAccent === LEGACY_HEADER_ACCENT
+
+  return dropAccent
+    ? { announcement, announcementAccent: undefined }
+    : { announcement, announcementAccent: storedAccent }
+}
+
+/**
  * Kısmi DB kaydını varsayılanla birleştirir.
  * Admin yalnızca bir alanı değiştirdiyse gerisi varsayılandan gelir;
  * ayrıca tip genişlediğinde eski kayıtlar kırılmaz.
@@ -160,6 +191,8 @@ function merge(stored: Partial<HomeContent> | null): HomeContent {
         ...(stored.editorial?.header ?? {}),
         // Menü kodda tanımlı; eski tema kaydı üst navı ezmesin
         nav: defaultHomeContent.editorial.header.nav,
+        // Eski “ücretsiz özel teslimat” şeridi kargo kuralıyla çelişiyor
+        ...resolveHeaderAnnouncement(stored.editorial?.header),
       },
       feed: {
         ...defaultHomeContent.editorial.feed,

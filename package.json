@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "tsx scripts/apply-order-schema.ts && tsx scripts/oct-2026-price-list.ts --apply --quiet && next build",
+    "build": "tsx scripts/apply-order-schema.ts && tsx scripts/oct-2026-price-list.ts --apply --quiet && tsx scripts/apply-tax-shipping.ts --apply --quiet && next build",
     "start": "next start",
     "lint": "eslint",
     "test:supabase": "tsx scripts/test-supabase.ts",

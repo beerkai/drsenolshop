@@ -4,6 +4,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { getSupabase, getSupabaseAdmin, isSupabaseConfigured } from './supabase'
+import { SHIPPING_FLAT_FEE, SHIPPING_FREE_THRESHOLD } from './shipping-policy'
 
 export interface BankInfo {
   bank_name: string
@@ -22,8 +23,8 @@ export interface ShippingConfig {
 }
 
 const DEFAULT_SHIPPING: ShippingConfig = {
-  flat_fee: 0,
-  free_threshold: 0,
+  flat_fee: SHIPPING_FLAT_FEE,
+  free_threshold: SHIPPING_FREE_THRESHOLD,
   courier_name: '',
 }
 

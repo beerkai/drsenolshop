@@ -81,7 +81,7 @@ export const defaultSiteCopy: SiteCopy = {
             id: 'fee',
             question: 'Kargo ücreti ne kadar?',
             answer:
-              'Kargo ücreti ve ücretsiz eşik, Ayarlar → Kargo bölümünden yönetilir; bu sayfa güncel tutarları otomatik yansıtır.',
+              '2000 TL altındaki siparişlerde kargo 250 TL\'dir. 2000 TL ve üzeri siparişlerde kargo ücretsizdir.',
           },
           {
             id: 'invoice',

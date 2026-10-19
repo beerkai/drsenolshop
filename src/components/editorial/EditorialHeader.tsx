@@ -24,13 +24,19 @@ export default function EditorialHeader({ content }: { content: EditorialHeaderC
           white-space: nowrap;
           letter-spacing: 0.06em;
         }
+        .ed-announcement {
+          margin: 0;
+          letter-spacing: 0.08em;
+          line-height: 1.35;
+        }
         @media (min-width: 1280px) {
           .ed-main-nav a { letter-spacing: 0.1em; }
+          .ed-announcement { letter-spacing: 0.14em; }
         }
       `}</style>
       <div className="w-full border-b border-hairline-light bg-surface-container-low py-1.5">
         <div className="ed-section-inner text-center">
-        <p className="font-editorial-caption text-editorial-caption uppercase tracking-[0.14em] text-on-surface-variant">
+        <p className="ed-announcement font-editorial-caption text-editorial-caption uppercase text-on-surface-variant">
           {content.announcement}{' '}
           {content.announcementAccent ? (
             <>
