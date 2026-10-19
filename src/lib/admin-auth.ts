@@ -5,6 +5,7 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { redirect } from 'next/navigation'
+import { findAdminByEmailFallback, isActiveAdmin } from './admin-whitelist'
 import { getSupabaseServer } from './supabase-server'
 import type { User } from '@supabase/supabase-js'
 
@@ -24,13 +25,8 @@ export async function getCurrentAdmin(): Promise<AdminContext | null> {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user || !user.email) return null
 
-  const { data: admin } = await supabase
-    .from('admin_users')
-    .select('id, email, full_name, role, is_active')
-    .eq('email', user.email)
-    .maybeSingle()
-
-  if (!admin || admin.is_active === false) return null
+  const admin = await findAdminByEmailFallback(user.email, supabase)
+  if (!isActiveAdmin(admin)) return null
 
   return {
     user,
@@ -38,7 +34,7 @@ export async function getCurrentAdmin(): Promise<AdminContext | null> {
       id: admin.id,
       email: admin.email,
       full_name: admin.full_name,
-      role: admin.role as 'owner' | 'staff',
+      role: admin.role === 'owner' ? 'owner' : 'staff',
     },
   }
 }

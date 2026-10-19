@@ -6,6 +6,7 @@
 // ─ Müşteri'nin gördüğü orders RLS policy'sine bağlı (email match)
 // ═══════════════════════════════════════════════════════════════
 
+import { findAdminByEmailFallback, isActiveAdmin } from './admin-whitelist'
 import { getSupabaseServer } from './supabase-server'
 import type { User } from '@supabase/supabase-js'
 
@@ -25,16 +26,12 @@ export async function getCurrentCustomer(): Promise<CustomerContext | null> {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user || !user.email) return null
 
-  // Admin mı? (admin_users tablosundan kontrol)
-  const { data: admin } = await supabase
-    .from('admin_users')
-    .select('id, is_active')
-    .eq('email', user.email)
-    .maybeSingle()
+  // Admin mı? Whitelist service role ile — RLS policy eksikse de doğru döner.
+  const admin = await findAdminByEmailFallback(user.email, supabase)
 
   return {
     user,
     email: user.email,
-    isAdmin: Boolean(admin && admin.is_active !== false),
+    isAdmin: isActiveAdmin(admin),
   }
 }

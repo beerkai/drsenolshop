@@ -4,7 +4,10 @@
 // ─ /admin ve /api/admin/* yalnızca ADMIN_HOSTS env'inde tanımlı
 //   subdomain'lerden erişilebilir. Diğer host'lardan → ana sayfaya
 //   redirect (HTML) veya 404 JSON (API).
-// ─ /admin/giris hariç tüm /admin/* için auth + admin_users whitelist.
+// ─ /admin/giris, /api/admin/login ve /api/admin/logout hariç tüm
+//   admin yolları için auth + admin_users whitelist.
+// ─ Oturumsuz /api/admin/* 307 yerine 401 JSON döner; aksi halde
+//   fetch yönlendirmeyi izleyip HTML'i JSON sanır.
 // ─ i18n: /admin ve /api dışındaki tüm path'ler next-intl middleware'i
 //   üzerinden geçer — TR prefix'siz (/koleksiyon → içeride /tr/koleksiyon'a
 //   rewrite), EN /en/* prefix'li. Admin/API next-intl'e hiç girmez, her
@@ -14,6 +17,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import createIntlMiddleware from 'next-intl/middleware'
+import { findAdminByEmailFallback, isActiveAdmin } from '@/lib/admin-whitelist'
 import { getSiteUrl } from '@/lib/site-url'
 import { routing } from '@/i18n/routing'
 
@@ -37,6 +41,17 @@ function isAdminPath(pathname: string): boolean {
     pathname.startsWith('/admin/') ||
     pathname === '/api/admin' ||
     pathname.startsWith('/api/admin/')
+}
+
+function isAdminApi(pathname: string): boolean {
+  return pathname === '/api/admin' || pathname.startsWith('/api/admin/')
+}
+
+/** Giriş formu bu yolları oturumsuz çağırır — yönlendirme rotayı hiç çalıştırmaz. */
+function isAdminAuthExempt(pathname: string): boolean {
+  return pathname === '/admin/giris' ||
+    pathname === '/api/admin/login' ||
+    pathname === '/api/admin/logout'
 }
 
 /**
@@ -125,21 +140,28 @@ export async function proxy(request: NextRequest) {
     // isAdminPath (tam '/admin' veya '/admin/...') kullan — gevşek
     // startsWith('/admin') /admin-sw.js gibi dosyaları da yakalayıp
     // service worker kaydını 307'ye düşürüyordu.
-    if (isAdminPath(pathname) && pathname !== '/admin/giris') {
-      if (!user) {
+    // login/logout muaf: POST'u giriş sayfasına 307'lemek fetch'in
+    // HTML alıp "Sunucuya bağlanılamadı" demesine yol açıyordu.
+    if (isAdminPath(pathname) && !isAdminAuthExempt(pathname)) {
+      if (!user?.email) {
+        if (isAdminApi(pathname)) {
+          return NextResponse.json({ ok: false, message: 'Oturum gerekli.' }, { status: 401 })
+        }
         const loginUrl = request.nextUrl.clone()
         loginUrl.pathname = '/admin/giris'
         loginUrl.searchParams.set('next', pathname)
         return NextResponse.redirect(loginUrl)
       }
 
-      const { data: admin } = await supabase
-        .from('admin_users')
-        .select('id, is_active, role')
-        .eq('email', user.email ?? '')
-        .maybeSingle()
+      const admin = await findAdminByEmailFallback(user.email, supabase)
 
-      if (!admin || admin.is_active === false) {
+      if (!isActiveAdmin(admin)) {
+        if (isAdminApi(pathname)) {
+          return NextResponse.json(
+            { ok: false, message: 'Bu hesap admin yetkisine sahip değil.' },
+            { status: 403 },
+          )
+        }
         const loginUrl = request.nextUrl.clone()
         loginUrl.pathname = '/admin/giris'
         loginUrl.searchParams.set('error', 'yetki_yok')
@@ -148,13 +170,9 @@ export async function proxy(request: NextRequest) {
     }
 
     // ── 4) GİRİŞ SAYFASINDA YETKİLİ KULLANICI → PANO ────────────────
-    if (pathname === '/admin/giris' && user) {
-      const { data: admin } = await supabase
-        .from('admin_users')
-        .select('id')
-        .eq('email', user.email ?? '')
-        .maybeSingle()
-      if (admin) {
+    if (pathname === '/admin/giris' && user?.email) {
+      const admin = await findAdminByEmailFallback(user.email, supabase)
+      if (isActiveAdmin(admin)) {
         const dashUrl = request.nextUrl.clone()
         dashUrl.pathname = '/admin'
         dashUrl.search = ''

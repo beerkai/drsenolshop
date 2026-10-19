@@ -20,13 +20,18 @@ export default function LoginForm({ next }: { next: string }) {
     try {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ email, password }),
       })
-      const data = await res.json()
+      let data: { ok?: boolean; message?: string } | null = null
+      try {
+        data = await res.json()
+      } catch {
+        data = null
+      }
 
-      if (!res.ok || !data.ok) {
-        setError(data.message ?? 'Giriş başarısız.')
+      if (!data || !res.ok || !data.ok) {
+        setError(data?.message ?? 'Giriş başarısız.')
         setLoading(false)
         return
       }

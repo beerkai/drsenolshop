@@ -8,8 +8,18 @@ export const metadata: Metadata = {
 
 type SP = Promise<{ next?: string; error?: string }>
 
+/** Yalnızca panel içi yollar. Açık yönlendirme ve API next'i elenir. */
+function safeAdminNext(raw: string | undefined): string {
+  if (!raw || !raw.startsWith('/') || raw.startsWith('//')) return '/admin'
+  if (raw.includes('://') || raw.includes('\\')) return '/admin'
+  if (raw === '/admin') return '/admin'
+  if (raw.startsWith('/admin/') && !raw.startsWith('/admin/giris')) return raw
+  return '/admin'
+}
+
 export default async function AdminGirisPage({ searchParams }: { searchParams: SP }) {
   const sp = await searchParams
+  const next = safeAdminNext(sp.next)
 
   return (
     <div className="ad-grid-bg" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
@@ -108,7 +118,7 @@ export default async function AdminGirisPage({ searchParams }: { searchParams: S
             </div>
           )}
 
-          <LoginForm next={sp.next ?? '/admin'} />
+          <LoginForm next={next} />
         </div>
 
         {/* Alt bar */}
