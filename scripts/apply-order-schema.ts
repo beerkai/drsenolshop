@@ -117,8 +117,34 @@ export async function applyOrderSchema(): Promise<Record<string, unknown>> {
       method = 'supabase-api'
       await runWithHttp(sql, token)
     } else {
-      method = 'service-role-http'
-      await runWithHttp(sql, process.env.SUPABASE_SERVICE_ROLE_KEY.trim())
+      // Veritabanı parolası env'de yok. Servis anahtarı bazı projelerde
+      // pooler parolası değildir; yine de eu-central-1 oturumunda bir kez dene.
+      const key = process.env.SUPABASE_SERVICE_ROLE_KEY.trim()
+      const user = `postgres.${PROJECT_REF}`
+      const poolerUrls = [5432, 6543].map(
+        (port) =>
+          `postgresql://${user}:${encodeURIComponent(key)}@aws-0-eu-central-1.pooler.supabase.com:${port}/postgres`,
+      )
+      let pooled = false
+      const poolErrors: string[] = []
+      for (const url of poolerUrls) {
+        try {
+          method = 'pooler'
+          await runWithPg(url, sql)
+          pooled = true
+          break
+        } catch (err) {
+          poolErrors.push(safe(err))
+        }
+      }
+      if (!pooled) {
+        method = 'service-role-http'
+        try {
+          await runWithHttp(sql, key)
+        } catch (err) {
+          throw new Error(`${poolErrors.join(' | ')} | ${safe(err)}`)
+        }
+      }
     }
   } catch (err) {
     applyError = safe(err)
