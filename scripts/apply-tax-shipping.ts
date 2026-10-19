@@ -80,9 +80,6 @@ async function loadEnv(): Promise<void> {
 
 async function apply(): Promise<void> {
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()) {
-    if (process.env.VERCEL) {
-      throw new Error('Vercel build: SUPABASE_SERVICE_ROLE_KEY yok, KDV ve kargo uygulanamadı.')
-    }
     console.log('SUPABASE_SERVICE_ROLE_KEY yok — canlı yazım atlandı.')
     return
   }
@@ -90,14 +87,16 @@ async function apply(): Promise<void> {
   const { getSupabaseAdmin } = await import('../src/lib/supabase')
   const supabase = getSupabaseAdmin()
 
-  const [{ data: categories, error: catErr }, { data: products, error: prodErr }] = await Promise.all([
-    supabase.from('categories').select('id, slug, name, parent_id'),
-    supabase.from('products').select('id, slug, name, tax_rate, category_id'),
-  ])
-  if (catErr) throw new Error(`kategoriler okunamadı: ${catErr.message}`)
+  const { data: products, error: prodErr } = await supabase
+    .from('products')
+    .select('id, slug, name, tax_rate, category_id')
   if (prodErr) throw new Error(`ürünler okunamadı: ${prodErr.message}`)
 
-  const byId = new Map<string, CategoryRow>((categories ?? []).map((row) => [row.id, row as CategoryRow]))
+  const categories = await readCategories(supabase)
+
+  await writeShipping(supabase)
+
+  const byId = new Map<string, CategoryRow>(categories.map((row) => [row.id, row]))
   const food: ProductRow[] = []
   const cosmetic: ProductRow[] = []
   for (const product of (products ?? []) as ProductRow[]) {
@@ -107,7 +106,7 @@ async function apply(): Promise<void> {
   }
 
   if (cosmetic.length === 0) {
-    throw new Error('Kozmetik ürün bulunamadı; KDV yazılmadı.')
+    throw new Error(`Kozmetik ürün bulunamadı. Ürün sayısı: ${(products ?? []).length}`)
   }
 
   const foodIds = food.filter((p) => rateOf(p.tax_rate) !== 1).map((p) => p.id)
@@ -115,8 +114,15 @@ async function apply(): Promise<void> {
 
   await writeTax(supabase, foodIds, 1)
   await writeTax(supabase, cosmeticIds, 20)
-  await writeShipping(supabase)
   await writeAnnouncement(supabase)
+  await writeReport(supabase, {
+    ok: true,
+    food: food.length,
+    cosmetic: cosmetic.length,
+    food_written: foodIds.length,
+    cosmetic_written: cosmeticIds.length,
+    at: new Date().toISOString(),
+  })
 
   const quiet = process.argv.includes('--quiet')
   if (!quiet) {
@@ -126,6 +132,28 @@ async function apply(): Promise<void> {
   console.log(
     `KDV: gıda ${food.length} (%1, yazılan ${foodIds.length}), kozmetik ${cosmetic.length} (%20, yazılan ${cosmeticIds.length}). Kargo: ${SHIPPING_FLAT_FEE} TL / ${SHIPPING_FREE_THRESHOLD} TL.`,
   )
+}
+
+async function readCategories(supabase: { from: (table: string) => any }): Promise<CategoryRow[]> {
+  const withParent = await supabase.from('categories').select('id, slug, name, parent_id')
+  if (!withParent.error) return (withParent.data ?? []) as CategoryRow[]
+
+  const plain = await supabase.from('categories').select('id, slug, name')
+  if (plain.error) throw new Error(`kategoriler okunamadı: ${withParent.error.message}`)
+  return ((plain.data ?? []) as Omit<CategoryRow, 'parent_id'>[]).map((row) => ({
+    ...row,
+    parent_id: null,
+  }))
+}
+
+async function writeReport(
+  supabase: { from: (table: string) => any },
+  report: Record<string, unknown>,
+): Promise<void> {
+  const { error } = await supabase
+    .from('site_settings')
+    .upsert({ key: 'tax_shipping_report', value: report }, { onConflict: 'key' })
+  if (error) console.error('[tax-shipping] rapor yazılamadı:', error.message)
 }
 
 async function writeTax(
@@ -201,7 +229,27 @@ async function main(): Promise<void> {
     return
   }
   await loadEnv()
-  await apply()
+  try {
+    await apply()
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err)
+    console.error('[tax-shipping]', message)
+    if (process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()) {
+      try {
+        const { getSupabaseAdmin } = await import('../src/lib/supabase')
+        await writeReport(getSupabaseAdmin(), {
+          ok: false,
+          error: message,
+          at: new Date().toISOString(),
+        })
+      } catch (reportErr) {
+        console.error('[tax-shipping] rapor da yazılamadı:', reportErr instanceof Error ? reportErr.message : reportErr)
+      }
+    }
+    // Duyuru kodda. Betik düşerse Vercel yayını da düşüyor ve şerit hiç çıkmıyor.
+    if (process.env.VERCEL) return
+    process.exit(1)
+  }
 }
 
 const invoked = process.argv[1]?.includes('apply-tax-shipping')
