@@ -4,7 +4,9 @@
 // ─ Callback hash doğrulama
 // ─ Env eksikse isPaytrConfigured() false → checkout PayTR seçeneği gizler,
 //   /api/payments/paytr/* 503 döner
-// ─ Test modunda PAYTR_TEST_MODE=1 set edilmeli
+// ─ Test modu yalnız önizlemede: PAYTR_TEST_MODE=1
+//   Canlı sitede (VERCEL_ENV=production) bu bayrak yok sayılır.
+//   test_mode=1, mağaza paneli canlı olsa bile sarı test şeridini açar.
 //
 // Referans: https://dev.paytr.com/iframe-api
 // ═══════════════════════════════════════════════════════════════
@@ -21,12 +23,18 @@ export interface PaytrCredentials {
   test_mode: '0' | '1'
 }
 
+/** Canlı deploy'da her zaman kapalı. Önizlemede PAYTR_TEST_MODE=1 ile açılır. */
+export function isPaytrTestMode(): boolean {
+  if (process.env.VERCEL_ENV === 'production') return false
+  return process.env.PAYTR_TEST_MODE?.trim() === '1'
+}
+
 export function getPaytrCredentials(): PaytrCredentials | null {
   const merchant_id = process.env.PAYTR_MERCHANT_ID?.trim()
   const merchant_key = process.env.PAYTR_MERCHANT_KEY?.trim()
   const merchant_salt = process.env.PAYTR_MERCHANT_SALT?.trim()
   if (!merchant_id || !merchant_key || !merchant_salt) return null
-  const test_mode = process.env.PAYTR_TEST_MODE?.trim() === '1' ? '1' : '0'
+  const test_mode = isPaytrTestMode() ? '1' : '0'
   return { merchant_id, merchant_key, merchant_salt, test_mode }
 }
 
@@ -122,7 +130,7 @@ export async function paytrInitToken(input: InitInput): Promise<PaytrInitResult 
     payment_amount,
     paytr_token,
     user_basket,
-    debug_on: '1',
+    debug_on: cred.test_mode,
     no_installment,
     max_installment,
     user_name,

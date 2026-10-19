@@ -4,7 +4,7 @@ import { getSupabaseAdmin } from '@/lib/supabase'
 import { getBankInfo, getShippingConfig } from '@/lib/site-settings'
 import { getBroadcastChatIds } from '@/lib/telegram'
 import { isEmailConfigured } from '@/lib/email'
-import { isPaytrConfigured } from '@/lib/paytr'
+import { isPaytrConfigured, isPaytrTestMode } from '@/lib/paytr'
 import { Badge } from '@/components/admin/ui/Badge'
 import BankInfoForm from './BankInfoForm'
 import ShippingForm from './ShippingForm'
@@ -18,7 +18,7 @@ export default async function AdminSettingsPage() {
   const telegramConfigured = Boolean(process.env.TELEGRAM_BOT_TOKEN?.trim()) && Boolean(process.env.TELEGRAM_CHAT_ID?.trim())
   const emailConfigured = isEmailConfigured()
   const paytrConfigured = isPaytrConfigured()
-  const paytrTestMode = process.env.PAYTR_TEST_MODE?.trim() === '1'
+  const paytrTestMode = isPaytrTestMode()
   const adminHostsRaw = process.env.ADMIN_HOSTS?.trim() ?? '(kısıt yok)'
   const broadcastIds = getBroadcastChatIds()
 
@@ -104,7 +104,7 @@ export default async function AdminSettingsPage() {
             <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>PAYTR_MERCHANT_ID</code>,{' '}
             <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>PAYTR_MERCHANT_KEY</code>,{' '}
             <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>PAYTR_MERCHANT_SALT</code><br />
-            Opsiyonel: <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>PAYTR_TEST_MODE=1</code> (test kartları için).<br />
+            Opsiyonel: <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>PAYTR_TEST_MODE=1</code> (yalnız önizleme; canlı sitede yok sayılır).<br />
             PayTR panelinde <strong>bildirim URL&apos;si</strong> (ikisi de çalışır):{' '}
             <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>/api/payment/callback</code> veya{' '}
             <code style={{ background: 'var(--ad-surface-2)', padding: '1px 5px' }}>/api/payments/paytr/callback</code>
