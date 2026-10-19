@@ -111,8 +111,32 @@ export function printTable(): void {
 }
 
 async function apply(): Promise<void> {
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()) {
+    if (process.env.VERCEL) {
+      throw new Error('Vercel build: SUPABASE_SERVICE_ROLE_KEY yok, fiyat uygulanamadı.')
+    }
+    console.log('SUPABASE_SERVICE_ROLE_KEY yok — canlı yazım atlandı.')
+    return
+  }
+
   const { getSupabaseAdmin } = await import('../src/lib/supabase')
   const supabase = getSupabaseAdmin()
+
+  const probe = PRICE_ROWS[0]
+  const { data: existing } = await supabase
+    .from('product_variants')
+    .select('price, discount_price')
+    .eq('id', probe.variantId)
+    .maybeSingle()
+  if (
+    existing &&
+    Number(existing.price) === probe.list &&
+    Number(existing.discount_price) === salePrice(probe.list)
+  ) {
+    console.log('Fiyat listesi zaten uygulanmış, atlanıyor.')
+    return
+  }
+
   let ok = 0
   const errors: string[] = []
 
@@ -184,7 +208,8 @@ async function apply(): Promise<void> {
 
 async function main() {
   const applyFlag = process.argv.includes('--apply')
-  printTable()
+  const quiet = process.argv.includes('--quiet')
+  if (!quiet) printTable()
   if (!applyFlag) {
     console.log('\nCanlıya yazmak için: npx tsx scripts/oct-2026-price-list.ts --apply')
     return
