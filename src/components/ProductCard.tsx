@@ -9,7 +9,14 @@ import { Link } from '@/i18n/navigation'
 import type { ProductWithRelations } from '@/types'
 import { useProductLabels } from '@/lib/product-labels-context'
 import ProductPriceRow from '@/components/product/ProductPriceRow'
-import { getProductImages, getProductStartingPrice, getVariantStock } from '@/types'
+import {
+  findDefaultVariant,
+  getProductImages,
+  getProductStartingPrice,
+  getVariantLabel,
+  getVariantStock,
+  variantSizeGrams,
+} from '@/types'
 
 interface ProductCardProps {
   product: ProductWithRelations
@@ -40,6 +47,10 @@ export default function ProductCard({
   const primary = images[0] ?? null
   const secondary = images[1] ?? null
   const price = getProductStartingPrice(product)
+  const showcase = findDefaultVariant(product.variants ?? [])
+  const showcaseGrams = showcase ? variantSizeGrams(showcase) : null
+  const hasSizeChoice = (product.variants ?? []).filter((v) => v.is_active !== false).length > 1
+  const sizeLabel = hasSizeChoice && showcase && showcaseGrams ? getVariantLabel(showcase) : null
   const category = categoryOverride ?? product.category?.name ?? 'Koleksiyon'
   const inStock = isInStock(product)
   const isDark = variant === 'dark'
@@ -121,7 +132,18 @@ export default function ProductCard({
           </div>
 
           <div className="mt-2 flex items-baseline justify-between gap-space-sm pt-3">
-            <ProductPriceRow price={price} placeholder={labels.variantPricePlaceholder} />
+            <div className="ed-min-w-0">
+              {sizeLabel ? (
+                <p
+                  className={`mb-0.5 font-label-spec text-[10px] uppercase tracking-[0.08em] ${
+                    isDark ? 'text-honey-amber' : 'text-on-surface-variant'
+                  }`}
+                >
+                  {sizeLabel}
+                </p>
+              ) : null}
+              <ProductPriceRow price={price} placeholder={labels.variantPricePlaceholder} />
+            </div>
             {footnote ? (
               <span
                 className={`shrink-0 font-editorial-caption text-editorial-caption uppercase tracking-wider ${

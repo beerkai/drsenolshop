@@ -24,6 +24,7 @@ import {
   getVariantLabel,
   getVariantPrice,
   getVariantStock,
+  variantSizeGrams,
 } from '@/types'
 
 interface ProductDetailClientProps {
@@ -42,6 +43,16 @@ export default function ProductDetailClient({
   const labels = useProductLabels()
 
   const variants = (product.variants ?? []).filter((v) => v.is_active !== false)
+  const orderedVariants = useMemo(
+    () =>
+      [...variants].sort((a, b) => {
+        const ag = variantSizeGrams(a)
+        const bg = variantSizeGrams(b)
+        if (ag !== null && bg !== null && ag !== bg) return ag - bg
+        return (a.display_order ?? 999) - (b.display_order ?? 999)
+      }),
+    [variants]
+  )
   const defaultVar = findDefaultVariant(variants)
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(defaultVar?.id ?? null)
   const [quantity, setQuantity] = useState(1)
@@ -525,7 +536,7 @@ export default function ProductDetailClient({
                   </div>
 
                   <div className="grid grid-cols-3 gap-space-xs">
-                    {variants.map((v) => {
+                    {orderedVariants.map((v) => {
                       const active = v.id === selectedVariant?.id
                       const vStock = getVariantStock(v)
                       return (

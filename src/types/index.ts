@@ -416,9 +416,36 @@ export function getVariantPrice(variant: ProductVariant): {
   }
 }
 
-/** Varsayılan varyant: is_default → display_order → ilk kayıt */
+/** Etiket veya weight_grams içinden gramaj (355, 850, 1500) */
+export function variantSizeGrams(variant: ProductVariant): number | null {
+  const wg = variant.weight_grams
+  if (wg !== null && wg !== undefined) {
+    const n = Math.round(toFiniteNumber(wg, NaN))
+    if (Number.isFinite(n) && n > 0) return n
+  }
+
+  const label = `${variant.label ?? ''} ${variant.variant_value ?? ''}`
+  const match = label.match(/(\d{1,2}[.,]\d{3}|\d+(?:[.,]\d+)?)\s*gr/i)
+  if (!match) return null
+  const token = match[1].replace(/\./g, '').replace(',', '.')
+  const n = Math.round(Number(token))
+  return Number.isFinite(n) && n > 0 ? n : null
+}
+
+/**
+ * Vitrin ve ürün sayfası ilk seçimi.
+ * 355 gr + daha büyük kavanoz varsa fotoğrafla aynı olan 355 gr seçilir;
+ * aksi halde is_default → display_order → ilk kayıt.
+ */
 export function findDefaultVariant(variants: ProductVariant[]): ProductVariant | null {
   if (!variants || variants.length === 0) return null
+
+  const jar355 = variants.find((v) => variantSizeGrams(v) === 355)
+  const hasLargerJar = variants.some((v) => {
+    const grams = variantSizeGrams(v)
+    return grams !== null && grams > 355
+  })
+  if (jar355 && hasLargerJar) return jar355
 
   const defaultVariant = variants.find((v) => v.is_default === true)
   if (defaultVariant) return defaultVariant

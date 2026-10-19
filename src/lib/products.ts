@@ -5,7 +5,7 @@
 
 import { getSupabase, isSupabaseConfigured } from './supabase'
 import { getGoldyliumCategoryIds, GOLDYLIUM_CATALOG_ROOT_SLUG } from '@/lib/goldylium-catalog'
-import type { Category, Product, ProductVariant, ProductWithRelations } from '@/types'
+import { findDefaultVariant, type Category, type Product, type ProductVariant, type ProductWithRelations } from '@/types'
 
 /** Join sonrası ham satır tipi (PostgREST gömülü ilişkiler) */
 type ProductQueryResult = Product & {
@@ -425,7 +425,7 @@ function transformProductData(raw: ProductQueryResult): ProductWithRelations {
     return coerceFiniteNumber(aOrder, 999) - coerceFiniteNumber(bOrder, 999)
   })
 
-  const defaultVariant = variants.find((v) => v.is_default === true) ?? variants[0] ?? null
+  const defaultVariant = findDefaultVariant(variants) ?? variants[0] ?? null
 
   const cat = raw.category ? raw.category : null
 
