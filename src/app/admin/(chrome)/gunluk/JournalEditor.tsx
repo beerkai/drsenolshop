@@ -152,7 +152,7 @@ export default function JournalEditor({ initialNotes, initialMetrics, lastSavedA
               onChange={(e) => updateRow(i, 'key', e.target.value)}
               placeholder="Metrik adı"
               className="ad-input"
-              style={{ fontSize: '12px', padding: '8px 12px' }}
+              style={{ padding: '8px 12px' }}
             />
             <input
               type="text"
@@ -160,7 +160,7 @@ export default function JournalEditor({ initialNotes, initialMetrics, lastSavedA
               onChange={(e) => updateRow(i, 'value', e.target.value)}
               placeholder="Değer"
               className="ad-input"
-              style={{ fontSize: '12px', padding: '8px 12px' }}
+              style={{ padding: '8px 12px' }}
             />
             <button
               type="button"

@@ -64,7 +64,8 @@ function isAdminAuthExempt(pathname: string): boolean {
 function isLocaleExemptRootFile(pathname: string): boolean {
   return pathname === '/sitemap.xml' ||
     pathname === '/robots.txt' ||
-    pathname === '/admin-sw.js'
+    pathname === '/admin-sw.js' ||
+    pathname === '/sw-reset'
 }
 
 function isHostAllowedForAdmin(host: string, allowed: Set<string> | null): boolean {
@@ -78,6 +79,7 @@ function isAdminOnlyHostExempt(pathname: string): boolean {
   if (pathname.startsWith('/_next/')) return true
   if (pathname === '/icon.svg' || pathname === '/favicon.ico') return true
   if (pathname === '/admin-sw.js') return true
+  if (pathname === '/sw-reset') return true
   if (pathname === '/admin/manifest.webmanifest') return true
   return false
 }

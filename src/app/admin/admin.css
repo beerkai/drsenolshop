@@ -1788,3 +1788,22 @@ html:has(.admin-shell) body {
   .ad-kv-value { text-align: left; }
   .ad-vitrin-row { flex-wrap: wrap; align-items: flex-start; }
 }
+
+/* iOS odak yakınlaştırması: yazı alanı en az 16px */
+@media (max-width: 1024px) {
+  .admin-shell input,
+  .admin-shell select,
+  .admin-shell textarea {
+    font-size: 16px !important;
+  }
+
+  .admin-shell input[type='checkbox'],
+  .admin-shell input[type='radio'],
+  .admin-shell input[type='range'],
+  .admin-shell input[type='hidden'],
+  .admin-shell input[type='button'],
+  .admin-shell input[type='submit'],
+  .admin-shell input[type='file'] {
+    font-size: inherit !important;
+  }
+}

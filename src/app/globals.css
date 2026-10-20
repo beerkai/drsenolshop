@@ -304,6 +304,26 @@ button {
 
 } /* ── @layer base sonu ── */
 
+/* iOS, 16px altı yazı alanına odaklanınca sayfayı yakınlaştırır.
+   Katman içindeki kural bileşen font-size değerini ezemez. */
+@media (max-width: 1024px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  input[type='checkbox'],
+  input[type='radio'],
+  input[type='range'],
+  input[type='hidden'],
+  input[type='button'],
+  input[type='submit'],
+  input[type='file'] {
+    font-size: inherit !important;
+  }
+}
+
 /* ══ KEYFRAMES ══ */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }

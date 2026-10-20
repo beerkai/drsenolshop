@@ -72,70 +72,47 @@ export const metadata: Metadata = {
  * o route group'a dahil olmadığı için chrome görmüyor.
  */
 /**
- * Eski servis çalışanı (v2) gezinmeyi yarıda keser; React hidrasyonu
- * o sayfada çalışmayabilir. Bu betik <head> akışının hemen ardından
- * çalışır, sürümü sorar, eski kaydı siler ve en fazla iki kez yeniler.
- * SW_VERSION public/admin-sw.js ile aynı kalmalı.
+ * Eski servis çalışanı /admin belgesini yarıda keser. Aynı pencerede
+ * unregister iOS'ta işlemez. Belge bitmemişse kapsam DIŞI /sw-reset
+ * sayfasına gidilir; kayıt orada silinir.
  */
 const ADMIN_SW_RECOVER = `
 (function () {
-  try {
-    if (!('serviceWorker' in navigator)) return;
-    var KEY = 'admin-sw-reset';
-    var WANT = 4;
-    var reloading = false;
-    var hadController = !!navigator.serviceWorker.controller;
-    function reads() {
-      try { return Number(sessionStorage.getItem(KEY) || '0'); } catch (e) { return 0; }
-    }
-    function writes(n) {
-      try { sessionStorage.setItem(KEY, String(n)); } catch (e) {}
-    }
-    function clears() {
-      try { sessionStorage.removeItem(KEY); } catch (e) {}
-    }
-    function reloadOnce() {
-      if (reloading) return;
-      if (reads() >= 2) return;
-      reloading = true;
-      writes(reads() + 1);
-      location.reload();
-    }
-    // İlk kurulumda sayfa zaten ağdan geldi; claim yüzünden yenileme.
-    // Eski çalışan varken yeni dosya devralırsa bir kez yenile.
-    navigator.serviceWorker.addEventListener('controllerchange', function () {
-      if (hadController) reloadOnce();
-    });
-    navigator.serviceWorker.register('/admin-sw.js', { scope: '/admin' }).then(function (reg) {
-      var sw = navigator.serviceWorker.controller;
-      if (!sw) { clears(); return; }
-      var done = false;
-      var channel = new MessageChannel();
-      var timer = setTimeout(function () { finish(null); }, 900);
-      function finish(version) {
-        if (done) return;
-        done = true;
-        clearTimeout(timer);
-        if (version === WANT) { clears(); return; }
-        var incoming = reg.waiting || reg.installing;
-        if (incoming) {
-          try { incoming.postMessage({ type: 'skip-waiting' }); } catch (e) {}
-        }
-        setTimeout(function () {
-          if (reloading) return;
-          caches.keys().then(function (keys) {
-            return Promise.all(keys.filter(function (k) { return k.indexOf('drsenol-admin') === 0; }).map(function (k) { return caches.delete(k); }));
-          }).then(function () { return reg.unregister(); }).then(reloadOnce).catch(reloadOnce);
-        }, 700);
+  var KEY = 'sw-reset-n';
+  function budget() {
+    try { return Number(sessionStorage.getItem(KEY) || '0'); } catch (e) { return 99; }
+  }
+  function bump() {
+    try { sessionStorage.setItem(KEY, String(budget() + 1)); } catch (e) {}
+  }
+  function clearBudget() {
+    try { sessionStorage.removeItem(KEY); } catch (e) {}
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    var path = location.pathname;
+    var login = path === '/admin/giris';
+    var complete = login ? !!document.querySelector('form') : !!document.querySelector('.ad-mobile-tabbar');
+    if (complete) {
+      clearBudget();
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/admin-sw.js', { scope: '/admin' }).catch(function () {});
       }
-      channel.port1.onmessage = function (event) {
-        var version = event.data && event.data.version;
-        finish(typeof version === 'number' ? version : null);
-      };
-      try { sw.postMessage({ type: 'version' }, [channel.port2]); }
-      catch (e) { finish(null); }
-    }).catch(function () {});
-  } catch (e) {}
+      return;
+    }
+    var started = !!document.querySelector('.admin-shell');
+    if (!started) return;
+    if (budget() >= 2) {
+      var note = document.createElement('a');
+      note.href = '/sw-reset?next=' + encodeURIComponent(path + location.search);
+      note.textContent = 'Sayfa yarım kaldı. Paneli onarmak için dokunun.';
+      note.setAttribute('style', 'display:block;margin:12px;padding:14px 16px;background:#1A1916;color:#F7F7F5;font:600 16px/1.4 system-ui,sans-serif;text-align:center;text-decoration:none;border-radius:10px;position:relative;z-index:80;');
+      var shell = document.querySelector('.admin-shell') || document.body;
+      shell.insertBefore(note, shell.firstChild);
+      return;
+    }
+    bump();
+    location.replace('/sw-reset?next=' + encodeURIComponent(path + location.search));
+  });
 })();
 `
 

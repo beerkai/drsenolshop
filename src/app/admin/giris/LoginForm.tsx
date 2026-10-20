@@ -60,7 +60,7 @@ export default function LoginForm({ next }: { next: string }) {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="admin@drsenol.shop"
           className="ad-input"
-          style={{ fontSize: '14px', padding: '12px 14px' }}
+          style={{ fontSize: '16px', padding: '12px 14px' }}
         />
       </div>
 
@@ -78,7 +78,7 @@ export default function LoginForm({ next }: { next: string }) {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
             className="ad-input"
-            style={{ fontSize: '14px', padding: '12px 14px', paddingRight: '64px' }}
+            style={{ fontSize: '16px', padding: '12px 14px', paddingRight: '64px' }}
           />
           <button
             type="button"

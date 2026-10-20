@@ -155,7 +155,7 @@ export function CommandPalette({ open, onClose, onHelpRequest }: Props) {
               border: 'none',
               outline: 'none',
               fontFamily: 'var(--font-inter), sans-serif',
-              fontSize: '15px',
+              fontSize: '16px',
               color: 'var(--ad-fg)',
             }}
             spellCheck={false}
