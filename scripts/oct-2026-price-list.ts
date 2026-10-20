@@ -112,10 +112,8 @@ export function printTable(): void {
 
 async function apply(): Promise<void> {
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()) {
-    if (process.env.VERCEL) {
-      throw new Error('Vercel build: SUPABASE_SERVICE_ROLE_KEY yok, fiyat uygulanamadı.')
-    }
-    console.log('SUPABASE_SERVICE_ROLE_KEY yok — canlı yazım atlandı.')
+    // Fiyatlar zaten yazıldı. Anahtar yokken build'i düşürmek paneli de yayından alır.
+    console.error('SUPABASE_SERVICE_ROLE_KEY yok — fiyat yazımı atlandı.')
     return
   }
 
@@ -202,6 +200,7 @@ async function apply(): Promise<void> {
   if (errors.length) {
     console.error('Hatalar:')
     for (const e of errors) console.error(' -', e)
+    if (process.env.VERCEL) return
     process.exit(1)
   }
 }
@@ -220,5 +219,6 @@ async function main() {
 
 main().catch((err) => {
   console.error(err)
+  if (process.env.VERCEL) return
   process.exit(1)
 })
