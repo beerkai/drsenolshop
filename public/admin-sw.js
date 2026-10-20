@@ -2,8 +2,14 @@
  * Minimal service worker: installability + hızlı yeniden açılış için shell cache.
  * API ve auth istekleri her zaman ağdan.
  */
-const CACHE = 'drsenol-admin-v1'
-const SHELL = ['/admin', '/icon.svg', '/admin/manifest.webmanifest']
+const CACHE = 'drsenol-admin-v2'
+const SHELL = [
+  '/admin',
+  '/admin/manifest.webmanifest',
+  '/admin/icon-192.png',
+  '/admin/icon-512.png',
+  '/admin/apple-touch-icon.png',
+]
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -41,7 +47,7 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
-  if (url.pathname === '/icon.svg' || url.pathname.endsWith('.webmanifest')) {
+  if (url.pathname.startsWith('/admin/icon-') || url.pathname.endsWith('apple-touch-icon.png') || url.pathname.endsWith('.webmanifest')) {
     event.respondWith(
       caches.match(request).then((cached) => cached ?? fetch(request)),
     )

@@ -169,6 +169,14 @@ export function paymentStatusLabel(status: string | null | undefined): string {
   return PAYMENT_STATUS_TR[status] ?? status
 }
 
+function deliveryPlace(address: unknown): string {
+  if (!address || typeof address !== 'object') return ''
+  const row = address as Record<string, unknown>
+  const district = typeof row.district === 'string' ? row.district.trim() : ''
+  const city = typeof row.city === 'string' ? row.city.trim() : ''
+  return [district, city].filter(Boolean).join(' / ')
+}
+
 export function orderAdminUrl(orderNumber: string): string {
   return `${getAdminUrl()}/admin/siparisler/${encodeURIComponent(orderNumber)}`
 }
@@ -206,6 +214,10 @@ export async function notifyNewOrder(order: Order, items: OrderItem[]): Promise<
   }
   lines.push('')
   lines.push(`<b>Toplam:</b> ${formatPrice(Number(order.total_amount))}`)
+  const shipping = Number(order.shipping_cost ?? 0)
+  lines.push(`<b>Kargo:</b> ${shipping > 0 ? formatPrice(shipping) : 'Ücretsiz'}`)
+  const place = deliveryPlace(order.shipping_address)
+  if (place) lines.push(`<b>Teslimat:</b> ${escapeHtml(place)}`)
   lines.push(`<b>Ödeme:</b> ${escapeHtml(paymentMethodLabel(order.payment_method))}`)
   lines.push(`<b>Durum:</b> ${escapeHtml(orderStatusLabel(order.status))}`)
 
@@ -214,17 +226,81 @@ export async function notifyNewOrder(order: Order, items: OrderItem[]): Promise<
   })
 }
 
-export async function answerCallbackQuery(callbackId: string, text?: string): Promise<void> {
+export async function answerCallbackQuery(callbackId: string, text?: string, alert = false): Promise<void> {
   const cfg = getConfig()
   if (!cfg) return
   try {
     await fetch(`https://api.telegram.org/bot${cfg.token}/answerCallbackQuery`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ callback_query_id: callbackId, text, show_alert: Boolean(text) }),
+      body: JSON.stringify({ callback_query_id: callbackId, text, show_alert: alert && Boolean(text) }),
     })
   } catch (err) {
     console.error('[telegram] callback yanıtı atılamadı:', err)
+  }
+}
+
+/** Eski mesajdaki butonları günceller. Metin aynı kalır. */
+export async function editTelegramReplyMarkup(
+  chatId: string,
+  messageId: number,
+  replyMarkup: { inline_keyboard: InlineKeyboard }
+): Promise<void> {
+  const cfg = getConfig()
+  if (!cfg) return
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${cfg.token}/editMessageReplyMarkup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        message_id: messageId,
+        reply_markup: replyMarkup,
+      }),
+    })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok || !data?.ok) {
+      console.error('[telegram] buton güncelleme hatası:', data)
+    }
+  } catch (err) {
+    console.error('[telegram] buton güncelleme ağı:', err)
+  }
+}
+
+let commandsPromise: Promise<void> | null = null
+
+/** Bot menüsünü bir kez yazar. Webhook her soğuk başlangıçta çağırır. */
+export function ensureTelegramCommands(): Promise<void> {
+  const token = process.env.TELEGRAM_BOT_TOKEN?.trim()
+  if (!token) return Promise.resolve()
+  if (!commandsPromise) {
+    commandsPromise = registerTelegramCommands(token).catch((err) => {
+      commandsPromise = null
+      console.error('[telegram] komut menüsü:', err instanceof Error ? err.message : err)
+    })
+  }
+  return commandsPromise
+}
+
+async function registerTelegramCommands(token: string): Promise<void> {
+  const commands = [
+    { command: 'yeni', description: 'Bugünün son siparişleri' },
+    { command: 'durum', description: 'Sipariş detayı' },
+    { command: 'stok', description: 'Ürün stok durumu' },
+    { command: 'ozet', description: 'Bugünkü ciro özeti' },
+    { command: 'defter', description: 'Bugünkü saha defteri' },
+    { command: 'hafta', description: 'Haftalık defter özeti' },
+    { command: 'satis', description: 'Deftere satış kaydı' },
+    { command: 'yardim', description: 'Komut listesi' },
+  ]
+  const res = await fetch(`https://api.telegram.org/bot${token}/setMyCommands`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ commands }),
+  })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok || !data?.ok) {
+    throw new Error(data?.description ?? 'setMyCommands başarısız')
   }
 }
 

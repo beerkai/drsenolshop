@@ -38,6 +38,10 @@ async function writeSvgFromPng(pngBuf, outPath) {
 }
 
 async function main() {
+  if (process.argv.includes('--pwa-only')) {
+    await writePwaIcons()
+    return
+  }
   const icon512 = await pngBuffer(512)
   const icon512Cream = await pngBuffer(512, { creamFrame: true })
   const apple180 = await pngBuffer(180, { creamFrame: true })
@@ -55,7 +59,40 @@ async function main() {
     { size: 48, buf: await pngBuffer(48, { creamFrame: true }) },
   ]))
 
+  await writePwaIcons()
   console.log('[generate-web-icons] Tamam: app/favicon.ico, app/icon.png, app/apple-icon.png, public/icon.svg, public/favicon-32.png')
+}
+
+/** Wordmark sınırları (logo-icon-source.png, 1000²). Köşe yeşili #0F1F16. */
+const MARK = { left: 108, top: 316, width: 784, height: 368 }
+const MARK_BG = { r: 15, g: 31, b: 22 }
+
+async function pwaSquare(size, maskable) {
+  const cropped = await sharp(SOURCE).extract(MARK).png().toBuffer()
+  const frac = maskable ? 0.64 : 0.84
+  const innerW = Math.round(size * frac)
+  const innerH = Math.round(innerW * (MARK.height / MARK.width))
+  const logo = await sharp(cropped)
+    .resize(innerW, innerH, { fit: 'fill', background: MARK_BG })
+    .png()
+    .toBuffer()
+  return sharp({
+    create: { width: size, height: size, channels: 3, background: MARK_BG },
+  })
+    .composite([{ input: logo, gravity: 'centre' }])
+    .png()
+    .toBuffer()
+}
+
+async function writePwaIcons() {
+  const dir = path.join(ROOT, 'public/admin')
+  await fs.mkdir(dir, { recursive: true })
+  await fs.writeFile(path.join(dir, 'icon-192.png'), await pwaSquare(192, false))
+  await fs.writeFile(path.join(dir, 'icon-512.png'), await pwaSquare(512, false))
+  await fs.writeFile(path.join(dir, 'icon-maskable-192.png'), await pwaSquare(192, true))
+  await fs.writeFile(path.join(dir, 'icon-maskable-512.png'), await pwaSquare(512, true))
+  await fs.writeFile(path.join(dir, 'apple-touch-icon.png'), await pwaSquare(180, false))
+  console.log('[generate-web-icons] PWA: public/admin/icon-192.png, icon-512.png, maskable, apple-touch-icon.png')
 }
 
 function icoFromPngs(pngs) {

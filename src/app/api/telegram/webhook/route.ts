@@ -8,6 +8,7 @@
 
 import { NextResponse, after } from 'next/server'
 import { handleTelegramUpdate, type TelegramUpdate } from '@/lib/telegram-commands'
+import { ensureTelegramCommands } from '@/lib/telegram'
 
 // Vercel function timeout — after() task'lar için 30s margin
 export const maxDuration = 30
@@ -35,11 +36,12 @@ export async function POST(request: Request) {
   // Next.js 16 after(): response gönderildikten sonra çalışır,
   // Vercel waitUntil ile fonksiyon erken kesilmez.
   after(async () => {
-    try {
-      await handleTelegramUpdate(update)
-    } catch (err) {
-      console.error('[telegram/webhook] işleme hatası:', err)
-    }
+    await Promise.all([
+      handleTelegramUpdate(update).catch((err) => {
+        console.error('[telegram/webhook] işleme hatası:', err)
+      }),
+      ensureTelegramCommands(),
+    ])
   })
 
   return NextResponse.json({ ok: true })

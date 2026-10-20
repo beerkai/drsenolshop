@@ -1,27 +1,39 @@
 {
-  "name": "Dr. Şenol Admin",
-  "short_name": "DRŞ Admin",
-  "description": "Sipariş, defter, stok ve mağaza yönetimi — editorial admin panel.",
+  "name": "Dr. Şenol Yönetim",
+  "short_name": "Yönetim",
+  "description": "Sipariş, defter, stok ve mağaza yönetimi.",
   "start_url": "/admin",
   "scope": "/admin",
   "id": "/admin",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],
   "orientation": "any",
-  "background_color": "#F4F0E8",
-  "theme_color": "#F4F0E8",
+  "background_color": "#F3F4F1",
+  "theme_color": "#F4F5F2",
   "lang": "tr",
   "icons": [
     {
-      "src": "/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/admin/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/admin/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/admin/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/admin/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "maskable"
     }
   ],

@@ -50,6 +50,7 @@ function isAdminApi(pathname: string): boolean {
 /** Giriş formu bu yolları oturumsuz çağırır — yönlendirme rotayı hiç çalıştırmaz. */
 function isAdminAuthExempt(pathname: string): boolean {
   return pathname === '/admin/giris' ||
+    pathname === '/admin/manifest.webmanifest' ||
     pathname === '/api/admin/login' ||
     pathname === '/api/admin/logout'
 }

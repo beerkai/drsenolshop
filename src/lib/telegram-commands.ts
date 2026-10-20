@@ -6,7 +6,7 @@
 
 import { getSupabaseAdmin } from './supabase'
 import { formatPrice } from '@/types'
-import { escapeHtml, orderStatusLabel, paymentMethodLabel, paymentStatusLabel, sendTelegramMessage, answerCallbackQuery } from './telegram'
+import { escapeHtml, orderStatusLabel, paymentMethodLabel, paymentStatusLabel, sendTelegramMessage, answerCallbackQuery, orderActionKeyboard, orderAdminUrl } from './telegram'
 import {
   getLedgerSummary,
   getPlateHistory,
@@ -94,7 +94,8 @@ export async function handleTelegramUpdate(update: TelegramUpdate): Promise<void
         await denyWrite(chatId, msg.from?.id)
         return
       }
-      await continueShipPrompt(chatId, userId, text, String((session.payload as { orderId: string }).orderId))
+      const shipPayload = session.payload as { orderId: string; messageId?: number }
+      await continueShipPrompt(chatId, userId, text, String(shipPayload.orderId), shipPayload.messageId)
       return
     }
     if (session?.kind === 'sale') {
@@ -214,11 +215,11 @@ async function handleCallback(update: TelegramUpdate) {
   if (!cb?.message) return
   const chatId = cb.message.chat.id
   if (!isAuthorizedChat(chatId)) {
-    await answerCallbackQuery(cb.id, 'Yetkin yok')
+    await answerCallbackQuery(cb.id, 'Yetkin yok', true)
     return
   }
   if (!canWrite({ chatId, chatType: cb.message.chat.type, userId: cb.from.id })) {
-    await answerCallbackQuery(cb.id, 'Yazma yetkin yok')
+    await answerCallbackQuery(cb.id, 'Yazma yetkin yok', true)
     await denyWrite(chatId, cb.from.id)
     return
   }
@@ -230,7 +231,7 @@ async function handleCallback(update: TelegramUpdate) {
     await answerCallbackQuery(cb.id)
     return
   }
-  const ops = await handleOpsCallback(data, chatId, userId, cb.id)
+  const ops = await handleOpsCallback(data, chatId, userId, cb.id, cb.message.message_id)
   if (!ops) await answerCallbackQuery(cb.id, 'Bilinmeyen işlem')
 }
 
@@ -256,7 +257,12 @@ async function handleYeni(chatId: number) {
     lines.push(`${escapeHtml(o.customer_name)} — ${formatPrice(Number(o.total_amount))} · <i>${escapeHtml(orderStatusLabel(o.status))}</i>`)
     lines.push('')
   }
-  await sendTelegramMessage(lines.join('\n'), { chatId: String(chatId) })
+  await sendTelegramMessage(lines.join('\n'), {
+    chatId: String(chatId),
+    replyMarkup: {
+      inline_keyboard: orders.map((o) => [{ text: o.order_number, url: orderAdminUrl(o.order_number) }]),
+    },
+  })
 }
 
 // ─── /durum DS-XXXX ──────────────────────────────────────────
@@ -302,7 +308,10 @@ async function handleDurum(chatId: number, orderNumber?: string) {
   lines.push(`<b>Toplam:</b> ${formatPrice(Number(order.total_amount))}`)
   if (order.tracking_number) lines.push(`<b>Kargo:</b> <code>${escapeHtml(order.tracking_number)}</code>`)
 
-  await sendTelegramMessage(lines.join('\n'), { chatId: String(chatId) })
+  await sendTelegramMessage(lines.join('\n'), {
+    chatId: String(chatId),
+    replyMarkup: { inline_keyboard: orderActionKeyboard(order) },
+  })
 }
 
 // ─── /stok SLUG_VEYA_ISIM ────────────────────────────────────
@@ -368,6 +377,7 @@ async function handleOzet(chatId: number) {
   const total = orders?.length ?? 0
   const cancelled = (orders ?? []).filter((o) => o.status === 'cancelled' || o.status === 'refunded').length
   const pending = (orders ?? []).filter((o) => o.status === 'pending').length
+  const toShip = (orders ?? []).filter((o) => o.status === 'paid' || o.status === 'preparing').length
   const revenue = (orders ?? [])
     .filter((o) => o.status !== 'cancelled' && o.status !== 'refunded')
     .reduce((sum, o) => sum + Number(o.total_amount ?? 0), 0)
@@ -376,7 +386,8 @@ async function handleOzet(chatId: number) {
     '<b>📊 Bugünün Özeti</b>',
     '',
     `<b>Toplam sipariş:</b> ${total}`,
-    `<b>Bekleyen:</b> ${pending}`,
+    `<b>Bekleyen ödeme:</b> ${pending}`,
+    `<b>Kargoya hazır:</b> ${toShip}`,
     `<b>İptal/iade:</b> ${cancelled}`,
     `<b>Ciro:</b> ${formatPrice(revenue)}`,
   ]

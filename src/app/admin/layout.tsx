@@ -54,8 +54,11 @@ export const metadata: Metadata = {
     statusBarStyle: 'black-translucent',
   },
   icons: {
-    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
-    apple: [{ url: '/icon.svg' }],
+    icon: [
+      { url: '/admin/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/admin/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [{ url: '/admin/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
   formatDetection: {
     telephone: false,

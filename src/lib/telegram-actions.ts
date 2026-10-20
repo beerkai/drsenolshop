@@ -8,6 +8,7 @@ import { updateAdminReview } from './reviews-admin'
 import { formatPrice } from '@/types'
 import {
   answerCallbackQuery,
+  editTelegramReplyMarkup,
   escapeHtml,
   orderActionKeyboard,
   orderAdminUrl,
@@ -21,25 +22,26 @@ import { getAdminUrl } from './site-url'
 const UUID = /^[0-9a-f-]{36}$/i
 const SHIP_TTL_MS = 10 * 60 * 1000
 
-export async function handleOpsCallback(data: string, chatId: number, userId: string, callbackId: string): Promise<boolean> {
+export async function handleOpsCallback(data: string, chatId: number, userId: string, callbackId: string, messageId?: number): Promise<boolean> {
   const id = String(chatId)
 
   if (data.startsWith('ord:pay:')) {
-    await confirmPayment(id, data.slice('ord:pay:'.length))
+    await confirmPayment(id, data.slice('ord:pay:'.length), messageId)
     await answerCallbackQuery(callbackId, 'Ödeme işlendi')
     return true
   }
   if (data.startsWith('ord:ship:')) {
     const orderId = data.slice('ord:ship:'.length)
     if (!UUID.test(orderId)) {
-      await answerCallbackQuery(callbackId, 'Geçersiz sipariş')
+      await answerCallbackQuery(callbackId, 'Geçersiz sipariş', true)
       return true
     }
-    const ok = await setSession(id, userId, 'ship', { orderId }, SHIP_TTL_MS)
+    const ok = await setSession(id, userId, 'ship', { orderId, messageId }, SHIP_TTL_MS)
     await answerCallbackQuery(callbackId)
+    const label = ok ? await orderNumberFor(orderId) : ''
     await sendTelegramMessage(
       ok
-        ? 'Takip numarasını yazın. Vazgeçmek için <code>iptal</code>.'
+        ? `<b>${escapeHtml(label || 'Sipariş')}</b> için takip numarasını yazın. Vazgeçmek için <code>iptal</code>.`
         : 'Kargo adımı kaydedilemedi. 0026 migration gerekli.',
       { chatId: id }
     )
@@ -77,7 +79,7 @@ export async function handleOpsCallback(data: string, chatId: number, userId: st
   return false
 }
 
-export async function continueShipPrompt(chatId: number, userId: string, text: string, orderId: string): Promise<void> {
+export async function continueShipPrompt(chatId: number, userId: string, text: string, orderId: string, messageId?: number): Promise<void> {
   const id = String(chatId)
   const raw = text.trim()
   if (raw.toLocaleLowerCase('tr-TR') === 'iptal') {
@@ -103,9 +105,18 @@ export async function continueShipPrompt(chatId: number, userId: string, text: s
     ].join('\n'),
     { chatId: id }
   )
+  if (messageId) {
+    await editTelegramReplyMarkup(id, messageId, { inline_keyboard: orderActionKeyboard(result.order) })
+  }
 }
 
-async function confirmPayment(chatId: string, orderId: string) {
+async function orderNumberFor(orderId: string): Promise<string> {
+  const supabase = getSupabaseAdmin()
+  const { data } = await supabase.from('orders').select('order_number').eq('id', orderId).maybeSingle()
+  return data?.order_number ?? ''
+}
+
+async function confirmPayment(chatId: string, orderId: string, messageId?: number) {
   if (!UUID.test(orderId)) {
     await sendTelegramMessage('Geçersiz sipariş.', { chatId })
     return
@@ -128,14 +139,18 @@ async function confirmPayment(chatId: string, orderId: string) {
     await sendTelegramMessage(escapeHtml(result.message), { chatId })
     return
   }
+  const keyboard = orderActionKeyboard(result.order)
   await sendTelegramMessage(
     [
       `<b>Ödeme onaylandı — ${escapeHtml(result.order.order_number)}</b>`,
       `${escapeHtml(result.order.customer_name)} · ${formatPrice(Number(result.order.total_amount))}`,
       `${escapeHtml(paymentMethodLabel(result.order.payment_method))} · ${escapeHtml(orderStatusLabel(result.order.status))}`,
     ].join('\n'),
-    { chatId, replyMarkup: { inline_keyboard: orderActionKeyboard(result.order) } }
+    { chatId, replyMarkup: { inline_keyboard: keyboard } }
   )
+  if (messageId) {
+    await editTelegramReplyMarkup(chatId, messageId, { inline_keyboard: keyboard })
+  }
 }
 
 async function moderateReview(chatId: string, reviewId: string, approved: boolean) {
