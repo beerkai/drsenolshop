@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-const SW_URL = '/admin-sw.js'
+const SW_URL = '/admin-sw.js?sw=5'
 const SW_SCOPE = '/admin'
 
 interface BeforeInstallPromptEvent extends Event {

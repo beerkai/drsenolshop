@@ -30,14 +30,14 @@ export default async function AdminChromeLayout({ children }: { children: React.
   return (
     <CommandProvider>
       <Toaster />
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div className="ad-shell-col" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <TopBar
           email={ctx?.admin.email ?? ''}
           fullName={ctx?.admin.full_name ?? null}
           role={ctx?.admin.role ?? 'staff'}
           pendingOrders={pendingCount}
         />
-        <div style={{ display: 'flex', flex: 1 }}>
+        <div className="ad-shell-row" style={{ display: 'flex', flex: 1, minWidth: 0 }}>
           <Sidebar pendingOrders={pendingCount} />
           <main
             className="ad-shell-main"

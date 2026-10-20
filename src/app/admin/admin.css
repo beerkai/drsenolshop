@@ -1675,7 +1675,6 @@ html:has(.admin-shell) body {
 
 .admin-shell .ad-btn {
   flex-shrink: 0;
-  min-width: min-content;
   max-width: 100%;
 }
 
@@ -1787,6 +1786,73 @@ html:has(.admin-shell) body {
   .ad-kv { flex-direction: column; gap: 4px; }
   .ad-kv-value { text-align: left; }
   .ad-vitrin-row { flex-wrap: wrap; align-items: flex-start; }
+}
+
+/* iOS: iç içe flex + kök overflow-x:hidden başlık ve kartı boyamaz.
+   Kabuk telefonda blok; başlık clamp() değil sabit px. */
+@media (max-width: 1024px) {
+  .ad-shell-col,
+  .ad-shell-row,
+  .ad-shell-main {
+    display: block !important;
+    flex: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .ad-shell-col { min-height: 100vh !important; }
+  .ad-sidebar {
+    height: 0 !important;
+    width: 0 !important;
+    min-height: 0 !important;
+    position: absolute !important;
+  }
+  .ad-shell-main h1 {
+    display: block !important;
+    font-size: 26px !important;
+    line-height: 1.25 !important;
+    min-height: 1.25em !important;
+    height: auto !important;
+    color: #1A1916 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: static !important;
+    overflow: visible !important;
+  }
+  .ad-shell-main .ad-card,
+  .ad-shell-main .ad-card-sm,
+  .ad-shell-main .ad-card-elevated,
+  .ad-shell-main .ad-metric,
+  .ad-shell-main .ad-empty {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    position: relative !important;
+    overflow: visible !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background-color: #FFFFFF !important;
+  }
+  .ad-shell-main .ad-door {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    position: relative !important;
+    overflow: visible !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background-color: #FFFFFF !important;
+  }
+  .admin-shell .ad-btn {
+    min-width: 0 !important;
+    white-space: normal;
+  }
 }
 
 /* iOS odak yakınlaştırması: yazı alanı en az 16px */

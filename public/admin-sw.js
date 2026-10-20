@@ -6,8 +6,8 @@
  * gövdeyi keser, yönlendirmeyi (redirect: manual) opaqueredirect'e
  * çevirir. Sonuç: bazı yönetim sayfaları beyaz/boş kalır.
  */
-const CACHE = 'drsenol-admin-v4'
-const SW_VERSION = 4
+const CACHE = 'drsenol-admin-v5'
+const SW_VERSION = 5
 const ASSETS = [
   '/admin/manifest.webmanifest',
   '/admin/icon-192.png',
