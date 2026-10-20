@@ -178,61 +178,96 @@ function resolveHeaderAnnouncement(
  * Admin yalnızca bir alanı değiştirdiyse gerisi varsayılandan gelir;
  * ayrıca tip genişlediğinde eski kayıtlar kırılmaz.
  */
+function asArray<T>(value: unknown, fallback: T[]): T[] {
+  return Array.isArray(value) ? (value as T[]) : fallback
+}
+
 function merge(stored: Partial<HomeContent> | null): HomeContent {
   if (!stored) return defaultHomeContent
+  const d = defaultHomeContent
+  const storedJournal = stored.editorial?.journal
   const merged: HomeContent = {
-    hero: { ...defaultHomeContent.hero, ...(stored.hero ?? {}) },
-    curationStrip: { ...defaultHomeContent.curationStrip, ...(stored.curationStrip ?? {}) },
+    hero: {
+      ...d.hero,
+      ...(stored.hero ?? {}),
+      image: { ...d.hero.image, ...(stored.hero?.image ?? {}) },
+      cta: { ...d.hero.cta, ...(stored.hero?.cta ?? {}) },
+    },
+    curationStrip: { ...d.curationStrip, ...(stored.curationStrip ?? {}) },
     editorial: {
-      ...defaultHomeContent.editorial,
+      ...d.editorial,
       ...(stored.editorial ?? {}),
       header: {
-        ...defaultHomeContent.editorial.header,
+        ...d.editorial.header,
         ...(stored.editorial?.header ?? {}),
         // Menü kodda tanımlı; eski tema kaydı üst navı ezmesin
-        nav: defaultHomeContent.editorial.header.nav,
+        nav: d.editorial.header.nav,
         // Eski “ücretsiz özel teslimat” şeridi kargo kuralıyla çelişiyor
         ...resolveHeaderAnnouncement(stored.editorial?.header),
       },
       feed: {
-        ...defaultHomeContent.editorial.feed,
+        ...d.editorial.feed,
         ...(stored.editorial?.feed ?? {}),
         header: {
-          ...defaultHomeContent.editorial.feed.header,
+          ...d.editorial.feed.header,
           ...(stored.editorial?.feed?.header ?? {}),
         },
         // Kısmi DB kaydı items'ı silmesin — tema editörü crash olmasın
         items:
           Array.isArray(stored.editorial?.feed?.items) && stored.editorial.feed.items.length > 0
             ? stored.editorial.feed.items
-            : defaultHomeContent.editorial.feed.items,
+            : d.editorial.feed.items,
       },
       journal: {
-        ...defaultHomeContent.editorial.journal,
-        ...(stored.editorial?.journal ?? {}),
+        ...d.editorial.journal,
+        ...(storedJournal ?? {}),
+        image: { ...d.editorial.journal.image, ...(storedJournal?.image ?? {}) },
+        paragraphs: asArray(storedJournal?.paragraphs, d.editorial.journal.paragraphs),
+        metrics: asArray(storedJournal?.metrics, d.editorial.journal.metrics),
+        primaryCta: { ...d.editorial.journal.primaryCta, ...(storedJournal?.primaryCta ?? {}) },
+        secondaryCta: { ...d.editorial.journal.secondaryCta, ...(storedJournal?.secondaryCta ?? {}) },
+      },
+      instagram: {
+        ...d.editorial.instagram,
+        ...(stored.editorial?.instagram ?? {}),
+        tiles: asArray(stored.editorial?.instagram?.tiles, d.editorial.instagram.tiles),
+      },
+      goldylium: {
+        ...d.editorial.goldylium,
+        ...(stored.editorial?.goldylium ?? {}),
+        products: asArray(stored.editorial?.goldylium?.products, d.editorial.goldylium.products),
       },
       footer: {
-        ...defaultHomeContent.editorial.footer,
+        ...d.editorial.footer,
         ...(stored.editorial?.footer ?? {}),
+        instagramHandle: {
+          ...d.editorial.footer.instagramHandle,
+          ...(stored.editorial?.footer?.instagramHandle ?? {}),
+        },
         currency: {
-          ...defaultHomeContent.editorial.footer.currency,
+          ...d.editorial.footer.currency,
           ...(stored.editorial?.footer?.currency ?? {}),
         },
       },
     },
     curated: {
-      ...defaultHomeContent.curated,
+      ...d.curated,
       ...(stored.curated ?? {}),
       mostPreferred: {
-        ...defaultHomeContent.curated.mostPreferred,
+        ...d.curated.mostPreferred,
         ...(stored.curated?.mostPreferred ?? {}),
+        productIds: asArray(
+          stored.curated?.mostPreferred?.productIds,
+          d.curated.mostPreferred.productIds,
+        ),
       },
       signature: {
-        ...defaultHomeContent.curated.signature,
+        ...d.curated.signature,
         ...(stored.curated?.signature ?? {}),
+        productIds: asArray(stored.curated?.signature?.productIds, d.curated.signature.productIds),
       },
     },
-    productLabels: { ...defaultHomeContent.productLabels, ...(stored.productLabels ?? {}) },
+    productLabels: { ...d.productLabels, ...(stored.productLabels ?? {}) },
   }
   return restoreEditorialImageDefaults(merged)
 }

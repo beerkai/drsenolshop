@@ -1,10 +1,13 @@
 /* Dr. Şenol Admin PWA — scope /admin
- * Minimal service worker: installability + hızlı yeniden açılış için shell cache.
- * API ve auth istekleri her zaman ağdan.
+ * Yalnızca ikon ve manifest önbelleği.
+ *
+ * HTML gezinmesi ve RSC (Flight) istekleri kasıtlı olarak ele alınmaz.
+ * App Router yanıtı akışlıdır; service worker içinde clone + cache.put
+ * gövdeyi keser, yönlendirmeyi (redirect: manual) opaqueredirect'e
+ * çevirir. Sonuç: bazı yönetim sayfaları beyaz/boş kalır.
  */
-const CACHE = 'drsenol-admin-v2'
-const SHELL = [
-  '/admin',
+const CACHE = 'drsenol-admin-v3'
+const ASSETS = [
   '/admin/manifest.webmanifest',
   '/admin/icon-192.png',
   '/admin/icon-512.png',
@@ -13,17 +16,43 @@ const SHELL = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(SHELL)).then(() => self.skipWaiting()),
+    caches
+      .open(CACHE)
+      .then((cache) =>
+        Promise.all(ASSETS.map((url) => cache.add(url).catch(() => undefined))),
+      )
+      .then(() => self.skipWaiting()),
   )
 })
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))),
-    ).then(() => self.clients.claim()),
+    caches
+      .keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim()),
   )
 })
+
+function isAsset(pathname) {
+  return (
+    pathname.startsWith('/admin/icon-') ||
+    pathname.endsWith('apple-touch-icon.png') ||
+    pathname.endsWith('.webmanifest')
+  )
+}
+
+/** Belge, RSC ve yönlendirme — tarayıcıya bırak. */
+function isPassThrough(request, url) {
+  if (request.mode === 'navigate') return true
+  if (request.headers.has('RSC')) return true
+  if (request.headers.has('Next-Router-Prefetch')) return true
+  if (request.headers.has('Next-Router-State-Tree')) return true
+  if (url.searchParams.has('_rsc')) return true
+  const accept = request.headers.get('accept') || ''
+  if (accept.includes('text/html') || accept.includes('text/x-component')) return true
+  return false
+}
 
 self.addEventListener('fetch', (event) => {
   const { request } = event
@@ -31,25 +60,22 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url)
   if (url.origin !== self.location.origin) return
-  if (!url.pathname.startsWith('/admin')) return
+  if (isPassThrough(request, url)) return
   if (url.pathname.startsWith('/api/')) return
+  if (!isAsset(url.pathname)) return
 
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request)
+  event.respondWith(
+    caches.match(request).then((cached) => {
+      const fetched = fetch(request)
         .then((res) => {
-          const copy = res.clone()
-          caches.open(CACHE).then((cache) => cache.put(request, copy))
+          if (res.ok && !res.redirected) {
+            const copy = res.clone()
+            caches.open(CACHE).then((cache) => cache.put(request, copy)).catch(() => {})
+          }
           return res
         })
-        .catch(() => caches.match(request).then((r) => r ?? caches.match('/admin'))),
-    )
-    return
-  }
-
-  if (url.pathname.startsWith('/admin/icon-') || url.pathname.endsWith('apple-touch-icon.png') || url.pathname.endsWith('.webmanifest')) {
-    event.respondWith(
-      caches.match(request).then((cached) => cached ?? fetch(request)),
-    )
-  }
+        .catch(() => cached)
+      return cached || fetched
+    }),
+  )
 })

@@ -10,7 +10,7 @@ export default function AdminChromeError({
   reset: () => void
 }) {
   useEffect(() => {
-    console.error('[admin] sayfa hatası:', error.message)
+    console.error('[admin] sayfa hatası:', error?.message)
   }, [error])
 
   return (
@@ -22,7 +22,7 @@ export default function AdminChromeError({
         Bu sayfa yüklenemedi.
       </h1>
       <p style={{ fontSize: '13px', lineHeight: 1.6, color: 'var(--ad-fg-muted)', margin: '0 0 20px' }}>
-        {error.message || 'Beklenmeyen bir sorun oluştu. Ağ bağlantınızı kontrol edip tekrar deneyin.'}
+        {error?.message?.trim() || 'Beklenmeyen bir sorun oluştu. Ağ bağlantınızı kontrol edip tekrar deneyin.'}
       </p>
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         <button type="button" className="ad-btn ad-btn-primary" onClick={() => reset()}>

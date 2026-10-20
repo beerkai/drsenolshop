@@ -104,7 +104,8 @@ export function listEditorialSlots(content: HomeContent): EditorialSlot[] {
     ),
   ]
 
-  for (const tile of content.editorial.instagram.tiles) {
+  const tiles = Array.isArray(content.editorial.instagram?.tiles) ? content.editorial.instagram.tiles : []
+  for (const tile of tiles) {
     slots.push(
       slotBase(
         'instagram',
@@ -116,7 +117,8 @@ export function listEditorialSlots(content: HomeContent): EditorialSlot[] {
     )
   }
 
-  for (const item of content.editorial.feed.items) {
+  const feedItems = Array.isArray(content.editorial.feed?.items) ? content.editorial.feed.items : []
+  for (const item of feedItems) {
     const label = feedLabel(item)
     if (!label || !('image' in item)) continue
     slots.push(
@@ -130,7 +132,8 @@ export function listEditorialSlots(content: HomeContent): EditorialSlot[] {
     )
   }
 
-  for (const product of content.editorial.goldylium.products) {
+  const products = Array.isArray(content.editorial.goldylium?.products) ? content.editorial.goldylium.products : []
+  for (const product of products) {
     slots.push(
       slotBase(
         'goldylium',
@@ -153,16 +156,19 @@ function imageOf(content: HomeContent, slotId: string): EditorialImage | null | 
 
   if (slotId.startsWith('instagram-')) {
     const id = slotId.slice('instagram-'.length)
-    return content.editorial.instagram.tiles.find((t) => t.id === id)?.image
+    const tiles = Array.isArray(content.editorial.instagram?.tiles) ? content.editorial.instagram.tiles : []
+    return tiles.find((t) => t.id === id)?.image
   }
   if (slotId.startsWith('feed-')) {
     const id = slotId.slice('feed-'.length)
-    const item = content.editorial.feed.items.find((x) => x.id === id)
+    const items = Array.isArray(content.editorial.feed?.items) ? content.editorial.feed.items : []
+    const item = items.find((x) => x.id === id)
     return item && 'image' in item ? item.image : undefined
   }
   if (slotId.startsWith('goldylium-')) {
     const id = slotId.slice('goldylium-'.length)
-    return content.editorial.goldylium.products.find((p) => p.id === id)?.image
+    const products = Array.isArray(content.editorial.goldylium?.products) ? content.editorial.goldylium.products : []
+    return products.find((p) => p.id === id)?.image
   }
   return undefined
 }
@@ -200,21 +206,24 @@ export function setEditorialSlotSrc(content: HomeContent, slotId: string, src: s
   }
   if (slotId.startsWith('instagram-')) {
     const id = slotId.slice('instagram-'.length)
-    const tile = content.editorial.instagram.tiles.find((t) => t.id === id)
+    const tiles = Array.isArray(content.editorial.instagram?.tiles) ? content.editorial.instagram.tiles : []
+    const tile = tiles.find((t) => t.id === id)
     if (!tile) return false
     tile.image = { ...tile.image, src }
     return true
   }
   if (slotId.startsWith('feed-')) {
     const id = slotId.slice('feed-'.length)
-    const item = content.editorial.feed.items.find((x) => x.id === id)
+    const items = Array.isArray(content.editorial.feed?.items) ? content.editorial.feed.items : []
+    const item = items.find((x) => x.id === id)
     if (!item || !('image' in item)) return false
     item.image = { ...item.image, src }
     return true
   }
   if (slotId.startsWith('goldylium-')) {
     const id = slotId.slice('goldylium-'.length)
-    const product = content.editorial.goldylium.products.find((p) => p.id === id)
+    const products = Array.isArray(content.editorial.goldylium?.products) ? content.editorial.goldylium.products : []
+    const product = products.find((p) => p.id === id)
     if (!product) return false
     product.image = { ...product.image, src }
     return true

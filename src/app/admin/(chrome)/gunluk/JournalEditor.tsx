@@ -17,8 +17,8 @@ interface MetricRow {
 
 const DEFAULT_KEYS = ['Kovan sağlığı', 'Günün hedefi', 'Hava / üretim notu']
 
-function metricsToRows(m: Record<string, string>): MetricRow[] {
-  const entries = Object.entries(m)
+function metricsToRows(m: Record<string, string> | null | undefined): MetricRow[] {
+  const entries = m && typeof m === 'object' && !Array.isArray(m) ? Object.entries(m) : []
   if (entries.length === 0) {
     return DEFAULT_KEYS.map((key) => ({ key, value: '' }))
   }
