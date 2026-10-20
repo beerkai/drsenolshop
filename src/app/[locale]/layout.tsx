@@ -64,7 +64,7 @@ export async function generateMetadata({
       template: '%s · Dr. Şenol',
     },
     description:
-      '1985\'ten beri Saitabat Köyü\'nden, laboratuvar onaylı premium arı ürünleri. Kovandan laboratuvara uzanan bilimsel bir yolculuk.',
+      '1985\'ten beri Saitabat Köyü\'nden, laboratuvar analizli ham bal ve arı ürünleri. Kovandan kavanoza, bilimle.',
     metadataBase: new URL(getSiteUrl()),
     openGraph: {
       type: 'website',

@@ -57,21 +57,18 @@ export default async function HomeGoldyliumCatalogTeaser() {
             >
               Goldylium
             </span>
-            <h2
-              className="home-goldylium-teaser__title font-headline-lg text-headline-lg font-light leading-[1.2]"
-              lang="en"
-            >
-              Parfüm seçkisi
+            <h2 className="home-goldylium-teaser__title font-headline-lg text-headline-lg font-light leading-[1.2]">
+              Parfümler
             </h2>
             <p className="home-goldylium-teaser__lede max-w-xl font-body-sm text-body-sm leading-relaxed">
-              İmza kokular ana bal koleksiyonundan ayrı vitrinde — arama ve ürün sayfaları aynen erişilebilir.
+              Goldylium kokuları bal koleksiyonundan ayrı bir vitrinde. Aramadan ve ürün sayfalarından da ulaşabilirsiniz.
             </p>
           </div>
           <Link
             href={GOLDYLIUM_LANDING_PATH}
             className="home-goldylium-teaser__cta inline-flex shrink-0 items-center justify-center border px-5 py-2.5 font-nav-caps text-nav-caps uppercase tracking-[0.14em] transition-colors"
           >
-            Keşfet
+            Tümünü Gör
           </Link>
         </div>
 

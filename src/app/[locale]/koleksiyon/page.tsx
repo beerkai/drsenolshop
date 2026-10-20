@@ -10,7 +10,7 @@ import { GOLDYLIUM_CATALOG_ROOT_SLUG } from '@/lib/goldylium-catalog'
 
 export const metadata = {
   title: 'Koleksiyon · Dr. Şenol Shop',
-  description: 'Bilimin titizliği, doğanın saflığıyla buluşan tüm ürünlerimiz.',
+  description: 'Ham bal, arı ürünleri ve Goldylium: tüm ürünlerimiz.',
 }
 
 type SP = Promise<{ stock?: string; sort?: string }>

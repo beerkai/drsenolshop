@@ -29,7 +29,7 @@ export const defaultProductLabels: ProductLabels = {
   addToCart: 'Sepete Ekle',
   addedToCart: 'Sepete Eklendi ✓',
   outOfStock: 'Tükendi',
-  variantPricePlaceholder: 'Varyantta',
+  variantPricePlaceholder: 'Seçeneğe göre',
   variantHeading: 'Gramaj / Boyut',
   variantNote: 'Sınırlı Dolum',
   variantSelected: 'Seçili',

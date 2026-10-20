@@ -15,7 +15,7 @@ export default function BasindaBizPage() {
       eyebrow="Marka · Basında Biz"
       title="Medya ve"
       titleAccent="iş birliği."
-      intro="Saitabat arıcılığı, laboratuvar kayıtları ve hasat seçkisi üzerine röportaj, görsel ve bilgi talepleri."
+      intro="Saitabat arıcılığı, laboratuvar kayıtları ve hasatlarımız hakkında röportaj, görsel ve bilgi talepleri."
       breadcrumbs={[{ label: 'Basında Biz' }]}
     >
       <Eyebrow>İletişim</Eyebrow>

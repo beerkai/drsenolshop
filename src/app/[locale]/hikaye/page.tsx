@@ -7,7 +7,7 @@ import { P, H2, Eyebrow, Quote, InfoBox } from '@/components/StaticContent'
 export const metadata: Metadata = {
   title: 'Hikâyemiz · Dr. Şenol Shop',
   description:
-    "1985'ten bu yana Saitabat Köyü'nde, üç kuşak arıcılığın bilime dönüşen mirası.",
+    "1985'ten bu yana Saitabat Köyü'nde üç kuşaktır süren, bilimle buluşan arıcılık.",
 }
 
 export default function HikayemizPage() {
@@ -64,7 +64,7 @@ export default function HikayemizPage() {
       <Eyebrow>Koleksiyon</Eyebrow>
       <H2>Bal, apiterapi, bakım</H2>
       <P>
-        Seçki, Saitabat&apos;ın mevsimlik hasatlarından gelir: karakovan çam, ham kestane ve
+        Ürünlerimiz Saitabat&apos;ın mevsimlik hasatlarından gelir: karakovan çam, ham kestane ve
         ıhlamur, yaban çiçeği ve lavanta. Aynı flora, propolis, polen ve arı sütü hatlarını;
         Goldylium Apithérapie bakım koleksiyonunu da besler.
       </P>
@@ -73,7 +73,7 @@ export default function HikayemizPage() {
         <Link href="/saitabat-koyu" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
           Saitabat Köyü
         </Link>
-        {' '}sayfasına geçebilir; güncel seçki için koleksiyonu açabilirsiniz.
+        {' '}sayfasına geçebilir; güncel ürünler için koleksiyonu açabilirsiniz.
       </P>
     </StaticPageLayout>
   )

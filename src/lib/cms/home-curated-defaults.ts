@@ -4,7 +4,7 @@ export const defaultHomeCuratedSettings: HomeCuratedSettings = {
   legacyFeedEnabled: false,
   mostPreferred: {
     enabled: true,
-    eyebrow: 'Keşfet · Seçki',
+    eyebrow: 'Çok Satanlar',
     title: 'En Çok Tercih Edilenler',
     description:
       'Ham bal koleksiyonundan en çok sipariş edilen hasatlar — Saitabat yayla ve orman balları.',

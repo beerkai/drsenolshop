@@ -107,7 +107,7 @@ export default function MirasJournalSection() {
                   color: 'var(--color-surface-container-lowest)',
                 }}
               >
-                Mirastan notlar
+                Saitabat&apos;tan notlar
               </h2>
               <p
                 style={{

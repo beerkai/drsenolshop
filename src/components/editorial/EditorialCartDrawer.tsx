@@ -51,7 +51,7 @@ export default function EditorialCartDrawer() {
         <header className="flex shrink-0 items-center justify-between border-b border-hairline-light px-space-lg py-space-md">
           <div className="flex items-baseline gap-space-sm">
             <span className="font-nav-caps text-nav-caps uppercase tracking-[0.16em] text-on-surface">
-              Çanta
+              Sepetim
             </span>
             <span className="font-label-spec text-label-spec text-on-surface-variant">
               {itemCount} ürün
@@ -71,7 +71,7 @@ export default function EditorialCartDrawer() {
           {items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center gap-space-md px-space-lg text-center">
               <p className="font-headline-sm text-headline-sm font-light text-on-surface">
-                Çantanız boş.
+                Sepetiniz boş.
               </p>
               <Link
                 href="/koleksiyon"

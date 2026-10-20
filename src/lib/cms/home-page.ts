@@ -21,29 +21,29 @@ export const homeHeroProps: HeroProps = {
     src: HERO_MOBILE,
     alt: 'Saitabat ormanında amber bal kavanozu; sisli sabah ışığı.',
   },
-  eyebrow: 'Tek Hasat Arıcılığı & Miras • Saitabat, 1985',
-  title: "Saitabat'ın sessiz dağlarından, 1985'ten bu yana tek hasat arı mucizeleri.",
+  eyebrow: "Saitabat Köyü • 1985'ten beri arıcılık",
+  title: "Saitabat'ın sakin yamaçlarından, yılda bir kez hasat edilen ham bal.",
   subtitle:
-    'Uludağ eteklerinin el değmemiş 1100 metre rakım florası; pastörize edilmemiş, endüstriyel filtre görmemiş, saf apiterapi mirası.',
-  cta: { label: '2025 Rezerve Hasat Koleksiyonu Keşfet', href: '/koleksiyon' },
+    'Uludağ eteklerinde, 1.100 metre rakımdaki doğal florada üretilir. Pastörize edilmez, endüstriyel filtreden geçirilmez.',
+  cta: { label: '2025 Hasadını İnceleyin', href: '/koleksiyon' },
   metaLabel: 'Hasat Kodu: 25-STB-01',
   provenance: {
-    gpsLine: 'GPS Koor: 40.1683° N, 29.2155° E',
-    elevationLine: 'Rakım: 1100 Metre • Uludağ Endemik Flora Kuşağı',
+    gpsLine: 'Konum: 40.1683° K, 29.2155° D',
+    elevationLine: 'Rakım: 1.100 m • Uludağ endemik flora kuşağı',
   },
   mobile: {
     badge: 'SAİTABAT • 1985',
-    kicker: 'Tek Hasat • Sınırlı Rezerv',
-    subtitle: 'İşlenmemiş, pastörize edilmemiş, saf flora ile kovan sıcaklığında şişelendi.',
-    cta: { label: '2025 Hasadını Keşfet', href: '/koleksiyon' },
+    kicker: 'Yılda Tek Hasat • Sınırlı Sayıda',
+    subtitle: 'Pastörize edilmeden, ısıl işlem görmeden kovan sıcaklığında kavanoza alınır.',
+    cta: { label: '2025 Hasadını İnceleyin', href: '/koleksiyon' },
   },
   underlapHeader: true,
 }
 
 export const homeCurationStrip = {
   harvestTitle: 'HASAT DÖNEMİ:',
-  harvestDetail: '2024–2025 Kestane & Karakovan Seçkisi Yayında',
-  highlights: ['%100 Ham & Canlı', 'HMF Değeri: <10 mg/kg', 'Akredite Laboratuvar Analizli'],
+  harvestDetail: '2024–2025 kestane ve karakovan balları satışta',
+  highlights: ['%100 Ham', 'HMF Değeri: <10 mg/kg', 'Akredite Laboratuvar Analizli'],
 }
 
 export const editorialHomeContent: EditorialHomeContent = {
@@ -54,7 +54,7 @@ export const editorialHomeContent: EditorialHomeContent = {
     wordmark: { text: 'Dr. Şenol', year: '1985' },
     nav: [
       { id: 'koleksiyon', label: 'Koleksiyon', href: '/koleksiyon' },
-      { id: 'aricilik', label: 'Arıcılık & Hikaye', href: '/hikaye' },
+      { id: 'aricilik', label: 'Hikâyemiz', href: '/hikaye' },
       { id: 'signature', label: 'Signature Series', href: '/kategori/signature', lang: 'en' },
       { id: 'goldylium', label: 'Goldylium Cosmetics', href: '/goldylium', lang: 'en' },
       { id: 'iletisim', label: 'İletişim', href: '/iletisim' },
@@ -64,17 +64,17 @@ export const editorialHomeContent: EditorialHomeContent = {
     cartLabel: 'Sepet',
   },
   mobileNav: [
-    { id: 'kesfet', label: 'Keşfet', href: '/', icon: 'explore' },
+    { id: 'kesfet', label: 'Ana Sayfa', href: '/', icon: 'explore' },
     { id: 'koleksiyon', label: 'Koleksiyon', href: '/koleksiyon', icon: 'grid' },
-    { id: 'miras', label: 'Miras', href: '/hikaye', icon: 'book' },
-    { id: 'canta', label: 'Çanta', href: '/odeme', icon: 'bag' },
+    { id: 'miras', label: 'Hikâyemiz', href: '/hikaye', icon: 'book' },
+    { id: 'canta', label: 'Sepet', href: '/odeme', icon: 'bag' },
     { id: 'hesap', label: 'Hesap', href: '/hesabim', icon: 'account' },
   ],
   harvestMetrics: [
     {
-      label: 'Saflık Standardı',
-      value: '%100 Ham & Canlı',
-      detail: 'Isıl İşlemsiz • Filtresiz',
+      label: 'Saflık',
+      value: '%100 Ham',
+      detail: 'Isıl işlemsiz • Filtresiz',
       detailAccent: true,
     },
     {
@@ -83,21 +83,21 @@ export const editorialHomeContent: EditorialHomeContent = {
       detail: 'Yasal limit: 40 mg/kg',
     },
     {
-      label: 'Doğal Flora Rakımı',
+      label: 'Flora Rakımı',
       value: '1.100 m',
       detail: 'Uludağ Güney Yamaçları',
     },
     {
-      label: 'Akredite Sertifika',
-      value: 'TÜRKAK Onay',
+      label: 'Akredite Analiz',
+      value: 'TÜRKAK Onaylı',
       detail: 'Parti No: #25-STB',
       detailAccent: true,
     },
   ],
   feed: {
     header: {
-      eyebrow: 'Küratör Seçkisi & Günlük Akış',
-      title: 'Miras ve Hasat Günlüğü',
+      eyebrow: 'Seçtiklerimiz',
+      title: 'Hasat Günlüğü',
       aside: 'Instagram Feed — @drsenol.shop / Saitabat Serisi No. 41',
     },
     items: [
@@ -122,7 +122,7 @@ export const editorialHomeContent: EditorialHomeContent = {
           src: '/design-preview/stitch-04.jpg',
           alt: 'Ham bal damlası keten dokuda makro.',
         },
-        overlayKicker: 'Miras Fotoğrafı',
+        overlayKicker: 'Arşivden',
         overlayTitle: 'Saitabat Köyü, 1100m',
         footerLeft: 'Hasat Notu 04',
         footerRight: '07:20 GÜNDOĞUMU',
@@ -149,8 +149,8 @@ export const editorialHomeContent: EditorialHomeContent = {
           alt: 'Arı poleni ve propolis kase kompozisyonu.',
         },
         kicker: 'Apiterapi Konsantresi',
-        title: 'Arı Poleni & Saf Propolis İksiri',
-        description: 'Hücresel canlılık için mevsimin ilk polen hasadı, elle ayıklanmış.',
+        title: 'Arı Poleni ve Saf Propolis',
+        description: 'Mevsimin ilk polen hasadı, elle ayıklanmış.',
       },
       {
         type: 'product-dark',
@@ -163,7 +163,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         badge: 'Goldylium Care',
         category: 'Apiterapi Serum & Bakım',
         title: 'Huile Précieuse 30ml',
-        description: 'Arı sütü ve yabani propolis içeren lüks cilt eliksiri.',
+        description: 'Arı sütü ve yabani propolis içeren cilt bakım yağı.',
         price: '₺2.400',
         ctaLabel: 'Keşfet',
       },
@@ -226,13 +226,13 @@ export const editorialHomeContent: EditorialHomeContent = {
       {
         type: 'feature-wide',
         id: 'fw1',
-        eyebrow: 'Özel Rezerve Kutusu',
-        title: 'Mevsimlik Koleksiyoncu Sandığı',
+        eyebrow: 'Sınırlı Hediye Kutusu',
+        title: 'Mevsim Hediye Sandığı',
         description:
           'Karakovan çam, ham kestane, saf propolis ve ceviz ağacından oyma bal kaşığı ile el yapımı ahşap sandıkta sınırlı 100 adet.',
         price: '₺3.850',
-        stockNote: 'Kalan Rezerve: 14 Adet',
-        ctaLabel: 'Rezerve Et',
+        stockNote: 'Son 14 adet',
+        ctaLabel: 'Sipariş Ver',
         href: '/koleksiyon',
       },
     ],
@@ -244,27 +244,27 @@ export const editorialHomeContent: EditorialHomeContent = {
     },
     certificate: {
       title: 'Analiz Sertifikası #2024-STB',
-      body: 'Polen yoğunluğu: %88 Kestane & Ihlamur. Isıl işlem görmeden 38°C kovan sıcaklığında şişelenmiştir.',
+      body: 'Polen yoğunluğu: %88 Kestane & Ihlamur. Isıl işlem görmeden, 38°C kovan sıcaklığında kavanoza alınmıştır.',
     },
     breadcrumb: ['Saitabat Günlüğü • Bölüm 03', 'Kovan No. 19'],
-    title: 'Neden Ham Bal? Canlı enzimler, saf flora ve zamanın sabrı.',
+    title: 'Neden ham bal? Enzimleri bozulmamış, poleni ayrıştırılmamış, acele edilmemiş.',
     paragraphs: [
-      "Pastörize edilmemiş, endüstriyel filtrelerle polenleri ayrıştırılmamış canlı besin. Bursa'nın el değmemiş kestane ve çam florasından doğrudan cam kavanozlara aktarılır.",
-      "Geleneksel market ballarının aksine, Dr. Şenol hasatlarında bal kristalleri kusur değil; yaşamın, saflığın ve polen zenginliğinin en berrak kanıtıdır. 1985'ten bu yana doğanın akışına müdahale etmiyoruz.",
+      "Ham bal pastörize edilmez, endüstriyel filtreyle poleninden ayrılmaz. Bursa'nın kestane ve çam florasından geldiği gibi cam kavanoza alınır.",
+      "Market ballarının aksine, Dr. Şenol ballarında kristalleşme bir kusur değil; saflığın ve polen zenginliğinin doğal bir işaretidir. 1985'ten beri doğanın işine karışmıyoruz.",
     ],
     metrics: [
-      { value: '0.0%', label: 'İlave Şeker / C4' },
-      { value: '1100m', label: 'Saitabat Rakımı', accent: true },
-      { value: '40 Yıl', label: 'Arıcılık Hafızası' },
+      { value: '%0', label: 'İlave Şeker (C4)' },
+      { value: '1.100 m', label: 'Saitabat Rakımı', accent: true },
+      { value: '40 Yıl', label: 'Arıcılık Tecrübesi' },
     ],
     primaryCta: { label: 'Hasat Raporunu İncele', href: '/analizler' },
-    secondaryCta: { label: "Saitabat'a Yolculuk →", href: '/saitabat-koyu' },
+    secondaryCta: { label: 'Saitabat Köyünü Tanıyın →', href: '/saitabat-koyu' },
   },
   goldylium: {
-    eyebrow: 'Lüks Apiterapi Kozmetiği',
+    eyebrow: 'Apiterapi Kozmetiği',
     title: 'Goldylium Apithérapie',
     intro:
-      'Arı sütünün gençleştirici biyomolekülleri ile yüksek dağ propolisinin hücresel onarım gücü, parizyen formülasyonla buluşuyor.',
+      'Arı sütünün gençleştirici biyomolekülleri ile yüksek dağ propolisinin hücresel onarım gücü, Paris usulü formüllerle buluşuyor.',
     products: [
       {
         id: 'g1',
@@ -316,8 +316,8 @@ export const editorialHomeContent: EditorialHomeContent = {
     },
   },
   instagram: {
-    eyebrow: 'Görsel Akış',
-    title: '@drsenol.shop Instagram Topluluğu',
+    eyebrow: 'Bizi Takip Edin',
+    title: "Instagram'da @drsenol.shop",
     followLink: {
       label: '@drsenol.shop',
       href: 'https://instagram.com/drsenol.shop',
@@ -373,26 +373,26 @@ export const editorialHomeContent: EditorialHomeContent = {
       },
     ],
     newsletter: {
-      eyebrow: 'Özel İletişim Hattı',
-      title: 'Hasat Bildirimleri & Rezerve Seçkiler',
+      eyebrow: 'E-Bülten',
+      title: 'Yeni hasatlardan ilk siz haberdar olun',
       description:
-        'Yılda yalnızca birkaç kez, kovanlar açıldığında gönderilen sessiz hasat bültenine kaydolun. Reklamsız, yalnızca saf arıcılık kayıtları.',
+        'Yılda yalnızca birkaç kez, yeni hasat çıktığında e-posta gönderiyoruz. Reklam yok, yalnızca arıcılık haberleri.',
       placeholder: 'E-posta adresiniz...',
-      submitLabel: 'Kayıt Ol →',
-      disclaimer: 'Dilediğiniz an tek tıkla üyelikten ayrılabilirsiniz.',
+      submitLabel: 'Abone Ol →',
+      disclaimer: 'İstediğiniz zaman tek tıkla abonelikten çıkabilirsiniz.',
     },
   },
   values: [
     { label: 'Menşei', value: 'Saitabat Köyü, Uludağ' },
-    { label: 'Saf & Canlı', value: 'Isıl İşlemsiz Ham Bal' },
+    { label: 'Saflık', value: 'Isıl İşlemsiz Ham Bal' },
     { label: 'Analiz', value: 'Üniversite Onaylı Rapor' },
-    { label: 'Lojistik', value: 'Özel Isı Korumalı Paket' },
+    { label: 'Paketleme', value: 'Isı Korumalı Kutu' },
   ],
   footer: {
     columns: [
       {
-        title: 'Saitabat Mirası & Laboratuvar',
-        body: "Uludağ eteklerinde, Saitabat Köyü'nün endemik florasında 1985'ten bu yana süregelen butik arıcılık, analiz sertifikalı saf bal ve biyoteknolojik apiterapi formülleri.",
+        title: "Saitabat'tan Laboratuvara",
+        body: "1985'ten beri Uludağ eteklerindeki Saitabat Köyü'nde arıcılık yapıyoruz. Analiz raporlu ham bal ve apiterapi ürünleri.",
       },
       {
         title: 'Koleksiyon & Marka',
@@ -416,7 +416,7 @@ export const editorialHomeContent: EditorialHomeContent = {
         ],
       },
       {
-        title: 'Editöryal Notlar',
+        title: 'Bülten',
         body: 'Hasat bültenleri ve sınırlı üretim duyuruları için abone olun. Genel sorularınız için hello@drsenol.shop adresine yazabilirsiniz.',
       },
     ],
@@ -439,6 +439,6 @@ export const editorialHomeContent: EditorialHomeContent = {
     copyright: '© 1985–2026 Dr. Şenol Natural Honey. Saitabat, Bursa.',
     instagramHandle: { label: '@drsenol.shop', href: 'https://instagram.com/drsenol.shop' },
     currency: { enabled: false, primary: 'TRY (₺)', secondary: 'EUR (€)' },
-    tagline: 'Sessiz Lüks & Saf Doğa',
+    tagline: 'Saf doğa, titiz bilim',
   },
 }

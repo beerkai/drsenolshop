@@ -15,7 +15,7 @@ export default function BlogPage() {
   return (
     <StaticPageLayout
       eyebrow="Hasat günlüğü"
-      title="Mirastan notlar"
+      title="Saitabat'tan notlar"
       intro="Hasat defterinden laboratuvar notlarına: Saitabat'ın mevsimlik kayıtları."
       breadcrumbs={[{ label: 'Blog' }]}
     >

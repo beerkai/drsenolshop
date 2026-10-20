@@ -11,7 +11,7 @@ import { GOLDYLIUM_CATALOG_ROOT_SLUG } from '@/lib/goldylium-catalog'
 export const metadata = {
   title: 'Goldylium Parfüm · Dr. Şenol Shop',
   description:
-    'Goldylium imza kokuları — kadın, erkek ve unisex parfüm seçkisi. Apiterapi mirasından ilham alan editoryal kozmetik vitrini.',
+    'Goldylium parfümleri — kadın, erkek ve unisex kokular. Apiterapi geleneğinden ilham alan kozmetik serisi.',
 }
 
 type SP = Promise<{ stock?: string; sort?: string }>
@@ -41,7 +41,7 @@ export default async function GoldyliumPage(props: { searchParams: SP }) {
 
   const description =
     category?.description ||
-    'Goldylium parfüm koleksiyonu — Saitabat mirasından doğan, laboratuvar titizliğiyle şişelenmiş imza kokular.'
+    'Goldylium parfüm koleksiyonu — Saitabat\'tan ilham alan, laboratuvar titizliğiyle hazırlanan kokular.'
 
   return (
     <>

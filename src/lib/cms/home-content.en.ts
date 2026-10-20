@@ -22,7 +22,7 @@ export const enHeaderContent: EditorialHeaderContent = {
   wordmark: { text: 'Dr. Şenol', year: '1985' },
   nav: [
     { id: 'koleksiyon', label: 'Collection', href: '/en/koleksiyon' },
-    { id: 'aricilik', label: 'Apiculture & Heritage', href: '/en/hikaye' },
+    { id: 'aricilik', label: 'Our Story', href: '/en/hikaye' },
     { id: 'signature', label: 'Signature Series', href: '/en/kategori/signature', lang: 'en' },
     { id: 'goldylium', label: 'Goldylium Cosmetics', href: '/en/goldylium', lang: 'en' },
     { id: 'iletisim', label: 'Contact', href: '/en/iletisim' },
@@ -35,7 +35,7 @@ export const enHeaderContent: EditorialHeaderContent = {
 export const enMobileNav: EditorialMobileNavItem[] = [
   { id: 'kesfet', label: 'Discover', href: '/en', icon: 'explore' },
   { id: 'koleksiyon', label: 'Collection', href: '/en/koleksiyon', icon: 'grid' },
-  { id: 'miras', label: 'Heritage', href: '/en/hikaye', icon: 'book' },
+  { id: 'miras', label: 'Our Story', href: '/en/hikaye', icon: 'book' },
   { id: 'canta', label: 'Bag', href: '/en/odeme', icon: 'bag' },
   { id: 'hesap', label: 'Account', href: '/en/hesabim', icon: 'account' },
 ]
@@ -43,7 +43,7 @@ export const enMobileNav: EditorialMobileNavItem[] = [
 export const enFooterContent: EditorialFooterContent = {
   columns: [
     {
-      title: 'Saitabat Heritage & Laboratory',
+      title: 'From Saitabat to the Lab',
       body: "Boutique beekeeping since 1985 in the endemic flora of Saitabat Village, at the foot of Mount Uludağ — lab-certified raw honey and biotechnological apitherapy formulas.",
     },
     {

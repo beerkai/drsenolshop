@@ -27,6 +27,7 @@ import {
   LEGACY_HEADER_ACCENT,
   LEGACY_HEADER_ANNOUNCEMENT,
 } from '@/lib/shipping-policy'
+import { normalizeLegacyCopy } from './legacy-copy'
 
 export { defaultProductLabels, type ProductLabels } from './product-labels'
 
@@ -269,7 +270,7 @@ function merge(stored: Partial<HomeContent> | null): HomeContent {
     },
     productLabels: { ...d.productLabels, ...(stored.productLabels ?? {}) },
   }
-  return restoreEditorialImageDefaults(merged)
+  return normalizeLegacyCopy(restoreEditorialImageDefaults(merged))
 }
 
 /**

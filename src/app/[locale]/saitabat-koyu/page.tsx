@@ -45,7 +45,7 @@ export default function SaitabatKoyuPage() {
           'Ihlamur — erken yaz çiçeklenmesi, açık renk ve çiçeksi uç',
           'Çam ormanları — karakovan çam balı için salgı kaynağı',
           'Yabani kekik ve dağ çiçekleri — antimikrobiyal karakter ve çeşitlilik',
-          'Lavanta ve yaban çiçeği kuşakları — aromatik, açık renkli seçkiler',
+          'Lavanta ve yaban çiçeği kuşakları — açık renkli, aromatik ballar',
         ]}
       />
 
@@ -62,7 +62,7 @@ export default function SaitabatKoyuPage() {
       </InfoBox>
 
       <P>
-        Bu coğrafyadan çıkan seçkiyi{' '}
+        Bu topraklardan çıkan balları{' '}
         <Link href="/koleksiyon" style={{ color: 'var(--color-honey-amber)', textDecoration: 'underline' }}>
           koleksiyonda
         </Link>
