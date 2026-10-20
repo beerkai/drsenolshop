@@ -1,7 +1,6 @@
 // ═══════════════════════════════════════════════════════════════
 // /sw-reset — admin servis çalışanının KAPSAMI DIŞINDA
-// iOS, kontrollü sayfada unregister'ı yok sayar. Buradan yeni
-// çalışan kurulur; o çalışan isteği yakalamaz, kaydı kendi siler.
+// Yalnızca kayıt ve önbellek temizliği; yeni çalışan kurulmaz.
 // ═══════════════════════════════════════════════════════════════
 
 export const dynamic = 'force-dynamic'
@@ -25,39 +24,28 @@ export function GET(request: Request) {
   </style>
 </head>
 <body>
-  <p>Eski kayıt siliniyor. Panel birazdan açılacak.</p>
+  <p>Eski kayıt siliniyor…</p>
   <script>
     (function () {
       var next = ${JSON.stringify(next)};
-      var gone = false;
       function dest() {
         var join = next.indexOf('?') === -1 ? '?' : '&';
-        return next + join + 'swgone=' + Date.now();
+        return next + join + '_fresh=' + Date.now();
       }
-      function go() {
-        if (gone) return;
-        gone = true;
-        location.replace(dest());
-      }
+      function go() { location.replace(dest()); }
       var jobs = [];
+      if ('serviceWorker' in navigator) {
+        jobs.push(navigator.serviceWorker.getRegistrations().then(function (regs) {
+          return Promise.all(regs.map(function (reg) { return reg.unregister(); }));
+        }));
+      }
       if (window.caches) {
         jobs.push(caches.keys().then(function (keys) {
           return Promise.all(keys.map(function (key) { return caches.delete(key); }));
         }));
       }
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.addEventListener('message', function (event) {
-          if (event.data && event.data.type === 'reloaded') go();
-        });
-        jobs.push(navigator.serviceWorker.getRegistrations().then(function (regs) {
-          regs.forEach(function (reg) {
-            if (reg.update) reg.update().catch(function () {});
-          });
-          return navigator.serviceWorker.register('/admin-sw.js', { scope: '/admin', updateViaCache: 'none' });
-        }));
-      }
-      Promise.all(jobs).then(function () { setTimeout(go, 1500); }).catch(function () { setTimeout(go, 1500); });
-      setTimeout(go, 5000);
+      Promise.all(jobs).then(function () { setTimeout(go, 400); }).catch(function () { setTimeout(go, 400); });
+      setTimeout(go, 3000);
     })();
   </script>
 </body>

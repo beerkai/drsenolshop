@@ -6,6 +6,8 @@ import { NextResponse } from 'next/server'
 import { getCurrentAdmin } from '@/lib/admin-auth'
 import { getSupabaseAdmin } from '@/lib/supabase'
 
+export const dynamic = 'force-dynamic'
+
 interface CreateBody {
   code?: string
   description?: string | null
@@ -16,6 +18,25 @@ interface CreateBody {
   valid_from?: string | null
   valid_until?: string | null
   is_active?: boolean
+}
+
+export async function GET() {
+  const admin = await getCurrentAdmin()
+  if (!admin) return NextResponse.json({ ok: false, message: 'Yetkisiz' }, { status: 401 })
+
+  const supabase = getSupabaseAdmin()
+  const { data, error } = await supabase
+    .from('coupons')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(100)
+
+  if (error) {
+    console.error('[coupons GET] hata:', error.message)
+    return NextResponse.json({ ok: false, message: 'Liste alınamadı.' }, { status: 500 })
+  }
+
+  return NextResponse.json({ ok: true, coupons: data ?? [] })
 }
 
 export async function POST(request: Request) {

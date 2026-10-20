@@ -47,12 +47,6 @@ export const metadata: Metadata = {
   },
   description: 'Dr. Şenol Shop yönetim paneli — sipariş, stok, defter.',
   robots: { index: false, follow: false },
-  manifest: '/admin/manifest.webmanifest',
-  appleWebApp: {
-    capable: true,
-    title: 'Yönetim',
-    statusBarStyle: 'black-translucent',
-  },
   icons: {
     icon: [
       { url: '/admin/icon-192.png', sizes: '192x192', type: 'image/png' },
@@ -71,38 +65,18 @@ export const metadata: Metadata = {
  * Chrome (TopBar + Sidebar) `(chrome)/layout.tsx`'te — login sayfası
  * o route group'a dahil olmadığı için chrome görmüyor.
  */
-/**
- * Eski servis çalışanı iOS'ta unregister ile düşmüyor ve belgeyi kesiyor.
- * Varsa yeni dosyayı kurar; o dosya isteği yakalamaz, kaydı kendi siler.
- * Bir kez çalışır — sayfayı onarım bandına hapsedip aynı yere döndürmez.
- */
-const ADMIN_SW_RECOVER = `
+/** Panelde servis çalışanı kullanılmıyor; eski kayıtları sessizce sil. */
+const ADMIN_SW_PURGE = `
 (function () {
-  var KEY = 'sw-killed';
-  function killed() {
-    try { return sessionStorage.getItem(KEY) === '1'; } catch (e) { return true; }
-  }
-  function mark() {
-    try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
-  }
-  if (!('serviceWorker' in navigator) || killed()) return;
-  var reloading = false;
-  navigator.serviceWorker.addEventListener('message', function (event) {
-    if (reloading || !event.data || event.data.type !== 'reloaded') return;
-    reloading = true;
-    var url = new URL(location.href);
-    url.searchParams.set('swgone', String(Date.now()));
-    location.replace(url.pathname + url.search);
-  });
+  if (!('serviceWorker' in navigator)) return;
   navigator.serviceWorker.getRegistrations().then(function (regs) {
-    var controlled = !!navigator.serviceWorker.controller;
-    if (!controlled && (!regs || !regs.length)) return;
-    mark();
-    regs.forEach(function (reg) {
-      if (reg.update) reg.update().catch(function () {});
-    });
-    navigator.serviceWorker.register('/admin-sw.js', { scope: '/admin', updateViaCache: 'none' }).catch(function () {});
+    return Promise.all(regs.map(function (reg) { return reg.unregister(); }));
   }).catch(function () {});
+  if (window.caches) {
+    caches.keys().then(function (keys) {
+      return Promise.all(keys.map(function (key) { return caches.delete(key); }));
+    }).catch(function () {});
+  }
 })();
 `
 
@@ -201,7 +175,7 @@ export default function AdminRootLayout({ children }: { children: React.ReactNod
       className={`${inter.variable} ${cormorant.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        <script id="admin-sw-recover" dangerouslySetInnerHTML={{ __html: ADMIN_SW_RECOVER }} />
+        <script id="admin-sw-purge" dangerouslySetInnerHTML={{ __html: ADMIN_SW_PURGE }} />
         <style id="admin-ios-shell" dangerouslySetInnerHTML={{ __html: ADMIN_IOS_SHELL }} />
         <div className="admin-shell">{children}</div>
       </body>
