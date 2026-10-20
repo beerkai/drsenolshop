@@ -256,6 +256,7 @@ const invoked = process.argv[1]?.includes('apply-tax-shipping')
 if (invoked) {
   main().catch((err) => {
     console.error(err)
+    if (process.env.VERCEL) return
     process.exit(1)
   })
 }
