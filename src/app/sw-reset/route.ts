@@ -1,8 +1,7 @@
 // ═══════════════════════════════════════════════════════════════
 // /sw-reset — admin servis çalışanının KAPSAMI DIŞINDA
-// Eski çalışan /admin gezinmesini yarıda keser ve aynı pencerede
-// unregister işe yaramaz. Bu sayfa kapsam dışıdır; kayıt burada
-// silinir, sonra panel yeniden açılır.
+// iOS, kontrollü sayfada unregister'ı yok sayar. Buradan yeni
+// çalışan kurulur; o çalışan isteği yakalamaz, kaydı kendi siler.
 // ═══════════════════════════════════════════════════════════════
 
 export const dynamic = 'force-dynamic'
@@ -19,33 +18,46 @@ export function GET(request: Request) {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Panel açılıyor</title>
+  <title>Panel sıfırlanıyor</title>
   <style>
     body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #F3F4F1; color: #1A1916; font: 16px/1.45 system-ui, sans-serif; }
-    p { margin: 0; padding: 24px; text-align: center; }
+    p { margin: 0; padding: 24px; text-align: center; max-width: 28rem; }
   </style>
 </head>
 <body>
-  <p>Panel açılıyor…</p>
+  <p>Eski kayıt siliniyor. Panel birazdan açılacak.</p>
   <script>
     (function () {
       var next = ${JSON.stringify(next)};
-      function go() { location.replace(next); }
+      var gone = false;
+      function dest() {
+        var join = next.indexOf('?') === -1 ? '?' : '&';
+        return next + join + 'swgone=' + Date.now();
+      }
+      function go() {
+        if (gone) return;
+        gone = true;
+        location.replace(dest());
+      }
       var jobs = [];
-      try {
-        if ('serviceWorker' in navigator) {
-          jobs.push(navigator.serviceWorker.getRegistrations().then(function (regs) {
-            return Promise.all(regs.map(function (reg) { return reg.unregister(); }));
-          }));
-        }
-        if (window.caches) {
-          jobs.push(caches.keys().then(function (keys) {
-            return Promise.all(keys.filter(function (key) { return key.indexOf('drsenol-admin') === 0; }).map(function (key) { return caches.delete(key); }));
-          }));
-        }
-      } catch (e) {}
-      Promise.all(jobs).then(go).catch(go);
-      setTimeout(go, 2500);
+      if (window.caches) {
+        jobs.push(caches.keys().then(function (keys) {
+          return Promise.all(keys.map(function (key) { return caches.delete(key); }));
+        }));
+      }
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.addEventListener('message', function (event) {
+          if (event.data && event.data.type === 'reloaded') go();
+        });
+        jobs.push(navigator.serviceWorker.getRegistrations().then(function (regs) {
+          regs.forEach(function (reg) {
+            if (reg.update) reg.update().catch(function () {});
+          });
+          return navigator.serviceWorker.register('/admin-sw.js', { scope: '/admin', updateViaCache: 'none' });
+        }));
+      }
+      Promise.all(jobs).then(function () { setTimeout(go, 1500); }).catch(function () { setTimeout(go, 1500); });
+      setTimeout(go, 5000);
     })();
   </script>
 </body>

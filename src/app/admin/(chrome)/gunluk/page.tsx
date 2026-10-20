@@ -38,7 +38,7 @@ export default async function GunlukPage() {
         <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Günlük</p>
         <h1
           className="ad-display"
-          style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: '0 0 8px' }}
+          style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: '0 0 8px' }}
         >
           <span style={{ color: 'var(--ad-fg)' }}>Bugün —</span>{' '}
           <span style={{ color: 'var(--ad-gold-deep)', fontStyle: 'italic', fontWeight: 400 }}>{todayHuman()}</span>

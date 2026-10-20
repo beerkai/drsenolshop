@@ -79,7 +79,7 @@ export default async function DefterArsivPage({ searchParams }: { searchParams: 
       <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Defter · Arşiv</p>
-          <h1 className="ad-display" style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+          <h1 className="ad-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
             {mode === 'years' && 'Tüm Yıllar'}
             {mode === 'months' && (
               <>

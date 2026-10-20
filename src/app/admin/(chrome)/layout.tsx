@@ -30,21 +30,23 @@ export default async function AdminChromeLayout({ children }: { children: React.
   return (
     <CommandProvider>
       <Toaster />
-      <div className="ad-shell-col" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div className="ad-shell-col" style={{ display: 'block', minHeight: '100vh', width: '100%' }}>
         <TopBar
           email={ctx?.admin.email ?? ''}
           fullName={ctx?.admin.full_name ?? null}
           role={ctx?.admin.role ?? 'staff'}
           pendingOrders={pendingCount}
         />
-        <div className="ad-shell-row" style={{ display: 'flex', flex: 1, minWidth: 0 }}>
+        <div className="ad-shell-row" style={{ display: 'block', width: '100%' }}>
           <Sidebar pendingOrders={pendingCount} />
           <main
             className="ad-shell-main"
             style={{
-              flex: 1,
-              minWidth: 0,
-              padding: 'clamp(20px, 3vw, 32px) clamp(20px, 3vw, 40px)',
+              display: 'block',
+              width: '100%',
+              maxWidth: '100%',
+              overflow: 'visible',
+              padding: '20px 16px 96px',
             }}
           >
             {children}

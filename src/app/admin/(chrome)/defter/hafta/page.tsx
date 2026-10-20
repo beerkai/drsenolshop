@@ -67,7 +67,7 @@ export default async function DefterHaftalikPage({ searchParams }: { searchParam
       <div style={{ marginBottom: '24px', display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '16px' }}>
         <div>
           <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Defter · Haftalık Döküm</p>
-          <h1 className="ad-display" style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+          <h1 className="ad-display" style={{ fontSize: '26px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
             {isThisWeek ? <span>Bu Hafta</span> : <span style={{ color: 'var(--ad-fg-muted)' }}>Hafta</span>}
             <span style={{ color: 'var(--ad-gold-deep)', fontStyle: 'italic', fontWeight: 400, marginLeft: '8px' }}>
               · {humanRange(monday, sunday)}

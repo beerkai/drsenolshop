@@ -68,7 +68,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
           >
             {order.order_number}
           </p>
-          <h1 className="ad-display" style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+          <h1 className="ad-display" style={{ fontSize: '26px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
             Sipariş Detayı
           </h1>
           <p style={{ color: 'var(--ad-fg-faint)', fontSize: '12px', marginTop: '6px', fontFamily: 'var(--font-jetbrains), monospace' }}>

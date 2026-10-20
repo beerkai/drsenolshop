@@ -19,7 +19,7 @@ export default async function AdminCustomersPage({ searchParams }: { searchParam
     <div>
       <div style={{ marginBottom: '24px' }}>
         <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>İlişkiler</p>
-        <h1 className="ad-display" style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+        <h1 className="ad-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
           Müşteriler{' '}
           <span style={{ color: 'var(--ad-fg-faint)', fontFamily: 'var(--font-jetbrains), monospace', fontSize: '0.55em', letterSpacing: '0.1em', marginLeft: '8px' }}>
             {total}

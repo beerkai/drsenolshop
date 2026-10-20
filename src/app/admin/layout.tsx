@@ -72,84 +72,41 @@ export const metadata: Metadata = {
  * o route group'a dahil olmadığı için chrome görmüyor.
  */
 /**
- * Eski servis çalışanı /admin belgesini yarıda keser. Alt menü belgenin
- * sonunda olduğu için "sekme var" sayfayı tamam sanmak yetmez: başlık ve
- * kart boyanmıyorsa ya da çalışan ?sw=5 değilse kapsam DIŞI /sw-reset.
+ * Eski servis çalışanı iOS'ta unregister ile düşmüyor ve belgeyi kesiyor.
+ * Varsa yeni dosyayı kurar; o dosya isteği yakalamaz, kaydı kendi siler.
+ * Bir kez çalışır — sayfayı onarım bandına hapsedip aynı yere döndürmez.
  */
 const ADMIN_SW_RECOVER = `
 (function () {
-  var KEY = 'sw-reset-n';
-  var WANT = 'sw=5';
-  function budget() {
-    try { return Number(sessionStorage.getItem(KEY) || '0'); } catch (e) { return 99; }
+  var KEY = 'sw-killed';
+  function killed() {
+    try { return sessionStorage.getItem(KEY) === '1'; } catch (e) { return true; }
   }
-  function bump() {
-    try { sessionStorage.setItem(KEY, String(budget() + 1)); } catch (e) {}
+  function mark() {
+    try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
   }
-  function clearBudget() {
-    try { sessionStorage.removeItem(KEY); } catch (e) {}
-  }
-  function showNote() {
-    if (document.getElementById('sw-reset-note')) return;
-    var note = document.createElement('a');
-    note.id = 'sw-reset-note';
-    note.href = '/sw-reset?next=' + encodeURIComponent(location.pathname + location.search);
-    note.textContent = 'Sayfa yarım kaldı. Paneli onarmak için dokunun.';
-    note.setAttribute('style', 'display:block;margin:12px;padding:14px 16px;background:#1A1916;color:#F7F7F5;font:600 16px/1.4 system-ui,sans-serif;text-align:center;text-decoration:none;border-radius:10px;position:relative;z-index:80;');
-    var shell = document.querySelector('.admin-shell') || document.body;
-    shell.insertBefore(note, shell.firstChild);
-  }
-  function repair() {
-    if (budget() >= 2) { showNote(); return; }
-    bump();
-    location.replace('/sw-reset?next=' + encodeURIComponent(location.pathname + location.search));
-  }
-  function painted(el) {
-    if (!el) return false;
-    if (el.offsetHeight >= 8 && el.offsetWidth >= 8) return true;
-    if (!el.getBoundingClientRect) return false;
-    var r = el.getBoundingClientRect();
-    return r.height >= 8 && r.width >= 8;
-  }
-  function contentOk() {
-    if (location.pathname === '/admin/giris') return !!document.querySelector('form');
-    var main = document.querySelector('.ad-shell-main');
-    if (!main) return !document.querySelector('.admin-shell');
-    var h1 = main.querySelector('h1');
-    var nodes = main.querySelectorAll('.ad-card, .ad-card-sm, .ad-card-elevated, .ad-metric, .ad-empty, .ad-door, form, table');
-    var block = false;
-    for (var i = 0; i < nodes.length; i++) {
-      if (painted(nodes[i])) { block = true; break; }
-    }
-    return painted(h1) && block;
-  }
-  function controllerStale() {
-    if (!('serviceWorker' in navigator) || !navigator.serviceWorker.controller) return false;
-    var url = navigator.serviceWorker.controller.scriptURL || '';
-    return url.indexOf(WANT) === -1;
-  }
-  if (controllerStale()) {
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', repair);
-    else repair();
-    return;
-  }
-  function finish() {
-    if (contentOk()) {
-      clearBudget();
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/admin-sw.js?sw=5', { scope: '/admin' }).catch(function () {});
-      }
-      return;
-    }
-    if (!document.querySelector('.admin-shell')) return;
-    repair();
-  }
-  if (document.readyState === 'complete') finish();
-  else window.addEventListener('load', finish);
+  if (!('serviceWorker' in navigator) || killed()) return;
+  var reloading = false;
+  navigator.serviceWorker.addEventListener('message', function (event) {
+    if (reloading || !event.data || event.data.type !== 'reloaded') return;
+    reloading = true;
+    var url = new URL(location.href);
+    url.searchParams.set('swgone', String(Date.now()));
+    location.replace(url.pathname + url.search);
+  });
+  navigator.serviceWorker.getRegistrations().then(function (regs) {
+    var controlled = !!navigator.serviceWorker.controller;
+    if (!controlled && (!regs || !regs.length)) return;
+    mark();
+    regs.forEach(function (reg) {
+      if (reg.update) reg.update().catch(function () {});
+    });
+    navigator.serviceWorker.register('/admin-sw.js', { scope: '/admin', updateViaCache: 'none' }).catch(function () {});
+  }).catch(function () {});
 })();
 `
 
-/** iOS, iç içe flex + overflow-x:hidden ile başlığı ve kartı boyamaz. */
+/** Medya sorgusuna bağlı değil: iOS gövde style'ında @media'yı yok sayabiliyor. */
 const ADMIN_IOS_SHELL = `
 html, body {
   overflow: visible !important;
@@ -157,20 +114,60 @@ html, body {
   height: auto !important;
   max-width: 100% !important;
 }
+.ad-shell-col,
+.ad-shell-row,
+.ad-shell-main {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.ad-shell-main h1,
+.ad-shell-main .ad-page-title {
+  display: block !important;
+  font-size: 28px !important;
+  line-height: 34px !important;
+  min-height: 34px !important;
+  height: auto !important;
+  max-height: none !important;
+  color: #1A1916 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  position: static !important;
+  transform: none !important;
+  overflow: visible !important;
+}
+.ad-shell-main .ad-card,
+.ad-shell-main .ad-card-sm,
+.ad-shell-main .ad-card-elevated,
+.ad-shell-main .ad-metric,
+.ad-shell-main .ad-empty {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 48px !important;
+  position: relative !important;
+  overflow: visible !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  background-color: #FFFFFF !important;
+}
+.ad-shell-main .ad-door {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 48px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  background-color: #FFFFFF !important;
+}
 @media (max-width: 1024px) {
-  .ad-shell-col,
-  .ad-shell-row,
-  .ad-shell-main {
-    display: block !important;
-    flex: none !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
-    overflow: visible !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  .ad-shell-col { min-height: 100vh !important; }
   .ad-sidebar {
     display: none !important;
     height: 0 !important;
@@ -179,53 +176,20 @@ html, body {
     position: absolute !important;
     overflow: hidden !important;
   }
-  .ad-shell-main h1 {
-    display: block !important;
-    font-size: 26px !important;
-    line-height: 1.25 !important;
-    min-height: 1.25em !important;
-    height: auto !important;
-    max-height: none !important;
-    color: #1A1916 !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    position: static !important;
-    transform: none !important;
-    overflow: visible !important;
-  }
-  .ad-shell-main .ad-card,
-  .ad-shell-main .ad-card-sm,
-  .ad-shell-main .ad-card-elevated,
-  .ad-shell-main .ad-metric,
-  .ad-shell-main .ad-empty {
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    position: relative !important;
-    clear: both;
-    overflow: visible !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-    background-color: #FFFFFF !important;
-  }
-  .ad-shell-main .ad-door {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    position: relative !important;
-    overflow: visible !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    background-color: #FFFFFF !important;
-  }
   .admin-shell .ad-btn {
     min-width: 0 !important;
     white-space: normal;
+  }
+}
+@media (min-width: 1025px) {
+  .ad-shell-row { display: flex !important; align-items: flex-start !important; }
+  .ad-shell-main { flex: 1 1 auto !important; width: auto !important; max-width: none !important; }
+  .ad-sidebar {
+    display: flex !important;
+    position: sticky !important;
+    width: 232px !important;
+    height: calc(100vh - 56px) !important;
+    overflow: auto !important;
   }
 }
 `

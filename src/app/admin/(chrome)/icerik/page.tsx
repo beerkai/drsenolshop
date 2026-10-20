@@ -14,7 +14,7 @@ export default async function AdminSiteCopyPage() {
         </p>
         <h1
           className="ad-display"
-          style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 500, lineHeight: 1.1, margin: 0 }}
+          style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, margin: 0 }}
         >
           Site metinleri
         </h1>

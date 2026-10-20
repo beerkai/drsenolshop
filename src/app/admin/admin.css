@@ -1428,8 +1428,8 @@
 
 .ad-page-title {
   margin: 6px 0 0;
-  font-size: clamp(28px, 3vw, 36px);
-  line-height: 1.12;
+  font-size: 28px;
+  line-height: 1.2;
   font-weight: 500;
   color: var(--ad-fg);
 }

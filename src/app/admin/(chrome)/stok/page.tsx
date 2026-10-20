@@ -32,7 +32,7 @@ export default async function AdminStockPage({ searchParams }: { searchParams: S
     <div>
       <div style={{ marginBottom: '24px' }}>
         <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Operasyon</p>
-        <h1 className="ad-display" style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+        <h1 className="ad-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
           Stok Takibi
         </h1>
         <p style={{ color: 'var(--ad-fg-muted)', fontSize: '13px', margin: '8px 0 0' }}>

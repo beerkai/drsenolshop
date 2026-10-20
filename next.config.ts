@@ -16,6 +16,22 @@ const nextConfig: NextConfig = {
       { source: '/hikaye/:slug', destination: '/blog/:slug', permanent: true },
     ]
   },
+  async headers() {
+    return [
+      {
+        source: '/admin',
+        headers: [{ key: 'Cache-Control', value: 'private, no-store' }],
+      },
+      {
+        source: '/admin/:path*',
+        headers: [{ key: 'Cache-Control', value: 'private, no-store' }],
+      },
+      {
+        source: '/admin-sw.js',
+        headers: [{ key: 'Cache-Control', value: 'no-store' }],
+      },
+    ]
+  },
   images: {
     remotePatterns: [
       {

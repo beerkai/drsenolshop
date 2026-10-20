@@ -23,7 +23,7 @@ export default async function AdminEmailGalleryPage() {
         <h1
           className="ad-display"
           style={{
-            fontSize: 'clamp(26px, 3.5vw, 36px)',
+            fontSize: '28px',
             fontWeight: 500,
             lineHeight: 1.1,
             color: 'var(--ad-fg)',

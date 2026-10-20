@@ -47,7 +47,7 @@ export default async function CustomerDetailPage({ params }: Props) {
       {/* Üst — Müşteri kimlik kartı */}
       <div className="ad-card" style={{ marginBottom: '24px' }}>
         <p className="ad-eyebrow" style={{ marginBottom: '10px' }}>Müşteri</p>
-        <h1 className="ad-display" style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 500, color: 'var(--ad-fg)', lineHeight: 1.1, margin: '0 0 8px' }}>
+        <h1 className="ad-display" style={{ fontSize: '26px', fontWeight: 500, color: 'var(--ad-fg)', lineHeight: 1.1, margin: '0 0 8px' }}>
           {detail.name}
         </h1>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'baseline' }}>
