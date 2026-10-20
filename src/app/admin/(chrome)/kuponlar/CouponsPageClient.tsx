@@ -6,8 +6,8 @@ import CouponsPanel, { type CouponRow } from './CouponsPanel'
 function PageTitle({ children }: { children: React.ReactNode }) {
   return (
     <p
-      data-ad-page-title
-      className="ad-page-title"
+      data-pn-page-title
+      className="pn-page-title"
       style={{
         display: 'block',
         fontSize: '28px',
@@ -52,9 +52,9 @@ export default function CouponsPageClient() {
 
   if (error) {
     return (
-      <div className="ad-card" style={{ padding: 20 }}>
+      <div className="pn-card" style={{ padding: 20 }}>
         <p style={{ margin: '0 0 12px', color: 'var(--ad-danger)' }}>{error}</p>
-        <button type="button" className="ad-btn ad-btn-primary" onClick={() => window.location.reload()}>
+        <button type="button" className="pn-btn pn-btn-primary" onClick={() => window.location.reload()}>
           Yeniden dene
         </button>
       </div>
@@ -67,7 +67,7 @@ export default function CouponsPageClient() {
   return (
     <div>
       <div style={{ marginBottom: '24px' }}>
-        <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Pazarlama</p>
+        <p className="pn-eyebrow" style={{ marginBottom: '12px' }}>Pazarlama</p>
         <PageTitle>Kuponlar</PageTitle>
         <p style={{ color: 'var(--ad-fg-muted)', fontSize: '13px', margin: '8px 0 0' }}>
           {coupons ? `${active} aktif · ${total} toplam` : 'Yükleniyor…'}
@@ -77,7 +77,7 @@ export default function CouponsPageClient() {
       {coupons ? (
         <CouponsPanel initial={coupons} />
       ) : (
-        <div className="ad-card" style={{ padding: 24, color: 'var(--ad-fg-muted)' }}>Yükleniyor…</div>
+        <div className="pn-card" style={{ padding: 24, color: 'var(--ad-fg-muted)' }}>Yükleniyor…</div>
       )}
     </div>
   )

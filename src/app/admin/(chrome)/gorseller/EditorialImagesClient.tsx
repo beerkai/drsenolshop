@@ -164,7 +164,7 @@ export default function EditorialImagesClient({ initial }: { initial: EditorialS
       {groups.map((group) => (
         <section key={group.group} style={{ marginBottom: 36 }}>
           <h2
-            className="ad-mono"
+            className="pn-mono"
             style={{
               margin: '0 0 14px',
               fontSize: 11,
@@ -179,7 +179,7 @@ export default function EditorialImagesClient({ initial }: { initial: EditorialS
             {group.items.map((slot) => {
               const busy = busyId === slot.id
               return (
-                <article key={slot.id} className="ad-card editorial-image-card">
+                <article key={slot.id} className="pn-card editorial-image-card">
                   <div className="editorial-image-frame">
                     {slot.previewUrl ? (
                       <img src={slot.previewUrl} alt={slot.alt || slot.label} />
@@ -190,7 +190,7 @@ export default function EditorialImagesClient({ initial }: { initial: EditorialS
                   <div style={{ minWidth: 0 }}>
                     <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
                       <strong style={{ fontSize: 14, fontWeight: 500 }}>{slot.label}</strong>
-                      <span className={slot.custom ? 'ad-badge ad-badge-success' : 'ad-badge'}>
+                      <span className={slot.custom ? 'pn-badge pn-badge-success' : 'pn-badge'}>
                         {slot.custom ? 'Yüklendi' : 'Yer tutucu'}
                       </span>
                     </div>
@@ -212,7 +212,7 @@ export default function EditorialImagesClient({ initial }: { initial: EditorialS
                     />
                     <button
                       type="button"
-                      className="ad-btn ad-btn-primary"
+                      className="pn-btn pn-btn-primary"
                       disabled={busy}
                       onClick={() => inputs.current[slot.id]?.click()}
                     >
@@ -221,7 +221,7 @@ export default function EditorialImagesClient({ initial }: { initial: EditorialS
                     {slot.custom ? (
                       <button
                         type="button"
-                        className="ad-btn ad-btn-secondary"
+                        className="pn-btn pn-btn-secondary"
                         disabled={busy}
                         onClick={() => void reset(slot)}
                       >

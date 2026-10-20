@@ -38,21 +38,21 @@ export default async function AdminSitePage() {
   await requireAdmin()
 
   return (
-    <div className="ad-page">
-      <header className="ad-page-head">
-        <p className="ad-eyebrow">Site</p>
-        <h1 className="ad-display ad-page-title">Vitrini buradan düzenle.</h1>
-        <p className="ad-page-lead">
+    <div className="pn-page">
+      <header className="pn-page-head">
+        <p className="pn-eyebrow">Site</p>
+        <h1 className="pn-display pn-page-title">Vitrini buradan düzenle.</h1>
+        <p className="pn-page-lead">
           Tema, görsel, şerit ve metin ayrı araçlardı. Hepsi bu kapının arkasında. Sipariş ve stok soldaki İşler bölümünde.
         </p>
       </header>
 
-      <div className="ad-door-grid">
+      <div className="pn-door-grid">
         {DOORS.map((door) => (
-          <Link key={door.href} href={door.href} className="ad-door">
-            <span className="ad-door-title">{door.title}</span>
-            <span className="ad-door-body">{door.body}</span>
-            <span className="ad-door-go">Aç</span>
+          <Link key={door.href} href={door.href} className="pn-door">
+            <span className="pn-door-title">{door.title}</span>
+            <span className="pn-door-body">{door.body}</span>
+            <span className="pn-door-go">Aç</span>
           </Link>
         ))}
       </div>

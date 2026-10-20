@@ -12,8 +12,8 @@ export function HourlyOrdersBar({ hours }: Props) {
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '14px' }}>
-        <p className="ad-eyebrow-muted">Bugün · Saat Bazında Sipariş</p>
-        <p className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)' }}>
+        <p className="pn-eyebrow-muted">Bugün · Saat Bazında Sipariş</p>
+        <p className="pn-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)' }}>
           Toplam <span style={{ color: 'var(--ad-fg)', fontWeight: 500 }}>{totalToday}</span>
         </p>
       </div>

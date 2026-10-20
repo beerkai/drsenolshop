@@ -65,12 +65,12 @@ export default function OrderActions(props: Props) {
   }
 
   return (
-    <div className="ad-card" style={{ position: 'sticky', top: '76px' }}>
-      <p className="ad-eyebrow" style={{ marginBottom: '20px' }}>Aksiyonlar</p>
+    <div className="pn-card" style={{ position: 'sticky', top: '76px' }}>
+      <p className="pn-eyebrow" style={{ marginBottom: '20px' }}>Aksiyonlar</p>
 
       <div style={{ marginBottom: '14px' }}>
-        <label className="ad-label">Sipariş Durumu</label>
-        <select value={status} onChange={(e) => setStatus(e.target.value)} className="ad-select">
+        <label className="pn-label">Sipariş Durumu</label>
+        <select value={status} onChange={(e) => setStatus(e.target.value)} className="pn-select">
           {STATUS_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>{o.label}</option>
           ))}
@@ -78,8 +78,8 @@ export default function OrderActions(props: Props) {
       </div>
 
       <div style={{ marginBottom: '14px' }}>
-        <label className="ad-label">Ödeme Durumu</label>
-        <select value={paymentStatus} onChange={(e) => setPaymentStatus(e.target.value)} className="ad-select">
+        <label className="pn-label">Ödeme Durumu</label>
+        <select value={paymentStatus} onChange={(e) => setPaymentStatus(e.target.value)} className="pn-select">
           {PAYMENT_STATUS_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>{o.label}</option>
           ))}
@@ -87,12 +87,12 @@ export default function OrderActions(props: Props) {
       </div>
 
       <div style={{ marginBottom: '18px' }}>
-        <label className="ad-label">Kargo Takip No</label>
+        <label className="pn-label">Kargo Takip No</label>
         <input
           type="text"
           value={trackingNumber}
           onChange={(e) => setTrackingNumber(e.target.value)}
-          className="ad-input"
+          className="pn-input"
           placeholder="Yurtiçi / MNG / Aras"
         />
       </div>
@@ -101,23 +101,23 @@ export default function OrderActions(props: Props) {
         type="button"
         onClick={handleSave}
         disabled={saving}
-        className="ad-btn ad-btn-primary"
+        className="pn-btn pn-btn-primary"
         style={{ width: '100%' }}
       >
         {saving ? 'Kaydediliyor…' : 'Değişiklikleri Kaydet'}
       </button>
 
-      <hr className="ad-divider" />
+      <hr className="pn-divider" />
 
-      <p className="ad-eyebrow-muted" style={{ marginBottom: '8px' }}>Ödeme Yöntemi</p>
+      <p className="pn-eyebrow-muted" style={{ marginBottom: '8px' }}>Ödeme Yöntemi</p>
       <p style={{ color: 'var(--ad-fg)', fontSize: '13px', margin: 0 }}>
         {props.paymentMethod === 'bank_transfer' ? 'Havale / EFT' : props.paymentMethod}
       </p>
 
       {props.paymentRef && (
         <>
-          <p className="ad-eyebrow-muted" style={{ marginTop: '14px', marginBottom: '6px' }}>Ödeme Ref.</p>
-          <p className="ad-mono" style={{ color: 'var(--ad-fg)', fontSize: '12px', margin: 0, wordBreak: 'break-all' }}>
+          <p className="pn-eyebrow-muted" style={{ marginTop: '14px', marginBottom: '6px' }}>Ödeme Ref.</p>
+          <p className="pn-mono" style={{ color: 'var(--ad-fg)', fontSize: '12px', margin: 0, wordBreak: 'break-all' }}>
             {props.paymentRef}
           </p>
         </>

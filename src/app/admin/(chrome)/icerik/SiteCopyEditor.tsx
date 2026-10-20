@@ -22,11 +22,11 @@ function Field({
 }) {
   return (
     <label style={{ display: 'block', marginBottom: 14 }}>
-      <span className="ad-label">{label}</span>
+      <span className="pn-label">{label}</span>
       {multiline ? (
-        <textarea className="ad-textarea" rows={3} value={value} onChange={(e) => onChange(e.target.value)} />
+        <textarea className="pn-textarea" rows={3} value={value} onChange={(e) => onChange(e.target.value)} />
       ) : (
-        <input className="ad-input" value={value} onChange={(e) => onChange(e.target.value)} />
+        <input className="pn-input" value={value} onChange={(e) => onChange(e.target.value)} />
       )}
     </label>
   )
@@ -71,13 +71,13 @@ export default function SiteCopyEditor({ initialCopy }: { initialCopy: SiteCopy 
   return (
     <div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24, alignItems: 'center' }}>
-        {dirty ? <span className="ad-badge ad-badge-warning">Kaydedilmemiş</span> : null}
-        <button type="button" className="ad-btn ad-btn-primary" onClick={save} disabled={saving || !dirty}>
+        {dirty ? <span className="pn-badge pn-badge-warning">Kaydedilmemiş</span> : null}
+        <button type="button" className="pn-btn pn-btn-primary" onClick={save} disabled={saving || !dirty}>
           {saving ? 'Kaydediliyor…' : 'Kaydet'}
         </button>
         <button
           type="button"
-          className="ad-btn ad-btn-secondary"
+          className="pn-btn pn-btn-secondary"
           onClick={() => {
             setCopy(clone(initialCopy))
             setDirty(false)
@@ -88,8 +88,8 @@ export default function SiteCopyEditor({ initialCopy }: { initialCopy: SiteCopy 
         </button>
       </div>
 
-      <div className="ad-card" style={{ marginBottom: 24, padding: 16 }}>
-        <p className="ad-label">Diğer metinler</p>
+      <div className="pn-card" style={{ marginBottom: 24, padding: 16 }}>
+        <p className="pn-label">Diğer metinler</p>
         <p style={{ fontSize: 13, color: 'var(--ad-fg-muted)', margin: '0 0 12px' }}>
           Anasayfa hero, footer, katalog butonları:{' '}
           <Link href="/admin/tema" style={{ color: 'var(--ad-accent)' }}>
@@ -103,7 +103,7 @@ export default function SiteCopyEditor({ initialCopy }: { initialCopy: SiteCopy 
         </p>
       </div>
 
-      <h2 className="ad-display" style={{ fontSize: 22, marginBottom: 16 }}>
+      <h2 className="pn-display" style={{ fontSize: 22, marginBottom: 16 }}>
         Sıkça Sorulanlar
       </h2>
       <Field
@@ -125,7 +125,7 @@ export default function SiteCopyEditor({ initialCopy }: { initialCopy: SiteCopy 
       />
 
       {copy.faq.sections.map((sec, si) => (
-        <div key={sec.id} className="ad-card" style={{ marginTop: 24, padding: 16 }}>
+        <div key={sec.id} className="pn-card" style={{ marginTop: 24, padding: 16 }}>
           <Field
             label={`Bölüm ${si + 1} — eyebrow`}
             value={sec.eyebrow}

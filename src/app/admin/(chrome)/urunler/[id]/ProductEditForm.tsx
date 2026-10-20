@@ -105,45 +105,45 @@ export default function ProductEditForm({
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
       {/* Durum */}
-      <div className="ad-card">
-        <p className="ad-eyebrow" style={{ marginBottom: '16px' }}>Yayın Durumu</p>
+      <div className="pn-card">
+        <p className="pn-eyebrow" style={{ marginBottom: '16px' }}>Yayın Durumu</p>
         <ToggleRow label="Aktif" hint="Sitede görünür" checked={isActive} onChange={setIsActive} />
         <ToggleRow label="Öne Çıkan" hint="Anasayfa vitrininde göster" checked={isFeatured} onChange={setIsFeatured} />
         <ToggleRow label="Yeni" hint="Katalogda yeni rozeti" checked={isNew} onChange={setIsNew} />
         <div style={{ marginTop: '12px' }}>
-          <label className="ad-label">Katalog Sırası</label>
+          <label className="pn-label">Katalog Sırası</label>
           <input
             type="number"
             value={displayOrder}
             onChange={(e) => setDisplayOrder(e.target.value)}
-            className="ad-input"
+            className="pn-input"
             placeholder="Boş = sona"
           />
-          <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
+          <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
             Küçük sayı önce gelir. Toplu sıralama ürün listesinden yapılır.
           </p>
         </div>
       </div>
 
       {/* İçerik */}
-      <div className="ad-card" style={{ gridColumn: '1 / -1' }}>
-        <p className="ad-eyebrow" style={{ marginBottom: '16px' }}>İçerik</p>
+      <div className="pn-card" style={{ gridColumn: '1 / -1' }}>
+        <p className="pn-eyebrow" style={{ marginBottom: '16px' }}>İçerik</p>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px', marginBottom: '12px' }}>
           <div>
-            <label className="ad-label">Ürün Adı</label>
-            <input value={name} onChange={(e) => setName(e.target.value)} className="ad-input" />
+            <label className="pn-label">Ürün Adı</label>
+            <input value={name} onChange={(e) => setName(e.target.value)} className="pn-input" />
           </div>
           <div>
-            <label className="ad-label">Slug</label>
-            <input value={slug} onChange={(e) => setSlug(e.target.value)} className="ad-input" />
-            <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
+            <label className="pn-label">Slug</label>
+            <input value={slug} onChange={(e) => setSlug(e.target.value)} className="pn-input" />
+            <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
               /urun/{slug || '…'} — değiştirirseniz eski bağlantılar kırılır.
             </p>
           </div>
           <div>
-            <label className="ad-label">Kategori</label>
-            <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className="ad-select">
+            <label className="pn-label">Kategori</label>
+            <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className="pn-select">
               <option value="">— Kategorisiz —</option>
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>{c.name}</option>
@@ -151,37 +151,37 @@ export default function ProductEditForm({
             </select>
           </div>
           <div>
-            <label className="ad-label">Rozet</label>
-            <input value={badge} onChange={(e) => setBadge(e.target.value)} className="ad-input" placeholder="Örn. Sınırlı Hasat" />
+            <label className="pn-label">Rozet</label>
+            <input value={badge} onChange={(e) => setBadge(e.target.value)} className="pn-input" placeholder="Örn. Sınırlı Hasat" />
           </div>
           <div>
-            <label className="ad-label">Stok Kodu (SKU)</label>
-            <input value={sku} onChange={(e) => setSku(e.target.value)} className="ad-input" />
+            <label className="pn-label">Stok Kodu (SKU)</label>
+            <input value={sku} onChange={(e) => setSku(e.target.value)} className="pn-input" />
           </div>
           <div>
-            <label className="ad-label">Ağırlık (gram)</label>
-            <input type="number" min="0" value={weight} onChange={(e) => setWeight(e.target.value)} className="ad-input" />
+            <label className="pn-label">Ağırlık (gram)</label>
+            <input type="number" min="0" value={weight} onChange={(e) => setWeight(e.target.value)} className="pn-input" />
           </div>
         </div>
 
         <div style={{ marginBottom: '12px' }}>
-          <label className="ad-label">Kısa Açıklama</label>
-          <textarea rows={2} value={shortDesc} onChange={(e) => setShortDesc(e.target.value)} className="ad-textarea" />
+          <label className="pn-label">Kısa Açıklama</label>
+          <textarea rows={2} value={shortDesc} onChange={(e) => setShortDesc(e.target.value)} className="pn-textarea" />
         </div>
 
         <div style={{ marginBottom: '12px' }}>
-          <label className="ad-label">Uzun Açıklama</label>
-          <textarea rows={8} value={longDesc} onChange={(e) => setLongDesc(e.target.value)} className="ad-textarea" />
+          <label className="pn-label">Uzun Açıklama</label>
+          <textarea rows={8} value={longDesc} onChange={(e) => setLongDesc(e.target.value)} className="pn-textarea" />
         </div>
 
         <div>
-          <label className="ad-label">Etiketler</label>
-          <input value={tagsText} onChange={(e) => setTagsText(e.target.value)} className="ad-input" placeholder="virgülle ayırın" />
+          <label className="pn-label">Etiketler</label>
+          <input value={tagsText} onChange={(e) => setTagsText(e.target.value)} className="pn-input" placeholder="virgülle ayırın" />
         </div>
       </div>
 
       {/* Görseller — varyant yoksa veya genel galeri */}
-      <div className="ad-card" style={{ gridColumn: '1 / -1' }}>
+      <div className="pn-card" style={{ gridColumn: '1 / -1' }}>
         <ProductImageManager
           productId={product.id}
           initialImages={images}
@@ -189,47 +189,47 @@ export default function ProductEditForm({
           eyebrow={hasVariants ? 'Genel görseller (fallback)' : 'Görseller'}
         />
         {hasVariants ? (
-          <p className="ad-mono" style={{ fontSize: 10, color: 'var(--ad-fg-faint)', marginTop: 12, letterSpacing: '0.05em' }}>
+          <p className="pn-mono" style={{ fontSize: 10, color: 'var(--ad-fg-faint)', marginTop: 12, letterSpacing: '0.05em' }}>
             Varyantlı ürünlerde müşteri galerisi önce aşağıdaki varyant görsellerini kullanır; boşsa genel liste gösterilir.
           </p>
         ) : null}
       </div>
 
       {/* SEO */}
-      <div className="ad-card" style={{ gridColumn: '1 / -1' }}>
-        <p className="ad-eyebrow" style={{ marginBottom: '16px' }}>Arama Motoru</p>
+      <div className="pn-card" style={{ gridColumn: '1 / -1' }}>
+        <p className="pn-eyebrow" style={{ marginBottom: '16px' }}>Arama Motoru</p>
         <div style={{ marginBottom: '12px' }}>
-          <label className="ad-label">Meta Başlık</label>
-          <input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className="ad-input" />
+          <label className="pn-label">Meta Başlık</label>
+          <input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className="pn-input" />
         </div>
         <div>
-          <label className="ad-label">Meta Açıklama</label>
-          <textarea rows={2} value={metaDesc} onChange={(e) => setMetaDesc(e.target.value)} className="ad-textarea" />
+          <label className="pn-label">Meta Açıklama</label>
+          <textarea rows={2} value={metaDesc} onChange={(e) => setMetaDesc(e.target.value)} className="pn-textarea" />
         </div>
       </div>
 
       {/* Fiyat & KDV */}
-      <div className="ad-card">
-        <p className="ad-eyebrow" style={{ marginBottom: '16px' }}>Fiyat & KDV</p>
+      <div className="pn-card">
+        <p className="pn-eyebrow" style={{ marginBottom: '16px' }}>Fiyat & KDV</p>
         <div style={{ marginBottom: '12px' }}>
-          <label className="ad-label">Temel Fiyat (TL)</label>
+          <label className="pn-label">Temel Fiyat (TL)</label>
           <input
             type="number"
             step="0.01"
             value={basePrice}
             onChange={(e) => setBasePrice(e.target.value)}
-            className="ad-input"
+            className="pn-input"
             disabled={hasVariants}
             placeholder={hasVariants ? 'Varyant fiyatları aşağıda' : ''}
           />
           {hasVariants && (
-            <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
+            <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
               Varyant ürünlerde temel fiyat kullanılmaz.
             </p>
           )}
         </div>
         <div>
-          <label className="ad-label">KDV Oranı (%)</label>
+          <label className="pn-label">KDV Oranı (%)</label>
           <input
             type="number"
             step="0.01"
@@ -237,9 +237,9 @@ export default function ProductEditForm({
             max="100"
             value={taxRate}
             onChange={(e) => setTaxRate(e.target.value)}
-            className="ad-input"
+            className="pn-input"
           />
-          <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
+          <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
             Gıda: 1 · Kozmetik: 20 · KDV fiyata dahil hesaplanır.
           </p>
         </div>
@@ -247,16 +247,16 @@ export default function ProductEditForm({
 
       {/* Stok — varyant yoksa */}
       {!hasVariants && (
-        <div className="ad-card">
-          <p className="ad-eyebrow" style={{ marginBottom: '16px' }}>Stok</p>
+        <div className="pn-card">
+          <p className="pn-eyebrow" style={{ marginBottom: '16px' }}>Stok</p>
           <div>
-            <label className="ad-label">Adet</label>
+            <label className="pn-label">Adet</label>
             <input
               type="number"
               min="0"
               value={stockQuantity}
               onChange={(e) => setStockQuantity(e.target.value)}
-              className="ad-input"
+              className="pn-input"
             />
           </div>
         </div>
@@ -264,10 +264,10 @@ export default function ProductEditForm({
 
       {/* Varyant stokları */}
       {hasVariants && (
-        <div className="ad-card" style={{ gridColumn: '1 / -1' }}>
-          <p className="ad-eyebrow" style={{ marginBottom: '16px' }}>Varyantlar</p>
-          <div className="ad-table-wrap" style={{ border: '1px solid var(--ad-line-faint)' }}>
-            <table className="ad-table" style={{ minWidth: '420px' }}>
+        <div className="pn-card" style={{ gridColumn: '1 / -1' }}>
+          <p className="pn-eyebrow" style={{ marginBottom: '16px' }}>Varyantlar</p>
+          <div className="pn-table-wrap" style={{ border: '1px solid var(--ad-line-faint)' }}>
+            <table className="pn-table" style={{ minWidth: '420px' }}>
               <thead>
                 <tr>
                   <th>Etiket</th>
@@ -282,7 +282,7 @@ export default function ProductEditForm({
                       <span style={{ color: 'var(--ad-fg)' }}>{getVariantLabel(v)}</span>
                       {v.is_active === false && (
                         <span
-                          className="ad-mono"
+                          className="pn-mono"
                           style={{
                             marginLeft: '8px',
                             fontSize: '9px',
@@ -296,7 +296,7 @@ export default function ProductEditForm({
                       )}
                     </td>
                     <td className="is-right">
-                      <span className="ad-display" style={{ fontSize: '15px', color: 'var(--ad-fg)' }}>
+                      <span className="pn-display" style={{ fontSize: '15px', color: 'var(--ad-fg)' }}>
                         {formatPrice(v.price ?? 0)}
                       </span>
                     </td>
@@ -306,7 +306,7 @@ export default function ProductEditForm({
                         min="0"
                         value={variantStocks[v.id] ?? ''}
                         onChange={(e) => setVariantStocks((prev) => ({ ...prev, [v.id]: e.target.value }))}
-                        className="ad-input"
+                        className="pn-input"
                         style={{ width: '100px', textAlign: 'right', padding: '8px 10px' }}
                       />
                     </td>
@@ -317,7 +317,7 @@ export default function ProductEditForm({
           </div>
 
           <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <p className="ad-eyebrow" style={{ margin: 0 }}>
+            <p className="pn-eyebrow" style={{ margin: 0 }}>
               Varyant görselleri
             </p>
             {(product.variants ?? []).map((v) => (
@@ -359,7 +359,7 @@ export default function ProductEditForm({
           type="button"
           onClick={handleSave}
           disabled={saving}
-          className="ad-btn ad-btn-primary"
+          className="pn-btn pn-btn-primary"
           style={{ width: '100%', minHeight: '46px' }}
         >
           {saving ? 'Kaydediliyor…' : 'Değişiklikleri Kaydet'}
@@ -418,7 +418,7 @@ function ToggleRow({
         <span style={{ color: 'var(--ad-fg)', fontSize: '13px', display: 'block' }}>{label}</span>
         {hint && (
           <span
-            className="ad-mono"
+            className="pn-mono"
             style={{
               fontSize: '10px',
               color: 'var(--ad-fg-faint)',

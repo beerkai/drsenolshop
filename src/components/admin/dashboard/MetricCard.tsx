@@ -14,14 +14,14 @@ interface Props {
 
 export function MetricCard({ label, value, valueGold, sparkline, delta, deltaLabel, hint }: Props) {
   return (
-    <div className="ad-metric">
-      <p className="ad-metric-label">{label}</p>
-      <p className={['ad-metric-value', valueGold && 'is-gold'].filter(Boolean).join(' ')}>
+    <div className="pn-metric">
+      <p className="pn-metric-label">{label}</p>
+      <p className={['pn-metric-value', valueGold && 'is-gold'].filter(Boolean).join(' ')}>
         {value}
       </p>
 
       {(delta !== undefined || hint) && (
-        <div className="ad-metric-meta">
+        <div className="pn-metric-meta">
           {delta !== undefined && <TrendChip value={delta} label={deltaLabel} />}
           {hint && !delta && (
             <span style={{ color: 'var(--ad-fg-faint)' }}>{hint}</span>
@@ -30,7 +30,7 @@ export function MetricCard({ label, value, valueGold, sparkline, delta, deltaLab
       )}
 
       {sparkline && sparkline.length > 0 && (
-        <div className="ad-metric-sparkline">
+        <div className="pn-metric-sparkline">
           <Sparkline data={sparkline} width={70} height={20} color="var(--ad-gold)" fillColor="var(--ad-gold)" />
         </div>
       )}

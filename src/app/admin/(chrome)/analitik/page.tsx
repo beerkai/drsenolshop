@@ -15,8 +15,8 @@ export default async function AdminAnalyticsPage() {
   return (
     <div>
       <div style={{ marginBottom: '28px' }}>
-        <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>İçgörü</p>
-        <h1 className="ad-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+        <p className="pn-eyebrow" style={{ marginBottom: '12px' }}>İçgörü</p>
+        <h1 className="pn-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
           Analitik
         </h1>
         <p style={{ color: 'var(--ad-fg-muted)', fontSize: '13px', margin: '8px 0 0' }}>
@@ -37,10 +37,10 @@ export default async function AdminAnalyticsPage() {
       </div>
 
       {/* 30 günlük ciro bar chart */}
-      <div className="ad-card" style={{ marginBottom: '20px' }}>
+      <div className="pn-card" style={{ marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '16px' }}>
-          <p className="ad-eyebrow-muted">Son 30 Gün · Günlük Ciro</p>
-          <span className="ad-display" style={{ fontSize: '20px', fontWeight: 500, color: 'var(--ad-gold-deep)' }}>
+          <p className="pn-eyebrow-muted">Son 30 Gün · Günlük Ciro</p>
+          <span className="pn-display" style={{ fontSize: '20px', fontWeight: 500, color: 'var(--ad-gold-deep)' }}>
             {formatPrice(snap.series30.reduce((s, d) => s + d.revenue, 0))}
           </span>
         </div>
@@ -72,10 +72,10 @@ export default async function AdminAnalyticsPage() {
       </div>
 
       {/* Sipariş hacmi sparkline */}
-      <div className="ad-card" style={{ marginBottom: '20px' }}>
+      <div className="pn-card" style={{ marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-          <p className="ad-eyebrow-muted">Son 30 Gün · Günlük Sipariş Hacmi</p>
-          <span className="ad-mono" style={{ fontSize: '12px', color: 'var(--ad-fg-muted)' }}>
+          <p className="pn-eyebrow-muted">Son 30 Gün · Günlük Sipariş Hacmi</p>
+          <span className="pn-mono" style={{ fontSize: '12px', color: 'var(--ad-fg-muted)' }}>
             toplam <strong style={{ color: 'var(--ad-fg)' }}>{snap.series30.reduce((s, d) => s + d.orders, 0)}</strong>
           </span>
         </div>
@@ -83,8 +83,8 @@ export default async function AdminAnalyticsPage() {
       </div>
 
       {/* Durum dağılımı */}
-      <div className="ad-card">
-        <p className="ad-eyebrow-muted" style={{ marginBottom: '16px' }}>Sipariş Durum Dağılımı</p>
+      <div className="pn-card">
+        <p className="pn-eyebrow-muted" style={{ marginBottom: '16px' }}>Sipariş Durum Dağılımı</p>
         <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
           <StatRow label="Başarılı (paid/preparing/shipped/delivered)" value={snap.paidOrders} color="var(--ad-success)" />
           <StatRow label="İptal" value={snap.cancelledOrders} color="var(--ad-danger)" />
@@ -98,10 +98,10 @@ export default async function AdminAnalyticsPage() {
 function StatRow({ label, value, color }: { label: string; value: number; color: string }) {
   return (
     <div>
-      <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.18em', textTransform: 'uppercase', margin: '0 0 6px' }}>
+      <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.18em', textTransform: 'uppercase', margin: '0 0 6px' }}>
         {label}
       </p>
-      <p className="ad-display" style={{ fontSize: '28px', fontWeight: 500, color, margin: 0, lineHeight: 1 }}>
+      <p className="pn-display" style={{ fontSize: '28px', fontWeight: 500, color, margin: 0, lineHeight: 1 }}>
         {value}
       </p>
     </div>

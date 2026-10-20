@@ -22,12 +22,12 @@ export default async function AdminGirisPage({ searchParams }: { searchParams: S
   const next = safeAdminNext(sp.next)
 
   return (
-    <div className="ad-grid-bg" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
+    <div className="pn-grid-bg" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
       <div style={{ width: '100%', maxWidth: '440px' }}>
 
         {/* Brand kart */}
         <div
-          className="ad-login-card"
+          className="pn-login-card"
           style={{
             backgroundColor: 'var(--ad-surface)',
             border: '1px solid var(--ad-line-faint)',
@@ -78,7 +78,7 @@ export default async function AdminGirisPage({ searchParams }: { searchParams: S
 
         {/* Giriş form kartı */}
         <div
-          className="ad-login-card"
+          className="pn-login-card"
           style={{
             backgroundColor: 'var(--ad-surface)',
             border: '1px solid var(--ad-line-faint)',
@@ -123,7 +123,7 @@ export default async function AdminGirisPage({ searchParams }: { searchParams: S
         </div>
 
         {/* Alt bar */}
-        <div className="ad-login-foot">
+        <div className="pn-login-foot">
           <span>Saitabat · Bursa</span>
           <span lang="en">lab.drsenol.shop</span>
         </div>

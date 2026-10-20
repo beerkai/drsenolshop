@@ -78,21 +78,21 @@ export default function ProductOrderList({
             <>
               <button
                 type="button"
-                className="ad-btn ad-btn-primary ad-btn-sm"
+                className="pn-btn pn-btn-primary pn-btn-sm"
                 onClick={saveOrder}
                 disabled={saving || !dirty}
               >
                 {saving ? 'Kaydediliyor…' : 'Sırayı Kaydet'}
               </button>
-              <button type="button" className="ad-btn ad-btn-secondary ad-btn-sm" onClick={cancel}>
+              <button type="button" className="pn-btn pn-btn-secondary pn-btn-sm" onClick={cancel}>
                 Vazgeç
               </button>
-              <span className="ad-mono" style={{ fontSize: 10, color: 'var(--ad-fg-faint)', letterSpacing: '0.08em' }}>
+              <span className="pn-mono" style={{ fontSize: 10, color: 'var(--ad-fg-faint)', letterSpacing: '0.08em' }}>
                 Sıra bu sayfadaki ürünlere uygulanır.
               </span>
             </>
           ) : (
-            <button type="button" className="ad-btn ad-btn-secondary ad-btn-sm" onClick={() => setSorting(true)}>
+            <button type="button" className="pn-btn pn-btn-secondary pn-btn-sm" onClick={() => setSorting(true)}>
               Sırala
             </button>
           )
@@ -100,7 +100,7 @@ export default function ProductOrderList({
       </div>
 
       {!canReorder ? (
-        <div className="ad-schema-banner" role="status">
+        <div className="pn-schema-banner" role="status">
           <strong style={{ color: 'var(--ad-fg)' }}>Katalog sıralaması kapalı.</strong>{' '}
           Veritabanında <code>products.display_order</code> kolonu yok — Supabase&apos;de{' '}
           <code>0018_admin_content.sql</code> (veya <code>EKSIK_MIGRATIONS.sql</code>) çalıştırın.
@@ -108,8 +108,8 @@ export default function ProductOrderList({
         </div>
       ) : null}
 
-      <div className="ad-table-wrap">
-        <table className="ad-table ad-table-mobile">
+      <div className="pn-table-wrap">
+        <table className="pn-table pn-table-mobile">
           <thead>
             <tr>
               {sorting ? <th style={{ width: 84 }}>Sıra</th> : null}
@@ -130,7 +130,7 @@ export default function ProductOrderList({
                 <tr key={p.id}>
                   {sorting ? (
                     <td>
-                      <div className="ad-image-tools" style={{ marginTop: 0 }}>
+                      <div className="pn-image-tools" style={{ marginTop: 0 }}>
                         <button type="button" onClick={() => move(i, -1)} disabled={i === 0} title="Yukarı">
                           ↑
                         </button>
@@ -148,7 +148,7 @@ export default function ProductOrderList({
                   <td className="is-row-head" data-label="Ürün">
                     <p style={{ color: 'var(--ad-fg)', fontSize: '13px', margin: 0, fontWeight: 500 }}>{p.name}</p>
                     <p
-                      className="ad-mono"
+                      className="pn-mono"
                       style={{ fontSize: '10.5px', color: 'var(--ad-fg-faint)', margin: '2px 0 0', letterSpacing: '0.05em' }}
                     >
                       {p.slug}
@@ -157,12 +157,12 @@ export default function ProductOrderList({
                   <td data-label="Kategori" style={{ color: 'var(--ad-fg-muted)' }}>{p.category_name ?? '—'}</td>
                   <td className="is-right" data-label="Fiyat">
                     {p.base_price !== null && p.base_price > 0 ? (
-                      <span className="ad-display" style={{ fontSize: '16px', fontWeight: 500 }}>
+                      <span className="pn-display" style={{ fontSize: '16px', fontWeight: 500 }}>
                         {formatPrice(p.base_price)}
                       </span>
                     ) : p.variants_count > 0 ? (
                       <span
-                        className="ad-mono"
+                        className="pn-mono"
                         style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.12em', textTransform: 'uppercase' }}
                       >
                         varyantta
@@ -171,11 +171,11 @@ export default function ProductOrderList({
                       <span style={{ color: 'var(--ad-fg-faint)' }}>—</span>
                     )}
                   </td>
-                  <td className="is-right ad-mono" data-label="KDV" style={{ fontSize: '12px', color: 'var(--ad-fg-muted)' }}>
+                  <td className="is-right pn-mono" data-label="KDV" style={{ fontSize: '12px', color: 'var(--ad-fg-muted)' }}>
                     %{p.tax_rate ?? 0}
                   </td>
                   <td
-                    className="is-right ad-mono"
+                    className="is-right pn-mono"
                     data-label="Stok"
                     style={{
                       fontSize: '12px',
@@ -201,7 +201,7 @@ export default function ProductOrderList({
                     </div>
                   </td>
                   <td className="is-right" data-label="">
-                    <Link href={`/admin/urunler/${p.id}`} className="ad-btn ad-btn-secondary ad-btn-sm">
+                    <Link href={`/admin/urunler/${p.id}`} className="pn-btn pn-btn-secondary pn-btn-sm">
                       Düzenle <IconArrowRight size={11} />
                     </Link>
                   </td>

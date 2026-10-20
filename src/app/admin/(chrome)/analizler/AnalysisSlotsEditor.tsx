@@ -109,10 +109,10 @@ export default function AnalysisSlotsEditor({ initial }: { initial: AnalysisSlot
   return (
     <div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20, alignItems: 'center' }}>
-        {dirty ? <span className="ad-badge ad-badge-warning">Kaydedilmemiş</span> : null}
+        {dirty ? <span className="pn-badge pn-badge-warning">Kaydedilmemiş</span> : null}
         <button
           type="button"
-          className="ad-btn ad-btn-primary"
+          className="pn-btn pn-btn-primary"
           disabled={saving || !dirty}
           onClick={() => persist(slots, 'Slotlar kaydedildi.')}
         >
@@ -120,7 +120,7 @@ export default function AnalysisSlotsEditor({ initial }: { initial: AnalysisSlot
         </button>
         <button
           type="button"
-          className="ad-btn ad-btn-secondary"
+          className="pn-btn pn-btn-secondary"
           disabled={saving || slots.length >= ANALYSIS_SLOT_LIMIT}
           onClick={() => {
             const next = clone(slots)
@@ -130,13 +130,13 @@ export default function AnalysisSlotsEditor({ initial }: { initial: AnalysisSlot
         >
           Slot ekle
         </button>
-        <a href="/analizler" target="_blank" rel="noopener noreferrer" className="ad-btn ad-btn-ghost">
+        <a href="/analizler" target="_blank" rel="noopener noreferrer" className="pn-btn pn-btn-ghost">
           Sayfayı aç
         </a>
       </div>
 
       {slots.length === 0 ? (
-        <div className="ad-card" style={{ padding: 20 }}>
+        <div className="pn-card" style={{ padding: 20 }}>
           <p style={{ margin: 0, color: 'var(--ad-fg-muted)' }}>
             Slot yok. Yeni bir kart ekleyin, başlığını yazın ve PDF yükleyin.
           </p>
@@ -148,15 +148,15 @@ export default function AnalysisSlotsEditor({ initial }: { initial: AnalysisSlot
           const url = analysisPdfUrl(slot.pdfPath)
           const busy = uploadingId === slot.id
           return (
-            <article key={slot.id} className="ad-card" style={{ padding: 16 }}>
+            <article key={slot.id} className="pn-card" style={{ padding: 16 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginBottom: 12 }}>
-                <p className="ad-label" style={{ margin: 0 }}>
+                <p className="pn-label" style={{ margin: 0 }}>
                   Slot {String(index + 1).padStart(2, '0')}
                 </p>
                 <div style={{ display: 'flex', gap: 6 }}>
                   <button
                     type="button"
-                    className="ad-btn ad-btn-ghost ad-btn-sm"
+                    className="pn-btn pn-btn-ghost pn-btn-sm"
                     disabled={index === 0 || saving}
                     onClick={() =>
                       update((draft) => {
@@ -169,7 +169,7 @@ export default function AnalysisSlotsEditor({ initial }: { initial: AnalysisSlot
                   </button>
                   <button
                     type="button"
-                    className="ad-btn ad-btn-ghost ad-btn-sm"
+                    className="pn-btn pn-btn-ghost pn-btn-sm"
                     disabled={index === slots.length - 1 || saving}
                     onClick={() =>
                       update((draft) => {
@@ -182,7 +182,7 @@ export default function AnalysisSlotsEditor({ initial }: { initial: AnalysisSlot
                   </button>
                   <button
                     type="button"
-                    className="ad-btn ad-btn-danger ad-btn-sm"
+                    className="pn-btn pn-btn-danger pn-btn-sm"
                     disabled={saving}
                     onClick={() => {
                       if (!window.confirm('Bu slot silinsin mi? Yüklü PDF de kaldırılır.')) return
@@ -196,9 +196,9 @@ export default function AnalysisSlotsEditor({ initial }: { initial: AnalysisSlot
               </div>
 
               <label style={{ display: 'block', marginBottom: 12 }}>
-                <span className="ad-label">Başlık</span>
+                <span className="pn-label">Başlık</span>
                 <input
-                  className="ad-input"
+                  className="pn-input"
                   value={slot.title}
                   placeholder="Örn. Kestane balı · 2025 hasadı"
                   onChange={(e) =>
@@ -210,9 +210,9 @@ export default function AnalysisSlotsEditor({ initial }: { initial: AnalysisSlot
               </label>
 
               <label style={{ display: 'block', marginBottom: 12 }}>
-                <span className="ad-label">Not</span>
+                <span className="pn-label">Not</span>
                 <input
-                  className="ad-input"
+                  className="pn-input"
                   value={slot.note}
                   placeholder="Lot kodu, laboratuvar, tarih"
                   onChange={(e) =>
@@ -237,7 +237,7 @@ export default function AnalysisSlotsEditor({ initial }: { initial: AnalysisSlot
               </label>
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
-                <label className="ad-btn ad-btn-secondary ad-btn-sm" style={{ cursor: busy ? 'wait' : 'pointer' }}>
+                <label className="pn-btn pn-btn-secondary pn-btn-sm" style={{ cursor: busy ? 'wait' : 'pointer' }}>
                   {busy ? 'Yükleniyor…' : slot.pdfPath ? 'PDF değiştir' : 'PDF yükle'}
                   <input
                     type="file"
@@ -254,7 +254,7 @@ export default function AnalysisSlotsEditor({ initial }: { initial: AnalysisSlot
                 {slot.pdfPath ? (
                   <button
                     type="button"
-                    className="ad-btn ad-btn-ghost ad-btn-sm"
+                    className="pn-btn pn-btn-ghost pn-btn-sm"
                     disabled={saving || busy}
                     onClick={() => {
                       const next = clone(slots)

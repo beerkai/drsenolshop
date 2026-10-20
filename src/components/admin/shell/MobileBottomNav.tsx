@@ -48,18 +48,18 @@ export function MobileBottomNav({ pendingOrders }: { pendingOrders?: number }) {
   }
 
   function openMenu() {
-    window.dispatchEvent(new CustomEvent('ad-open-mobile-nav'))
+    window.dispatchEvent(new CustomEvent('pn-open-mobile-nav'))
   }
 
   return (
-    <nav className="ad-mobile-tabbar" aria-label="Hızlı gezinme">
+    <nav className="pn-mobile-tabbar" aria-label="Hızlı gezinme">
       {ADMIN_MOBILE_TAB_BAR.map((tab) => {
         if ('action' in tab && tab.action === 'menu') {
           return (
             <button
               key={tab.id}
               type="button"
-              className="ad-mobile-tab"
+              className="pn-mobile-tab"
               onClick={openMenu}
               aria-label="Tüm menüyü aç"
             >
@@ -76,12 +76,12 @@ export function MobileBottomNav({ pendingOrders }: { pendingOrders?: number }) {
           <Link
             key={tab.id}
             href={tab.href}
-            className={['ad-mobile-tab', active && 'is-active'].filter(Boolean).join(' ')}
+            className={['pn-mobile-tab', active && 'is-active'].filter(Boolean).join(' ')}
             aria-current={active ? 'page' : undefined}
           >
-            <span className="ad-mobile-tab-icon">
+            <span className="pn-mobile-tab-icon">
               {tabIcon(tab.id)}
-              {badge != null && <span className="ad-mobile-tab-badge">{badge > 9 ? '9+' : badge}</span>}
+              {badge != null && <span className="pn-mobile-tab-badge">{badge > 9 ? '9+' : badge}</span>}
             </span>
             <span>{tab.label}</span>
           </Link>

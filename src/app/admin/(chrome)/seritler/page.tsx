@@ -11,11 +11,11 @@ export default async function AdminHtmlBlocksPage() {
   return (
     <div>
       <div style={{ marginBottom: 24 }}>
-        <p className="ad-eyebrow" style={{ marginBottom: 12 }}>
+        <p className="pn-eyebrow" style={{ marginBottom: 12 }}>
           Anasayfa
         </p>
         <h1
-          className="ad-display"
+          className="pn-display"
           style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, margin: 0 }}
         >
           Şeritler

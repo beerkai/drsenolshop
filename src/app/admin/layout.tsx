@@ -88,9 +88,9 @@ html, body {
   height: auto !important;
   max-width: 100% !important;
 }
-.ad-shell-col,
-.ad-shell-row,
-.ad-shell-main {
+.pn-shell-col,
+.pn-shell-row,
+.pn-shell-main {
   display: block !important;
   height: auto !important;
   min-height: 0 !important;
@@ -99,8 +99,8 @@ html, body {
   width: 100% !important;
   max-width: 100% !important;
 }
-.ad-shell-main h1,
-.ad-shell-main .ad-page-title {
+.pn-shell-main h1,
+.pn-shell-main .pn-page-title {
   display: block !important;
   font-size: 28px !important;
   line-height: 34px !important;
@@ -114,11 +114,11 @@ html, body {
   transform: none !important;
   overflow: visible !important;
 }
-.ad-shell-main .ad-card,
-.ad-shell-main .ad-card-sm,
-.ad-shell-main .ad-card-elevated,
-.ad-shell-main .ad-metric,
-.ad-shell-main .ad-empty {
+.pn-shell-main .pn-card,
+.pn-shell-main .pn-card-sm,
+.pn-shell-main .pn-card-elevated,
+.pn-shell-main .pn-metric,
+.pn-shell-main .pn-empty {
   display: block !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -131,7 +131,7 @@ html, body {
   transform: none !important;
   background-color: #FFFFFF !important;
 }
-.ad-shell-main .ad-door {
+.pn-shell-main .pn-door {
   display: flex !important;
   flex-direction: column !important;
   width: 100% !important;
@@ -142,7 +142,7 @@ html, body {
   background-color: #FFFFFF !important;
 }
 @media (max-width: 1024px) {
-  .ad-sidebar {
+  .pn-sidebar {
     display: none !important;
     height: 0 !important;
     width: 0 !important;
@@ -150,15 +150,15 @@ html, body {
     position: absolute !important;
     overflow: hidden !important;
   }
-  .admin-shell .ad-btn {
+  .admin-shell .pn-btn {
     min-width: 0 !important;
     white-space: normal;
   }
 }
 @media (min-width: 1025px) {
-  .ad-shell-row { display: flex !important; align-items: flex-start !important; }
-  .ad-shell-main { flex: 1 1 auto !important; width: auto !important; max-width: none !important; }
-  .ad-sidebar {
+  .pn-shell-row { display: flex !important; align-items: flex-start !important; }
+  .pn-shell-main { flex: 1 1 auto !important; width: auto !important; max-width: none !important; }
+  .pn-sidebar {
     display: flex !important;
     position: sticky !important;
     width: 232px !important;

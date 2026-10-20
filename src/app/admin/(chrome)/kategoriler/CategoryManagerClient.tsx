@@ -226,7 +226,7 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
     const active = c.id === selectedId
     return (
       <div
-        className={active ? 'ad-cat-row is-active' : 'ad-cat-row'}
+        className={active ? 'pn-cat-row is-active' : 'pn-cat-row'}
         style={{ paddingLeft: 12 + depth * 18, opacity: reordering ? 0.7 : 1 }}
         draggable
         onDragStart={() => setDragCatId(c.id)}
@@ -234,14 +234,14 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
         onDrop={() => dropOnSibling(c)}
         onDragEnd={() => setDragCatId(null)}
       >
-        <button type="button" className="ad-cat-name" onClick={() => select(c)}>
+        <button type="button" className="pn-cat-name" onClick={() => select(c)}>
           <span>{c.name}</span>
-          <span className="ad-cat-meta">
+          <span className="pn-cat-meta">
             /{c.slug} · {c.product_count} ürün
             {c.is_active ? '' : ' · pasif'}
           </span>
         </button>
-        <div className="ad-image-tools" style={{ marginTop: 0, width: 108, flex: '0 0 auto' }}>
+        <div className="pn-image-tools" style={{ marginTop: 0, width: 108, flex: '0 0 auto' }}>
           <button type="button" onClick={() => swap(c, -1)} title="Yukarı">
             ↑
           </button>
@@ -265,7 +265,7 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
   return (
     <div>
       <div style={{ marginBottom: 24 }}>
-        <p className="ad-eyebrow" style={{ marginBottom: 12 }}>
+        <p className="pn-eyebrow" style={{ marginBottom: 12 }}>
           Katalog
         </p>
         <p style={{ fontSize: 13, color: 'var(--ad-fg-muted)', marginBottom: 8 }}>
@@ -273,7 +273,7 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
           sıralayın.
         </p>
         <h1
-          className="ad-display"
+          className="pn-display"
           style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, margin: 0 }}
         >
           Kategoriler{' '}
@@ -293,23 +293,23 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
 
       <div className="theme-editor-grid">
         {/* Ağaç */}
-        <div className="ad-card">
+        <div className="pn-card">
           <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
             <input
-              className="ad-input"
+              className="pn-input"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="Yeni kategori adı…"
             />
-            <button type="button" className="ad-btn ad-btn-primary ad-btn-sm" onClick={create} disabled={creating}>
+            <button type="button" className="pn-btn pn-btn-primary pn-btn-sm" onClick={create} disabled={creating}>
               {creating ? '…' : 'Ekle'}
             </button>
           </div>
 
           {categories.length === 0 ? (
-            <div className="ad-empty">
-              <p className="ad-empty-title">Kategori yok.</p>
-              <p className="ad-empty-hint">Yukarıdan ilk kategoriyi ekleyin.</p>
+            <div className="pn-empty">
+              <p className="pn-empty-title">Kategori yok.</p>
+              <p className="pn-empty-hint">Yukarıdan ilk kategoriyi ekleyin.</p>
             </div>
           ) : (
             <div>
@@ -326,28 +326,28 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
         </div>
 
         {/* Düzenleme paneli */}
-        <div className="ad-card" style={{ position: 'sticky', top: 16, alignSelf: 'start' }}>
+        <div className="pn-card" style={{ position: 'sticky', top: 16, alignSelf: 'start' }}>
           {!selected || !draft ? (
-            <div className="ad-empty">
-              <p className="ad-empty-title">Kategori seçin.</p>
-              <p className="ad-empty-hint">Soldaki listeden düzenlemek istediğinizi seçin.</p>
+            <div className="pn-empty">
+              <p className="pn-empty-title">Kategori seçin.</p>
+              <p className="pn-empty-hint">Soldaki listeden düzenlemek istediğinizi seçin.</p>
             </div>
           ) : (
             <>
-              <p className="ad-eyebrow" style={{ marginBottom: 16 }}>
+              <p className="pn-eyebrow" style={{ marginBottom: 16 }}>
                 {selected.name}
               </p>
 
               <label style={{ display: 'block', marginBottom: 12 }}>
-                <span className="ad-label">Ad</span>
-                <input className="ad-input" value={draft.name} onChange={(e) => set('name', e.target.value)} />
+                <span className="pn-label">Ad</span>
+                <input className="pn-input" value={draft.name} onChange={(e) => set('name', e.target.value)} />
               </label>
 
               <label style={{ display: 'block', marginBottom: 12 }}>
-                <span className="ad-label">Slug</span>
-                <input className="ad-input" value={draft.slug} onChange={(e) => set('slug', e.target.value)} />
+                <span className="pn-label">Slug</span>
+                <input className="pn-input" value={draft.slug} onChange={(e) => set('slug', e.target.value)} />
                 <span
-                  className="ad-mono"
+                  className="pn-mono"
                   style={{ display: 'block', marginTop: 4, fontSize: 10, color: 'var(--ad-fg-faint)' }}
                 >
                   /kategori/{draft.slug || '…'} — değiştirirseniz eski bağlantılar kırılır.
@@ -355,9 +355,9 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
               </label>
 
               <label style={{ display: 'block', marginBottom: 12 }}>
-                <span className="ad-label">Üst Kategori</span>
+                <span className="pn-label">Üst Kategori</span>
                 <select
-                  className="ad-select"
+                  className="pn-select"
                   value={draft.parent_id}
                   onChange={(e) => set('parent_id', e.target.value)}
                 >
@@ -371,9 +371,9 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
               </label>
 
               <label style={{ display: 'block', marginBottom: 12 }}>
-                <span className="ad-label">Açıklama</span>
+                <span className="pn-label">Açıklama</span>
                 <textarea
-                  className="ad-textarea"
+                  className="pn-textarea"
                   rows={3}
                   value={draft.description}
                   onChange={(e) => set('description', e.target.value)}
@@ -381,18 +381,18 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
               </label>
 
               <label style={{ display: 'block', marginBottom: 12 }}>
-                <span className="ad-label">Görsel URL</span>
+                <span className="pn-label">Görsel URL</span>
                 <input
-                  className="ad-input"
+                  className="pn-input"
                   value={draft.image_url}
                   onChange={(e) => set('image_url', e.target.value)}
                 />
               </label>
 
               <label style={{ display: 'block', marginBottom: 12 }}>
-                <span className="ad-label">Sıra</span>
+                <span className="pn-label">Sıra</span>
                 <input
-                  className="ad-input"
+                  className="pn-input"
                   type="number"
                   value={draft.display_order}
                   onChange={(e) => set('display_order', e.target.value)}
@@ -408,21 +408,21 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
                 <span style={{ fontSize: 13, color: 'var(--ad-fg)' }}>Aktif (sitede görünür)</span>
               </label>
 
-              <div className="ad-divider" style={{ margin: '4px 0 16px' }} />
+              <div className="pn-divider" style={{ margin: '4px 0 16px' }} />
 
               <label style={{ display: 'block', marginBottom: 12 }}>
-                <span className="ad-label">Meta Başlık</span>
+                <span className="pn-label">Meta Başlık</span>
                 <input
-                  className="ad-input"
+                  className="pn-input"
                   value={draft.meta_title}
                   onChange={(e) => set('meta_title', e.target.value)}
                 />
               </label>
 
               <label style={{ display: 'block', marginBottom: 16 }}>
-                <span className="ad-label">Meta Açıklama</span>
+                <span className="pn-label">Meta Açıklama</span>
                 <textarea
-                  className="ad-textarea"
+                  className="pn-textarea"
                   rows={2}
                   value={draft.meta_description}
                   onChange={(e) => set('meta_description', e.target.value)}
@@ -431,7 +431,7 @@ export default function CategoryManagerClient({ categories }: { categories: Admi
 
               <button
                 type="button"
-                className="ad-btn ad-btn-primary"
+                className="pn-btn pn-btn-primary"
                 style={{ width: '100%', minHeight: 44 }}
                 onClick={save}
                 disabled={saving}

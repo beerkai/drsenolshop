@@ -47,11 +47,11 @@ function Toggle({
     <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 16, cursor: 'pointer' }}>
       <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} style={{ marginTop: 3 }} />
       <span>
-        <span className="ad-label" style={{ display: 'block' }}>
+        <span className="pn-label" style={{ display: 'block' }}>
           {label}
         </span>
         {hint ? (
-          <span className="ad-mono" style={{ fontSize: 10, color: 'var(--ad-fg-faint)' }}>
+          <span className="pn-mono" style={{ fontSize: 10, color: 'var(--ad-fg-faint)' }}>
             {hint}
           </span>
         ) : null}
@@ -80,20 +80,20 @@ function Field({
 }) {
   return (
     <label style={{ display: 'block', marginBottom: 16 }}>
-      <span className="ad-label">{label}</span>
+      <span className="pn-label">{label}</span>
       {multiline ? (
         <textarea
-          className="ad-textarea"
+          className="pn-textarea"
           rows={3}
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
       ) : (
-        <input className="ad-input" value={value} onChange={(e) => onChange(e.target.value)} />
+        <input className="pn-input" value={value} onChange={(e) => onChange(e.target.value)} />
       )}
       {hint ? (
         <span
-          className="ad-mono"
+          className="pn-mono"
           style={{ display: 'block', marginTop: 4, fontSize: 10, color: 'var(--ad-fg-faint)' }}
         >
           {hint}
@@ -166,13 +166,13 @@ export default function ThemeEditorClient({
   return (
     <div>
       {/* Başlık + aksiyonlar */}
-      <div className="ad-page-head" style={{ marginBottom: 24 }}>
+      <div className="pn-page-head" style={{ marginBottom: 24 }}>
         <div>
-          <p className="ad-eyebrow" style={{ marginBottom: 12 }}>
+          <p className="pn-eyebrow" style={{ marginBottom: 12 }}>
             Görünüm
           </p>
           <h1
-            className="ad-display"
+            className="pn-display"
             style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, margin: 0 }}
           >
             Tema Editörü
@@ -184,25 +184,25 @@ export default function ThemeEditorClient({
 
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           {dirty ? (
-            <span className="ad-badge ad-badge-warning">Kaydedilmemiş değişiklik</span>
+            <span className="pn-badge pn-badge-warning">Kaydedilmemiş değişiklik</span>
           ) : null}
-          <button type="button" className="ad-btn ad-btn-secondary" onClick={reset} disabled={!dirty}>
+          <button type="button" className="pn-btn pn-btn-secondary" onClick={reset} disabled={!dirty}>
             Geri Al
           </button>
-          <button type="button" className="ad-btn ad-btn-primary" onClick={save} disabled={saving || !dirty}>
+          <button type="button" className="pn-btn pn-btn-primary" onClick={save} disabled={saving || !dirty}>
             {saving ? 'Kaydediliyor…' : 'Kaydet'}
           </button>
         </div>
       </div>
 
       {/* Bölüm sekmeleri */}
-      <div className="ad-theme-tabs">
+      <div className="pn-theme-tabs">
         {SECTIONS.map((s) => (
           <button
             key={s.id}
             type="button"
             onClick={() => setSection(s.id)}
-            className={section === s.id ? 'ad-btn ad-btn-primary ad-btn-sm' : 'ad-btn ad-btn-secondary ad-btn-sm'}
+            className={section === s.id ? 'pn-btn pn-btn-primary pn-btn-sm' : 'pn-btn pn-btn-secondary pn-btn-sm'}
             title={s.hint}
           >
             {s.label}
@@ -212,7 +212,7 @@ export default function ThemeEditorClient({
 
       <div className="theme-editor-grid">
         {/* ── FORM ─────────────────────────────────────────── */}
-        <div className="ad-card">
+        <div className="pn-card">
           {section === 'hero' ? (
             <>
               <Field
@@ -270,8 +270,8 @@ export default function ThemeEditorClient({
                 hint="Kapalıyken yalnızca canlı katalog vitrinleri görünür (önerilen)."
               />
 
-              <div className="ad-divider" style={{ margin: '20px 0' }} />
-              <p className="ad-label">En Çok Tercih Edilenler</p>
+              <div className="pn-divider" style={{ margin: '20px 0' }} />
+              <p className="pn-label">En Çok Tercih Edilenler</p>
               <Toggle
                 label="Bölümü göster"
                 checked={content.curated.mostPreferred.enabled}
@@ -310,9 +310,9 @@ export default function ThemeEditorClient({
                 onChange={(v) => update((d) => { d.curated.mostPreferred.viewAllLabel = v })}
               />
               <label style={{ display: 'block', marginBottom: 16 }}>
-                <span className="ad-label">Otomatik liste sıralaması</span>
+                <span className="pn-label">Otomatik liste sıralaması</span>
                 <select
-                  className="ad-select"
+                  className="pn-select"
                   value={content.curated.mostPreferred.orderBy}
                   onChange={(e) =>
                     update((d) => {
@@ -324,12 +324,12 @@ export default function ThemeEditorClient({
                   <option value="newest">En yeni hasat</option>
                   <option value="name">İsim (A–Z)</option>
                 </select>
-                <span className="ad-mono" style={{ display: 'block', marginTop: 4, fontSize: 10, color: 'var(--ad-fg-faint)' }}>
+                <span className="pn-mono" style={{ display: 'block', marginTop: 4, fontSize: 10, color: 'var(--ad-fg-faint)' }}>
                   Manuel ürün listesi boşken kategoriden bu sırayla çekilir.
                 </span>
               </label>
 
-              <p className="ad-label" style={{ marginTop: 8 }}>
+              <p className="pn-label" style={{ marginTop: 8 }}>
                 Manuel ürün seçimi ({content.curated.mostPreferred.productIds.length}/8)
               </p>
               <p style={{ fontSize: 12, color: 'var(--ad-fg-muted)', marginBottom: 8 }}>
@@ -339,12 +339,12 @@ export default function ThemeEditorClient({
                 const p = products.find((x) => x.id === id)
                 return (
                   <div key={id} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'center' }}>
-                    <span className="ad-mono" style={{ fontSize: 11, flex: 1 }}>
+                    <span className="pn-mono" style={{ fontSize: 11, flex: 1 }}>
                       {p?.name ?? id}
                     </span>
                     <button
                       type="button"
-                      className="ad-btn ad-btn-secondary ad-btn-sm"
+                      className="pn-btn pn-btn-secondary pn-btn-sm"
                       disabled={i === 0}
                       onClick={() =>
                         update((d) => {
@@ -357,7 +357,7 @@ export default function ThemeEditorClient({
                     </button>
                     <button
                       type="button"
-                      className="ad-btn ad-btn-secondary ad-btn-sm"
+                      className="pn-btn pn-btn-secondary pn-btn-sm"
                       disabled={i === content.curated.mostPreferred.productIds.length - 1}
                       onClick={() =>
                         update((d) => {
@@ -370,7 +370,7 @@ export default function ThemeEditorClient({
                     </button>
                     <button
                       type="button"
-                      className="ad-btn ad-btn-secondary ad-btn-sm"
+                      className="pn-btn pn-btn-secondary pn-btn-sm"
                       onClick={() =>
                         update((d) => {
                           d.curated.mostPreferred.productIds.splice(i, 1)
@@ -384,7 +384,7 @@ export default function ThemeEditorClient({
               })}
               {content.curated.mostPreferred.productIds.length < 8 ? (
                 <select
-                  className="ad-select"
+                  className="pn-select"
                   defaultValue=""
                   onChange={(e) => {
                     const id = e.target.value
@@ -406,8 +406,8 @@ export default function ThemeEditorClient({
                 </select>
               ) : null}
 
-              <div className="ad-divider" style={{ margin: '24px 0' }} />
-              <p className="ad-label">Signature Series</p>
+              <div className="pn-divider" style={{ margin: '24px 0' }} />
+              <p className="pn-label">Signature Series</p>
               <Toggle
                 label="Bölümü göster"
                 checked={content.curated.signature.enabled}
@@ -445,9 +445,9 @@ export default function ThemeEditorClient({
                 onChange={(v) => update((d) => { d.curated.signature.viewAllLabel = v })}
               />
               <label style={{ display: 'block', marginBottom: 16 }}>
-                <span className="ad-label">Otomatik liste sıralaması</span>
+                <span className="pn-label">Otomatik liste sıralaması</span>
                 <select
-                  className="ad-select"
+                  className="pn-select"
                   value={content.curated.signature.orderBy}
                   onChange={(e) =>
                     update((d) => {
@@ -461,19 +461,19 @@ export default function ThemeEditorClient({
                 </select>
               </label>
 
-              <p className="ad-label" style={{ marginTop: 8 }}>
+              <p className="pn-label" style={{ marginTop: 8 }}>
                 Manuel ürün seçimi ({content.curated.signature.productIds.length}/8)
               </p>
               {content.curated.signature.productIds.map((id, i) => {
                 const p = products.find((x) => x.id === id)
                 return (
                   <div key={id} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'center' }}>
-                    <span className="ad-mono" style={{ fontSize: 11, flex: 1 }}>
+                    <span className="pn-mono" style={{ fontSize: 11, flex: 1 }}>
                       {p?.name ?? id}
                     </span>
                     <button
                       type="button"
-                      className="ad-btn ad-btn-secondary ad-btn-sm"
+                      className="pn-btn pn-btn-secondary pn-btn-sm"
                       disabled={i === 0}
                       onClick={() =>
                         update((d) => {
@@ -486,7 +486,7 @@ export default function ThemeEditorClient({
                     </button>
                     <button
                       type="button"
-                      className="ad-btn ad-btn-secondary ad-btn-sm"
+                      className="pn-btn pn-btn-secondary pn-btn-sm"
                       disabled={i === content.curated.signature.productIds.length - 1}
                       onClick={() =>
                         update((d) => {
@@ -499,7 +499,7 @@ export default function ThemeEditorClient({
                     </button>
                     <button
                       type="button"
-                      className="ad-btn ad-btn-secondary ad-btn-sm"
+                      className="pn-btn pn-btn-secondary pn-btn-sm"
                       onClick={() =>
                         update((d) => {
                           d.curated.signature.productIds.splice(i, 1)
@@ -513,7 +513,7 @@ export default function ThemeEditorClient({
               })}
               {content.curated.signature.productIds.length < 8 ? (
                 <select
-                  className="ad-select"
+                  className="pn-select"
                   defaultValue=""
                   onChange={(e) => {
                     const id = e.target.value
@@ -561,9 +561,9 @@ export default function ThemeEditorClient({
                 onChange={(v) => update((d) => { d.editorial.feed.header.aside = v })}
               />
 
-              <div className="ad-divider" style={{ margin: '20px 0' }} />
+              <div className="pn-divider" style={{ margin: '20px 0' }} />
 
-              <p className="ad-label" style={{ marginBottom: 12 }}>
+              <p className="pn-label" style={{ marginBottom: 12 }}>
                 Öne çıkan ürün kartları ({productCards.length})
               </p>
               <p style={{ fontSize: 12, color: 'var(--ad-fg-muted)', marginBottom: 16 }}>
@@ -576,20 +576,20 @@ export default function ThemeEditorClient({
                 return (
                   <div
                     key={item.id}
-                    className="ad-card-sm"
+                    className="pn-card-sm"
                     style={{ marginBottom: 12, padding: 12 }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-                      <span className="ad-badge ad-badge-neutral">{item.type === 'product-dark' ? 'Koyu kart' : 'Kart'}</span>
-                      <span className="ad-mono" style={{ fontSize: 11, color: 'var(--ad-fg-faint)' }}>
+                      <span className="pn-badge pn-badge-neutral">{item.type === 'product-dark' ? 'Koyu kart' : 'Kart'}</span>
+                      <span className="pn-mono" style={{ fontSize: 11, color: 'var(--ad-fg-faint)' }}>
                         #{index + 1}
                       </span>
                     </div>
 
                     <label style={{ display: 'block', marginBottom: 10 }}>
-                      <span className="ad-label">Ürün</span>
+                      <span className="pn-label">Ürün</span>
                       <select
-                        className="ad-select"
+                        className="pn-select"
                         value={matched?.id ?? ''}
                         onChange={(e) => {
                           const p = products.find((x) => x.id === e.target.value)
@@ -683,11 +683,11 @@ export default function ThemeEditorClient({
                 value={content.editorial.journal.title}
                 onChange={(v) => update((d) => { d.editorial.journal.title = v })}
               />
-              <span className="ad-label">Paragraflar</span>
+              <span className="pn-label">Paragraflar</span>
               {content.editorial.journal.paragraphs.map((p, i) => (
                 <div key={i} style={{ marginBottom: 8 }}>
                   <textarea
-                    className="ad-textarea"
+                    className="pn-textarea"
                     rows={3}
                     value={p}
                     onChange={(e) =>
@@ -696,12 +696,12 @@ export default function ThemeEditorClient({
                   />
                 </div>
               ))}
-              <div className="ad-divider" style={{ margin: '20px 0' }} />
-              <span className="ad-label">Metrikler</span>
+              <div className="pn-divider" style={{ margin: '20px 0' }} />
+              <span className="pn-label">Metrikler</span>
               {content.editorial.journal.metrics.map((m, i) => (
                 <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
                   <input
-                    className="ad-input"
+                    className="pn-input"
                     value={m.value}
                     onChange={(e) =>
                       update((d) => { d.editorial.journal.metrics[i].value = e.target.value })
@@ -709,7 +709,7 @@ export default function ThemeEditorClient({
                     placeholder="Değer"
                   />
                   <input
-                    className="ad-input"
+                    className="pn-input"
                     value={m.label}
                     onChange={(e) =>
                       update((d) => { d.editorial.journal.metrics[i].label = e.target.value })
@@ -828,8 +828,8 @@ export default function ThemeEditorClient({
         </div>
 
         {/* ── ÖNİZLEME ──────────────────────────────────────── */}
-        <div className="ad-card" style={{ position: 'sticky', top: 16, alignSelf: 'start' }}>
-          <p className="ad-eyebrow-muted" style={{ marginBottom: 12 }}>
+        <div className="pn-card" style={{ position: 'sticky', top: 16, alignSelf: 'start' }}>
+          <p className="pn-eyebrow-muted" style={{ marginBottom: 12 }}>
             Önizleme
           </p>
           <div className="theme-preview">

@@ -32,8 +32,8 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
     <div>
       {/* Başlık */}
       <div style={{ marginBottom: '24px' }}>
-        <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Yönetim</p>
-        <h1 className="ad-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+        <p className="pn-eyebrow" style={{ marginBottom: '12px' }}>Yönetim</p>
+        <h1 className="pn-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
           Siparişler <span style={{ color: 'var(--ad-fg-faint)', fontFamily: 'var(--font-jetbrains), monospace', fontSize: '0.55em', letterSpacing: '0.1em', marginLeft: '8px' }}>{total}</span>
         </h1>
       </div>
@@ -41,7 +41,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
       <OrdersSearchForm initial={search} status={status} />
 
       {/* Filtre çubuğu */}
-      <div className="ad-theme-tabs" style={{ marginBottom: '20px' }}>
+      <div className="pn-theme-tabs" style={{ marginBottom: '20px' }}>
         {STATUS_FILTERS.map((f) => {
           const isActive = (status ?? '') === f.value
           const params = new URLSearchParams()
@@ -50,7 +50,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
           const href = `/admin/siparisler${params.toString() ? '?' + params.toString() : ''}`
           return (
             <Link key={f.value || 'all'} href={href}
-              className={['ad-btn', 'ad-btn-sm', isActive ? 'ad-btn-primary' : 'ad-btn-secondary'].join(' ')}>
+              className={['pn-btn', 'pn-btn-sm', isActive ? 'pn-btn-primary' : 'pn-btn-secondary'].join(' ')}>
               {f.label}
             </Link>
           )
@@ -70,7 +70,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
             const href = `/admin/siparisler${params.toString() ? '?' + params.toString() : ''}`
             return (
               <Link key={p} href={href}
-                className={['ad-btn', 'ad-btn-sm', isActive ? 'ad-btn-primary' : 'ad-btn-secondary'].join(' ')}>
+                className={['pn-btn', 'pn-btn-sm', isActive ? 'pn-btn-primary' : 'pn-btn-secondary'].join(' ')}>
                 {p}
               </Link>
             )

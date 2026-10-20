@@ -18,8 +18,8 @@ export default async function AdminCustomersPage({ searchParams }: { searchParam
   return (
     <div>
       <div style={{ marginBottom: '24px' }}>
-        <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>İlişkiler</p>
-        <h1 className="ad-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+        <p className="pn-eyebrow" style={{ marginBottom: '12px' }}>İlişkiler</p>
+        <h1 className="pn-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
           Müşteriler{' '}
           <span style={{ color: 'var(--ad-fg-faint)', fontFamily: 'var(--font-jetbrains), monospace', fontSize: '0.55em', letterSpacing: '0.1em', marginLeft: '8px' }}>
             {total}
@@ -36,18 +36,18 @@ export default async function AdminCustomersPage({ searchParams }: { searchParam
           name="q"
           defaultValue={search ?? ''}
           placeholder="İsim veya e-posta ara…"
-          className="ad-input"
+          className="pn-input"
         />
       </form>
 
       {customers.length === 0 ? (
-        <div className="ad-empty">
-          <p className="ad-empty-title">Müşteri bulunamadı.</p>
-          {search ? <p className="ad-empty-hint">"{search}" araması için sonuç yok.</p> : <p className="ad-empty-hint">Henüz hiç sipariş gelmemiş.</p>}
+        <div className="pn-empty">
+          <p className="pn-empty-title">Müşteri bulunamadı.</p>
+          {search ? <p className="pn-empty-hint">"{search}" araması için sonuç yok.</p> : <p className="pn-empty-hint">Henüz hiç sipariş gelmemiş.</p>}
         </div>
       ) : (
-        <div className="ad-table-wrap">
-          <table className="ad-table ad-table-mobile">
+        <div className="pn-table-wrap">
+          <table className="pn-table pn-table-mobile">
             <thead>
               <tr>
                 <th>Müşteri</th>
@@ -72,23 +72,23 @@ export default async function AdminCustomersPage({ searchParams }: { searchParam
                   <td data-label="İletişim">
                     <p style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: 0 }}>{c.email}</p>
                     {c.phone && (
-                      <p className="ad-mono" style={{ color: 'var(--ad-fg-faint)', fontSize: '11px', margin: '2px 0 0' }}>
+                      <p className="pn-mono" style={{ color: 'var(--ad-fg-faint)', fontSize: '11px', margin: '2px 0 0' }}>
                         {c.phone}
                       </p>
                     )}
                   </td>
-                  <td className="is-right ad-mono" data-label="Sipariş" style={{ fontSize: '13px' }}>
+                  <td className="is-right pn-mono" data-label="Sipariş" style={{ fontSize: '13px' }}>
                     {c.total_orders}
                   </td>
                   <td className="is-right" data-label="Ciro">
-                    <span className="ad-display" style={{ fontSize: '16px', fontWeight: 500 }}>
+                    <span className="pn-display" style={{ fontSize: '16px', fontWeight: 500 }}>
                       {formatPrice(c.total_revenue)}
                     </span>
                   </td>
-                  <td className="is-right ad-mono" data-label="İlk" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
+                  <td className="is-right pn-mono" data-label="İlk" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
                     {new Date(c.first_order_at).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: '2-digit' })}
                   </td>
-                  <td className="is-right ad-mono" data-label="Son" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
+                  <td className="is-right pn-mono" data-label="Son" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
                     {new Date(c.last_order_at).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: '2-digit' })}
                   </td>
                 </tr>

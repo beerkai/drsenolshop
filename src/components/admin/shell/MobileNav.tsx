@@ -27,20 +27,20 @@ export function MobileNav({ open, onClose, pendingOrders }: { open: boolean; onC
 
   return (
     <>
-      <div className="ad-mobile-drawer-backdrop" onClick={onClose} aria-hidden />
-      <aside className="ad-mobile-drawer" role="dialog" aria-label="Yönetim menüsü">
-        <div className="ad-drawer-head">
+      <div className="pn-mobile-drawer-backdrop" onClick={onClose} aria-hidden />
+      <aside className="pn-mobile-drawer" role="dialog" aria-label="Yönetim menüsü">
+        <div className="pn-drawer-head">
           <div>
-            <p className="ad-drawer-kicker">Yönetim</p>
-            <p className="ad-drawer-title">Dr. Şenol</p>
+            <p className="pn-drawer-kicker">Yönetim</p>
+            <p className="pn-drawer-title">Dr. Şenol</p>
           </div>
-          <button type="button" onClick={onClose} aria-label="Menüyü kapat" className="ad-icon-btn">✕</button>
+          <button type="button" onClick={onClose} aria-label="Menüyü kapat" className="pn-icon-btn">✕</button>
         </div>
 
-        <div className="ad-drawer-body">
+        <div className="pn-drawer-body">
           {ADMIN_NAV_GROUPS.map((group) => (
-            <div key={group.id} className="ad-nav-group">
-              <p className="ad-nav-section">{group.label}</p>
+            <div key={group.id} className="pn-nav-group">
+              <p className="pn-nav-section">{group.label}</p>
               {group.items.map((item) => {
                 const active = isAdminNavActive(pathname, item)
                 const badge = item.href === '/admin/siparisler' && pendingOrders ? pendingOrders : 0
@@ -49,12 +49,12 @@ export function MobileNav({ open, onClose, pendingOrders }: { open: boolean; onC
                     key={item.href}
                     href={item.href}
                     onClick={onClose}
-                    className={['ad-nav-item', active && 'is-active'].filter(Boolean).join(' ')}
+                    className={['pn-nav-item', active && 'is-active'].filter(Boolean).join(' ')}
                     aria-current={active ? 'page' : undefined}
                   >
-                    <span className="ad-nav-icon" aria-hidden><NavIcon href={item.href} /></span>
-                    <span className="ad-nav-label">{item.label}</span>
-                    {badge > 0 && <span className="ad-nav-badge">{badge > 99 ? '99+' : badge}</span>}
+                    <span className="pn-nav-icon" aria-hidden><NavIcon href={item.href} /></span>
+                    <span className="pn-nav-label">{item.label}</span>
+                    {badge > 0 && <span className="pn-nav-badge">{badge > 99 ? '99+' : badge}</span>}
                   </Link>
                 )
               })}

@@ -36,15 +36,15 @@ export default function SearchBar({ initial }: { initial: string }) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Sipariş no, email, telefon veya isim ile ara…"
-        className="ad-input"
+        className="pn-input"
         style={{ flex: 1, fontSize: '13px' }}
         aria-label="Sipariş ara"
       />
-      <button type="submit" className="ad-btn ad-btn-primary" disabled={pending} style={{ fontSize: '11px' }}>
+      <button type="submit" className="pn-btn pn-btn-primary" disabled={pending} style={{ fontSize: '11px' }}>
         {pending ? 'Aranıyor…' : 'Ara'}
       </button>
       {initial && (
-        <button type="button" onClick={clear} className="ad-btn" style={{ fontSize: '11px' }}>
+        <button type="button" onClick={clear} className="pn-btn" style={{ fontSize: '11px' }}>
           Temizle
         </button>
       )}

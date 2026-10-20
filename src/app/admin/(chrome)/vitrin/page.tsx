@@ -41,11 +41,11 @@ export default async function AdminVitrinPage({ searchParams }: { searchParams: 
   return (
     <div>
       <div style={{ marginBottom: 24 }}>
-        <p className="ad-eyebrow" style={{ marginBottom: 12 }}>
+        <p className="pn-eyebrow" style={{ marginBottom: 12 }}>
           Mağaza vitrini
         </p>
         <h1
-          className="ad-display"
+          className="pn-display"
           style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, margin: 0 }}
         >
           Sıralama & vitrin
@@ -64,7 +64,7 @@ export default async function AdminVitrinPage({ searchParams }: { searchParams: 
           <Link
             key={m.id}
             href={`/admin/vitrin?mode=${m.id}${search ? `&q=${encodeURIComponent(search)}` : ''}`}
-            className={m.id === mode ? 'ad-btn ad-btn-primary ad-btn-sm' : 'ad-btn ad-btn-secondary ad-btn-sm'}
+            className={m.id === mode ? 'pn-btn pn-btn-primary pn-btn-sm' : 'pn-btn pn-btn-secondary pn-btn-sm'}
             style={{ textDecoration: 'none' }}
           >
             {m.label}
@@ -74,28 +74,28 @@ export default async function AdminVitrinPage({ searchParams }: { searchParams: 
 
       <p style={{ fontSize: 12, color: 'var(--ad-fg-muted)', marginBottom: 16 }}>{active.hint}</p>
 
-      <form method="get" className="ad-search-row">
+      <form method="get" className="pn-search-row">
         <input type="hidden" name="mode" value={mode} />
         <input
           type="search"
           name="q"
           defaultValue={search ?? ''}
           placeholder="Ürün ara…"
-          className="ad-input"
+          className="pn-input"
           style={{ flex: 1 }}
         />
-        <button type="submit" className="ad-btn ad-btn-secondary ad-btn-sm">
+        <button type="submit" className="pn-btn pn-btn-secondary pn-btn-sm">
           Ara
         </button>
       </form>
 
-      <p className="ad-mono" style={{ fontSize: 11, color: 'var(--ad-fg-faint)', marginBottom: 12 }}>
+      <p className="pn-mono" style={{ fontSize: 11, color: 'var(--ad-fg-faint)', marginBottom: 12 }}>
         {total} ürün · listelenen {products.length}
       </p>
 
       {products.length === 0 ? (
-        <div className="ad-empty">
-          <p className="ad-empty-title">Ürün yok.</p>
+        <div className="pn-empty">
+          <p className="pn-empty-title">Ürün yok.</p>
         </div>
       ) : (
         <VitrinSortList products={products} mode={mode} sortReady={sortReady} />

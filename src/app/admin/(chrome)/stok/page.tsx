@@ -31,8 +31,8 @@ export default async function AdminStockPage({ searchParams }: { searchParams: S
   return (
     <div>
       <div style={{ marginBottom: '24px' }}>
-        <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Operasyon</p>
-        <h1 className="ad-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+        <p className="pn-eyebrow" style={{ marginBottom: '12px' }}>Operasyon</p>
+        <h1 className="pn-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
           Stok Takibi
         </h1>
         <p style={{ color: 'var(--ad-fg-muted)', fontSize: '13px', margin: '8px 0 0' }}>
@@ -49,18 +49,18 @@ export default async function AdminStockPage({ searchParams }: { searchParams: S
       </div>
 
       {filtered.length === 0 ? (
-        <div className="ad-empty">
-          <p className="ad-empty-title">Bu filtreye uyan varyant yok.</p>
+        <div className="pn-empty">
+          <p className="pn-empty-title">Bu filtreye uyan varyant yok.</p>
           {filter !== 'all' && (
-            <p className="ad-empty-hint">
+            <p className="pn-empty-hint">
               Stok seviyeleri{' '}
               <strong style={{ color: 'var(--ad-success)' }}>sağlıklı</strong>.
             </p>
           )}
         </div>
       ) : (
-        <div className="ad-table-wrap">
-          <table className="ad-table ad-table-mobile">
+        <div className="pn-table-wrap">
+          <table className="pn-table pn-table-mobile">
             <thead>
               <tr>
                 <th>Ürün</th>
@@ -78,7 +78,7 @@ export default async function AdminStockPage({ searchParams }: { searchParams: S
                   <tr key={r.variant_id}>
                     <td className="is-row-head">
                       <p style={{ color: 'var(--ad-fg)', fontSize: '13px', margin: 0, fontWeight: 500 }}>{r.product_name}</p>
-                      <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', margin: '2px 0 0', letterSpacing: '0.05em' }}>
+                      <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', margin: '2px 0 0', letterSpacing: '0.05em' }}>
                         {r.product_slug}
                       </p>
                     </td>
@@ -87,7 +87,7 @@ export default async function AdminStockPage({ searchParams }: { searchParams: S
                     </td>
                     <td className="is-right" data-label="Stok">
                       <span
-                        className="ad-display"
+                        className="pn-display"
                         style={{
                           fontSize: '20px',
                           fontWeight: 500,
@@ -101,7 +101,7 @@ export default async function AdminStockPage({ searchParams }: { searchParams: S
                       <Badge tone={tone} bracketed>{label}</Badge>
                     </td>
                     <td className="is-right" data-label="">
-                      <Link href={`/admin/urunler/${r.product_id}`} className="ad-btn ad-btn-secondary ad-btn-sm">
+                      <Link href={`/admin/urunler/${r.product_id}`} className="pn-btn pn-btn-secondary pn-btn-sm">
                         Düzenle <IconArrowRight size={11} />
                       </Link>
                     </td>
@@ -118,7 +118,7 @@ export default async function AdminStockPage({ searchParams }: { searchParams: S
 
 function FilterChip({ href, active, label, count }: { href: string; active: boolean; label: string; count: number }) {
   return (
-    <Link href={href} className={['ad-btn', 'ad-btn-sm', active ? 'ad-btn-primary' : 'ad-btn-secondary'].join(' ')}>
+    <Link href={href} className={['pn-btn', 'pn-btn-sm', active ? 'pn-btn-primary' : 'pn-btn-secondary'].join(' ')}>
       <span>{label}</span>
       <span style={{ opacity: active ? 0.85 : 0.6, fontVariantNumeric: 'tabular-nums' }}>{count}</span>
     </Link>

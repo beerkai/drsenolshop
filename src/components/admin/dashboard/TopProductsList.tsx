@@ -12,7 +12,7 @@ export function TopProductsList({ items, periodLabel = 'Son 30 gün' }: Props) {
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '14px' }}>
-        <p className="ad-eyebrow-muted">Çok Satan Ürünler</p>
+        <p className="pn-eyebrow-muted">Çok Satan Ürünler</p>
         <p style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.1em' }}>
           {periodLabel}
         </p>

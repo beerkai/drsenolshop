@@ -123,7 +123,7 @@ export default function EmailGalleryClient({ templates }: Props) {
           ))}
         </div>
 
-        <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', margin: '0 0 10px', letterSpacing: '0.15em' }}>
+        <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', margin: '0 0 10px', letterSpacing: '0.15em' }}>
           {filtered.length} şablon
         </p>
 
@@ -143,14 +143,14 @@ export default function EmailGalleryClient({ templates }: Props) {
                 <Badge tone={t.channel === 'resend' ? 'gold' : 'neutral'} bracketed>
                   {t.channel === 'resend' ? 'Resend' : 'Supabase'}
                 </Badge>
-                <span className="ad-mono" style={{ fontSize: '9px', color: 'var(--ad-fg-faint)', letterSpacing: '0.1em' }}>
+                <span className="pn-mono" style={{ fontSize: '9px', color: 'var(--ad-fg-faint)', letterSpacing: '0.1em' }}>
                   {CATEGORY_LABELS[t.category]}
                 </span>
               </div>
               <p style={{ margin: 0, fontSize: '13px', fontWeight: 500, color: 'var(--ad-fg)', lineHeight: 1.35 }}>
                 {t.title}
               </p>
-              <p className="ad-mono" style={{ margin: '6px 0 0', fontSize: '10px', color: 'var(--ad-fg-muted)', lineHeight: 1.4 }}>
+              <p className="pn-mono" style={{ margin: '6px 0 0', fontSize: '10px', color: 'var(--ad-fg-muted)', lineHeight: 1.4 }}>
                 {t.subject}
               </p>
             </button>
@@ -160,11 +160,11 @@ export default function EmailGalleryClient({ templates }: Props) {
 
       {selected && (
         <div>
-          <div className="ad-card" style={{ marginBottom: '16px' }}>
+          <div className="pn-card" style={{ marginBottom: '16px' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
               <div style={{ flex: '1 1 280px' }}>
-                <p className="ad-eyebrow-muted" style={{ marginBottom: '8px' }}>Seçili şablon</p>
-                <h2 className="ad-display" style={{ fontSize: '22px', fontWeight: 500, margin: '0 0 8px', color: 'var(--ad-fg)' }}>
+                <p className="pn-eyebrow-muted" style={{ marginBottom: '8px' }}>Seçili şablon</p>
+                <h2 className="pn-display" style={{ fontSize: '22px', fontWeight: 500, margin: '0 0 8px', color: 'var(--ad-fg)' }}>
                   {selected.title}
                 </h2>
                 <p style={{ margin: '0 0 12px', fontSize: '13px', lineHeight: 1.6, color: 'var(--ad-fg-muted)' }}>
@@ -216,7 +216,7 @@ export default function EmailGalleryClient({ templates }: Props) {
                   background: 'var(--ad-surface-2)',
                 }}
               >
-                <p className="ad-eyebrow-muted" style={{ marginBottom: '10px' }}>Supabase&apos;e yapıştırma</p>
+                <p className="pn-eyebrow-muted" style={{ marginBottom: '10px' }}>Supabase&apos;e yapıştırma</p>
                 <ol style={{ margin: 0, paddingLeft: '18px', fontSize: '12px', lineHeight: 1.75, color: 'var(--ad-fg-muted)' }}>
                   <li>Dashboard → Authentication → Email Templates → <strong>{selected.supabaseTemplateName}</strong></li>
                   <li>Subject: <code style={{ fontSize: '11px' }}>{selected.subject}</code></li>
@@ -235,7 +235,7 @@ export default function EmailGalleryClient({ templates }: Props) {
                   background: 'var(--ad-surface-2)',
                 }}
               >
-                <p className="ad-eyebrow-muted" style={{ marginBottom: '8px' }}>Resend · operasyon</p>
+                <p className="pn-eyebrow-muted" style={{ marginBottom: '8px' }}>Resend · operasyon</p>
                 <p style={{ margin: 0, fontSize: '12px', lineHeight: 1.7, color: 'var(--ad-fg-muted)' }}>
                   Gönderim <code>RESEND_API_KEY</code> ile sunucudan yapılır. Domain doğrulaması Resend panelinde;
                   gönderen varsayılan <code>siparis@drsenol.shop</code>. Önizlemede örnek sipariş{' '}
@@ -246,8 +246,8 @@ export default function EmailGalleryClient({ templates }: Props) {
           </div>
 
           {showRaw ? (
-            <div className="ad-card">
-              <p className="ad-eyebrow-muted" style={{ marginBottom: '10px' }}>HTML kaynağı</p>
+            <div className="pn-card">
+              <p className="pn-eyebrow-muted" style={{ marginBottom: '10px' }}>HTML kaynağı</p>
               {rawLoading && <p style={{ fontSize: '13px', color: 'var(--ad-fg-muted)' }}>Yükleniyor…</p>}
               {!rawLoading && rawHtml && (
                 <pre
@@ -282,11 +282,11 @@ export default function EmailGalleryClient({ templates }: Props) {
 function KV({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
     <div style={{ display: 'flex', gap: '12px', padding: '6px 0', borderBottom: '1px solid var(--ad-line-faint)' }}>
-      <span className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.12em', textTransform: 'uppercase', minWidth: '100px' }}>
+      <span className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.12em', textTransform: 'uppercase', minWidth: '100px' }}>
         {label}
       </span>
       <span
-        className={mono ? 'ad-mono' : undefined}
+        className={mono ? 'pn-mono' : undefined}
         style={{ fontSize: mono ? '11px' : '13px', color: 'var(--ad-fg)', lineHeight: 1.5, flex: 1 }}
       >
         {value}
@@ -308,7 +308,7 @@ function ToolbarButton({
     <button
       type="button"
       onClick={onClick}
-      className="ad-mono"
+      className="pn-mono"
       style={{
         fontSize: '10px',
         letterSpacing: '0.1em',

@@ -23,8 +23,8 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
     <div>
       {/* Başlık */}
       <div style={{ marginBottom: '24px' }}>
-        <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Katalog</p>
-        <h1 className="ad-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+        <p className="pn-eyebrow" style={{ marginBottom: '12px' }}>Katalog</p>
+        <h1 className="pn-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
           Ürünler{' '}
           <span style={{ color: 'var(--ad-fg-faint)', fontFamily: 'var(--font-jetbrains), monospace', fontSize: '0.55em', letterSpacing: '0.1em', marginLeft: '6px' }}>
             {total}
@@ -38,14 +38,14 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
           name="q"
           defaultValue={search ?? ''}
           placeholder="Ürün ara (isim)…"
-          className="ad-input"
+          className="pn-input"
         />
       </form>
 
       {products.length === 0 ? (
-        <div className="ad-empty">
-          <p className="ad-empty-title">Ürün bulunamadı.</p>
-          {search && <p className="ad-empty-hint">&quot;{search}&quot; araması için sonuç yok.</p>}
+        <div className="pn-empty">
+          <p className="pn-empty-title">Ürün bulunamadı.</p>
+          {search && <p className="pn-empty-hint">&quot;{search}&quot; araması için sonuç yok.</p>}
         </div>
       ) : (
         <ProductOrderList products={products} canReorder={ordered} />

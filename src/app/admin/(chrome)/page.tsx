@@ -62,24 +62,24 @@ export default async function AdminDashboardPage() {
   }))
 
   return (
-    <div className="ad-page">
+    <div className="pn-page">
       <RealtimeOrdersBanner />
 
-      <header className="ad-page-head ad-dash-head">
+      <header className="pn-page-head pn-dash-head">
         <div>
-          <p className="ad-eyebrow">Bugün</p>
-          <h1 className="ad-display ad-page-title">{greeting()}, {name}.</h1>
-          <p className="ad-page-lead">
+          <p className="pn-eyebrow">Bugün</p>
+          <h1 className="pn-display pn-page-title">{greeting()}, {name}.</h1>
+          <p className="pn-page-lead">
             {stats.today.orders} sipariş · {formatPrice(stats.today.revenue)} ciro · {stats.pending} ödeme bekliyor
           </p>
         </div>
-        <div className="ad-dash-actions">
-          <Link href="/admin/siparisler?status=pending" className="ad-btn ad-btn-secondary ad-btn-sm">Bekleyenler</Link>
-          <Link href="/admin/siparisler?status=paid" className="ad-btn ad-btn-primary ad-btn-sm">Kargoya hazır</Link>
+        <div className="pn-dash-actions">
+          <Link href="/admin/siparisler?status=pending" className="pn-btn pn-btn-secondary pn-btn-sm">Bekleyenler</Link>
+          <Link href="/admin/siparisler?status=paid" className="pn-btn pn-btn-primary pn-btn-sm">Kargoya hazır</Link>
         </div>
       </header>
 
-      <div className="ad-queue-grid">
+      <div className="pn-queue-grid">
         <WorkQueue
           title="Ödeme bekliyor"
           hint="Havale veya yarım kalan ödeme"
@@ -103,14 +103,14 @@ export default async function AdminDashboardPage() {
         />
       </div>
 
-      <div className="metric-grid ad-metric-grid">
+      <div className="metric-grid pn-metric-grid">
         <MetricCard label="Bugün · sipariş" value={stats.today.orders} hint={stats.today.orders === 0 ? 'Henüz sipariş yok' : 'Aktif gün'} />
         <MetricCard label="Bugün · ciro" value={formatPrice(stats.today.revenue)} />
         <MetricCard label="Son 7 gün" value={formatPrice(stats.last7.revenue)} delta={stats.last7.deltaPct} deltaLabel="önceki 7 güne göre" sparkline={stats.last7.sparkline} />
         <MetricCard label="Son 30 gün" value={formatPrice(stats.last30.revenue)} delta={stats.last30.deltaPct} deltaLabel="önceki 30 güne göre" sparkline={stats.last30.sparkline} />
       </div>
 
-      <div className="ad-card">
+      <div className="pn-card">
         <TopProductsList items={topProducts} />
       </div>
     </div>

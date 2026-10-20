@@ -230,12 +230,12 @@ export default function HtmlBlocksEditor({ initialBlocks }: { initialBlocks: Hom
         .html-preview img, .html-preview video { max-width: 100%; height: auto; }
       `}</style>
 
-      <div className="ad-card" style={{ padding: 0 }}>
+      <div className="pn-card" style={{ padding: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 14px 10px' }}>
-          <span className="ad-label" style={{ margin: 0 }}>
+          <span className="pn-label" style={{ margin: 0 }}>
             Şeritler
           </span>
-          <button type="button" className="ad-btn ad-btn-secondary ad-btn-sm" onClick={addBlock}>
+          <button type="button" className="pn-btn pn-btn-secondary pn-btn-sm" onClick={addBlock}>
             Ekle
           </button>
         </div>
@@ -256,7 +256,7 @@ export default function HtmlBlocksEditor({ initialBlocks }: { initialBlocks: Hom
                   <span style={{ display: 'block', fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {block.name || 'Şerit'}
                   </span>
-                  <span className="ad-mono" style={{ fontSize: 10, color: 'var(--ad-fg-faint)' }}>
+                  <span className="pn-mono" style={{ fontSize: 10, color: 'var(--ad-fg-faint)' }}>
                     {block.enabled ? 'Açık' : 'Kapalı'}
                     {block.html.trim() ? '' : ' · boş'}
                   </span>
@@ -265,7 +265,7 @@ export default function HtmlBlocksEditor({ initialBlocks }: { initialBlocks: Hom
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <button
                   type="button"
-                  className="ad-btn ad-btn-ghost ad-btn-sm"
+                  className="pn-btn pn-btn-ghost pn-btn-sm"
                   disabled={index === 0}
                   onClick={() => {
                     flushVisual()
@@ -278,7 +278,7 @@ export default function HtmlBlocksEditor({ initialBlocks }: { initialBlocks: Hom
                 </button>
                 <button
                   type="button"
-                  className="ad-btn ad-btn-ghost ad-btn-sm"
+                  className="pn-btn pn-btn-ghost pn-btn-sm"
                   disabled={index === blocks.length - 1}
                   onClick={() => {
                     flushVisual()
@@ -295,15 +295,15 @@ export default function HtmlBlocksEditor({ initialBlocks }: { initialBlocks: Hom
         )}
       </div>
 
-      <div className="ad-card">
+      <div className="pn-card">
         {selected ? (
           <>
-            <label className="ad-label" htmlFor="html-block-name">
+            <label className="pn-label" htmlFor="html-block-name">
               Ad
             </label>
             <input
               id="html-block-name"
-              className="ad-input"
+              className="pn-input"
               value={selected.name}
               onChange={(e) => patchSelected({ name: e.target.value })}
               style={{ marginBottom: 14 }}
@@ -321,14 +321,14 @@ export default function HtmlBlocksEditor({ initialBlocks }: { initialBlocks: Hom
             <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
               <button
                 type="button"
-                className={`ad-btn ad-btn-sm ${mode === 'visual' ? 'ad-btn-primary' : 'ad-btn-secondary'}`}
+                className={`pn-btn pn-btn-sm ${mode === 'visual' ? 'pn-btn-primary' : 'pn-btn-secondary'}`}
                 onClick={() => switchMode('visual')}
               >
                 Görsel
               </button>
               <button
                 type="button"
-                className={`ad-btn ad-btn-sm ${mode === 'html' ? 'ad-btn-primary' : 'ad-btn-secondary'}`}
+                className={`pn-btn pn-btn-sm ${mode === 'html' ? 'pn-btn-primary' : 'pn-btn-secondary'}`}
                 onClick={() => switchMode('html')}
                 lang="en"
               >
@@ -337,28 +337,28 @@ export default function HtmlBlocksEditor({ initialBlocks }: { initialBlocks: Hom
             </div>
 
             <div className="html-editor-toolbar">
-              <button type="button" className="ad-btn ad-btn-secondary ad-btn-sm" disabled={mode === 'html'} onMouseDown={keepEditorFocus} onClick={() => applyCommand('bold')}>
+              <button type="button" className="pn-btn pn-btn-secondary pn-btn-sm" disabled={mode === 'html'} onMouseDown={keepEditorFocus} onClick={() => applyCommand('bold')}>
                 Kalın
               </button>
-              <button type="button" className="ad-btn ad-btn-secondary ad-btn-sm" disabled={mode === 'html'} onMouseDown={keepEditorFocus} onClick={() => applyCommand('italic')}>
+              <button type="button" className="pn-btn pn-btn-secondary pn-btn-sm" disabled={mode === 'html'} onMouseDown={keepEditorFocus} onClick={() => applyCommand('italic')}>
                 İtalik
               </button>
-              <button type="button" className="ad-btn ad-btn-secondary ad-btn-sm" disabled={mode === 'html'} onMouseDown={keepEditorFocus} onClick={() => applyCommand('formatBlock', '<h2>')}>
+              <button type="button" className="pn-btn pn-btn-secondary pn-btn-sm" disabled={mode === 'html'} onMouseDown={keepEditorFocus} onClick={() => applyCommand('formatBlock', '<h2>')}>
                 Başlık
               </button>
-              <button type="button" className="ad-btn ad-btn-secondary ad-btn-sm" disabled={mode === 'html'} onMouseDown={keepEditorFocus} onClick={() => applyCommand('formatBlock', '<p>')}>
+              <button type="button" className="pn-btn pn-btn-secondary pn-btn-sm" disabled={mode === 'html'} onMouseDown={keepEditorFocus} onClick={() => applyCommand('formatBlock', '<p>')}>
                 Paragraf
               </button>
-              <button type="button" className="ad-btn ad-btn-secondary ad-btn-sm" disabled={mode === 'html'} onMouseDown={keepEditorFocus} onClick={() => applyCommand('insertUnorderedList')}>
+              <button type="button" className="pn-btn pn-btn-secondary pn-btn-sm" disabled={mode === 'html'} onMouseDown={keepEditorFocus} onClick={() => applyCommand('insertUnorderedList')}>
                 Liste
               </button>
-              <button type="button" className="ad-btn ad-btn-secondary ad-btn-sm" onMouseDown={keepEditorFocus} onClick={addLink}>
+              <button type="button" className="pn-btn pn-btn-secondary pn-btn-sm" onMouseDown={keepEditorFocus} onClick={addLink}>
                 Bağlantı
               </button>
-              <button type="button" className="ad-btn ad-btn-secondary ad-btn-sm" onMouseDown={keepEditorFocus} onClick={() => insertHtml('<hr />')}>
+              <button type="button" className="pn-btn pn-btn-secondary pn-btn-sm" onMouseDown={keepEditorFocus} onClick={() => insertHtml('<hr />')}>
                 Ayraç
               </button>
-              <button type="button" className="ad-btn ad-btn-secondary ad-btn-sm" onMouseDown={keepEditorFocus} onClick={insertStripTemplate}>
+              <button type="button" className="pn-btn pn-btn-secondary pn-btn-sm" onMouseDown={keepEditorFocus} onClick={insertStripTemplate}>
                 Şerit şablonu
               </button>
             </div>
@@ -376,7 +376,7 @@ export default function HtmlBlocksEditor({ initialBlocks }: { initialBlocks: Hom
             ) : (
               <textarea
                 ref={htmlRef}
-                className="ad-textarea html-code"
+                className="pn-textarea html-code"
                 value={selected.html}
                 spellCheck={false}
                 aria-label="HTML kodu"
@@ -397,11 +397,11 @@ export default function HtmlBlocksEditor({ initialBlocks }: { initialBlocks: Hom
               />
             )}
 
-            <p className="ad-mono" style={{ margin: '8px 0 0', fontSize: 10, color: 'var(--ad-fg-faint)' }}>
+            <p className="pn-mono" style={{ margin: '8px 0 0', fontSize: 10, color: 'var(--ad-fg-faint)' }}>
               HTML sekmesinde etiket yapıştırabilirsiniz. script ve javascript: adresleri kaydedilmez.
             </p>
 
-            <p className="ad-label" style={{ marginTop: 18 }}>
+            <p className="pn-label" style={{ marginTop: 18 }}>
               Önizleme
             </p>
             <div className="html-preview">
@@ -413,14 +413,14 @@ export default function HtmlBlocksEditor({ initialBlocks }: { initialBlocks: Hom
             </div>
 
             <div style={{ display: 'flex', gap: 8, marginTop: 16, flexWrap: 'wrap' }}>
-              <button type="button" className="ad-btn ad-btn-primary" onClick={handleSave} disabled={saving || !dirty}>
+              <button type="button" className="pn-btn pn-btn-primary" onClick={handleSave} disabled={saving || !dirty}>
                 {saving ? 'Kaydediliyor…' : 'Kaydet'}
               </button>
-              <button type="button" className="ad-btn ad-btn-danger ad-btn-sm" onClick={removeSelected}>
+              <button type="button" className="pn-btn pn-btn-danger pn-btn-sm" onClick={removeSelected}>
                 Bu şeridi sil
               </button>
               {selectedIndex >= 0 ? (
-                <span className="ad-mono" style={{ alignSelf: 'center', fontSize: 10, color: 'var(--ad-fg-faint)' }}>
+                <span className="pn-mono" style={{ alignSelf: 'center', fontSize: 10, color: 'var(--ad-fg-faint)' }}>
                   {selectedIndex + 1} / {blocks.length}
                 </span>
               ) : null}
@@ -431,7 +431,7 @@ export default function HtmlBlocksEditor({ initialBlocks }: { initialBlocks: Hom
             <p style={{ margin: '0 0 12px', fontSize: 14, color: 'var(--ad-fg-muted)' }}>
               Parfüm seçkisinin altına bir şerit ekleyin. Görsel editör veya HTML kodu kullanabilirsiniz.
             </p>
-            <button type="button" className="ad-btn ad-btn-primary" onClick={addBlock}>
+            <button type="button" className="pn-btn pn-btn-primary" onClick={addBlock}>
               Şerit ekle
             </button>
           </div>

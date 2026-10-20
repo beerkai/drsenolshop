@@ -11,7 +11,7 @@ export function LowStockList({ items }: Props) {
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '14px' }}>
-        <p className="ad-eyebrow-muted">Düşük Stok Uyarısı</p>
+        <p className="pn-eyebrow-muted">Düşük Stok Uyarısı</p>
         {items.length > 0 && (
           <Link href="/admin/stok"
             style={{

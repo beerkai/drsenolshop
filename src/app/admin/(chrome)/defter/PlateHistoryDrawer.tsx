@@ -64,23 +64,23 @@ export default function PlateHistoryDrawer({ plate, onClose }: Props) {
           boxShadow: '-16px 0 48px rgba(0,0,0,0.12)',
           zIndex: 75,
           overflowY: 'auto',
-          animation: 'ad-fadeup 0.22s cubic-bezier(0.16,1,0.3,1) both',
+          animation: 'pn-fadeup 0.22s cubic-bezier(0.16,1,0.3,1) both',
         }}
       >
         <div style={{ position: 'sticky', top: 0, backgroundColor: 'var(--ad-surface)', padding: '20px 24px', borderBottom: '1px solid var(--ad-line-faint)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <p className="ad-eyebrow" style={{ marginBottom: '6px' }}>Plaka Geçmişi</p>
-            <h2 className="ad-mono" style={{ fontSize: '22px', fontWeight: 500, color: 'var(--ad-fg)', margin: 0, letterSpacing: '0.05em' }}>
+            <p className="pn-eyebrow" style={{ marginBottom: '6px' }}>Plaka Geçmişi</p>
+            <h2 className="pn-mono" style={{ fontSize: '22px', fontWeight: 500, color: 'var(--ad-fg)', margin: 0, letterSpacing: '0.05em' }}>
               {plate}
             </h2>
           </div>
-          <button type="button" onClick={onClose} aria-label="Kapat" className="ad-icon-btn">✕</button>
+          <button type="button" onClick={onClose} aria-label="Kapat" className="pn-icon-btn">✕</button>
         </div>
 
         <div style={{ padding: '20px 24px' }}>
           {/* Özet */}
           {totals && totals.count > 0 && (
-            <div className="ad-grid-3">
+            <div className="pn-grid-3">
               <SummaryBox label="Ziyaret" value={String(totals.count)} />
               <SummaryBox label="Toplam" value={formatPrice(totals.total)} gold />
               <SummaryBox label="Rehber" value={formatPrice(totals.guideTotal)} small />
@@ -91,13 +91,13 @@ export default function PlateHistoryDrawer({ plate, onClose }: Props) {
           {error ? (
             <p style={{ color: 'var(--ad-danger)', fontSize: '13px' }}>{error}</p>
           ) : entries === null ? (
-            <p className="ad-mono" style={{ color: 'var(--ad-fg-faint)', fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+            <p className="pn-mono" style={{ color: 'var(--ad-fg-faint)', fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
               Yükleniyor…
             </p>
           ) : entries.length === 0 ? (
-            <div className="ad-empty">
-              <p className="ad-empty-title">Geçmiş kayıt yok.</p>
-              <p className="ad-empty-hint">Bu plaka için ilk ziyaret.</p>
+            <div className="pn-empty">
+              <p className="pn-empty-title">Geçmiş kayıt yok.</p>
+              <p className="pn-empty-hint">Bu plaka için ilk ziyaret.</p>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -107,7 +107,7 @@ export default function PlateHistoryDrawer({ plate, onClose }: Props) {
                     <Link
                       href={`/admin/defter?date=${e.entry_date}`}
                       onClick={onClose}
-                      className="ad-mono"
+                      className="pn-mono"
                       style={{ fontSize: '11px', color: 'var(--ad-gold-deep)', letterSpacing: '0.08em', textDecoration: 'none' }}
                     >
                       {new Date(e.entry_date + 'T12:00:00').toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: 'numeric' })}
@@ -123,13 +123,13 @@ export default function PlateHistoryDrawer({ plate, onClose }: Props) {
                     <span style={{ color: 'var(--ad-fg-muted)', fontSize: '12px' }}>
                       {e.employee_name ?? <span style={{ color: 'var(--ad-fg-faint)' }}>— çalışan yok —</span>}
                     </span>
-                    <span className="ad-display" style={{ fontSize: '17px', fontWeight: 500, color: 'var(--ad-fg)' }}>
+                    <span className="pn-display" style={{ fontSize: '17px', fontWeight: 500, color: 'var(--ad-fg)' }}>
                       {formatPrice(Number(e.sale_amount))}
                     </span>
                   </div>
 
                   {e.has_guide && e.guide_commission != null && (
-                    <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-gold-deep)', letterSpacing: '0.05em', margin: '2px 0 4px' }}>
+                    <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-gold-deep)', letterSpacing: '0.05em', margin: '2px 0 4px' }}>
                       rehber: {formatPrice(Number(e.guide_commission))} · {e.guide_paid ? 'ödendi' : 'ödenmedi'}
                     </p>
                   )}
@@ -152,10 +152,10 @@ export default function PlateHistoryDrawer({ plate, onClose }: Props) {
 function SummaryBox({ label, value, gold, small }: { label: string; value: string; gold?: boolean; small?: boolean }) {
   return (
     <div style={{ padding: '10px 12px', border: '1px solid var(--ad-line-faint)' }}>
-      <p className="ad-mono" style={{ fontSize: '9px', letterSpacing: '0.22em', color: 'var(--ad-fg-faint)', textTransform: 'uppercase', margin: '0 0 4px' }}>
+      <p className="pn-mono" style={{ fontSize: '9px', letterSpacing: '0.22em', color: 'var(--ad-fg-faint)', textTransform: 'uppercase', margin: '0 0 4px' }}>
         {label}
       </p>
-      <p className="ad-display" style={{ fontSize: small ? '15px' : '18px', fontWeight: 500, color: gold ? 'var(--ad-gold-deep)' : 'var(--ad-fg)', margin: 0, lineHeight: 1 }}>
+      <p className="pn-display" style={{ fontSize: small ? '15px' : '18px', fontWeight: 500, color: gold ? 'var(--ad-gold-deep)' : 'var(--ad-fg)', margin: 0, lineHeight: 1 }}>
         {value}
       </p>
     </div>

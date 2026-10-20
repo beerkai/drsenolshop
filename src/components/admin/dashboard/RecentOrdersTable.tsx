@@ -31,8 +31,8 @@ export function RecentOrdersTable({ orders, withHeader = true }: Props) {
   }
 
   return (
-    <div className="ad-table-wrap">
-      <table className="ad-table ad-table-mobile">
+    <div className="pn-table-wrap">
+      <table className="pn-table pn-table-mobile">
         {withHeader && (
           <thead>
             <tr>
@@ -49,7 +49,7 @@ export function RecentOrdersTable({ orders, withHeader = true }: Props) {
           {orders.map((o) => (
             <tr key={o.id}>
               <td className="is-row-head" data-label="Sipariş">
-                <Link href={`/admin/siparisler/${o.order_number}`} className="ad-order-link">
+                <Link href={`/admin/siparisler/${o.order_number}`} className="pn-order-link">
                   {o.order_number}
                 </Link>
               </td>
@@ -59,13 +59,13 @@ export function RecentOrdersTable({ orders, withHeader = true }: Props) {
               </td>
               <td data-label="Durum"><StatusBadge value={o.status} /></td>
               <td data-label="Ödeme">
-                <p className="ad-pay-method">{PAYMENT_METHOD_TR[o.payment_method] ?? o.payment_method}</p>
-                <p className="ad-pay-status">{PAYMENT_STATUS_TR[o.payment_status] ?? o.payment_status}</p>
+                <p className="pn-pay-method">{PAYMENT_METHOD_TR[o.payment_method] ?? o.payment_method}</p>
+                <p className="pn-pay-status">{PAYMENT_STATUS_TR[o.payment_status] ?? o.payment_status}</p>
               </td>
               <td className="is-right" data-label="Tutar">
-                <span className="ad-display" style={{ fontSize: '17px', fontWeight: 500 }}>{formatPrice(o.total_amount)}</span>
+                <span className="pn-display" style={{ fontSize: '17px', fontWeight: 500 }}>{formatPrice(o.total_amount)}</span>
               </td>
-              <td className="is-right ad-mono" data-label="Tarih" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
+              <td className="is-right pn-mono" data-label="Tarih" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
                 {new Date(o.created_at).toLocaleString('tr-TR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
               </td>
             </tr>

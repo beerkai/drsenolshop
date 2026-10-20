@@ -34,11 +34,11 @@ export default async function AdminProductEditPage({ params }: Props) {
       </Link>
 
       <div style={{ marginBottom: '28px' }}>
-        <p className="ad-eyebrow" style={{ marginBottom: '10px' }}>
+        <p className="pn-eyebrow" style={{ marginBottom: '10px' }}>
           {product.category?.name ?? 'Ürün'}
         </p>
         <h1
-          className="ad-display"
+          className="pn-display"
           style={{ fontSize: '26px', fontWeight: 500, color: 'var(--ad-fg)', lineHeight: 1.1, margin: '0 0 8px' }}
         >
           {product.name}

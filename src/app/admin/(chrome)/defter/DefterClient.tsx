@@ -123,12 +123,12 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
             .defter-header h1 { font-size: 22px !important; }
             .defter-header .defter-nav { width: 100%; flex-wrap: wrap; }
             .defter-header .defter-nav input[type="date"] { flex: 1; min-width: 120px; }
-            .defter-header .defter-nav .ad-btn { flex: 1; min-width: 90px; }
+            .defter-header .defter-nav .pn-btn { flex: 1; min-width: 90px; }
           }
         `}</style>
         <div>
-          <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Defter</p>
-          <h1 className="ad-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+          <p className="pn-eyebrow" style={{ marginBottom: '12px' }}>Defter</p>
+          <h1 className="pn-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
             {isToday ? <span>Bugün</span> : <span style={{ color: 'var(--ad-fg-muted)' }}>Geçmiş gün</span>}
             <span style={{ color: 'var(--ad-gold-deep)', fontStyle: 'italic', fontWeight: 400, marginLeft: '8px' }}>
               · {dateHuman(date)}
@@ -137,29 +137,29 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
         </div>
 
         <div className="defter-nav" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button type="button" onClick={() => updateUrl({ date: shiftDateKey(date, -1) })} aria-label="Önceki gün" className="ad-icon-btn">‹</button>
+          <button type="button" onClick={() => updateUrl({ date: shiftDateKey(date, -1) })} aria-label="Önceki gün" className="pn-icon-btn">‹</button>
           <input
             type="date"
             value={date}
             onChange={(e) => updateUrl({ date: e.target.value })}
-            className="ad-input"
+            className="pn-input"
             style={{ width: '160px', padding: '8px 12px', fontSize: '12px' }}
           />
-          <button type="button" onClick={() => updateUrl({ date: shiftDateKey(date, +1) })} aria-label="Sonraki gün" className="ad-icon-btn">›</button>
+          <button type="button" onClick={() => updateUrl({ date: shiftDateKey(date, +1) })} aria-label="Sonraki gün" className="pn-icon-btn">›</button>
           {!isToday && (
-            <button type="button" onClick={() => updateUrl({ date: todayKeyTR() })} className="ad-btn ad-btn-secondary ad-btn-sm">
+            <button type="button" onClick={() => updateUrl({ date: todayKeyTR() })} className="pn-btn pn-btn-secondary pn-btn-sm">
               Bugüne dön
             </button>
           )}
-          <Link href={`/admin/defter/hafta?from=${date}`} className="ad-btn ad-btn-secondary ad-btn-sm">
+          <Link href={`/admin/defter/hafta?from=${date}`} className="pn-btn pn-btn-secondary pn-btn-sm">
             Haftalık
           </Link>
-          <Link href="/admin/defter/arsiv" className="ad-btn ad-btn-secondary ad-btn-sm">
+          <Link href="/admin/defter/arsiv" className="pn-btn pn-btn-secondary pn-btn-sm">
             Arşiv
           </Link>
           <a
             href={`/api/admin/defter/export?from=${date}&to=${date}`}
-            className="ad-btn ad-btn-secondary ad-btn-sm"
+            className="pn-btn pn-btn-secondary pn-btn-sm"
             download
             title="Bugünün defterini CSV olarak indir"
           >
@@ -168,9 +168,9 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
           <button
             type="button"
             onClick={() => { setEditingEntry(null); setModalOpen(true) }}
-            className="ad-btn ad-btn-primary"
+            className="pn-btn pn-btn-primary"
           >
-            + Kayıt Ekle <span className="ad-kbd">N</span>
+            + Kayıt Ekle <span className="pn-kbd">N</span>
           </button>
         </div>
       </div>
@@ -194,7 +194,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
                 <span style={{ color: 'var(--ad-fg)', fontSize: '20px' }}>
                   {formatPrice(summary.totalSale - summary.guideCommissionTotal)}
                 </span>
-                <span className="ad-mono" style={{ fontSize: '9.5px', color: 'var(--ad-fg-faint)', letterSpacing: '0.18em', textTransform: 'uppercase', alignSelf: 'center' }}>
+                <span className="pn-mono" style={{ fontSize: '9.5px', color: 'var(--ad-fg-faint)', letterSpacing: '0.18em', textTransform: 'uppercase', alignSelf: 'center' }}>
                   net
                 </span>
               </span>
@@ -245,11 +245,11 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Plaka, çalışan veya not ara…"
-            className="ad-input"
+            className="pn-input"
             style={{ flex: 1, fontSize: '12px', padding: '8px 12px' }}
           />
           {searchInput && (
-            <button type="button" onClick={() => { setSearchInput(''); updateUrl({ q: '' }) }} className="ad-btn ad-btn-ghost ad-btn-sm">
+            <button type="button" onClick={() => { setSearchInput(''); updateUrl({ q: '' }) }} className="pn-btn pn-btn-ghost pn-btn-sm">
               Temizle
             </button>
           )}
@@ -258,9 +258,9 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
 
       {/* Liste */}
       {entries.length === 0 ? (
-        <div className="ad-empty">
-          <p className="ad-empty-title">{isToday ? 'Bugün için kayıt yok.' : 'Bu gün için kayıt yok.'}</p>
-          <p className="ad-empty-hint">+ Kayıt Ekle ile yeni satış girebilirsin (kısayol: <span className="ad-kbd">N</span>).</p>
+        <div className="pn-empty">
+          <p className="pn-empty-title">{isToday ? 'Bugün için kayıt yok.' : 'Bu gün için kayıt yok.'}</p>
+          <p className="pn-empty-hint">+ Kayıt Ekle ile yeni satış girebilirsin (kısayol: <span className="pn-kbd">N</span>).</p>
         </div>
       ) : (
       <>
@@ -434,7 +434,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
               {e.has_guide && e.guide_commission != null && (
                 <div className="extra">
                   <span className="extra-label">Rehber</span>
-                  <span className="ad-mono" style={{ color: 'var(--ad-gold-deep)', fontSize: '13px', fontWeight: 500 }}>
+                  <span className="pn-mono" style={{ color: 'var(--ad-gold-deep)', fontSize: '13px', fontWeight: 500 }}>
                     {formatPrice(Number(e.guide_commission))}
                   </span>
                 </div>
@@ -497,8 +497,8 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
         </div>
 
         {/* DESKTOP — orijinal tablo (640px üstü görünür) */}
-        <div className="ad-table-wrap defter-desktop-table">
-          <table className="ad-table" style={{ minWidth: '900px' }}>
+        <div className="pn-table-wrap defter-desktop-table">
+          <table className="pn-table" style={{ minWidth: '900px' }}>
             <thead>
               <tr>
                 <th style={{ width: '36px' }}>#</th>
@@ -515,7 +515,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
             <tbody>
               {entries.map((e, idx) => (
                 <tr key={e.id}>
-                  <td className="ad-mono is-row-head" data-label="#"
+                  <td className="pn-mono is-row-head" data-label="#"
                       style={{ fontSize: '11px', color: 'var(--ad-fg-faint)', textAlign: 'right', letterSpacing: '0.05em' }}>
                     {String(idx + 1).padStart(2, '0')}
                   </td>
@@ -523,7 +523,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
                     <button
                       type="button"
                       onClick={() => setPlateDrawer(e.plate)}
-                      className="ad-mono"
+                      className="pn-mono"
                       style={{
                         background: 'transparent',
                         border: '1px solid var(--ad-line)',
@@ -548,13 +548,13 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
                     </Badge>
                   </td>
                   <td className="is-right" data-label="Satış">
-                    <span className="ad-display" style={{ fontSize: '16px', fontWeight: 500, color: 'var(--ad-fg)' }}>
+                    <span className="pn-display" style={{ fontSize: '16px', fontWeight: 500, color: 'var(--ad-fg)' }}>
                       {formatPrice(Number(e.sale_amount))}
                     </span>
                   </td>
                   <td className="is-right" data-label="Rehber">
                     {e.has_guide && e.guide_commission != null ? (
-                      <span className="ad-mono" style={{ fontSize: '12px', color: 'var(--ad-gold-deep)' }}>
+                      <span className="pn-mono" style={{ fontSize: '12px', color: 'var(--ad-gold-deep)' }}>
                         {formatPrice(Number(e.guide_commission))}
                       </span>
                     ) : (
@@ -623,7 +623,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
                       <button
                         type="button"
                         onClick={() => { setEditingEntry(e); setModalOpen(true) }}
-                        className="ad-btn ad-btn-ghost ad-btn-sm"
+                        className="pn-btn pn-btn-ghost pn-btn-sm"
                         title="Düzenle"
                       >
                         ✎
@@ -631,7 +631,7 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
                       <button
                         type="button"
                         onClick={() => handleDelete(e)}
-                        className="ad-btn ad-btn-ghost ad-btn-sm"
+                        className="pn-btn pn-btn-ghost pn-btn-sm"
                         title="Sil"
                         style={{ color: 'var(--ad-danger)' }}
                       >
@@ -648,8 +648,8 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
       )}
 
       {/* Alt bilgi */}
-      <p className="ad-mono" style={{ marginTop: '16px', fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.08em' }}>
-        {total} kayıt · <span className="ad-kbd">N</span> yeni kayıt · plakaya tıklayınca geçmiş açılır
+      <p className="pn-mono" style={{ marginTop: '16px', fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.08em' }}>
+        {total} kayıt · <span className="pn-kbd">N</span> yeni kayıt · plakaya tıklayınca geçmiş açılır
       </p>
 
       {/* Modal'lar */}
@@ -675,10 +675,10 @@ export function DefterClient({ date, filter, search, summary, entries, total, em
 
 function Metric({ label, value, gold, small, hint }: { label: string; value: React.ReactNode; gold?: boolean; small?: boolean; hint?: string }) {
   return (
-    <div className="ad-metric">
-      <p className="ad-metric-label">{label}</p>
+    <div className="pn-metric">
+      <p className="pn-metric-label">{label}</p>
       <p
-        className="ad-metric-value"
+        className="pn-metric-value"
         style={{
           fontSize: small ? '22px' : undefined,
           color: gold ? 'var(--ad-gold-deep)' : undefined,
@@ -689,7 +689,7 @@ function Metric({ label, value, gold, small, hint }: { label: string; value: Rea
       </p>
       {hint && (
         <p
-          className="ad-mono"
+          className="pn-mono"
           style={{
             margin: '8px 0 0',
             fontSize: '10px',
@@ -709,7 +709,7 @@ function FilterChip({ label, active, onClick }: { label: string; active: boolean
     <button
       type="button"
       onClick={onClick}
-      className={['ad-btn', 'ad-btn-sm', active ? 'ad-btn-primary' : 'ad-btn-secondary'].join(' ')}
+      className={['pn-btn', 'pn-btn-sm', active ? 'pn-btn-primary' : 'pn-btn-secondary'].join(' ')}
     >
       {label}
     </button>

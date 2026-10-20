@@ -22,26 +22,26 @@ export function WorkQueue({
   rows: WorkQueueRow[]
 }) {
   return (
-    <section className="ad-card ad-queue">
-      <div className="ad-queue-head">
+    <section className="pn-card pn-queue">
+      <div className="pn-queue-head">
         <div>
-          <h2 className="ad-queue-title">{title}</h2>
-          <p className="ad-queue-hint">{hint}</p>
+          <h2 className="pn-queue-title">{title}</h2>
+          <p className="pn-queue-hint">{hint}</p>
         </div>
-        <Link href={href} className="ad-queue-all">Tümü</Link>
+        <Link href={href} className="pn-queue-all">Tümü</Link>
       </div>
       {rows.length === 0 ? (
-        <p className="ad-queue-empty">{empty}</p>
+        <p className="pn-queue-empty">{empty}</p>
       ) : (
-        <ul className="ad-queue-list">
+        <ul className="pn-queue-list">
           {rows.map((row) => (
             <li key={row.key}>
-              <Link href={row.href} className="ad-queue-row">
-                <span className="ad-queue-main">
-                  <span className="ad-queue-name">{row.title}</span>
-                  <span className="ad-queue-meta">{row.meta}</span>
+              <Link href={row.href} className="pn-queue-row">
+                <span className="pn-queue-main">
+                  <span className="pn-queue-name">{row.title}</span>
+                  <span className="pn-queue-meta">{row.meta}</span>
                 </span>
-                <span className="ad-queue-aside">{row.aside}</span>
+                <span className="pn-queue-aside">{row.aside}</span>
               </Link>
             </li>
           ))}

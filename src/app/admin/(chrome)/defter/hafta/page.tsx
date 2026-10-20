@@ -54,11 +54,11 @@ export default async function DefterHaftalikPage({ searchParams }: { searchParam
     <div>
       {/* Mini breadcrumb */}
       <nav style={{ marginBottom: '14px', display: 'flex', gap: '6px', alignItems: 'center' }}>
-        <Link href="/admin/defter" className="ad-mono" style={{ fontSize: '10px', letterSpacing: '0.15em', color: 'var(--ad-fg-muted)', textTransform: 'uppercase', textDecoration: 'none' }}>
+        <Link href="/admin/defter" className="pn-mono" style={{ fontSize: '10px', letterSpacing: '0.15em', color: 'var(--ad-fg-muted)', textTransform: 'uppercase', textDecoration: 'none' }}>
           Defter
         </Link>
         <span style={{ color: 'var(--ad-line)' }}>›</span>
-        <span className="ad-mono" style={{ fontSize: '10px', letterSpacing: '0.15em', color: 'var(--ad-fg)', textTransform: 'uppercase', fontWeight: 500 }}>
+        <span className="pn-mono" style={{ fontSize: '10px', letterSpacing: '0.15em', color: 'var(--ad-fg)', textTransform: 'uppercase', fontWeight: 500 }}>
           Haftalık
         </span>
       </nav>
@@ -66,8 +66,8 @@ export default async function DefterHaftalikPage({ searchParams }: { searchParam
       {/* Başlık + hafta nav */}
       <div style={{ marginBottom: '24px', display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '16px' }}>
         <div>
-          <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Defter · Haftalık Döküm</p>
-          <h1 className="ad-display" style={{ fontSize: '26px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+          <p className="pn-eyebrow" style={{ marginBottom: '12px' }}>Defter · Haftalık Döküm</p>
+          <h1 className="pn-display" style={{ fontSize: '26px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
             {isThisWeek ? <span>Bu Hafta</span> : <span style={{ color: 'var(--ad-fg-muted)' }}>Hafta</span>}
             <span style={{ color: 'var(--ad-gold-deep)', fontStyle: 'italic', fontWeight: 400, marginLeft: '8px' }}>
               · {humanRange(monday, sunday)}
@@ -79,7 +79,7 @@ export default async function DefterHaftalikPage({ searchParams }: { searchParam
           <Link
             href={`/admin/defter/hafta?from=${prevWeek}`}
             aria-label="Önceki hafta"
-            className="ad-icon-btn"
+            className="pn-icon-btn"
             style={{ textDecoration: 'none', display: 'inline-flex' }}
           >
             ‹
@@ -87,22 +87,22 @@ export default async function DefterHaftalikPage({ searchParams }: { searchParam
           <Link
             href={`/admin/defter/hafta?from=${nextWeek}`}
             aria-label="Sonraki hafta"
-            className="ad-icon-btn"
+            className="pn-icon-btn"
             style={{ textDecoration: 'none', display: 'inline-flex' }}
           >
             ›
           </Link>
           {!isThisWeek && (
-            <Link href={`/admin/defter/hafta?from=${thisWeekMonday}`} className="ad-btn ad-btn-secondary ad-btn-sm">
+            <Link href={`/admin/defter/hafta?from=${thisWeekMonday}`} className="pn-btn pn-btn-secondary pn-btn-sm">
               Bu haftaya dön
             </Link>
           )}
-          <Link href="/admin/defter" className="ad-btn ad-btn-secondary ad-btn-sm">
+          <Link href="/admin/defter" className="pn-btn pn-btn-secondary pn-btn-sm">
             Defter
           </Link>
           <a
             href={`/api/admin/defter/export?from=${monday}&to=${sunday}`}
-            className="ad-btn ad-btn-secondary ad-btn-sm"
+            className="pn-btn pn-btn-secondary pn-btn-sm"
             download
             title="Bu haftayı CSV olarak indir"
           >
@@ -130,7 +130,7 @@ export default async function DefterHaftalikPage({ searchParams }: { searchParam
                 <span style={{ color: 'var(--ad-fg)', fontSize: '20px' }}>
                   {formatPrice(totals.totalSale - totals.guideTotal)}
                 </span>
-                <span className="ad-mono" style={{ fontSize: '9.5px', color: 'var(--ad-fg-faint)', letterSpacing: '0.18em', textTransform: 'uppercase', alignSelf: 'center' }}>
+                <span className="pn-mono" style={{ fontSize: '9.5px', color: 'var(--ad-fg-faint)', letterSpacing: '0.18em', textTransform: 'uppercase', alignSelf: 'center' }}>
                   net
                 </span>
               </span>
@@ -192,7 +192,7 @@ export default async function DefterHaftalikPage({ searchParams }: { searchParam
               {/* Gün başlığı */}
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '10px' }}>
                 <span
-                  className="ad-mono"
+                  className="pn-mono"
                   style={{
                     fontSize: '10px',
                     letterSpacing: '0.15em',
@@ -203,7 +203,7 @@ export default async function DefterHaftalikPage({ searchParams }: { searchParam
                 >
                   {dayName}
                 </span>
-                <span className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)' }}>
+                <span className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)' }}>
                   {d.key.slice(8)}
                 </span>
               </div>
@@ -211,29 +211,29 @@ export default async function DefterHaftalikPage({ searchParams }: { searchParam
               {/* Sayılar */}
               {d.entryCount === 0 ? (
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                  <span className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
                     {isFuture ? '—' : 'boş'}
                   </span>
                 </div>
               ) : (
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <div>
-                    <p className="ad-display" style={{ fontSize: '22px', fontWeight: 500, color: 'var(--ad-gold-deep)', margin: 0, lineHeight: 1 }}>
+                    <p className="pn-display" style={{ fontSize: '22px', fontWeight: 500, color: 'var(--ad-gold-deep)', margin: 0, lineHeight: 1 }}>
                       {formatPrice(d.totalSale)}
                     </p>
-                    <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-muted)', marginTop: '4px', letterSpacing: '0.05em' }}>
+                    <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-muted)', marginTop: '4px', letterSpacing: '0.05em' }}>
                       {d.entryCount} kayıt
                     </p>
                   </div>
 
                   <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     {d.cardSale > 0 && (
-                      <span className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-info)', letterSpacing: '0.05em' }}>
+                      <span className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-info)', letterSpacing: '0.05em' }}>
                         K {formatPrice(d.cardSale)}
                       </span>
                     )}
                     {d.cashSale > 0 && (
-                      <span className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-success)', letterSpacing: '0.05em' }}>
+                      <span className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-success)', letterSpacing: '0.05em' }}>
                         N {formatPrice(d.cashSale)}
                       </span>
                     )}
@@ -256,7 +256,7 @@ export default async function DefterHaftalikPage({ searchParams }: { searchParam
         })}
       </div>
 
-      <p className="ad-mono" style={{ marginTop: '16px', fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.08em' }}>
+      <p className="pn-mono" style={{ marginTop: '16px', fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.08em' }}>
         Güne tıklayınca o günün defteri açılır · K=kart N=nakit · Pazar altın renkte
       </p>
     </div>
@@ -265,13 +265,13 @@ export default async function DefterHaftalikPage({ searchParams }: { searchParam
 
 function Metric({ label, value, gold, small, hint }: { label: string; value: React.ReactNode; gold?: boolean; small?: boolean; hint?: string }) {
   return (
-    <div className="ad-metric">
-      <p className="ad-metric-label">{label}</p>
-      <p className="ad-metric-value" style={{ fontSize: small ? '20px' : undefined, color: gold ? 'var(--ad-gold-deep)' : undefined, lineHeight: 1.1 }}>
+    <div className="pn-metric">
+      <p className="pn-metric-label">{label}</p>
+      <p className="pn-metric-value" style={{ fontSize: small ? '20px' : undefined, color: gold ? 'var(--ad-gold-deep)' : undefined, lineHeight: 1.1 }}>
         {value}
       </p>
       {hint && (
-        <p className="ad-mono" style={{ margin: '8px 0 0', fontSize: '10px', letterSpacing: '0.05em', color: 'var(--ad-fg-faint)' }}>
+        <p className="pn-mono" style={{ margin: '8px 0 0', fontSize: '10px', letterSpacing: '0.05em', color: 'var(--ad-fg-faint)' }}>
           {hint}
         </p>
       )}

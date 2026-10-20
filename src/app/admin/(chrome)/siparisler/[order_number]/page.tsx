@@ -56,7 +56,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
       >
         <div>
           <p
-            className="ad-mono"
+            className="pn-mono"
             style={{
               fontSize: '11px',
               letterSpacing: '0.18em',
@@ -68,7 +68,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
           >
             {order.order_number}
           </p>
-          <h1 className="ad-display" style={{ fontSize: '26px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+          <h1 className="pn-display" style={{ fontSize: '26px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
             Sipariş Detayı
           </h1>
           <p style={{ color: 'var(--ad-fg-faint)', fontSize: '12px', marginTop: '6px', fontFamily: 'var(--font-jetbrains), monospace' }}>
@@ -86,8 +86,8 @@ export default async function AdminOrderDetailPage({ params }: Props) {
         {/* SOL */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* Items */}
-          <div className="ad-card">
-            <p className="ad-eyebrow-muted" style={{ marginBottom: '16px' }}>
+          <div className="pn-card">
+            <p className="pn-eyebrow-muted" style={{ marginBottom: '16px' }}>
               Ürünler · {items?.length ?? 0}
             </p>
             {(items ?? []).map((it) => (
@@ -125,7 +125,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
                   </p>
                   {it.variant_label && (
                     <p
-                      className="ad-mono"
+                      className="pn-mono"
                       style={{
                         fontSize: '9.5px',
                         letterSpacing: '0.18em',
@@ -137,7 +137,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
                       {it.variant_label}
                     </p>
                   )}
-                  <p className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', margin: 0 }}>
+                  <p className="pn-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', margin: 0 }}>
                     {it.quantity} × {formatPrice(Number(it.unit_price))} · KDV %{Number(it.tax_rate ?? 0)}
                   </p>
                   {it.product_slug && (
@@ -162,7 +162,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
                   )}
                 </div>
                 <div style={{ flexShrink: 0, textAlign: 'right' }}>
-                  <p className="ad-display" style={{ fontSize: '17px', fontWeight: 500, color: 'var(--ad-fg)', margin: 0 }}>
+                  <p className="pn-display" style={{ fontSize: '17px', fontWeight: 500, color: 'var(--ad-fg)', margin: 0 }}>
                     {formatPrice(Number(it.subtotal))}
                   </p>
                 </div>
@@ -188,12 +188,12 @@ export default async function AdminOrderDetailPage({ params }: Props) {
                 }}
               >
                 <span
-                  className="ad-mono"
+                  className="pn-mono"
                   style={{ fontSize: '11px', letterSpacing: '0.22em', color: 'var(--ad-fg)', textTransform: 'uppercase' }}
                 >
                   Toplam
                 </span>
-                <span className="ad-display" style={{ fontSize: '24px', fontWeight: 500, color: 'var(--ad-gold-deep)' }}>
+                <span className="pn-display" style={{ fontSize: '24px', fontWeight: 500, color: 'var(--ad-gold-deep)' }}>
                   {formatPrice(Number(order.total_amount))}
                 </span>
               </div>
@@ -201,12 +201,12 @@ export default async function AdminOrderDetailPage({ params }: Props) {
           </div>
 
           {/* Müşteri */}
-          <div className="ad-card">
-            <p className="ad-eyebrow-muted" style={{ marginBottom: '14px' }}>Müşteri</p>
+          <div className="pn-card">
+            <p className="pn-eyebrow-muted" style={{ marginBottom: '14px' }}>Müşteri</p>
             <p style={{ color: 'var(--ad-fg)', fontSize: '15px', margin: '0 0 4px', fontWeight: 500 }}>{order.customer_name}</p>
             <p style={{ color: 'var(--ad-fg-muted)', fontSize: '13px', margin: '0 0 2px' }}>{order.customer_email}</p>
             {order.customer_phone && (
-              <p className="ad-mono" style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: 0 }}>
+              <p className="pn-mono" style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: 0 }}>
                 {order.customer_phone}
               </p>
             )}
@@ -214,8 +214,8 @@ export default async function AdminOrderDetailPage({ params }: Props) {
 
           {/* Adres */}
           {ship && (
-            <div className="ad-card">
-              <p className="ad-eyebrow-muted" style={{ marginBottom: '14px' }}>Teslimat Adresi</p>
+            <div className="pn-card">
+              <p className="pn-eyebrow-muted" style={{ marginBottom: '14px' }}>Teslimat Adresi</p>
               <p style={{ color: 'var(--ad-fg)', fontSize: '14px', lineHeight: 1.7, margin: 0 }}>
                 <strong>{ship.full_name}</strong>
                 <br />
@@ -225,14 +225,14 @@ export default async function AdminOrderDetailPage({ params }: Props) {
                 {ship.district}, {ship.city}
                 {ship.postal_code ? ` ${ship.postal_code}` : ''}
                 <br />
-                <span className="ad-mono" style={{ color: 'var(--ad-fg-faint)', fontSize: '12px' }}>{ship.phone}</span>
+                <span className="pn-mono" style={{ color: 'var(--ad-fg-faint)', fontSize: '12px' }}>{ship.phone}</span>
               </p>
             </div>
           )}
 
           {order.notes && (
-            <div className="ad-card">
-              <p className="ad-eyebrow-muted" style={{ marginBottom: '12px' }}>Müşteri Notu</p>
+            <div className="pn-card">
+              <p className="pn-eyebrow-muted" style={{ marginBottom: '12px' }}>Müşteri Notu</p>
               <p style={{ color: 'var(--ad-fg)', fontSize: '13px', lineHeight: 1.6, margin: 0, fontStyle: 'italic' }}>
                 {order.notes}
               </p>
@@ -260,7 +260,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
 function SumRow({ label, value, muted }: { label: string; value: string; muted?: boolean }) {
   return (
     <div
-      className="ad-mono"
+      className="pn-mono"
       style={{
         display: 'flex',
         justifyContent: 'space-between',

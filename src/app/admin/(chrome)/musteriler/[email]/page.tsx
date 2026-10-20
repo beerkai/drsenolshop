@@ -45,17 +45,17 @@ export default async function CustomerDetailPage({ params }: Props) {
       </Link>
 
       {/* Üst — Müşteri kimlik kartı */}
-      <div className="ad-card" style={{ marginBottom: '24px' }}>
-        <p className="ad-eyebrow" style={{ marginBottom: '10px' }}>Müşteri</p>
-        <h1 className="ad-display" style={{ fontSize: '26px', fontWeight: 500, color: 'var(--ad-fg)', lineHeight: 1.1, margin: '0 0 8px' }}>
+      <div className="pn-card" style={{ marginBottom: '24px' }}>
+        <p className="pn-eyebrow" style={{ marginBottom: '10px' }}>Müşteri</p>
+        <h1 className="pn-display" style={{ fontSize: '26px', fontWeight: 500, color: 'var(--ad-fg)', lineHeight: 1.1, margin: '0 0 8px' }}>
           {detail.name}
         </h1>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'baseline' }}>
-          <a href={`mailto:${detail.email}`} className="ad-mono" style={{ fontSize: '13px', color: 'var(--ad-fg-muted)', textDecoration: 'none' }}>
+          <a href={`mailto:${detail.email}`} className="pn-mono" style={{ fontSize: '13px', color: 'var(--ad-fg-muted)', textDecoration: 'none' }}>
             {detail.email}
           </a>
           {detail.phone && (
-            <a href={`tel:${detail.phone}`} className="ad-mono" style={{ fontSize: '13px', color: 'var(--ad-fg-muted)', textDecoration: 'none' }}>
+            <a href={`tel:${detail.phone}`} className="pn-mono" style={{ fontSize: '13px', color: 'var(--ad-fg-muted)', textDecoration: 'none' }}>
               {detail.phone}
             </a>
           )}
@@ -82,8 +82,8 @@ export default async function CustomerDetailPage({ params }: Props) {
       </div>
 
       {/* Admin notları */}
-      <div className="ad-card" style={{ marginBottom: '20px' }}>
-        <p className="ad-eyebrow-muted" style={{ marginBottom: '6px' }}>Müşteri Notları</p>
+      <div className="pn-card" style={{ marginBottom: '20px' }}>
+        <p className="pn-eyebrow-muted" style={{ marginBottom: '6px' }}>Müşteri Notları</p>
         <p style={{ color: 'var(--ad-fg-muted)', fontSize: '12px', margin: '0 0 14px' }}>
           Yalnız admin görür. Müşteri arşivi için kısa kayıtlar (özel istek, iletişim notu, sorunlar).
         </p>
@@ -99,10 +99,10 @@ export default async function CustomerDetailPage({ params }: Props) {
         {/* Siparişler tablosu */}
         <div>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '12px' }}>
-            <p className="ad-eyebrow-muted">Siparişler · {detail.orders.length}</p>
+            <p className="pn-eyebrow-muted">Siparişler · {detail.orders.length}</p>
           </div>
-          <div className="ad-table-wrap">
-            <table className="ad-table">
+          <div className="pn-table-wrap">
+            <table className="pn-table">
               <thead>
                 <tr>
                   <th>Sipariş No</th>
@@ -118,22 +118,22 @@ export default async function CustomerDetailPage({ params }: Props) {
                     <td>
                       <Link
                         href={`/admin/siparisler/${o.order_number}`}
-                        className="ad-mono"
+                        className="pn-mono"
                         style={{ fontSize: '12px', color: 'var(--ad-gold-deep)', letterSpacing: '0.06em', textDecoration: 'none', fontWeight: 500 }}
                       >
                         {o.order_number}
                       </Link>
                     </td>
                     <td><StatusBadge value={o.status} /></td>
-                    <td className="is-right ad-mono" style={{ fontSize: '12px', color: 'var(--ad-fg-muted)' }}>
+                    <td className="is-right pn-mono" style={{ fontSize: '12px', color: 'var(--ad-fg-muted)' }}>
                       {o.item_count}
                     </td>
                     <td className="is-right">
-                      <span className="ad-display" style={{ fontSize: '15px', fontWeight: 500 }}>
+                      <span className="pn-display" style={{ fontSize: '15px', fontWeight: 500 }}>
                         {formatPrice(o.total_amount)}
                       </span>
                     </td>
-                    <td className="is-right ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
+                    <td className="is-right pn-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
                       {new Date(o.created_at).toLocaleString('tr-TR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
                     </td>
                   </tr>
@@ -145,17 +145,17 @@ export default async function CustomerDetailPage({ params }: Props) {
 
         {/* Adresler */}
         <div>
-          <p className="ad-eyebrow-muted" style={{ marginBottom: '12px' }}>
+          <p className="pn-eyebrow-muted" style={{ marginBottom: '12px' }}>
             Adresler · {detail.addresses.length}
           </p>
           {detail.addresses.length === 0 ? (
-            <div className="ad-empty">
-              <p className="ad-empty-hint">Adres kaydı yok.</p>
+            <div className="pn-empty">
+              <p className="pn-empty-hint">Adres kaydı yok.</p>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {detail.addresses.map((a, i) => (
-                <div key={i} className="ad-card ad-card-sm" style={{ padding: '14px' }}>
+                <div key={i} className="pn-card pn-card-sm" style={{ padding: '14px' }}>
                   <p style={{ color: 'var(--ad-fg)', fontSize: '13px', margin: '0 0 4px', fontWeight: 500 }}>
                     {a.full_name}
                   </p>
@@ -164,10 +164,10 @@ export default async function CustomerDetailPage({ params }: Props) {
                     <br />
                     {a.district}, {a.city}{a.postal_code ? ` ${a.postal_code}` : ''}
                   </p>
-                  <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '6px', letterSpacing: '0.05em' }}>
+                  <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '6px', letterSpacing: '0.05em' }}>
                     {a.phone}
                   </p>
-                  <p className="ad-mono" style={{ fontSize: '9.5px', color: 'var(--ad-fg-faint)', marginTop: '6px', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+                  <p className="pn-mono" style={{ fontSize: '9.5px', color: 'var(--ad-fg-faint)', marginTop: '6px', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
                     Son: {new Date(a.last_used_at).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })}
                   </p>
                 </div>

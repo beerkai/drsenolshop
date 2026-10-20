@@ -7,7 +7,7 @@ interface Props {
 export function TrendChip({ value, label, invert = false }: Props) {
   const isPositive = invert ? value < 0 : value > 0
   const isNegative = invert ? value > 0 : value < 0
-  const cls = ['ad-trend', isPositive && 'is-up', isNegative && 'is-down', !isPositive && !isNegative && 'is-flat']
+  const cls = ['pn-trend', isPositive && 'is-up', isNegative && 'is-down', !isPositive && !isNegative && 'is-flat']
     .filter(Boolean)
     .join(' ')
 

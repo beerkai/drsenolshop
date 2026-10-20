@@ -39,9 +39,9 @@ export default function ShippingForm({ initial }: { initial: ShippingConfig }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="ad-split-2">
+      <div className="pn-split-2">
         <div>
-          <label className="ad-label">Sabit Kargo Ücreti (TL)</label>
+          <label className="pn-label">Sabit Kargo Ücreti (TL)</label>
           <input
             type="number"
             min="0"
@@ -49,14 +49,14 @@ export default function ShippingForm({ initial }: { initial: ShippingConfig }) {
             value={Number.isFinite(form.flat_fee) ? form.flat_fee : 0}
             onChange={(e) => update('flat_fee', parseFloat(e.target.value) || 0)}
             placeholder="Ör: 60"
-            className="ad-input ad-mono"
+            className="pn-input pn-mono"
           />
-          <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
+          <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
             0 yazılırsa kargo ücreti uygulanmaz (her zaman ücretsiz).
           </p>
         </div>
         <div>
-          <label className="ad-label">Ücretsiz Kargo Eşiği (TL)</label>
+          <label className="pn-label">Ücretsiz Kargo Eşiği (TL)</label>
           <input
             type="number"
             min="0"
@@ -64,29 +64,29 @@ export default function ShippingForm({ initial }: { initial: ShippingConfig }) {
             value={Number.isFinite(form.free_threshold) ? form.free_threshold : 0}
             onChange={(e) => update('free_threshold', parseFloat(e.target.value) || 0)}
             placeholder="Ör: 750"
-            className="ad-input ad-mono"
+            className="pn-input pn-mono"
           />
-          <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
+          <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
             Bu tutar ve üzeri siparişte kargo ücretsiz. 0 yazılırsa devre dışı.
           </p>
         </div>
       </div>
 
       <div style={{ marginBottom: '16px' }}>
-        <label className="ad-label">Anlaşmalı Kargo Şirketi</label>
+        <label className="pn-label">Anlaşmalı Kargo Şirketi</label>
         <input
           type="text"
           value={form.courier_name}
           onChange={(e) => update('courier_name', e.target.value)}
           placeholder="Ör: Yurtiçi Kargo, Aras Kargo"
-          className="ad-input"
+          className="pn-input"
         />
-        <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
+        <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
           Bilgi amaçlı — sipariş onay e-postasında gösterilir.
         </p>
       </div>
 
-      <button type="submit" disabled={saving} className="ad-btn ad-btn-primary">
+      <button type="submit" disabled={saving} className="pn-btn pn-btn-primary">
         {saving ? 'Kaydediliyor…' : 'Kaydet'}
       </button>
     </form>

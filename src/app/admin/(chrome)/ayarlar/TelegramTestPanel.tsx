@@ -27,7 +27,7 @@ export default function TelegramTestPanel({ configured }: { configured: boolean 
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', padding: '10px 0', borderBottom: '1px solid var(--ad-line-faint)' }}>
-        <span className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Durum</span>
+        <span className="pn-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Durum</span>
         {configured ? (
           <Badge tone="success" bracketed>Yapılandırılmış</Badge>
         ) : (
@@ -35,14 +35,14 @@ export default function TelegramTestPanel({ configured }: { configured: boolean 
         )}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', padding: '10px 0', borderBottom: '1px solid var(--ad-line-faint)' }}>
-        <span className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Bot Token</span>
-        <span className="ad-mono" style={{ fontSize: '12px', color: 'var(--ad-fg)' }}>
+        <span className="pn-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Bot Token</span>
+        <span className="pn-mono" style={{ fontSize: '12px', color: 'var(--ad-fg)' }}>
           {configured ? '••••• env\'de' : 'eksik'}
         </span>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', padding: '10px 0', borderBottom: '1px solid var(--ad-line-faint)' }}>
-        <span className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Chat ID</span>
-        <span className="ad-mono" style={{ fontSize: '12px', color: 'var(--ad-fg)' }}>
+        <span className="pn-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Chat ID</span>
+        <span className="pn-mono" style={{ fontSize: '12px', color: 'var(--ad-fg)' }}>
           {configured ? '••••• env\'de' : 'eksik'}
         </span>
       </div>
@@ -52,12 +52,12 @@ export default function TelegramTestPanel({ configured }: { configured: boolean 
           type="button"
           onClick={handleTest}
           disabled={!configured || sending}
-          className={['ad-btn', configured ? 'ad-btn-primary' : 'ad-btn-secondary'].join(' ')}
+          className={['pn-btn', configured ? 'pn-btn-primary' : 'pn-btn-secondary'].join(' ')}
         >
           {sending ? 'Gönderiliyor…' : 'Test Mesajı Gönder'}
         </button>
         {!configured && (
-          <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '8px', letterSpacing: '0.05em' }}>
+          <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '8px', letterSpacing: '0.05em' }}>
             TELEGRAM_BOT_TOKEN ve TELEGRAM_CHAT_ID env değişkenleri Vercel&apos;da tanımlı olmalı.
           </p>
         )}

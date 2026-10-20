@@ -9,11 +9,11 @@ export function Sidebar({ pendingOrders }: { pendingOrders?: number }) {
   const pathname = usePathname()
 
   return (
-    <aside className="ad-sidebar" aria-label="Yönetim menüsü">
-      <div className="ad-sidebar-scroll">
+    <aside className="pn-sidebar" aria-label="Yönetim menüsü">
+      <div className="pn-sidebar-scroll">
         {ADMIN_NAV_GROUPS.map((group) => (
-          <div key={group.id} className="ad-nav-group">
-            <p className="ad-nav-section">{group.label}</p>
+          <div key={group.id} className="pn-nav-group">
+            <p className="pn-nav-section">{group.label}</p>
             {group.items.map((item) => {
               const active = isAdminNavActive(pathname, item)
               const badge = item.href === '/admin/siparisler' && pendingOrders ? pendingOrders : 0
@@ -21,19 +21,19 @@ export function Sidebar({ pendingOrders }: { pendingOrders?: number }) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={['ad-nav-item', active && 'is-active'].filter(Boolean).join(' ')}
+                  className={['pn-nav-item', active && 'is-active'].filter(Boolean).join(' ')}
                   aria-current={active ? 'page' : undefined}
                 >
-                  <span className="ad-nav-icon" aria-hidden><NavIcon href={item.href} /></span>
-                  <span className="ad-nav-label">{item.label}</span>
-                  {badge > 0 && <span className="ad-nav-badge">{badge > 99 ? '99+' : badge}</span>}
+                  <span className="pn-nav-icon" aria-hidden><NavIcon href={item.href} /></span>
+                  <span className="pn-nav-label">{item.label}</span>
+                  {badge > 0 && <span className="pn-nav-badge">{badge > 99 ? '99+' : badge}</span>}
                 </Link>
               )
             })}
           </div>
         ))}
       </div>
-      <p className="ad-sidebar-foot">Dr. Şenol · Yönetim</p>
+      <p className="pn-sidebar-foot">Dr. Şenol · Yönetim</p>
     </aside>
   )
 }

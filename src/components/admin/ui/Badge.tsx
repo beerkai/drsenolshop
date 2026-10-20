@@ -10,17 +10,17 @@ interface Props {
 }
 
 const toneClass: Record<Tone, string> = {
-  success: 'ad-badge-success',
-  warning: 'ad-badge-warning',
-  danger: 'ad-badge-danger',
-  info: 'ad-badge-info',
-  gold: 'ad-badge-gold',
-  neutral: 'ad-badge-neutral',
+  success: 'pn-badge-success',
+  warning: 'pn-badge-warning',
+  danger: 'pn-badge-danger',
+  info: 'pn-badge-info',
+  gold: 'pn-badge-gold',
+  neutral: 'pn-badge-neutral',
 }
 
 export function Badge({ tone = 'neutral', bracketed = false, children, className }: Props) {
   return (
-    <span className={['ad-badge', toneClass[tone], className].filter(Boolean).join(' ')}>
+    <span className={['pn-badge', toneClass[tone], className].filter(Boolean).join(' ')}>
       {bracketed && <span style={{ marginRight: '4px', opacity: 0.5 }}>[</span>}
       {children}
       {bracketed && <span style={{ marginLeft: '4px', opacity: 0.5 }}>]</span>}

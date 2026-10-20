@@ -91,7 +91,7 @@ export function RealtimeOrdersBanner() {
     <div
       role="status"
       style={{
-        animation: 'ad-fadeup 0.35s cubic-bezier(0.16, 1, 0.3, 1) both',
+        animation: 'pn-fadeup 0.35s cubic-bezier(0.16, 1, 0.3, 1) both',
         marginBottom: '20px',
         padding: '14px 20px',
         backgroundColor: 'var(--ad-surface)',
@@ -103,14 +103,14 @@ export function RealtimeOrdersBanner() {
         flexWrap: 'wrap',
       }}
     >
-      <span className="ad-live-dot" aria-hidden />
+      <span className="pn-live-dot" aria-hidden />
       <div style={{ flex: 1, minWidth: '200px' }}>
         <p style={{ margin: 0, fontFamily: 'var(--font-jetbrains), monospace', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--ad-gold-deep)' }}>
           Yeni Sipariş · {event.order_number}
         </p>
         <p style={{ margin: '4px 0 0', fontSize: '14px', color: 'var(--ad-fg)' }}>
           <strong>{event.customer_name}</strong> ·{' '}
-          <span className="ad-display" style={{ fontSize: '17px', color: 'var(--ad-gold-deep)', fontWeight: 500 }}>
+          <span className="pn-display" style={{ fontSize: '17px', color: 'var(--ad-gold-deep)', fontWeight: 500 }}>
             {formatPrice(event.total_amount)}
           </span>
         </p>
@@ -118,7 +118,7 @@ export function RealtimeOrdersBanner() {
       <div style={{ display: 'flex', gap: '8px' }}>
         <Link
           href={`/admin/siparisler/${event.order_number}`}
-          className="ad-btn ad-btn-primary ad-btn-sm"
+          className="pn-btn pn-btn-primary pn-btn-sm"
         >
           Detay →
         </Link>
@@ -128,7 +128,7 @@ export function RealtimeOrdersBanner() {
             router.refresh()
             setEvent(null)
           }}
-          className="ad-btn ad-btn-secondary ad-btn-sm"
+          className="pn-btn pn-btn-secondary pn-btn-sm"
         >
           Yenile
         </button>
@@ -136,7 +136,7 @@ export function RealtimeOrdersBanner() {
           type="button"
           onClick={() => setEvent(null)}
           aria-label="Kapat"
-          className="ad-icon-btn"
+          className="pn-icon-btn"
         >
           ✕
         </button>

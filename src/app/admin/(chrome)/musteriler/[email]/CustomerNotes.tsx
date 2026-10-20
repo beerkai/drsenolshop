@@ -67,34 +67,34 @@ export default function CustomerNotes({ customerEmail, initial }: { customerEmai
           onChange={(e) => setDraft(e.target.value)}
           rows={3}
           placeholder="Müşteri hakkında not (sadece admin görür)…"
-          className="ad-input"
+          className="pn-input"
           maxLength={4000}
           style={{ fontFamily: 'var(--font-sans)', resize: 'vertical', minHeight: '70px' }}
         />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '8px' }}>
-          <span className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)' }}>
+          <span className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)' }}>
             {draft.length}/4000
           </span>
-          <button type="submit" disabled={saving || !draft.trim()} className="ad-btn ad-btn-primary" style={{ fontSize: '11px' }}>
+          <button type="submit" disabled={saving || !draft.trim()} className="pn-btn pn-btn-primary" style={{ fontSize: '11px' }}>
             {saving ? 'Kaydediliyor…' : 'Not Ekle'}
           </button>
         </div>
       </form>
 
       {initial.length === 0 ? (
-        <div className="ad-empty"><p className="ad-empty-hint">Henüz not yok.</p></div>
+        <div className="pn-empty"><p className="pn-empty-hint">Henüz not yok.</p></div>
       ) : (
         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {initial.map((n) => (
-            <li key={n.id} className="ad-card ad-card-sm" style={{ padding: '12px 14px' }}>
+            <li key={n.id} className="pn-card pn-card-sm" style={{ padding: '12px 14px' }}>
               <p style={{ color: 'var(--ad-fg)', fontSize: '13px', lineHeight: 1.6, margin: '0 0 8px', whiteSpace: 'pre-wrap' }}>
                 {n.body}
               </p>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-                <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', margin: 0, letterSpacing: '0.05em' }}>
+                <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', margin: 0, letterSpacing: '0.05em' }}>
                   {n.admin_email ?? '—'} · {formatDate(n.created_at)}
                 </p>
-                <button type="button" onClick={() => deleteNote(n.id)} disabled={pending.has(n.id)} className="ad-btn" style={{ fontSize: '10px', padding: '4px 10px', borderColor: 'var(--ad-danger)', color: 'var(--ad-danger)' }}>
+                <button type="button" onClick={() => deleteNote(n.id)} disabled={pending.has(n.id)} className="pn-btn" style={{ fontSize: '10px', padding: '4px 10px', borderColor: 'var(--ad-danger)', color: 'var(--ad-danger)' }}>
                   Sil
                 </button>
               </div>

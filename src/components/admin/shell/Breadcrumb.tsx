@@ -12,7 +12,7 @@ interface Props {
 /** Mono breadcrumb: "Admin › Siparişler › DS-2026-0001" */
 export function Breadcrumb({ items }: Props) {
   return (
-    <nav aria-label="Breadcrumb" className="ad-breadcrumb">
+    <nav aria-label="Breadcrumb" className="pn-breadcrumb">
       {items.map((crumb, i) => {
         const isLast = i === items.length - 1
         return (
@@ -22,7 +22,7 @@ export function Breadcrumb({ items }: Props) {
             ) : (
               <span className={isLast ? 'is-current' : undefined}>{crumb.label}</span>
             )}
-            {!isLast && <span className="ad-breadcrumb-sep">›</span>}
+            {!isLast && <span className="pn-breadcrumb-sep">›</span>}
           </span>
         )
       })}

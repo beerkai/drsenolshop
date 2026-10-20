@@ -14,15 +14,15 @@ interface BaseProps {
 }
 
 const variantClass: Record<Variant, string> = {
-  primary: 'ad-btn-primary',
-  secondary: 'ad-btn-secondary',
-  ghost: 'ad-btn-ghost',
-  danger: 'ad-btn-danger',
+  primary: 'pn-btn-primary',
+  secondary: 'pn-btn-secondary',
+  ghost: 'pn-btn-ghost',
+  danger: 'pn-btn-danger',
 }
 
 function classes(variant: Variant, size: Size, extra?: string) {
-  const cls = ['ad-btn', variantClass[variant]]
-  if (size === 'sm') cls.push('ad-btn-sm')
+  const cls = ['pn-btn', variantClass[variant]]
+  if (size === 'sm') cls.push('pn-btn-sm')
   if (extra) cls.push(extra)
   return cls.join(' ')
 }
@@ -42,7 +42,7 @@ export function Button({
       {iconLeft}
       <span>{children}</span>
       {iconRight}
-      {kbd && <span className="ad-kbd">{kbd}</span>}
+      {kbd && <span className="pn-kbd">{kbd}</span>}
     </button>
   )
 }
@@ -62,7 +62,7 @@ export function LinkButton({
       {iconLeft}
       <span>{children}</span>
       {iconRight}
-      {kbd && <span className="ad-kbd">{kbd}</span>}
+      {kbd && <span className="pn-kbd">{kbd}</span>}
     </Link>
   )
 }
@@ -73,7 +73,7 @@ export function IconButton({
   ...rest
 }: { children: ReactNode } & ComponentProps<'button'>) {
   return (
-    <button {...rest} className={['ad-icon-btn', className].filter(Boolean).join(' ')}>
+    <button {...rest} className={['pn-icon-btn', className].filter(Boolean).join(' ')}>
       {children}
     </button>
   )

@@ -113,10 +113,10 @@ export default function JournalEditor({ initialNotes, initialMetrics, lastSavedA
   }, [dirty, notes, rows])
 
   return (
-    <div className="ad-card" style={{ display: 'flex', flexDirection: 'column' }}>
+    <div className="pn-card" style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '18px', gap: '12px', flexWrap: 'wrap' }}>
-        <p className="ad-eyebrow-muted">Notlar</p>
-        <p className="ad-mono" style={{ fontSize: '10px', color: dirty ? 'var(--ad-warning)' : 'var(--ad-fg-faint)', letterSpacing: '0.1em' }}>
+        <p className="pn-eyebrow-muted">Notlar</p>
+        <p className="pn-mono" style={{ fontSize: '10px', color: dirty ? 'var(--ad-warning)' : 'var(--ad-fg-faint)', letterSpacing: '0.1em' }}>
           {dirty
             ? '● kaydedilmedi'
             : savedAt
@@ -128,30 +128,30 @@ export default function JournalEditor({ initialNotes, initialMetrics, lastSavedA
       <textarea
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
-        className="ad-textarea"
+        className="pn-textarea"
         placeholder="Bugün ne oldu? Üretim, tedarikçi, müşteri, fikir... serbestçe yaz."
         rows={8}
         style={{ minHeight: '180px', fontSize: '14px', lineHeight: 1.65 }}
       />
 
-      <hr className="ad-divider" />
+      <hr className="pn-divider" />
 
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '14px' }}>
-        <p className="ad-eyebrow-muted">Mini Metrikler</p>
-        <p className="ad-mono" style={{ fontSize: '9.5px', color: 'var(--ad-fg-faint)', letterSpacing: '0.1em' }}>
+        <p className="pn-eyebrow-muted">Mini Metrikler</p>
+        <p className="pn-mono" style={{ fontSize: '9.5px', color: 'var(--ad-fg-faint)', letterSpacing: '0.1em' }}>
           özelleştirilebilir · {rows.length}/8
         </p>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
         {rows.map((r, i) => (
-          <div key={i} className="ad-metric-edit">
+          <div key={i} className="pn-metric-edit">
             <input
               type="text"
               value={r.key}
               onChange={(e) => updateRow(i, 'key', e.target.value)}
               placeholder="Metrik adı"
-              className="ad-input"
+              className="pn-input"
               style={{ padding: '8px 12px' }}
             />
             <input
@@ -159,14 +159,14 @@ export default function JournalEditor({ initialNotes, initialMetrics, lastSavedA
               value={r.value}
               onChange={(e) => updateRow(i, 'value', e.target.value)}
               placeholder="Değer"
-              className="ad-input"
+              className="pn-input"
               style={{ padding: '8px 12px' }}
             />
             <button
               type="button"
               onClick={() => removeRow(i)}
               aria-label="Bu satırı kaldır"
-              className="ad-icon-btn"
+              className="pn-icon-btn"
               style={{ width: '36px', height: '36px' }}
             >
               ✕
@@ -178,21 +178,21 @@ export default function JournalEditor({ initialNotes, initialMetrics, lastSavedA
       <button
         type="button"
         onClick={addRow}
-        className="ad-btn ad-btn-ghost ad-btn-sm"
+        className="pn-btn pn-btn-ghost pn-btn-sm"
         style={{ alignSelf: 'flex-start' }}
       >
         + Metrik Ekle
       </button>
 
       <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-        <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.08em', margin: 0 }}>
-          <span className="ad-kbd">⌘</span> <span className="ad-kbd">S</span> ile kaydedebilirsin
+        <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.08em', margin: 0 }}>
+          <span className="pn-kbd">⌘</span> <span className="pn-kbd">S</span> ile kaydedebilirsin
         </p>
         <button
           type="button"
           onClick={handleSave}
           disabled={saving || !dirty}
-          className="ad-btn ad-btn-primary"
+          className="pn-btn pn-btn-primary"
         >
           {saving ? 'Kaydediliyor…' : dirty ? 'Kaydet' : 'Kaydedildi ✓'}
         </button>

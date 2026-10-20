@@ -66,21 +66,21 @@ export function TopBar({ email, fullName, role, pendingOrders }: Props) {
 
   useEffect(() => {
     const open = () => setMobileNavOpen(true)
-    window.addEventListener('ad-open-mobile-nav', open)
-    return () => window.removeEventListener('ad-open-mobile-nav', open)
+    window.addEventListener('pn-open-mobile-nav', open)
+    return () => window.removeEventListener('pn-open-mobile-nav', open)
   }, [])
 
   return (
     <>
-      <header className="ad-topbar">
+      <header className="pn-topbar">
         {/* Mobile-only üst mini bar — bağlantı + saat */}
-        <div className="ad-topbar-row1">
+        <div className="pn-topbar-row1">
           <AutoLiveDot />
           <Clock />
         </div>
 
         <div
-          className="ad-topbar-inner"
+          className="pn-topbar-inner"
           style={{
             maxWidth: '100%',
             margin: '0',
@@ -93,7 +93,7 @@ export function TopBar({ email, fullName, role, pendingOrders }: Props) {
             type="button"
             aria-label="Menüyü aç"
             onClick={() => setMobileNavOpen(true)}
-            className="ad-mobile-menu-btn"
+            className="pn-mobile-menu-btn"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               <line x1="3" y1="6"  x2="21" y2="6" />
@@ -112,7 +112,7 @@ export function TopBar({ email, fullName, role, pendingOrders }: Props) {
             type="button"
             aria-label="Komut paleti aç"
             onClick={openCommandPalette}
-            className="ad-topbar-search-wide"
+            className="pn-topbar-search-wide"
             style={{
               alignItems: 'center',
               gap: '10px',
@@ -138,7 +138,7 @@ export function TopBar({ email, fullName, role, pendingOrders }: Props) {
           >
             <IconSearch size={14} />
             <span style={{ flex: 1, textAlign: 'left' }}>Sayfa, eylem veya filtre ara…</span>
-            <span className="ad-kbd">⌘K</span>
+            <span className="pn-kbd">⌘K</span>
           </button>
 
           {/* Orta (compact, mobile) — sadece ikon */}
@@ -146,7 +146,7 @@ export function TopBar({ email, fullName, role, pendingOrders }: Props) {
             type="button"
             aria-label="Komut paleti aç"
             onClick={openCommandPalette}
-            className="ad-topbar-search-narrow"
+            className="pn-topbar-search-narrow"
             title="Komut paleti aç (⌘K)"
           >
             <IconSearch size={14} />
@@ -154,7 +154,7 @@ export function TopBar({ email, fullName, role, pendingOrders }: Props) {
 
           {/* Sağ — Masaüstünde Live + Clock + Avatar; mobile'da sadece Avatar */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <div className="ad-topbar-desktop-info">
+            <div className="pn-topbar-desktop-info">
               <AutoLiveDot />
               <span style={{ width: '1px', height: '20px', backgroundColor: 'var(--ad-line-faint)' }} />
               <Clock />

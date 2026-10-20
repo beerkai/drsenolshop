@@ -24,7 +24,7 @@ const STATE_COLOR: Record<State, string> = {
 
 export function LiveDot({ state = 'idle', label }: Props) {
   const text = label ?? STATE_LABEL[state]
-  const dotClass = ['ad-live-dot', state === 'idle' && 'is-idle', state === 'offline' && 'is-offline']
+  const dotClass = ['pn-live-dot', state === 'idle' && 'is-idle', state === 'offline' && 'is-offline']
     .filter(Boolean)
     .join(' ')
 

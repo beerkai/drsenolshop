@@ -61,7 +61,7 @@ export function HelpDrawer({ open, onClose }: Props) {
           backgroundColor: 'rgba(10, 9, 8, 0.35)',
           backdropFilter: 'blur(2px)',
           zIndex: 70,
-          animation: 'ad-fadeup 0.18s ease-out both',
+          animation: 'pn-fadeup 0.18s ease-out both',
         }}
       />
       <aside
@@ -79,7 +79,7 @@ export function HelpDrawer({ open, onClose }: Props) {
           boxShadow: '-16px 0 48px rgba(0,0,0,0.12)',
           zIndex: 75,
           overflowY: 'auto',
-          animation: 'ad-fadeup 0.22s cubic-bezier(0.16,1,0.3,1) both',
+          animation: 'pn-fadeup 0.22s cubic-bezier(0.16,1,0.3,1) both',
         }}
       >
         <div
@@ -95,8 +95,8 @@ export function HelpDrawer({ open, onClose }: Props) {
           }}
         >
           <div>
-            <p className="ad-eyebrow" style={{ marginBottom: '6px' }}>Yardım</p>
-            <h2 className="ad-display" style={{ fontSize: '22px', fontWeight: 500, color: 'var(--ad-fg)', margin: 0 }}>
+            <p className="pn-eyebrow" style={{ marginBottom: '6px' }}>Yardım</p>
+            <h2 className="pn-display" style={{ fontSize: '22px', fontWeight: 500, color: 'var(--ad-fg)', margin: 0 }}>
               Klavye Kısayolları
             </h2>
           </div>
@@ -104,7 +104,7 @@ export function HelpDrawer({ open, onClose }: Props) {
             type="button"
             onClick={onClose}
             aria-label="Kapat"
-            className="ad-icon-btn"
+            className="pn-icon-btn"
             style={{ fontSize: '12px' }}
           >
             ✕
@@ -114,7 +114,7 @@ export function HelpDrawer({ open, onClose }: Props) {
         <div style={{ padding: '20px 24px' }}>
           {GROUPS.map((g) => (
             <section key={g.title} style={{ marginBottom: '24px' }}>
-              <p className="ad-eyebrow-muted" style={{ marginBottom: '10px' }}>{g.title}</p>
+              <p className="pn-eyebrow-muted" style={{ marginBottom: '10px' }}>{g.title}</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 {g.items.map((it) => (
                   <div
@@ -130,7 +130,7 @@ export function HelpDrawer({ open, onClose }: Props) {
                     <span style={{ color: 'var(--ad-fg)', fontSize: '13px' }}>{it.label}</span>
                     <span style={{ display: 'inline-flex', gap: '4px' }}>
                       {it.keys.map((k, i) => (
-                        <span key={i} className="ad-kbd">{k}</span>
+                        <span key={i} className="pn-kbd">{k}</span>
                       ))}
                     </span>
                   </div>
@@ -140,7 +140,7 @@ export function HelpDrawer({ open, onClose }: Props) {
           ))}
 
           <p style={{ marginTop: '12px', fontSize: '11px', color: 'var(--ad-fg-faint)', fontStyle: 'italic', lineHeight: 1.6 }}>
-            Mac'te <span className="ad-kbd">⌘</span> = Command. Windows / Linux'ta <span className="ad-kbd">Ctrl</span> kullan.
+            Mac'te <span className="pn-kbd">⌘</span> = Command. Windows / Linux'ta <span className="pn-kbd">Ctrl</span> kullan.
           </p>
         </div>
       </aside>

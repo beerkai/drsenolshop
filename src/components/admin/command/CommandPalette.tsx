@@ -121,7 +121,7 @@ export function CommandPalette({ open, onClose, onHelpRequest }: Props) {
       <div
         role="dialog"
         aria-label="Komut paleti"
-        className="ad-cmd-palette-modal"
+        className="pn-cmd-palette-modal"
         style={{
           position: 'fixed',
           top: '12vh',
@@ -133,7 +133,7 @@ export function CommandPalette({ open, onClose, onHelpRequest }: Props) {
           border: '1px solid var(--ad-line)',
           boxShadow: '0 24px 64px rgba(0,0,0,0.18)',
           zIndex: 90,
-          animation: 'ad-fadeup 0.18s ease-out both',
+          animation: 'pn-fadeup 0.18s ease-out both',
           maxHeight: '72vh',
           display: 'flex',
           flexDirection: 'column',
@@ -160,7 +160,7 @@ export function CommandPalette({ open, onClose, onHelpRequest }: Props) {
             }}
             spellCheck={false}
           />
-          <span className="ad-kbd">esc</span>
+          <span className="pn-kbd">esc</span>
         </div>
 
         {/* Sonuç listesi */}
@@ -223,7 +223,7 @@ export function CommandPalette({ open, onClose, onHelpRequest }: Props) {
                             </span>
                           )}
                         </span>
-                        {cmd.shortcut && <span className="ad-kbd">{cmd.shortcut}</span>}
+                        {cmd.shortcut && <span className="pn-kbd">{cmd.shortcut}</span>}
                       </button>
                     )
                   })}
@@ -249,9 +249,9 @@ export function CommandPalette({ open, onClose, onHelpRequest }: Props) {
           }}
         >
           <span style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <span><span className="ad-kbd">↑</span> <span className="ad-kbd">↓</span> gez</span>
-            <span><span className="ad-kbd">↵</span> seç</span>
-            <span><span className="ad-kbd">?</span> yardım</span>
+            <span><span className="pn-kbd">↑</span> <span className="pn-kbd">↓</span> gez</span>
+            <span><span className="pn-kbd">↵</span> seç</span>
+            <span><span className="pn-kbd">?</span> yardım</span>
           </span>
           <span>{filtered.length} eşleşme · ⌘K toggle</span>
         </div>

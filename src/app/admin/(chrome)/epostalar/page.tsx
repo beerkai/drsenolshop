@@ -19,9 +19,9 @@ export default async function AdminEmailGalleryPage() {
   return (
     <div>
       <div style={{ marginBottom: '24px' }}>
-        <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>İletişim</p>
+        <p className="pn-eyebrow" style={{ marginBottom: '12px' }}>İletişim</p>
         <h1
-          className="ad-display"
+          className="pn-display"
           style={{
             fontSize: '28px',
             fontWeight: 500,
@@ -39,7 +39,7 @@ export default async function AdminEmailGalleryPage() {
       </div>
 
       <div
-        className="ad-card"
+        className="pn-card"
         style={{
           marginBottom: '20px',
           display: 'grid',
@@ -53,8 +53,8 @@ export default async function AdminEmailGalleryPage() {
         <Stat label="Telegram" value={telegramOk ? 'Bağlı' : 'Env eksik'} badge={telegramOk ? 'OK' : '—'} badgeOk={telegramOk} />
       </div>
 
-      <div className="ad-card" style={{ marginBottom: '20px' }}>
-        <p className="ad-eyebrow-muted" style={{ marginBottom: '10px' }}>Tasarım sistemi</p>
+      <div className="pn-card" style={{ marginBottom: '20px' }}>
+        <p className="pn-eyebrow-muted" style={{ marginBottom: '10px' }}>Tasarım sistemi</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px' }}>
           <Swatch label="Bone arka plan" hex="#F4F0E8" />
           <Swatch label="Ink metin" hex="#1A1714" />
@@ -89,7 +89,7 @@ function Stat({
 }) {
   return (
     <div>
-      <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.15em', textTransform: 'uppercase', margin: '0 0 6px' }}>
+      <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.15em', textTransform: 'uppercase', margin: '0 0 6px' }}>
         {label}
       </p>
       <p style={{ margin: 0, fontSize: '20px', fontWeight: 500, color: 'var(--ad-fg)' }}>{value}</p>
@@ -110,7 +110,7 @@ function Swatch({ label, hex }: { label: string; hex: string }) {
       <span style={{ width: '36px', height: '36px', backgroundColor: hex, border: '1px solid var(--ad-line-faint)', flexShrink: 0 }} />
       <div>
         <p style={{ margin: 0, fontSize: '12px', color: 'var(--ad-fg)' }}>{label}</p>
-        <p className="ad-mono" style={{ margin: '2px 0 0', fontSize: '10px', color: 'var(--ad-fg-muted)' }}>{hex}</p>
+        <p className="pn-mono" style={{ margin: '2px 0 0', fontSize: '10px', color: 'var(--ad-fg-muted)' }}>{hex}</p>
       </div>
     </div>
   )

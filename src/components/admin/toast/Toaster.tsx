@@ -90,7 +90,7 @@ export function Toaster() {
               display: 'flex',
               alignItems: 'flex-start',
               gap: '12px',
-              animation: 'ad-fadeup 0.22s cubic-bezier(0.16, 1, 0.3, 1) both',
+              animation: 'pn-fadeup 0.22s cubic-bezier(0.16, 1, 0.3, 1) both',
             }}
           >
             <span

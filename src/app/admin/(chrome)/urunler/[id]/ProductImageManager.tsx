@@ -92,12 +92,12 @@ export default function ProductImageManager({
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-        <p className="ad-eyebrow" style={{ margin: 0 }}>
+        <p className="pn-eyebrow" style={{ margin: 0 }}>
           {eyebrow ?? 'Görseller'} ({images.length})
         </p>
         <button
           type="button"
-          className="ad-btn ad-btn-secondary ad-btn-sm"
+          className="pn-btn pn-btn-secondary pn-btn-sm"
           onClick={() => inputRef.current?.click()}
           disabled={uploading}
         >
@@ -119,10 +119,10 @@ export default function ProductImageManager({
           Henüz görsel yok. WebP tercih edin — en fazla 8 MB.
         </p>
       ) : (
-        <div className="ad-image-grid">
+        <div className="pn-image-grid">
           {images.map((url, i) => (
-            <figure key={url} className="ad-image-tile">
-              <div className="ad-image-tile-frame">
+            <figure key={url} className="pn-image-tile">
+              <div className="pn-image-tile-frame">
                 <Image
                   src={getImageUrl(url)}
                   alt={`Görsel ${i + 1}`}
@@ -131,9 +131,9 @@ export default function ProductImageManager({
                   style={{ objectFit: 'cover' }}
                   unoptimized
                 />
-                {showCoverBadge && i === 0 ? <span className="ad-image-cover">Kapak</span> : null}
+                {showCoverBadge && i === 0 ? <span className="pn-image-cover">Kapak</span> : null}
               </div>
-              <figcaption className="ad-image-tools">
+              <figcaption className="pn-image-tools">
                 <button type="button" onClick={() => move(i, -1)} disabled={i === 0} title="Sola al">
                   ←
                 </button>
@@ -154,7 +154,7 @@ export default function ProductImageManager({
         </div>
       )}
 
-      <p className="ad-mono" style={{ fontSize: 10, color: 'var(--ad-fg-faint)', marginTop: 10, letterSpacing: '0.05em' }}>
+      <p className="pn-mono" style={{ fontSize: 10, color: 'var(--ad-fg-faint)', marginTop: 10, letterSpacing: '0.05em' }}>
         {variantId
           ? 'Bu galeri yalnızca seçili varyantta gösterilir. Sıra değişikliği Kaydet ile uygulanır; yükleme ve silme anında kaydedilir.'
           : 'İlk görsel kapaktır. Sıra değişikliği formu kaydedince uygulanır; silme anında geçerlidir.'}

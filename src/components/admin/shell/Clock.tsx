@@ -27,7 +27,7 @@ export function Clock() {
   if (!now) {
     // SSR/hydration: boş placeholder
     return (
-      <div className="ad-clock" style={{ width: '180px', height: '20px' }} />
+      <div className="pn-clock" style={{ width: '180px', height: '20px' }} />
     )
   }
 
@@ -35,7 +35,7 @@ export function Clock() {
 
   return (
     <div
-      className="ad-clock"
+      className="pn-clock"
       style={{
         fontFamily: 'var(--font-jetbrains), monospace',
         fontSize: '11px',

@@ -157,7 +157,7 @@ export default function ReviewModerationList({
             key={f}
             type="button"
             onClick={() => setFilter(f)}
-            className={filter === f ? 'ad-btn ad-btn-primary' : 'ad-btn'}
+            className={filter === f ? 'pn-btn pn-btn-primary' : 'pn-btn'}
             style={{ padding: '8px 16px', fontSize: '11px', letterSpacing: '0.18em' }}
           >
             {f === 'pending' ? 'Bekleyen' : f === 'approved' ? 'Onaylı' : 'Tümü'}
@@ -166,7 +166,7 @@ export default function ReviewModerationList({
       </div>
 
       {visible.length === 0 ? (
-        <div className="ad-card" style={{ textAlign: 'center', padding: '40px' }}>
+        <div className="pn-card" style={{ textAlign: 'center', padding: '40px' }}>
           <p style={{ color: 'var(--ad-fg-muted)', fontSize: '14px' }}>
             Bu filtrede yorum yok.
           </p>
@@ -174,7 +174,7 @@ export default function ReviewModerationList({
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {visible.map((r) => (
-            <article key={r.id} className="ad-card" style={{ padding: '16px 18px' }}>
+            <article key={r.id} className="pn-card" style={{ padding: '16px 18px' }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '10px' }}>
                 <div style={{ minWidth: 0, flex: '1 1 240px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
@@ -182,7 +182,7 @@ export default function ReviewModerationList({
                       {'★'.repeat(r.rating)}<span style={{ color: 'var(--ad-line-strong)' }}>{'★'.repeat(5 - r.rating)}</span>
                     </span>
                     {r.is_verified_purchase && (
-                      <span className="ad-mono" style={{ fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ad-success)', border: '1px solid var(--ad-success)', padding: '2px 6px' }}>
+                      <span className="pn-mono" style={{ fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ad-success)', border: '1px solid var(--ad-success)', padding: '2px 6px' }}>
                         ✓ Alışveriş
                       </span>
                     )}
@@ -190,7 +190,7 @@ export default function ReviewModerationList({
                       {r.is_approved ? 'Onaylı' : 'Bekliyor'}
                     </span>
                     {r.is_curated && (
-                      <span className="ad-mono" style={{ fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ad-fg-faint)', border: '1px solid var(--ad-line-strong)', padding: '2px 6px' }}>
+                      <span className="pn-mono" style={{ fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ad-fg-faint)', border: '1px solid var(--ad-line-strong)', padding: '2px 6px' }}>
                         Vitrin yorumu
                       </span>
                     )}
@@ -233,10 +233,10 @@ export default function ReviewModerationList({
                     }}
                   />
                   <div style={{ display: 'flex', gap: '8px', marginTop: '12px', flexWrap: 'wrap' }}>
-                    <button type="button" className="ad-btn ad-btn-primary" style={{ fontSize: '11px' }} disabled={savingEdit} onClick={() => saveEdit(r.id)}>
+                    <button type="button" className="pn-btn pn-btn-primary" style={{ fontSize: '11px' }} disabled={savingEdit} onClick={() => saveEdit(r.id)}>
                       {savingEdit ? 'Kaydediliyor…' : 'Değişiklikleri kaydet'}
                     </button>
-                    <button type="button" className="ad-btn" style={{ fontSize: '11px' }} disabled={savingEdit} onClick={cancelEdit}>
+                    <button type="button" className="pn-btn" style={{ fontSize: '11px' }} disabled={savingEdit} onClick={cancelEdit}>
                       İptal
                     </button>
                   </div>
@@ -244,19 +244,19 @@ export default function ReviewModerationList({
               ) : null}
 
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', paddingTop: '10px', borderTop: '1px solid var(--ad-line-faint)' }}>
-                <button type="button" onClick={() => (editingId === r.id ? cancelEdit() : startEdit(r))} disabled={pending.has(r.id)} className="ad-btn" style={{ fontSize: '11px' }}>
+                <button type="button" onClick={() => (editingId === r.id ? cancelEdit() : startEdit(r))} disabled={pending.has(r.id)} className="pn-btn" style={{ fontSize: '11px' }}>
                   {editingId === r.id ? 'Düzenlemeyi kapat' : 'Düzenle'}
                 </button>
                 {r.is_approved ? (
-                  <button type="button" onClick={() => setApproved(r.id, false)} disabled={pending.has(r.id)} className="ad-btn" style={{ fontSize: '11px' }}>
+                  <button type="button" onClick={() => setApproved(r.id, false)} disabled={pending.has(r.id)} className="pn-btn" style={{ fontSize: '11px' }}>
                     Onayı kaldır
                   </button>
                 ) : (
-                  <button type="button" onClick={() => setApproved(r.id, true)} disabled={pending.has(r.id)} className="ad-btn ad-btn-primary" style={{ fontSize: '11px' }}>
+                  <button type="button" onClick={() => setApproved(r.id, true)} disabled={pending.has(r.id)} className="pn-btn pn-btn-primary" style={{ fontSize: '11px' }}>
                     Onayla
                   </button>
                 )}
-                <button type="button" onClick={() => deleteReview(r.id)} disabled={pending.has(r.id)} className="ad-btn" style={{ fontSize: '11px', borderColor: 'var(--ad-danger)', color: 'var(--ad-danger)' }}>
+                <button type="button" onClick={() => deleteReview(r.id)} disabled={pending.has(r.id)} className="pn-btn" style={{ fontSize: '11px', borderColor: 'var(--ad-danger)', color: 'var(--ad-danger)' }}>
                   Sil
                 </button>
               </div>

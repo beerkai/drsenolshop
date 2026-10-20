@@ -93,8 +93,8 @@ export default function AdminsPanel({ initialAdmins, currentAdminId }: { initial
 
   return (
     <div>
-      <div className="ad-table-wrap" style={{ marginBottom: '14px' }}>
-        <table className="ad-table ad-table-mobile">
+      <div className="pn-table-wrap" style={{ marginBottom: '14px' }}>
+        <table className="pn-table pn-table-mobile">
           <thead>
             <tr>
               <th>E-mail</th>
@@ -111,14 +111,14 @@ export default function AdminsPanel({ initialAdmins, currentAdminId }: { initial
                 <td className="is-row-head" data-label="E-mail" style={{ color: 'var(--ad-fg)', fontSize: '12px' }}>
                   {a.email}
                   {a.id === currentAdminId && (
-                    <span className="ad-mono" style={{ marginLeft: '6px', fontSize: '9px', color: 'var(--ad-gold-deep)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                    <span className="pn-mono" style={{ marginLeft: '6px', fontSize: '9px', color: 'var(--ad-gold-deep)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
                       sen
                     </span>
                   )}
                 </td>
                 <td data-label="Ad" style={{ color: 'var(--ad-fg-muted)', fontSize: '12px' }}>{a.full_name ?? '—'}</td>
                 <td data-label="Rol"><Badge tone={a.role === 'owner' ? 'gold' : 'neutral'} bracketed>{a.role}</Badge></td>
-                <td data-label="Son giriş" className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
+                <td data-label="Son giriş" className="pn-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
                   {a.last_login_at ? new Date(a.last_login_at).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' }) : '—'}
                 </td>
                 <td data-label="Durum">
@@ -129,7 +129,7 @@ export default function AdminsPanel({ initialAdmins, currentAdminId }: { initial
                     <button
                       type="button"
                       onClick={() => handleToggleActive(a)}
-                      className="ad-btn ad-btn-ghost ad-btn-sm"
+                      className="pn-btn pn-btn-ghost pn-btn-sm"
                       disabled={a.id === currentAdminId && a.is_active}
                     >
                       {a.is_active ? 'Pasifleştir' : 'Aktif et'}
@@ -137,7 +137,7 @@ export default function AdminsPanel({ initialAdmins, currentAdminId }: { initial
                     <button
                       type="button"
                       onClick={() => handleDelete(a)}
-                      className="ad-btn ad-btn-ghost ad-btn-sm"
+                      className="pn-btn pn-btn-ghost pn-btn-sm"
                       style={{ color: 'var(--ad-danger)' }}
                       disabled={a.id === currentAdminId}
                     >
@@ -152,19 +152,19 @@ export default function AdminsPanel({ initialAdmins, currentAdminId }: { initial
       </div>
 
       {!showAdd ? (
-        <button type="button" onClick={() => setShowAdd(true)} className="ad-btn ad-btn-secondary ad-btn-sm">
+        <button type="button" onClick={() => setShowAdd(true)} className="pn-btn pn-btn-secondary pn-btn-sm">
           + Yeni Admin Ekle
         </button>
       ) : (
         <form onSubmit={handleAdd} style={{ padding: '14px', backgroundColor: 'var(--ad-surface-2)', border: '1px solid var(--ad-line)' }}>
-          <p className="ad-eyebrow-muted" style={{ marginBottom: '12px' }}>Yeni Admin</p>
-          <div className="ad-grid-admin">
+          <p className="pn-eyebrow-muted" style={{ marginBottom: '12px' }}>Yeni Admin</p>
+          <div className="pn-grid-admin">
             <input
               type="email"
               value={newEmail}
               onChange={(e) => setNewEmail(e.target.value)}
               placeholder="email@drsenol.shop"
-              className="ad-input"
+              className="pn-input"
               required
             />
             <input
@@ -172,21 +172,21 @@ export default function AdminsPanel({ initialAdmins, currentAdminId }: { initial
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="Ad soyad (ops.)"
-              className="ad-input"
+              className="pn-input"
             />
-            <select value={newRole} onChange={(e) => setNewRole(e.target.value as 'owner' | 'staff')} className="ad-select">
+            <select value={newRole} onChange={(e) => setNewRole(e.target.value as 'owner' | 'staff')} className="pn-select">
               <option value="staff">staff</option>
               <option value="owner">owner</option>
             </select>
           </div>
-          <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginBottom: '12px', letterSpacing: '0.05em' }}>
+          <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginBottom: '12px', letterSpacing: '0.05em' }}>
             ⚠ Buradan eklemek yetmez. Aynı email için Supabase Authentication&apos;dan da kullanıcı + şifre oluşturmalısın.
           </p>
           <div style={{ display: 'flex', gap: '8px' }}>
-            <button type="submit" disabled={adding} className="ad-btn ad-btn-primary ad-btn-sm">
+            <button type="submit" disabled={adding} className="pn-btn pn-btn-primary pn-btn-sm">
               {adding ? 'Ekleniyor…' : 'Ekle'}
             </button>
-            <button type="button" onClick={() => { setShowAdd(false); setNewEmail(''); setNewName('') }} className="ad-btn ad-btn-ghost ad-btn-sm">
+            <button type="button" onClick={() => { setShowAdd(false); setNewEmail(''); setNewName('') }} className="pn-btn pn-btn-ghost pn-btn-sm">
               Vazgeç
             </button>
           </div>

@@ -62,11 +62,11 @@ export default async function DefterArsivPage({ searchParams }: { searchParams: 
           return (
             <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
               {c.href && !isLast ? (
-                <Link href={c.href} className="ad-mono" style={{ fontSize: '10px', letterSpacing: '0.15em', color: 'var(--ad-fg-muted)', textTransform: 'uppercase', textDecoration: 'none' }}>
+                <Link href={c.href} className="pn-mono" style={{ fontSize: '10px', letterSpacing: '0.15em', color: 'var(--ad-fg-muted)', textTransform: 'uppercase', textDecoration: 'none' }}>
                   {c.label}
                 </Link>
               ) : (
-                <span className="ad-mono" style={{ fontSize: '10px', letterSpacing: '0.15em', color: 'var(--ad-fg)', textTransform: 'uppercase', fontWeight: 500 }}>
+                <span className="pn-mono" style={{ fontSize: '10px', letterSpacing: '0.15em', color: 'var(--ad-fg)', textTransform: 'uppercase', fontWeight: 500 }}>
                   {c.label}
                 </span>
               )}
@@ -78,8 +78,8 @@ export default async function DefterArsivPage({ searchParams }: { searchParams: 
 
       <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Defter · Arşiv</p>
-          <h1 className="ad-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
+          <p className="pn-eyebrow" style={{ marginBottom: '12px' }}>Defter · Arşiv</p>
+          <h1 className="pn-display" style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: 0 }}>
             {mode === 'years' && 'Tüm Yıllar'}
             {mode === 'months' && (
               <>
@@ -110,7 +110,7 @@ export default async function DefterArsivPage({ searchParams }: { searchParams: 
               }
               return '#'
             })()}
-            className="ad-btn ad-btn-secondary ad-btn-sm"
+            className="pn-btn pn-btn-secondary pn-btn-sm"
             download
             title="Bu dönemin tüm kayıtlarını CSV olarak indir"
           >
@@ -145,8 +145,8 @@ export default async function DefterArsivPage({ searchParams }: { searchParams: 
           hint={mode !== 'years' ? 'Başka bir dönem dene.' : undefined}
         />
       ) : (
-        <div className="ad-table-wrap">
-          <table className="ad-table">
+        <div className="pn-table-wrap">
+          <table className="pn-table">
             <thead>
               <tr>
                 <th>{mode === 'years' ? 'Yıl' : mode === 'months' ? 'Ay' : 'Gün'}</th>
@@ -178,21 +178,21 @@ export default async function DefterArsivPage({ searchParams }: { searchParams: 
                         {s.label}
                       </Link>
                     </td>
-                    <td className="is-right ad-mono" style={{ fontSize: '13px', color: 'var(--ad-fg-muted)' }}>
+                    <td className="is-right pn-mono" style={{ fontSize: '13px', color: 'var(--ad-fg-muted)' }}>
                       {s.entryCount}
                     </td>
                     <td className="is-right">
-                      <span className="ad-display" style={{ fontSize: '17px', fontWeight: 500, color: 'var(--ad-gold-deep)' }}>
+                      <span className="pn-display" style={{ fontSize: '17px', fontWeight: 500, color: 'var(--ad-gold-deep)' }}>
                         {formatPrice(s.totalSale)}
                       </span>
                     </td>
-                    <td className="is-right ad-mono" style={{ fontSize: '12px', color: 'var(--ad-info)' }}>
+                    <td className="is-right pn-mono" style={{ fontSize: '12px', color: 'var(--ad-info)' }}>
                       {s.cardSale > 0 ? formatPrice(s.cardSale) : '—'}
                     </td>
-                    <td className="is-right ad-mono" style={{ fontSize: '12px', color: 'var(--ad-success)' }}>
+                    <td className="is-right pn-mono" style={{ fontSize: '12px', color: 'var(--ad-success)' }}>
                       {s.cashSale > 0 ? formatPrice(s.cashSale) : '—'}
                     </td>
-                    <td className="is-right ad-mono" style={{ fontSize: '12px', color: 'var(--ad-fg-muted)' }}>
+                    <td className="is-right pn-mono" style={{ fontSize: '12px', color: 'var(--ad-fg-muted)' }}>
                       {s.guideTotal > 0 ? formatPrice(s.guideTotal) : '—'}
                     </td>
                     <td>
@@ -204,7 +204,7 @@ export default async function DefterArsivPage({ searchParams }: { searchParams: 
                           <Badge tone="warning" bracketed>{s.unpaidGuides} reh.</Badge>
                         )}
                         {s.unpaidCustomers === 0 && s.unpaidGuides === 0 && (
-                          <span className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-success)', letterSpacing: '0.1em' }}>
+                          <span className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-success)', letterSpacing: '0.1em' }}>
                             ✓ TAMAM
                           </span>
                         )}
@@ -218,7 +218,7 @@ export default async function DefterArsivPage({ searchParams }: { searchParams: 
         </div>
       )}
 
-      <p className="ad-mono" style={{ marginTop: '16px', fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.08em' }}>
+      <p className="pn-mono" style={{ marginTop: '16px', fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.08em' }}>
         {mode === 'years' && 'Yıla tıklayınca aylık özet açılır.'}
         {mode === 'months' && 'Aya tıklayınca günlük dökümü açılır.'}
         {mode === 'days' && 'Güne tıklayınca defterde o günü görüntülersin.'}
@@ -244,9 +244,9 @@ function buildHref(mode: 'years' | 'months' | 'days', year: number | null, month
 
 function Metric({ label, value, gold, small }: { label: string; value: React.ReactNode; gold?: boolean; small?: boolean }) {
   return (
-    <div className="ad-metric">
-      <p className="ad-metric-label">{label}</p>
-      <p className="ad-metric-value" style={{ fontSize: small ? '22px' : undefined, color: gold ? 'var(--ad-gold-deep)' : undefined }}>
+    <div className="pn-metric">
+      <p className="pn-metric-label">{label}</p>
+      <p className="pn-metric-value" style={{ fontSize: small ? '22px' : undefined, color: gold ? 'var(--ad-gold-deep)' : undefined }}>
         {value}
       </p>
     </div>

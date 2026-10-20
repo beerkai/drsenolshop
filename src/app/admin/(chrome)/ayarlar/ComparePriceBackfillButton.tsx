@@ -24,7 +24,7 @@ export default function ComparePriceBackfillButton() {
   }
 
   return (
-    <button type="button" className="ad-btn ad-btn-secondary" onClick={run} disabled={loading}>
+    <button type="button" className="pn-btn pn-btn-secondary" onClick={run} disabled={loading}>
       {loading ? 'Çalışıyor…' : 'Compare fiyat backfill çalıştır'}
     </button>
   )

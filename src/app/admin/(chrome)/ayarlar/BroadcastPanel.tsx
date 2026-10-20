@@ -50,11 +50,11 @@ export default function BroadcastPanel({ recipientCount }: { recipientCount: num
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '8px', flexWrap: 'wrap', gap: '6px' }}>
-        <label htmlFor="broadcast-msg" className="ad-label" style={{ marginBottom: 0 }}>
+        <label htmlFor="broadcast-msg" className="pn-label" style={{ marginBottom: 0 }}>
           Mesaj
         </label>
         <span
-          className="ad-mono"
+          className="pn-mono"
           style={{
             fontSize: '10px',
             letterSpacing: '0.05em',
@@ -74,7 +74,7 @@ export default function BroadcastPanel({ recipientCount }: { recipientCount: num
           'Yarın saat 14:00\'te toplantı var.\n' +
           'Lütfen vaktinde gelin.'
         }
-        className="ad-textarea"
+        className="pn-textarea"
         rows={6}
         style={{ fontSize: '13px', minHeight: '120px', fontFamily: 'var(--font-inter), sans-serif' }}
         disabled={sending}
@@ -101,7 +101,7 @@ export default function BroadcastPanel({ recipientCount }: { recipientCount: num
       </label>
 
       <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-        <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.08em', margin: 0 }}>
+        <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.08em', margin: 0 }}>
           {recipientCount > 0
             ? `${recipientCount} yetkili alıcıya gider`
             : 'Henüz yetkili chat ID yok'}
@@ -110,7 +110,7 @@ export default function BroadcastPanel({ recipientCount }: { recipientCount: num
           type="button"
           onClick={handleSend}
           disabled={isEmpty || isOverLimit || sending || recipientCount === 0}
-          className="ad-btn ad-btn-primary"
+          className="pn-btn pn-btn-primary"
         >
           {sending ? 'Gönderiliyor…' : '📣 Duyuru Gönder'}
         </button>

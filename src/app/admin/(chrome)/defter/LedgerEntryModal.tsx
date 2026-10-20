@@ -286,7 +286,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
       />
       <style>{`
         @media (max-width: 640px) {
-          .ad-ledger-modal {
+          .pn-ledger-modal {
             top: 0 !important;
             left: 0 !important;
             transform: none !important;
@@ -299,16 +299,16 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
             border: none !important;
           }
           /* Mobile'da alt footer gizle — Kaydet zaten üstte */
-          .ad-modal-footer { display: none !important; }
+          .pn-modal-footer { display: none !important; }
           /* Compact form padding */
-          .ad-ledger-form { padding: 14px 16px !important; }
-          .ad-ledger-form > div { margin-bottom: 12px !important; }
+          .pn-ledger-form { padding: 14px 16px !important; }
+          .pn-ledger-form > div { margin-bottom: 12px !important; }
         }
       `}</style>
       <div
         role="dialog"
         aria-label={isEdit ? 'Defter kaydını düzenle' : 'Yeni defter kaydı'}
-        className="ad-ledger-modal"
+        className="pn-ledger-modal"
         style={{
           position: 'fixed',
           top: '6vh',
@@ -323,7 +323,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
           zIndex: 90,
           display: 'flex',
           flexDirection: 'column',
-          animation: 'ad-fadeup 0.2s ease-out both',
+          animation: 'pn-fadeup 0.2s ease-out both',
         }}
       >
         {/* Header — sticky-top action bar */}
@@ -332,16 +332,16 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
             type="button"
             onClick={onClose}
             aria-label="Kapat"
-            className="ad-icon-btn"
+            className="pn-icon-btn"
             style={{ flexShrink: 0 }}
           >
             ✕
           </button>
           <div style={{ flex: 1, minWidth: 0, textAlign: 'center' }}>
-            <p className="ad-eyebrow" style={{ marginBottom: '2px', fontSize: '9px' }}>
+            <p className="pn-eyebrow" style={{ marginBottom: '2px', fontSize: '9px' }}>
               {isEdit ? 'Düzenle' : 'Yeni Kayıt'}
             </p>
-            <h2 className="ad-display" style={{ fontSize: '16px', fontWeight: 500, color: 'var(--ad-fg)', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <h2 className="pn-display" style={{ fontSize: '16px', fontWeight: 500, color: 'var(--ad-fg)', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               Defter Kaydı
             </h2>
           </div>
@@ -349,7 +349,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
             type="button"
             onClick={(e) => handleSubmit(e as unknown as React.FormEvent)}
             disabled={saving}
-            className="ad-btn ad-btn-primary"
+            className="pn-btn pn-btn-primary"
             style={{ flexShrink: 0, padding: '9px 14px', fontSize: '11px', letterSpacing: '0.18em', minWidth: '92px' }}
           >
             {saving ? '…' : isEdit ? 'Kaydet' : '+ Ekle'}
@@ -357,10 +357,10 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="ad-ledger-form" style={{ flex: 1, overflowY: 'auto', padding: '20px 24px', WebkitOverflowScrolling: 'touch' }}>
+        <form onSubmit={handleSubmit} className="pn-ledger-form" style={{ flex: 1, overflowY: 'auto', padding: '20px 24px', WebkitOverflowScrolling: 'touch' }}>
           {/* Plaka / Etiket */}
           <div style={{ marginBottom: '14px' }}>
-            <label className="ad-label" htmlFor="plate">Plaka / Tur Etiketi</label>
+            <label className="pn-label" htmlFor="plate">Plaka / Tur Etiketi</label>
             <input
               ref={plateRef}
               id="plate"
@@ -369,7 +369,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
               value={form.plate}
               onChange={(e) => handlePlateChange(e.target.value)}
               placeholder="34BRK1234 veya MERCAN-KADIR"
-              className="ad-input ad-mono"
+              className="pn-input pn-mono"
               style={{
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
@@ -381,7 +381,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
               spellCheck={false}
               disabled={isEdit}
             />
-            <p className="ad-mono" style={{ fontSize: '10px', color: form.plate && !plateValid ? 'var(--ad-danger)' : 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em', lineHeight: 1.5 }}>
+            <p className="pn-mono" style={{ fontSize: '10px', color: form.plate && !plateValid ? 'var(--ad-danger)' : 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em', lineHeight: 1.5 }}>
               {form.plate && !plateValid
                 ? 'Geçersiz format. Örn: 34BRK1234 veya MERCAN-KADIR'
                 : 'Plaka veya tur kodu (şirket-rehber). Boşluk ve özel karakter yok, tire serbest.'}
@@ -390,7 +390,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
 
           {/* Çalışan */}
           <div style={{ marginBottom: '14px' }}>
-            <label className="ad-label" htmlFor="employee">İlgilenen Çalışan</label>
+            <label className="pn-label" htmlFor="employee">İlgilenen Çalışan</label>
             {!employeeQuickAdd ? (
               <>
                 <select
@@ -406,7 +406,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
                       return next
                     })
                   }}
-                  className="ad-select"
+                  className="pn-select"
                 >
                   <option value="">— Seçiniz —</option>
                   {employees.map((emp) => (
@@ -416,7 +416,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
                 <button
                   type="button"
                   onClick={() => setEmployeeQuickAdd(true)}
-                  className="ad-btn ad-btn-ghost ad-btn-sm"
+                  className="pn-btn pn-btn-ghost pn-btn-sm"
                   style={{ marginTop: '6px' }}
                 >
                   + Yeni Çalışan Ekle
@@ -429,20 +429,20 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
                   value={newEmpName}
                   onChange={(e) => setNewEmpName(e.target.value)}
                   placeholder="Çalışan adı"
-                  className="ad-input"
+                  className="pn-input"
                   style={{ flex: 1 }}
                   autoFocus
                   onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleQuickAddEmployee() } }}
                 />
-                <button type="button" onClick={handleQuickAddEmployee} className="ad-btn ad-btn-primary ad-btn-sm">Ekle</button>
-                <button type="button" onClick={() => { setEmployeeQuickAdd(false); setNewEmpName('') }} className="ad-btn ad-btn-ghost ad-btn-sm">İptal</button>
+                <button type="button" onClick={handleQuickAddEmployee} className="pn-btn pn-btn-primary pn-btn-sm">Ekle</button>
+                <button type="button" onClick={() => { setEmployeeQuickAdd(false); setNewEmpName('') }} className="pn-btn pn-btn-ghost pn-btn-sm">İptal</button>
               </div>
             )}
           </div>
 
           {/* Ödeme yöntemi */}
           <div style={{ marginBottom: '14px' }}>
-            <label className="ad-label">Ödeme Yöntemi</label>
+            <label className="pn-label">Ödeme Yöntemi</label>
             <div style={{ display: 'flex', gap: '6px' }}>
               <PaymentToggle
                 active={form.payment_method === 'cash'}
@@ -459,7 +459,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
 
           {/* Satış miktarı */}
           <div style={{ marginBottom: '14px' }}>
-            <label className="ad-label" htmlFor="sale">Satış Miktarı (TL)</label>
+            <label className="pn-label" htmlFor="sale">Satış Miktarı (TL)</label>
             <input
               id="sale"
               type="number"
@@ -469,7 +469,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
               value={form.sale_amount}
               onChange={(e) => handleSaleAmountChange(e.target.value)}
               placeholder="0"
-              className="ad-input ad-mono"
+              className="pn-input pn-mono"
               style={{ fontSize: '15px', fontWeight: 500 }}
             />
           </div>
@@ -485,16 +485,16 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
             {form.has_guide && (
               <div style={{ marginTop: '10px' }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '6px' }}>
-                  <label className="ad-label" htmlFor="comm" style={{ marginBottom: 0 }}>Rehber Komisyonu (TL)</label>
+                  <label className="pn-label" htmlFor="comm" style={{ marginBottom: 0 }}>Rehber Komisyonu (TL)</label>
                   {commissionAuto ? (
-                    <span className="ad-mono" style={{ fontSize: '9px', letterSpacing: '0.18em', color: 'var(--ad-success)', textTransform: 'uppercase' }}>
+                    <span className="pn-mono" style={{ fontSize: '9px', letterSpacing: '0.18em', color: 'var(--ad-success)', textTransform: 'uppercase' }}>
                       otomatik · satışın 1/2'si
                     </span>
                   ) : (
                     <button
                       type="button"
                       onClick={resetCommissionAuto}
-                      className="ad-mono"
+                      className="pn-mono"
                       style={{ fontSize: '9px', letterSpacing: '0.18em', color: 'var(--ad-gold-deep)', background: 'transparent', border: 'none', cursor: 'pointer', textTransform: 'uppercase', padding: 0 }}
                     >
                       otomatik moda dön ↻
@@ -509,9 +509,9 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
                   value={form.guide_commission}
                   onChange={(e) => handleCommissionChange(e.target.value)}
                   placeholder="0"
-                  className="ad-input ad-mono"
+                  className="pn-input pn-mono"
                 />
-                <p className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
+                <p className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', marginTop: '4px', letterSpacing: '0.05em' }}>
                   Seçili çalışanın rehber oranı otomatik gelir; istersen düzenleyebilirsin. Oran tanımlı değilse %50 kullanılır.
                 </p>
               </div>
@@ -520,7 +520,7 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
 
           {/* Ödeme durumu checkbox'ları */}
           <div style={{ marginBottom: '14px', padding: '14px', border: '1px solid var(--ad-line-faint)' }}>
-            <p className="ad-eyebrow-muted" style={{ marginBottom: '10px' }}>Ödeme Durumu</p>
+            <p className="pn-eyebrow-muted" style={{ marginBottom: '10px' }}>Ödeme Durumu</p>
             <CheckboxRow
               label="Müşteriden ödeme alındı"
               checked={form.customer_paid}
@@ -537,12 +537,12 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
 
           {/* Notlar */}
           <div style={{ marginBottom: '14px' }}>
-            <label className="ad-label" htmlFor="notes">Ekstra Notlar <span style={{ textTransform: 'lowercase', letterSpacing: 0, color: 'var(--ad-fg-faint)' }}>(opsiyonel)</span></label>
+            <label className="pn-label" htmlFor="notes">Ekstra Notlar <span style={{ textTransform: 'lowercase', letterSpacing: 0, color: 'var(--ad-fg-faint)' }}>(opsiyonel)</span></label>
             <textarea
               id="notes"
               value={form.notes}
               onChange={(e) => update('notes', e.target.value)}
-              className="ad-textarea"
+              className="pn-textarea"
               rows={3}
               placeholder="Ekstrem durumlar için..."
             />
@@ -550,17 +550,17 @@ export default function LedgerEntryModal({ date, employees, initial, onClose, on
         </form>
 
         {/* Footer — sadece masaüstünde tam, mobile'da kompakt (Kaydet butonu zaten üstte) */}
-        <div className="ad-modal-footer" style={{ padding: '12px 18px', borderTop: '1px solid var(--ad-line-faint)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', backgroundColor: 'var(--ad-surface-2)', flexShrink: 0 }}>
-          <span className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.08em' }}>
-            <span className="ad-kbd">esc</span> kapat · <span className="ad-kbd">⌘</span><span className="ad-kbd">↵</span> kaydet
+        <div className="pn-modal-footer" style={{ padding: '12px 18px', borderTop: '1px solid var(--ad-line-faint)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', backgroundColor: 'var(--ad-surface-2)', flexShrink: 0 }}>
+          <span className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.08em' }}>
+            <span className="pn-kbd">esc</span> kapat · <span className="pn-kbd">⌘</span><span className="pn-kbd">↵</span> kaydet
           </span>
           <div style={{ display: 'flex', gap: '8px' }}>
-            <button type="button" onClick={onClose} className="ad-btn ad-btn-secondary ad-btn-sm">Vazgeç</button>
+            <button type="button" onClick={onClose} className="pn-btn pn-btn-secondary pn-btn-sm">Vazgeç</button>
             <button
               type="button"
               onClick={(e) => handleSubmit(e as unknown as React.FormEvent)}
               disabled={saving}
-              className="ad-btn ad-btn-primary"
+              className="pn-btn pn-btn-primary"
             >
               {saving ? 'Kaydediliyor…' : isEdit ? 'Değişiklikleri Kaydet' : '+ Kaydı Ekle'}
             </button>
@@ -624,7 +624,7 @@ function ToggleRow({ label, hint, checked, onChange }: { label: string; hint?: s
       <span style={{ flex: 1 }}>
         <span style={{ color: 'var(--ad-fg)', fontSize: '13px', display: 'block', fontWeight: 500 }}>{label}</span>
         {hint && (
-          <span className="ad-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.05em' }}>
+          <span className="pn-mono" style={{ fontSize: '10px', color: 'var(--ad-fg-faint)', letterSpacing: '0.05em' }}>
             {hint}
           </span>
         )}

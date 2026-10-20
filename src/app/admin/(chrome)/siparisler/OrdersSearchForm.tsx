@@ -15,11 +15,11 @@ export default function OrdersSearchForm({
         name="q"
         defaultValue={initial}
         placeholder="Sipariş no, email, telefon veya isim ile ara…"
-        className="ad-input"
+        className="pn-input"
         style={{ flex: '1 1 200px', fontSize: '13px' }}
         aria-label="Sipariş ara"
       />
-      <button type="submit" className="ad-btn ad-btn-primary" style={{ fontSize: '11px' }}>
+      <button type="submit" className="pn-btn pn-btn-primary" style={{ fontSize: '11px' }}>
         Ara
       </button>
     </form>

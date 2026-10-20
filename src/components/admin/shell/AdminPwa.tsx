@@ -43,10 +43,10 @@ export function AdminPwa() {
   }
 
   return (
-    <div className="ad-pwa-install" role="region" aria-label="Uygulama yükle">
-      <div className="ad-pwa-install-inner">
+    <div className="pn-pwa-install" role="region" aria-label="Uygulama yükle">
+      <div className="pn-pwa-install-inner">
         <div>
-          <p className="ad-eyebrow" style={{ margin: '0 0 4px', fontSize: '9px' }} lang="en">
+          <p className="pn-eyebrow" style={{ margin: '0 0 4px', fontSize: '9px' }} lang="en">
             Install
           </p>
           <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.45, color: 'var(--ad-fg)' }}>
@@ -54,10 +54,10 @@ export function AdminPwa() {
           </p>
         </div>
         <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
-          <button type="button" className="ad-btn ad-btn-secondary ad-btn-sm" onClick={() => setDismissed(true)}>
+          <button type="button" className="pn-btn pn-btn-secondary pn-btn-sm" onClick={() => setDismissed(true)}>
             Sonra
           </button>
-          <button type="button" className="ad-btn ad-btn-primary ad-btn-sm" onClick={() => void install()}>
+          <button type="button" className="pn-btn pn-btn-primary pn-btn-sm" onClick={() => void install()}>
             Yükle
           </button>
         </div>

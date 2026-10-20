@@ -77,17 +77,17 @@ export default function AdminReviewComposer({ products }: { products: AdminProdu
   }
 
   return (
-    <div className="ad-card" style={{ marginBottom: '20px' }}>
+    <div className="pn-card" style={{ marginBottom: '20px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
         <div>
-          <p className="ad-eyebrow-muted" style={{ marginBottom: '4px' }}>Vitrin</p>
+          <p className="pn-eyebrow-muted" style={{ marginBottom: '4px' }}>Vitrin</p>
           <p style={{ margin: 0, fontSize: '13px', color: 'var(--ad-fg-muted)', maxWidth: '520px' }}>
             Mağazada müşteri yorumu ile aynı görünür; yalnız bu panelde &quot;Vitrin yorumu&quot; etiketi görünür.
           </p>
         </div>
         <button
           type="button"
-          className="ad-btn ad-btn-primary"
+          className="pn-btn pn-btn-primary"
           style={{ fontSize: '11px' }}
           onClick={() => setOpen((v) => !v)}
         >
@@ -99,10 +99,10 @@ export default function AdminReviewComposer({ products }: { products: AdminProdu
         <form onSubmit={submit} style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--ad-line-faint)' }}>
           <ReviewFormFields products={products} form={form} setForm={setForm} />
           <div style={{ display: 'flex', gap: '8px', marginTop: '14px', flexWrap: 'wrap' }}>
-            <button type="submit" className="ad-btn ad-btn-primary" disabled={saving} style={{ fontSize: '11px' }}>
+            <button type="submit" className="pn-btn pn-btn-primary" disabled={saving} style={{ fontSize: '11px' }}>
               {saving ? 'Kaydediliyor…' : 'Kaydet'}
             </button>
-            <button type="button" className="ad-btn" style={{ fontSize: '11px' }} onClick={reset} disabled={saving}>
+            <button type="button" className="pn-btn" style={{ fontSize: '11px' }} onClick={reset} disabled={saving}>
               Temizle
             </button>
           </div>

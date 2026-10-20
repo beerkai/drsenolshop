@@ -26,7 +26,7 @@ export function AdminChromeFrame({
   return (
     <>
       <Toaster />
-      <div className="ad-shell-col" style={{ display: 'block', minHeight: '100vh', width: '100%' }}>
+      <div className="pn-shell-col" style={{ display: 'block', minHeight: '100vh', width: '100%' }}>
         <CommandProvider>
           <TopBar
             email={email}
@@ -35,10 +35,10 @@ export function AdminChromeFrame({
             pendingOrders={pendingOrders}
           />
         </CommandProvider>
-        <div className="ad-shell-row" style={{ display: 'block', width: '100%' }}>
+        <div className="pn-shell-row" style={{ display: 'block', width: '100%' }}>
           <Sidebar pendingOrders={pendingOrders} />
           <main
-            className="ad-shell-main"
+            className="pn-shell-main"
             style={{
               display: 'block',
               width: '100%',

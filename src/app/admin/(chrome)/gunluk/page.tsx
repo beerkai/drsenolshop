@@ -35,9 +35,9 @@ export default async function GunlukPage() {
   return (
     <div>
       <div style={{ marginBottom: '28px' }}>
-        <p className="ad-eyebrow" style={{ marginBottom: '12px' }}>Günlük</p>
+        <p className="pn-eyebrow" style={{ marginBottom: '12px' }}>Günlük</p>
         <h1
-          className="ad-display"
+          className="pn-display"
           style={{ fontSize: '28px', fontWeight: 500, lineHeight: 1.1, color: 'var(--ad-fg)', margin: '0 0 8px' }}
         >
           <span style={{ color: 'var(--ad-fg)' }}>Bugün —</span>{' '}
@@ -62,8 +62,8 @@ export default async function GunlukPage() {
 
         {/* Sağ — Bugünün özeti + geçmiş */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div className="ad-card">
-            <p className="ad-eyebrow-muted" style={{ marginBottom: '18px' }}>Bugün · Sistemden</p>
+          <div className="pn-card">
+            <p className="pn-eyebrow-muted" style={{ marginBottom: '18px' }}>Bugün · Sistemden</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <StatBlock label="Sipariş" value={String(stats.today.orders)} />
               <StatBlock label="Ciro" value={formatPrice(stats.today.revenue)} gold />
@@ -72,7 +72,7 @@ export default async function GunlukPage() {
                 value={String(stats.pending)}
                 accent={stats.pending > 0 ? 'warning' : undefined}
               />
-              <hr className="ad-divider" />
+              <hr className="pn-divider" />
               <StatBlock
                 label="Düşük Stok"
                 value={`${stats.lowStock} varyant`}
@@ -83,8 +83,8 @@ export default async function GunlukPage() {
           </div>
 
           {recent.filter((l) => l.log_date !== todayKey).length > 0 && (
-            <div className="ad-card">
-              <p className="ad-eyebrow-muted" style={{ marginBottom: '14px' }}>Son Günler</p>
+            <div className="pn-card">
+              <p className="pn-eyebrow-muted" style={{ marginBottom: '14px' }}>Son Günler</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 {recent
                   .filter((l) => l.log_date !== todayKey)
@@ -104,7 +104,7 @@ export default async function GunlukPage() {
                         }}
                       >
                         <span
-                          className="ad-mono"
+                          className="pn-mono"
                           style={{
                             fontSize: '10.5px',
                             color: 'var(--ad-fg-muted)',
@@ -121,7 +121,7 @@ export default async function GunlukPage() {
                         </span>
                         {metricCount > 0 && (
                           <span
-                            className="ad-mono"
+                            className="pn-mono"
                             style={{
                               fontSize: '10px',
                               color: 'var(--ad-gold-deep)',
@@ -167,10 +167,10 @@ function StatBlock({
         : 'var(--ad-fg)'
   return (
     <div>
-      <p className="ad-mono" style={{ fontSize: '9.5px', letterSpacing: '0.25em', color: 'var(--ad-fg-faint)', textTransform: 'uppercase', margin: '0 0 6px' }}>
+      <p className="pn-mono" style={{ fontSize: '9.5px', letterSpacing: '0.25em', color: 'var(--ad-fg-faint)', textTransform: 'uppercase', margin: '0 0 6px' }}>
         {label}
       </p>
-      <p className="ad-display" style={{ fontSize: small ? '20px' : '28px', fontWeight: 500, lineHeight: 1, margin: 0, color }}>
+      <p className="pn-display" style={{ fontSize: small ? '20px' : '28px', fontWeight: 500, lineHeight: 1, margin: 0, color }}>
         {value}
       </p>
     </div>

@@ -47,7 +47,7 @@ export default function LoginForm({ next }: { next: string }) {
   return (
     <form onSubmit={handleSubmit} noValidate>
       <div style={{ marginBottom: '18px' }}>
-        <label htmlFor="email" className="ad-label" style={{ marginBottom: '8px' }}>
+        <label htmlFor="email" className="pn-label" style={{ marginBottom: '8px' }}>
           E-mail Adresi
         </label>
         <input
@@ -59,13 +59,13 @@ export default function LoginForm({ next }: { next: string }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="admin@drsenol.shop"
-          className="ad-input"
+          className="pn-input"
           style={{ fontSize: '16px', padding: '12px 14px' }}
         />
       </div>
 
       <div style={{ marginBottom: '24px' }}>
-        <label htmlFor="password" className="ad-label" style={{ marginBottom: '8px' }}>
+        <label htmlFor="password" className="pn-label" style={{ marginBottom: '8px' }}>
           Şifre
         </label>
         <div style={{ position: 'relative' }}>
@@ -77,7 +77,7 @@ export default function LoginForm({ next }: { next: string }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
-            className="ad-input"
+            className="pn-input"
             style={{ fontSize: '16px', padding: '12px 14px', paddingRight: '64px' }}
           />
           <button
@@ -129,7 +129,7 @@ export default function LoginForm({ next }: { next: string }) {
       <button
         type="submit"
         disabled={loading}
-        className="ad-btn ad-btn-primary"
+        className="pn-btn pn-btn-primary"
         style={{
           width: '100%',
           padding: '14px',
@@ -148,7 +148,7 @@ export default function LoginForm({ next }: { next: string }) {
                 border: '1.5px solid currentColor',
                 borderTopColor: 'transparent',
                 borderRadius: '50%',
-                animation: 'ad-pulse 1s linear infinite',
+                animation: 'pn-pulse 1s linear infinite',
               }}
             />
             <span>Giriş Yapılıyor…</span>
