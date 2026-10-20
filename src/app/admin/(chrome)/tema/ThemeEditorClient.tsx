@@ -166,16 +166,7 @@ export default function ThemeEditorClient({
   return (
     <div>
       {/* Başlık + aksiyonlar */}
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'flex-end',
-          justifyContent: 'space-between',
-          gap: 16,
-          marginBottom: 24,
-        }}
-      >
+      <div className="ad-page-head" style={{ marginBottom: 24 }}>
         <div>
           <p className="ad-eyebrow" style={{ marginBottom: 12 }}>
             Görünüm
@@ -191,7 +182,7 @@ export default function ThemeEditorClient({
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           {dirty ? (
             <span className="ad-badge ad-badge-warning">Kaydedilmemiş değişiklik</span>
           ) : null}

@@ -71,6 +71,74 @@ export const metadata: Metadata = {
  * Chrome (TopBar + Sidebar) `(chrome)/layout.tsx`'te — login sayfası
  * o route group'a dahil olmadığı için chrome görmüyor.
  */
+/**
+ * Eski servis çalışanı (v2) gezinmeyi yarıda keser; React hidrasyonu
+ * o sayfada çalışmayabilir. Bu betik <head> akışının hemen ardından
+ * çalışır, sürümü sorar, eski kaydı siler ve en fazla iki kez yeniler.
+ * SW_VERSION public/admin-sw.js ile aynı kalmalı.
+ */
+const ADMIN_SW_RECOVER = `
+(function () {
+  try {
+    if (!('serviceWorker' in navigator)) return;
+    var KEY = 'admin-sw-reset';
+    var WANT = 4;
+    var reloading = false;
+    var hadController = !!navigator.serviceWorker.controller;
+    function reads() {
+      try { return Number(sessionStorage.getItem(KEY) || '0'); } catch (e) { return 0; }
+    }
+    function writes(n) {
+      try { sessionStorage.setItem(KEY, String(n)); } catch (e) {}
+    }
+    function clears() {
+      try { sessionStorage.removeItem(KEY); } catch (e) {}
+    }
+    function reloadOnce() {
+      if (reloading) return;
+      if (reads() >= 2) return;
+      reloading = true;
+      writes(reads() + 1);
+      location.reload();
+    }
+    // İlk kurulumda sayfa zaten ağdan geldi; claim yüzünden yenileme.
+    // Eski çalışan varken yeni dosya devralırsa bir kez yenile.
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (hadController) reloadOnce();
+    });
+    navigator.serviceWorker.register('/admin-sw.js', { scope: '/admin' }).then(function (reg) {
+      var sw = navigator.serviceWorker.controller;
+      if (!sw) { clears(); return; }
+      var done = false;
+      var channel = new MessageChannel();
+      var timer = setTimeout(function () { finish(null); }, 900);
+      function finish(version) {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        if (version === WANT) { clears(); return; }
+        var incoming = reg.waiting || reg.installing;
+        if (incoming) {
+          try { incoming.postMessage({ type: 'skip-waiting' }); } catch (e) {}
+        }
+        setTimeout(function () {
+          if (reloading) return;
+          caches.keys().then(function (keys) {
+            return Promise.all(keys.filter(function (k) { return k.indexOf('drsenol-admin') === 0; }).map(function (k) { return caches.delete(k); }));
+          }).then(function () { return reg.unregister(); }).then(reloadOnce).catch(reloadOnce);
+        }, 700);
+      }
+      channel.port1.onmessage = function (event) {
+        var version = event.data && event.data.version;
+        finish(typeof version === 'number' ? version : null);
+      };
+      try { sw.postMessage({ type: 'version' }, [channel.port2]); }
+      catch (e) { finish(null); }
+    }).catch(function () {});
+  } catch (e) {}
+})();
+`
+
 export default function AdminRootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -78,6 +146,7 @@ export default function AdminRootLayout({ children }: { children: React.ReactNod
       className={`${inter.variable} ${cormorant.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
     >
       <body>
+        <script id="admin-sw-recover" dangerouslySetInnerHTML={{ __html: ADMIN_SW_RECOVER }} />
         <div className="admin-shell">{children}</div>
       </body>
     </html>

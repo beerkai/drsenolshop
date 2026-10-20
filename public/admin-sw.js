@@ -6,7 +6,8 @@
  * gövdeyi keser, yönlendirmeyi (redirect: manual) opaqueredirect'e
  * çevirir. Sonuç: bazı yönetim sayfaları beyaz/boş kalır.
  */
-const CACHE = 'drsenol-admin-v3'
+const CACHE = 'drsenol-admin-v4'
+const SW_VERSION = 4
 const ASSETS = [
   '/admin/manifest.webmanifest',
   '/admin/icon-192.png',
@@ -53,6 +54,16 @@ function isPassThrough(request, url) {
   if (accept.includes('text/html') || accept.includes('text/x-component')) return true
   return false
 }
+
+self.addEventListener('message', (event) => {
+  const data = event.data
+  if (!data) return
+  if (data.type === 'version') {
+    const port = event.ports && event.ports[0]
+    if (port) port.postMessage({ version: SW_VERSION })
+  }
+  if (data.type === 'skip-waiting') self.skipWaiting()
+})
 
 self.addEventListener('fetch', (event) => {
   const { request } = event

@@ -145,7 +145,7 @@ export default function JournalEditor({ initialNotes, initialMetrics, lastSavedA
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
         {rows.map((r, i) => (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '6px' }}>
+          <div key={i} className="ad-metric-edit">
             <input
               type="text"
               value={r.key}

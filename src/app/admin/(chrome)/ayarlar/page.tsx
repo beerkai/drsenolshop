@@ -202,9 +202,9 @@ export default async function AdminSettingsPage() {
 
 function KV({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', padding: '10px 0', borderBottom: '1px solid var(--ad-line-faint)' }}>
-      <span className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{label}</span>
-      <span style={{ color: 'var(--ad-fg)', fontSize: '13px', textAlign: 'right' }}>{value}</span>
+    <div className="ad-kv">
+      <span className="ad-mono ad-kv-label">{label}</span>
+      <span className="ad-kv-value">{value}</span>
     </div>
   )
 }

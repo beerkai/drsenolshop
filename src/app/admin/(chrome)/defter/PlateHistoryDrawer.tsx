@@ -80,7 +80,7 @@ export default function PlateHistoryDrawer({ plate, onClose }: Props) {
         <div style={{ padding: '20px 24px' }}>
           {/* Özet */}
           {totals && totals.count > 0 && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '20px' }}>
+            <div className="ad-grid-3">
               <SummaryBox label="Ziyaret" value={String(totals.count)} />
               <SummaryBox label="Toplam" value={formatPrice(totals.total)} gold />
               <SummaryBox label="Rehber" value={formatPrice(totals.guideTotal)} small />

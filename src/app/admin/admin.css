@@ -1648,3 +1648,143 @@
   .ad-metric-grid { grid-template-columns: 1fr; }
   .ad-page-title { font-size: 26px; }
 }
+
+/* ═══ TELEFON — taşma, başlık, form, sekme ═══
+   Mağaza gövdesindeki overflow-x:hidden + position:relative, iOS'ta
+   dikey kaydırmayı kilitler ve position:fixed alt menüyü keser.
+   Yönetimde ikisini de bırak; yatay taşmayı bileşenler sararak önle. */
+
+html:has(.admin-shell),
+html:has(.admin-shell) body {
+  overflow-x: visible;
+  overflow-y: visible;
+}
+
+html:has(.admin-shell) body {
+  position: static;
+  max-width: 100%;
+}
+
+.admin-shell .ad-shell-main h1 {
+  display: block;
+  color: #1A1916;
+  line-height: 1.2;
+  min-height: 1.2em;
+  overflow: visible;
+}
+
+.admin-shell .ad-btn {
+  flex-shrink: 0;
+  min-width: min-content;
+  max-width: 100%;
+}
+
+.ad-page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ad-search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+  max-width: 520px;
+}
+
+.ad-search-row .ad-input {
+  width: auto;
+  flex: 1 1 180px;
+  min-width: 0;
+}
+
+.ad-split-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.ad-grid-admin {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(88px, 100px);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.ad-metric-edit {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 6px;
+}
+
+.ad-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.ad-kv {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--ad-line-faint);
+}
+
+.ad-kv-label {
+  font-size: 11px;
+  color: var(--ad-fg-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  min-width: 0;
+}
+
+.ad-kv-value {
+  color: var(--ad-fg);
+  font-size: 13px;
+  text-align: right;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ad-vitrin-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 1024px) {
+  /* Üstteki display:none ile aynı özgüllük; mobil kural en sonda kalsın. */
+  .ad-mobile-tabbar { display: flex; }
+  .ad-pwa-install {
+    position: static;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin: 12px 14px calc(80px + env(safe-area-inset-bottom, 0px));
+    pointer-events: auto;
+    max-width: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .ad-page-head { flex-direction: column; align-items: stretch; }
+  .ad-theme-tabs { flex-wrap: wrap; overflow: visible; }
+  .ad-split-2,
+  .ad-grid-admin,
+  .ad-metric-edit,
+  .ad-grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+  .ad-kv { flex-direction: column; gap: 4px; }
+  .ad-kv-value { text-align: left; }
+  .ad-vitrin-row { flex-wrap: wrap; align-items: flex-start; }
+}

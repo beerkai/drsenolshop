@@ -74,7 +74,7 @@ export default async function AdminVitrinPage({ searchParams }: { searchParams: 
 
       <p style={{ fontSize: 12, color: 'var(--ad-fg-muted)', marginBottom: 16 }}>{active.hint}</p>
 
-      <form method="get" style={{ marginBottom: 20, maxWidth: 420, display: 'flex', gap: 8 }}>
+      <form method="get" className="ad-search-row">
         <input type="hidden" name="mode" value={mode} />
         <input
           type="search"

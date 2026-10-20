@@ -39,7 +39,7 @@ export default function BankInfoForm({ initial }: { initial: BankInfo }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+      <div className="ad-split-2">
         <div>
           <label className="ad-label">Banka Adı</label>
           <input

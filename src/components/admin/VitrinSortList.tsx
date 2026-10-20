@@ -107,13 +107,8 @@ export default function VitrinSortList({
               setDragIndex(null)
             }}
             onDragEnd={() => setDragIndex(null)}
-            className="ad-card"
+            className="ad-card ad-vitrin-row"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              padding: '10px 14px',
-              marginBottom: 8,
               cursor: 'grab',
               opacity: dragIndex === index ? 0.55 : 1,
             }}

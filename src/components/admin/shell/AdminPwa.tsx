@@ -24,6 +24,8 @@ export function AdminPwa() {
     const onChange = () => setStandalone(mq.matches)
     mq.addEventListener('change', onChange)
 
+    // Kayıt ve eski çalışanı sökme işi layout'taki erken betikte.
+    // Burada yalnızca kurulum istemi dinlenir; kesik sayfada bu bileşen mount olmaz.
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register(SW_URL, { scope: SW_SCOPE }).catch((err) => {
         console.warn('[AdminPwa] SW kaydı başarısız:', err)

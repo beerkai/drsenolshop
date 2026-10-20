@@ -94,7 +94,7 @@ export default function AdminsPanel({ initialAdmins, currentAdminId }: { initial
   return (
     <div>
       <div className="ad-table-wrap" style={{ marginBottom: '14px' }}>
-        <table className="ad-table">
+        <table className="ad-table ad-table-mobile">
           <thead>
             <tr>
               <th>E-mail</th>
@@ -108,7 +108,7 @@ export default function AdminsPanel({ initialAdmins, currentAdminId }: { initial
           <tbody>
             {initialAdmins.map((a) => (
               <tr key={a.id}>
-                <td style={{ color: 'var(--ad-fg)', fontSize: '12px' }}>
+                <td className="is-row-head" data-label="E-mail" style={{ color: 'var(--ad-fg)', fontSize: '12px' }}>
                   {a.email}
                   {a.id === currentAdminId && (
                     <span className="ad-mono" style={{ marginLeft: '6px', fontSize: '9px', color: 'var(--ad-gold-deep)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
@@ -116,16 +116,16 @@ export default function AdminsPanel({ initialAdmins, currentAdminId }: { initial
                     </span>
                   )}
                 </td>
-                <td style={{ color: 'var(--ad-fg-muted)', fontSize: '12px' }}>{a.full_name ?? '—'}</td>
-                <td><Badge tone={a.role === 'owner' ? 'gold' : 'neutral'} bracketed>{a.role}</Badge></td>
-                <td className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
+                <td data-label="Ad" style={{ color: 'var(--ad-fg-muted)', fontSize: '12px' }}>{a.full_name ?? '—'}</td>
+                <td data-label="Rol"><Badge tone={a.role === 'owner' ? 'gold' : 'neutral'} bracketed>{a.role}</Badge></td>
+                <td data-label="Son giriş" className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-faint)' }}>
                   {a.last_login_at ? new Date(a.last_login_at).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' }) : '—'}
                 </td>
-                <td>
+                <td data-label="Durum">
                   <Badge tone={a.is_active ? 'success' : 'neutral'}>{a.is_active ? 'Aktif' : 'Pasif'}</Badge>
                 </td>
-                <td className="is-right">
-                  <div style={{ display: 'flex', gap: '4px', justifyContent: 'flex-end' }}>
+                <td data-label="İşlem" className="is-right">
+                  <div style={{ display: 'flex', gap: '4px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
                     <button
                       type="button"
                       onClick={() => handleToggleActive(a)}
@@ -158,7 +158,7 @@ export default function AdminsPanel({ initialAdmins, currentAdminId }: { initial
       ) : (
         <form onSubmit={handleAdd} style={{ padding: '14px', backgroundColor: 'var(--ad-surface-2)', border: '1px solid var(--ad-line)' }}>
           <p className="ad-eyebrow-muted" style={{ marginBottom: '12px' }}>Yeni Admin</p>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 100px', gap: '8px', marginBottom: '10px' }}>
+          <div className="ad-grid-admin">
             <input
               type="email"
               value={newEmail}
