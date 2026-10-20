@@ -4,6 +4,22 @@ import { formatPrice } from '@/types'
 import { StatusBadge } from '../ui/Badge'
 import { EmptyState } from '../ui/EmptyState'
 
+const PAYMENT_METHOD_TR: Record<string, string> = {
+  bank_transfer: 'Havale',
+  paytr: 'Kart',
+  iyzico: 'Kart',
+  stripe: 'Kart',
+  cash_on_delivery: 'Kapıda ödeme',
+}
+
+const PAYMENT_STATUS_TR: Record<string, string> = {
+  pending: 'Bekliyor',
+  authorized: 'Onay bekliyor',
+  captured: 'Alındı',
+  failed: 'Başarısız',
+  refunded: 'İade',
+}
+
 interface Props {
   orders: ListedOrder[]
   withHeader?: boolean
@@ -33,17 +49,7 @@ export function RecentOrdersTable({ orders, withHeader = true }: Props) {
           {orders.map((o) => (
             <tr key={o.id}>
               <td className="is-row-head" data-label="Sipariş">
-                <Link
-                  href={`/admin/siparisler/${o.order_number}`}
-                  style={{
-                    fontFamily: 'var(--font-jetbrains), monospace',
-                    fontSize: '12px',
-                    color: 'var(--ad-gold-deep)',
-                    letterSpacing: '0.06em',
-                    textDecoration: 'none',
-                    fontWeight: 500,
-                  }}
-                >
+                <Link href={`/admin/siparisler/${o.order_number}`} className="ad-order-link">
                   {o.order_number}
                 </Link>
               </td>
@@ -53,12 +59,8 @@ export function RecentOrdersTable({ orders, withHeader = true }: Props) {
               </td>
               <td data-label="Durum"><StatusBadge value={o.status} /></td>
               <td data-label="Ödeme">
-                <p className="ad-mono" style={{ fontSize: '11px', color: 'var(--ad-fg-muted)', letterSpacing: '0.1em', margin: 0, textTransform: 'uppercase' }}>
-                  {o.payment_method === 'bank_transfer' ? 'Havale' : o.payment_method}
-                </p>
-                <p className="ad-mono" style={{ fontSize: '9.5px', color: 'var(--ad-fg-faint)', letterSpacing: '0.1em', margin: '2px 0 0', textTransform: 'uppercase' }}>
-                  {o.payment_status}
-                </p>
+                <p className="ad-pay-method">{PAYMENT_METHOD_TR[o.payment_method] ?? o.payment_method}</p>
+                <p className="ad-pay-status">{PAYMENT_STATUS_TR[o.payment_status] ?? o.payment_status}</p>
               </td>
               <td className="is-right" data-label="Tutar">
                 <span className="ad-display" style={{ fontSize: '17px', fontWeight: 500 }}>{formatPrice(o.total_amount)}</span>

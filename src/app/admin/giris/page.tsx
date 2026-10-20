@@ -27,11 +27,12 @@ export default async function AdminGirisPage({ searchParams }: { searchParams: S
 
         {/* Brand kart */}
         <div
+          className="ad-login-card"
           style={{
             backgroundColor: 'var(--ad-surface)',
-            border: '1px solid var(--ad-line)',
-            padding: '8px',
-            marginBottom: '24px',
+            border: '1px solid var(--ad-line-faint)',
+            padding: '10px 12px',
+            marginBottom: '16px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -46,8 +47,9 @@ export default async function AdminGirisPage({ searchParams }: { searchParams: S
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: 'var(--ad-gold)',
-                color: 'var(--ad-primary)',
+                backgroundColor: 'var(--ad-primary)',
+                color: 'var(--ad-on-primary)',
+                borderRadius: '10px',
                 fontFamily: 'var(--font-jetbrains), monospace',
                 fontSize: '11px',
                 fontWeight: 500,
@@ -61,35 +63,34 @@ export default async function AdminGirisPage({ searchParams }: { searchParams: S
               <p style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '18px', fontWeight: 400, color: 'var(--ad-fg)', margin: 0, lineHeight: 1.2, letterSpacing: '-0.01em' }}>
                 Dr. Şenol
               </p>
-              <p style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.25em', color: 'var(--ad-gold-deep)', textTransform: 'uppercase', margin: '4px 0 0' }} lang="en">
-                Admin · v0.4
+              <p style={{ fontSize: '12px', color: 'var(--ad-fg-muted)', margin: '2px 0 0' }}>
+                Yönetim
               </p>
             </div>
           </div>
 
           {/* Status pill */}
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 8px', border: '1px solid var(--ad-line-faint)' }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', borderRadius: '999px', backgroundColor: 'var(--ad-success-faint)', color: 'var(--ad-success)', fontSize: '12px', fontWeight: 600 }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--ad-success)' }} aria-hidden />
-            <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.2em', color: 'var(--ad-fg-muted)', textTransform: 'uppercase' }}>
-              Hazır
-            </span>
+            Hazır
           </span>
         </div>
 
         {/* Giriş form kartı */}
         <div
+          className="ad-login-card"
           style={{
             backgroundColor: 'var(--ad-surface)',
-            border: '1px solid var(--ad-line)',
-            padding: '32px',
+            border: '1px solid var(--ad-line-faint)',
+            padding: '28px',
           }}
         >
           <div style={{ marginBottom: '28px' }}>
-            <p style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '10px', letterSpacing: '0.3em', color: 'var(--ad-gold-deep)', textTransform: 'uppercase', margin: '0 0 10px' }}>
-              Oturum Aç
+            <p style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.04em', color: 'var(--ad-gold-deep)', margin: '0 0 8px' }}>
+              Oturum
             </p>
-            <h1 style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '28px', fontWeight: 300, color: 'var(--ad-fg)', margin: 0, lineHeight: 1.25, letterSpacing: '-0.02em' }}>
-              Yönetim paneline giriş.
+            <h1 style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '28px', fontWeight: 500, color: 'var(--ad-fg)', margin: 0, lineHeight: 1.2, letterSpacing: '-0.03em' }}>
+              Panele giriş.
             </h1>
             <p style={{ color: 'var(--ad-fg-muted)', fontSize: '13px', margin: '8px 0 0', lineHeight: 1.55 }}>
               Yetkili admin hesabıyla devam edin.
@@ -122,20 +123,8 @@ export default async function AdminGirisPage({ searchParams }: { searchParams: S
         </div>
 
         {/* Alt bar */}
-        <div
-          style={{
-            marginTop: '20px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            fontFamily: 'var(--font-jetbrains), monospace',
-            fontSize: '10px',
-            letterSpacing: '0.18em',
-            color: 'var(--ad-fg-faint)',
-            textTransform: 'uppercase',
-          }}
-        >
-          <span>EST. 1985 · BURSA, TR</span>
+        <div className="ad-login-foot">
+          <span>Saitabat · Bursa</span>
           <span lang="en">lab.drsenol.shop</span>
         </div>
       </div>

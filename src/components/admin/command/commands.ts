@@ -36,6 +36,11 @@ export const ADMIN_COMMANDS: AdminCommand[] = [
   { id: 'go:epostalar',  label: 'E-posta galerisi', section: 'Sayfalar', keywords: ['email', 'mail', 'şablon', 'template', 'resend'], action: { type: 'navigate', href: '/admin/epostalar' } },
   { id: 'go:seritler',   label: 'Şeritler',     section: 'Sayfalar', keywords: ['html', 'şerit', 'bar', 'banner', 'anasayfa'], action: { type: 'navigate', href: '/admin/seritler' } },
   { id: 'go:ayarlar',    label: 'Ayarlar',      section: 'Sayfalar', keywords: ['settings', 'config'],         shortcut: '⌘,', action: { type: 'navigate', href: '/admin/ayarlar' } },
+  { id: 'go:site',       label: 'Site',         section: 'Sayfalar', keywords: ['tema', 'duyuru', 'anasayfa', 'vitrin'], action: { type: 'navigate', href: '/admin/site' } },
+  { id: 'go:tema',       label: 'Tema',         section: 'Sayfalar', keywords: ['duyuru', 'header', 'menü'], action: { type: 'navigate', href: '/admin/tema' } },
+  { id: 'go:vitrin',     label: 'Vitrin sırası', section: 'Sayfalar', keywords: ['sıra', 'koleksiyon'], action: { type: 'navigate', href: '/admin/vitrin' } },
+  { id: 'go:icerik',     label: 'Sayfa metinleri', section: 'Sayfalar', keywords: ['sss', 'metin', 'kopya'], action: { type: 'navigate', href: '/admin/icerik' } },
+  { id: 'go:kategoriler', label: 'Kategoriler', section: 'Sayfalar', keywords: ['kategori', 'category'], action: { type: 'navigate', href: '/admin/kategoriler' } },
 
   // ── Hızlı Filtreler ────────────────────────────────────────
   { id: 'filter:pending',   label: 'Bekleyen siparişleri göster',  description: 'Ödeme bekleyen siparişler',     section: 'Hızlı Filtreler', keywords: ['pending', 'bekleyen', 'ödeme'],        action: { type: 'navigate', href: '/admin/siparisler?status=pending' } },

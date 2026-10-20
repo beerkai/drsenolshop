@@ -37,20 +37,20 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   viewportFit: 'cover',
-  themeColor: '#F4F0E8',
+  themeColor: '#F4F5F2',
 }
 
 export const metadata: Metadata = {
   title: {
-    default: 'Admin',
-    template: '%s · DRŞ Admin',
+    default: 'Yönetim',
+    template: '%s · Yönetim',
   },
   description: 'Dr. Şenol Shop yönetim paneli — sipariş, stok, defter.',
   robots: { index: false, follow: false },
   manifest: '/admin/manifest.webmanifest',
   appleWebApp: {
     capable: true,
-    title: 'DRŞ Admin',
+    title: 'Yönetim',
     statusBarStyle: 'black-translucent',
   },
   icons: {

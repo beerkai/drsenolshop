@@ -92,10 +92,9 @@ export default function LoginForm({ next }: { next: string }) {
               background: 'transparent',
               border: 'none',
               color: 'var(--ad-fg-muted)',
-              fontFamily: 'var(--font-jetbrains), monospace',
-              fontSize: '10px',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
+              fontFamily: 'var(--font-inter), system-ui, sans-serif',
+              fontSize: '12px',
+              fontWeight: 600,
               padding: '6px 8px',
               cursor: 'pointer',
             }}
@@ -129,14 +128,13 @@ export default function LoginForm({ next }: { next: string }) {
 
       <button
         type="submit"
-        disabled={loading || !email || !password}
+        disabled={loading}
         className="ad-btn ad-btn-primary"
         style={{
           width: '100%',
           padding: '14px',
-          fontSize: '12px',
-          letterSpacing: '0.28em',
-          minHeight: '48px',
+          fontSize: '14px',
+          minHeight: '46px',
         }}
       >
         {loading ? (
@@ -173,7 +171,7 @@ export default function LoginForm({ next }: { next: string }) {
           lineHeight: 1.6,
         }}
       >
-        Yalnızca <code style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '11px', color: 'var(--ad-gold-deep)', backgroundColor: 'var(--ad-gold-faint)', padding: '1px 5px' }}>admin_users</code> tablosunda kayıtlı hesaplar giriş yapabilir.
+        Yalnızca yetkili hesaplar girebilir. Şifreyi unuttuysanız yöneticiye yazın.
       </div>
     </form>
   )
