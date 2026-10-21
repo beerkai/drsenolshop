@@ -8,6 +8,7 @@ import { Providers } from '../providers';
 import { getHomeContent } from '@/lib/cms/home-content';
 import CookieConsent from '@/components/editorial/EditorialCookieConsent';
 import Analytics from '@/components/Analytics';
+import PresenceBeacon from '@/components/PresenceBeacon';
 import { organizationLd, websiteLd, toJsonLdScript } from '@/lib/jsonld';
 import { getSiteUrl } from '@/lib/site-url';
 import { routing } from '@/i18n/routing';
@@ -108,6 +109,7 @@ export default async function LocaleLayout({
           <Providers productLabels={productLabels}>{children}</Providers>
           <CookieConsent />
           <Analytics />
+          <PresenceBeacon />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: toJsonLdScript([organizationLd(), websiteLd()]) }}

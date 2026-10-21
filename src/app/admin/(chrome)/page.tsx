@@ -11,6 +11,7 @@ import { MetricCard } from '@/components/admin/dashboard/MetricCard'
 import { TopProductsList } from '@/components/admin/dashboard/TopProductsList'
 import { RealtimeOrdersBanner } from '@/components/admin/dashboard/RealtimeOrdersBanner'
 import { WorkQueue, type WorkQueueRow } from '@/components/admin/dashboard/WorkQueue'
+import { LiveVisitors } from '@/components/admin/shell/LiveVisitors'
 
 function greeting() {
   const h = new Date().getHours()
@@ -102,6 +103,8 @@ export default async function AdminDashboardPage() {
           rows={stockRows}
         />
       </div>
+
+      <LiveVisitors variant="card" />
 
       <div className="metric-grid pn-metric-grid">
         <MetricCard label="Bugün · sipariş" value={stats.today.orders} hint={stats.today.orders === 0 ? 'Henüz sipariş yok' : 'Aktif gün'} />

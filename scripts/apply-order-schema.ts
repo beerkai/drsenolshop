@@ -28,7 +28,8 @@ function sqlText(): string {
   const root = process.cwd()
   const paytr = readFileSync(resolve(root, 'supabase/migrations/0016_paytr_order_metadata.sql'), 'utf8')
   const stock = readFileSync(resolve(root, 'supabase/migrations/0017_stock_movement.sql'), 'utf8')
-  return `${paytr}\n${stock}\nNOTIFY pgrst, 'reload schema';\n`
+  const presence = readFileSync(resolve(root, 'supabase/migrations/0029_site_presence.sql'), 'utf8')
+  return `${paytr}\n${stock}\n${presence}\nNOTIFY pgrst, 'reload schema';\n`
 }
 
 function connectionString(): { key: string; url: string } | null {

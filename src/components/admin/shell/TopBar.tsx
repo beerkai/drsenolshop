@@ -9,6 +9,7 @@ import { UserMenu } from './UserMenu'
 import { IconSearch } from '../ui/Icon'
 import { useCommandPalette } from '../command/CommandProvider'
 import { MobileNav } from './MobileNav'
+import { LiveVisitors } from './LiveVisitors'
 
 interface Props {
   email: string
@@ -76,7 +77,10 @@ export function TopBar({ email, fullName, role, pendingOrders }: Props) {
         {/* Mobile-only üst mini bar — bağlantı + saat */}
         <div className="pn-topbar-row1">
           <AutoLiveDot />
-          <Clock />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <LiveVisitors />
+            <Clock />
+          </div>
         </div>
 
         <div
@@ -156,6 +160,8 @@ export function TopBar({ email, fullName, role, pendingOrders }: Props) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
             <div className="pn-topbar-desktop-info">
               <AutoLiveDot />
+              <span style={{ width: '1px', height: '20px', backgroundColor: 'var(--ad-line-faint)' }} />
+              <LiveVisitors />
               <span style={{ width: '1px', height: '20px', backgroundColor: 'var(--ad-line-faint)' }} />
               <Clock />
               <span style={{ width: '1px', height: '20px', backgroundColor: 'var(--ad-line-faint)' }} />
